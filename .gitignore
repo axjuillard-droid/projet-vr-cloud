@@ -1,0 +1,56 @@
+# =============================================================
+# .gitignore – Unity 6 / URP – projet_vr_cloud
+# Généré le 28/09/2026
+# =============================================================
+
+# -------------------------------------------------------
+# Dossiers Unity générés automatiquement (ne pas versionner)
+# -------------------------------------------------------
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bj/
+[Bb]uild/
+[Bb]uilds/
+[Ll]ogs/
+[Uu]ser[Ss]ettings/
+
+# Dossier APK Android généré
+*.apk
+*.aab
+
+# Cache Visual Studio / Rider / VSCode
+.vs/
+.vscode/
+*.csproj
+*.sln
+*.user
+
+# Unity Package Manager : cache local
+[Pp]ackages/packages-lock.json
+
+# Fichiers de crash / debug Unity
+sysinfo.txt
+*.stackdump
+
+# -------------------------------------------------------
+# Fichiers système OS
+# -------------------------------------------------------
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# -------------------------------------------------------
+# JetBrains Rider
+# -------------------------------------------------------
+.idea/
+
+# -------------------------------------------------------
+# Git LFS : les binaires volumineux sont trackés via
+# .gitattributes – ne pas exclure ici les extensions gérées
+# -------------------------------------------------------
+
+# -------------------------------------------------------
+# Dossiers de documentation locale non nécessaires au build
+# (décommenter si besoin)
+# -------------------------------------------------------
+# docs/

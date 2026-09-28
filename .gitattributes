@@ -1,0 +1,63 @@
+# =============================================================
+# .gitattributes – Git LFS pour Unity 6 / projet_vr_cloud
+# Généré le 28/09/2026
+# Source de référence :
+#   https://github.com/github/gitignore/blob/main/Unity.gitignore
+#   https://docs.github.com/en/repositories/working-with-files/managing-large-files
+# =============================================================
+
+# Texte : normalisation des fins de ligne
+* text=auto eol=lf
+*.cs text eol=crlf
+*.md text eol=lf
+*.txt text eol=lf
+*.json text eol=lf
+*.yaml text eol=lf
+*.yml text eol=lf
+*.asmdef text eol=lf
+*.asmref text eol=lf
+
+# Unity meta : texte
+*.meta text eol=lf
+
+# -------------------------------------------------------
+# Binaires versionnés via Git LFS
+# -------------------------------------------------------
+
+# Images
+*.png filter=lfs diff=lfs merge=lfs -text
+*.jpg filter=lfs diff=lfs merge=lfs -text
+*.jpeg filter=lfs diff=lfs merge=lfs -text
+*.tga filter=lfs diff=lfs merge=lfs -text
+*.exr filter=lfs diff=lfs merge=lfs -text
+*.hdr filter=lfs diff=lfs merge=lfs -text
+*.psd filter=lfs diff=lfs merge=lfs -text
+
+# Audio
+*.wav filter=lfs diff=lfs merge=lfs -text
+*.mp3 filter=lfs diff=lfs merge=lfs -text
+*.ogg filter=lfs diff=lfs merge=lfs -text
+
+# Vidéo
+*.mp4 filter=lfs diff=lfs merge=lfs -text
+*.mov filter=lfs diff=lfs merge=lfs -text
+
+# Modèles 3D
+*.fbx filter=lfs diff=lfs merge=lfs -text
+*.obj filter=lfs diff=lfs merge=lfs -text
+*.blend filter=lfs diff=lfs merge=lfs -text
+*.glb filter=lfs diff=lfs merge=lfs -text
+*.gltf filter=lfs diff=lfs merge=lfs -text
+
+# Unity assets compilés
+*.asset filter=lfs diff=lfs merge=lfs -text
+*.prefab filter=lfs diff=lfs merge=lfs -text
+*.unity filter=lfs diff=lfs merge=lfs -text
+*.mat filter=lfs diff=lfs merge=lfs -text
+
+# Archives
+*.zip filter=lfs diff=lfs merge=lfs -text
+*.unitypackage filter=lfs diff=lfs merge=lfs -text
+
+# Document source universitaire
+*.docx filter=lfs diff=lfs merge=lfs -text
