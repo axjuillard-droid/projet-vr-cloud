@@ -11,7 +11,7 @@ Statuts : à faire, en cours, bloqué, terminé. Une tâche n’est prête que s
 | T01b | Tester une modification Unity par MCP | terminé | 25/09/2026 : CodexConnectionTest créé dans SampleScene, propriétés relues, console sans erreur ni avertissement ; autres objets inchangés dans la hiérarchie relue. Scène non sauvegardée ; voir TOOLING.md |
 | T03 | Rechercher des bases gratuites pour le prototype | terminé | Sélection documentaire sourcée dans RESOURCES.md : XRI/OpenXR, Kenney, baie candidate et alternatives ; licences et limites de compatibilité explicites. Aucun import testé |
 | T04 | Décrire le parcours photo minimal | en cours | Structure, niveaux pédagogiques et acteurs validés ; préférence pour des entreprises connues consignée en D11. Reste à sélectionner les entreprises et confirmer l'installation, détailler actions/transitions, sourcer les mécanismes et fixer les critères PC/Quest et le premier morceau jouable |
-| T05 | Préparer le dépôt de développement | à faire | Version Unity choisie, gestion Git et fichiers volumineux définie, structure minimale ; dépend de T01–T04 |
+| T05 | Préparer le dépôt de développement | en cours | 28/09/2026 : Git initialisé à la racine, .gitignore Unity 6 et .gitattributes LFS créés, Git LFS 3.7.1 activé, remote GitHub public https://github.com/axjuillard-droid/projet-vr-cloud configuré, premier commit poussé (74 fichiers). Reste : invitation collaborateur tjoliot-30 (action manuelle), décision sur ConnectionTest/ à garder ou remplacer |
 | T06 | Construire une première interaction PC et Quest | à faire | Application compilée, contrôle PC vérifié et essai casque consigné ; dépend de T05 |
 
 ## Jalons suivants sans dates imposées
