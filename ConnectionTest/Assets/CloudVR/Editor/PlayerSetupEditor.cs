@@ -65,7 +65,14 @@ public static class PlayerSetupEditor
             Debug.Log("[PlayerSetup] InputModeManager créé.");
         }
 
-        Debug.Log("[PlayerSetup] Rig PC créé. Appuie sur Play pour tester le déplacement WASD + souris.");
+        // ── Crosshair UI ──────────────────────────────────────────────
+        var existingCrosshair = GameObject.Find("PC_Crosshair");
+        if (existingCrosshair != null) Undo.DestroyObjectImmediate(existingCrosshair);
+        var crosshairGo = new GameObject("PC_Crosshair");
+        Undo.RegisterCreatedObjectUndo(crosshairGo, "Create Crosshair");
+        crosshairGo.AddComponent<PCCrosshair>();
+
+        Debug.Log("[PlayerSetup] Rig PC créé avec crosshair. Appuie sur Play → WASD + souris. Clic gauche sur l'écran pour envoyer la photo.");
         Selection.activeGameObject = player;
         EditorGUIUtility.PingObject(player);
     }
