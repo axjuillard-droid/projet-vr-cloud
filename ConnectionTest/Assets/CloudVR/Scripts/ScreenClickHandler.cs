@@ -23,12 +23,14 @@ public class ScreenClickHandler : MonoBehaviour
     private void Awake()
     {
         _sender = GetComponent<PhotoSender>();
+        if (_sender == null) _sender = GetComponentInParent<PhotoSender>();
+        if (_sender == null) Debug.LogError("[ScreenClickHandler] PhotoSender introuvable sur " + gameObject.name + " ni sur ses parents.");
 
         if (hoverRenderer != null)
         {
             _originalMat = hoverRenderer.sharedMaterial;
             _hoverMat = new Material(_originalMat);
-            _hoverMat.color = new Color(0.15f, 0.25f, 0.60f); // bleu clair au survol
+            _hoverMat.color = new Color(0.15f, 0.25f, 0.60f);
             _hoverMat.EnableKeyword("_EMISSION");
             _hoverMat.SetColor("_EmissionColor", _hoverMat.color * 0.4f);
         }
@@ -53,13 +55,13 @@ public class ScreenClickHandler : MonoBehaviour
             _isHovered = hitThis;
             if (hoverRenderer != null)
                 hoverRenderer.sharedMaterial = _isHovered ? _hoverMat : _originalMat;
-
-            Cursor.visible = !_isHovered; // cache le curseur quand on survole l'écran
+            if (_isHovered) Debug.Log("[ScreenClickHandler] Survol détecté — clic gauche pour envoyer la photo.");
         }
 
         // Clic gauche sur l'écran
         if (_isHovered && Input.GetMouseButtonDown(0))
         {
+            Debug.Log("[ScreenClickHandler] Clic ! Envoi de la photo...");
             _sender.Send();
         }
     }

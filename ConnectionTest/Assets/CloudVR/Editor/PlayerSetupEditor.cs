@@ -80,43 +80,57 @@ public static class PlayerSetupEditor
     [MenuItem("CloudVR/Setup/Interaction Écran (PhotoSender)")]
     public static void SetupScreenInteraction()
     {
-        // Trouver l'écran créé par ChambreSceneBuilder
-        var screen = GameObject.Find("PC_Screen_Interactive");
-        if (screen == null)
+        // Le collider physique est sur Screen_Face (primitive Unity)
+        var screenFace = GameObject.Find("Screen_Face");
+        if (screenFace == null)
         {
-            Debug.LogError("[PlayerSetup] PC_Screen_Interactive introuvable. Lance d'abord CloudVR → Build Scene → Chambre.");
+            Debug.LogError("[PlayerSetup] Screen_Face introuvable. Lance d'abord CloudVR → Build Scene → Chambre.");
             return;
         }
 
-        // Ajouter PhotoSender s'il n'est pas déjà là
-        var sender = screen.GetComponent<PhotoSender>();
-        if (sender == null)
-            sender = Undo.AddComponent<PhotoSender>(screen);
+        // Nettoyer l'ancien setup sur le parent s'il existe
+        var oldParent = GameObject.Find("PC_Screen_Interactive");
+        if (oldParent != null)
+        {
+            var oldSender = oldParent.GetComponent<PhotoSender>();
+            if (oldSender != null) Undo.DestroyObjectImmediate(oldSender);
+            var oldTransition = oldParent.GetComponent<StepTransition>();
+            if (oldTransition != null) Undo.DestroyObjectImmediate(oldTransition);
+            var oldCollider = oldParent.GetComponent<BoxCollider>();
+            if (oldCollider != null) Undo.DestroyObjectImmediate(oldCollider);
+        }
 
+        // ── PhotoSender sur Screen_Face ───────────────────────────────
+        var sender = screenFace.GetComponent<PhotoSender>();
+        if (sender == null) sender = Undo.AddComponent<PhotoSender>(screenFace);
         sender.sendDuration = 2.5f;
 
-        // Ajouter StepTransition
-        var transition = screen.GetComponent<StepTransition>();
-        if (transition == null)
-            transition = Undo.AddComponent<StepTransition>(screen);
-
+        // ── StepTransition sur Screen_Face ────────────────────────────
+        var transition = screenFace.GetComponent<StepTransition>();
+        if (transition == null) transition = Undo.AddComponent<StepTransition>(screenFace);
         transition.delayBeforeTransition = 2f;
-        // nextSceneName vide pour l'instant (étape 2 pas encore créée)
 
-        // Ajouter un BoxCollider pour le raycast PC (clic)
-        var col = screen.GetComponent<BoxCollider>();
-        if (col == null)
-            col = Undo.AddComponent<BoxCollider>(screen);
+        // Le BoxCollider est déjà là (primitive Unity l'ajoute automatiquement)
+        // On s'assure juste qu'il existe
+        if (screenFace.GetComponent<BoxCollider>() == null)
+            Undo.AddComponent<BoxCollider>(screenFace);
 
-        // Ajouter le ScreenClickHandler pour le clic PC
-        var clicker = screen.GetComponent<ScreenClickHandler>();
-        if (clicker == null)
-            Undo.AddComponent<ScreenClickHandler>(screen);
+        // ── ScreenClickHandler sur Screen_Face ────────────────────────
+        var clicker = screenFace.GetComponent<ScreenClickHandler>();
+        if (clicker == null) clicker = Undo.AddComponent<ScreenClickHandler>(screenFace);
+        clicker.maxRayDistance = 5f;
 
-        Debug.Log("[PlayerSetup] PhotoSender + StepTransition + ScreenClickHandler attachés à PC_Screen_Interactive.");
-        EditorGUIUtility.SetIconForObject(screen, null);
-        Selection.activeGameObject = screen;
-        EditorGUIUtility.PingObject(screen);
+        // Brancher le Screen_Display comme feedback visuel au survol
+        var display = GameObject.Find("Screen_Display");
+        if (display != null)
+        {
+            var rend = display.GetComponent<Renderer>();
+            if (rend != null) clicker.hoverRenderer = rend;
+        }
+
+        Debug.Log("[PlayerSetup] OK — PhotoSender + ScreenClickHandler sur Screen_Face. Lance Play, approche-toi de l'écran, clic gauche.");
+        Selection.activeGameObject = screenFace;
+        EditorGUIUtility.PingObject(screenFace);
     }
 }
 #endif
