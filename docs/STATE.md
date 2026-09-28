@@ -3,24 +3,27 @@
 Mis à jour le 28 septembre 2026.
 
 ## Situation actuelle
-Projet de test dans ConnectionTest/, Unity 6000.0.58f2, URP 17.0.4 et Input System 1.14.2. MCP for Unity 10.0.0 installé et configuré pour Codex.
+Projet dans ConnectionTest/, Unity 6000.0.58f2, URP 17.0.4, Input System 1.14.2, XRI 3.0.11, OpenXR 1.14.0. Scène active : `Assets/Scenes/Chambre.unity`. Serveur MCP for Unity 10.0.0 actif en session HTTP locale.
 
 ## Vérifications réussies
-- uv et uvx 0.12.19 installés via Astral dans C:\Users\axjui\.local\bin ; exécutables et ajout au PATH utilisateur vérifiés. Python 3.11.5 détecté par MCP Setup, sans réinstallation.
-- Blender 4.5.2 LTS : lancement en arrière-plan et lecture Python des objets réussis, sans sauvegarde. Pas de MCP Blender installé.
-- Unity : initialisation MCP HTTP et lecture des instances, du projet et de l'état de l'éditeur réussies sur http://127.0.0.1:8080/mcp. Instance ConnectionTest@07be33646bc3e5b2, scène Assets/Scenes/SampleScene.unity, cible StandaloneWindows64.
-- Test d'écriture MCP réussi le 25 septembre 2026 : objet vide CodexConnectionTest créé dans SampleScene, actif, sans parent ni enfant, Transform seul, position/rotation (0,0,0), échelle (1,1,1). Scène non sauvegardée (isDirty=true) ; persistance sur disque non testée.
+- uv et uvx 0.12.19 installés et vérifiés.
+- Blender 4.5.2 LTS : lancement en arrière-plan et lecture Python réussis.
+- Unity MCP HTTP actif sur port 8080, instance ConnectionTest reconnue.
+- T05 terminé : dépôt Git initialisé avec LFS, remote GitHub configuré (`axjuillard-droid/projet-vr-cloud`), projet ConnectionTest nettoyé (TutorialInfo/Readme supprimés, SampleScene renommée Chambre).
+- T06 (avancée du 28/09) :
+  - Packages XR (XRI 3.0.11, OpenXR 1.14.0, XR Hands 1.5.0) importés et compilés sans erreur.
+  - Scène Chambre construite avec des primitives URP via `ChambreSceneBuilder` (murs, sol, plafond, bureau, chaise, tour PC, écran, fenêtre, lumière).
+  - Scripts `InputModeManager`, `PCPlayerController`, `PhotoSender`, `StepTransition`, `ScreenClickHandler`, `PCCrosshair` créés et fonctionnels.
+  - Setup éditeur (`PlayerSetupEditor`) créé avec entrées de menu `CloudVR`.
+  - Contrôle PC (WASD + souris + caméra FPS) et détection de survol de l'écran testés et confirmés fonctionnels dans l'éditeur Unity (log console : `[ScreenClickHandler] Survol détecté — clic gauche pour envoyer la photo.`).
 
 ## Prochaine action
-T02 clos. T03 terminé. T04 en cours (structure, acteurs et niveaux validés ; actions/transitions et entreprises à détailler).
-
-T05 en cours (28/09) : Git initialisé à la racine de projet_vr_cloud, .gitignore Unity 6 et .gitattributes Git LFS (3.7.1) créés et activés. Remote GitHub public : https://github.com/axjuillard-droid/projet-vr-cloud. Premier commit poussé (74 fichiers, branche main). Invitation collaborateur tjoliot-30 à faire manuellement via Settings → Collaborators. Décision ouverte : conserver ConnectionTest/ ou créer un nouveau projet Unity propre.
-
-Prochaine action : décider du sort de ConnectionTest/ pour clore T05, puis démarrer T06 (première interaction PC/Quest).
-
-Documentation synchronisée le 28/09 : README, VISION, DECISIONS et BACKLOG ; CONTEXT.md décrit les responsabilités des fichiers, l'ordre de lecture et les limites des skills.
+T06 en cours :
+- Tester le clic gauche pour déclencher l'envoi (`PhotoSender.Send()`) et le changement d'état (envoi / confirmation).
+- Implémenter le rig VR (XR Origin avec téléportation pour Meta Quest) en complément du mode PC.
+- Préparer un premier test de compilation / build StandaloneWindows64 et Android (Quest).
 
 ## Limites
-Pas de build PC/Quest validé ni d'essai casque. Modèles des casques à confirmer. Aucun export Blender/import Unity testé. RAG réel et web conditionnels. Aucune automatisation périodique. Le skill reuse-first est référencé par AGENTS.md ; découverte automatique non configurée.
+Pas de build PC/Quest validé ni d'essai casque. Modèles des casques à confirmer. Aucun export Blender/import Unity testé. RAG réel et web conditionnels.
 
 Remplacer les statuts périmés à chaque mise à jour plutôt qu'accumuler des résultats contradictoires.

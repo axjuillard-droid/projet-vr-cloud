@@ -17,7 +17,7 @@
 - Favoriser les scripts reproductibles et les composants réutilisables ; éviter les dépendances inutiles.
 - Ne pas élargir spontanément le périmètre à la version web ou au RAG réel.
 - Après deux tentatives infructueuses sur un même blocage, consigner les preuves et arrêter cette tâche pour revue humaine.
-- En fin de session, mettre à jour brièvement `docs/STATE.md` et le statut de la tâche, sans recopier la conversation.
+- Après chaque avancée significative et en fin de session, mettre systématiquement à jour `docs/STATE.md` et `docs/BACKLOG.md` (statuts, preuves de validation, étapes réalisées), sans attendre la fin du projet.
 - Ne pas promettre un plafond de consommation garanti ; calibrer l’usage sur des sessions réelles.
 
 ## Validation
