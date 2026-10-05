@@ -2,6 +2,14 @@
 
 Mis à jour le 5 octobre 2026.
 
+## Références graphiques proposées par l'utilisateur, 05/10/2026
+- Avant de reprendre les interactions, l'utilisateur propose un pack data center payant et une chambre gratuite. Pages officielles, aperçus, caractéristiques déclarées, EULA et conversion URP consultés ; conclusions dans RESOURCES.md, section T07a.
+- Data center original plus détaillé réalisable progressivement via Blender/Unity ; résultat comparable au pack non garanti, export Blender/import Unity encore à valider. Le pack payant annonce URP/HDRP mais pas de preuve Quest. Aucun achat autorisé ou réalisé.
+- Chambre gratuite candidate à un meilleur décor, pas encore retenue : version de 2021 / Unity 2018.2, ancien post-traitement et éclairage précalculé ; essai isolé URP/Unity 6 requis puis mesure Quest. Fonctionnalités actuelles à conserver.
+- Licence Asset Store : utilisation dans le prototype possible dans son cadre, fichiers sources non librement publiables sur GitHub, même gratuits ; restrictions d'entrée IA à respecter. Acquisition séparée/installation documentée ou ressources redistribuables pour le dépôt public.
+- Aucun asset téléchargé/importé, scène modifiée, build ou nouveau test matériel. Propositions graphiques ajoutées au backlog ; T07 existant et son livrable inchangés. Prochaine étape proposée : audit chambre isolé et module de baie original, sous réserve du choix utilisateur.
+- Question complémentaire : création des décors avec l'IA visant environ « 80 % » de la qualité perçue des packs. Cible subjective, aucune promesse de qualité/durée ni adoption implicite. Recommandation : valider d'abord un module original (baie + petite salle éclairée), puis chambre/bureau ; mesurer rendu et coût avant généralisation. Les packs complets ne définissent pas notre nombre d'assets à produire.
+
 ## Publication GitHub et README, 05/10/2026
 - Demande utilisateur : petits commits/pushes réguliers et README complet avec captures parlantes. Préférence persistante inscrite dans AGENTS.md ; publication pendant les sessions, aucune automatisation périodique créée.
 - GitHub main vérifié à 09c5abb : commits antérieurs déjà publiés, dernières avancées T06/T07 encore locales au début de cette tâche.
