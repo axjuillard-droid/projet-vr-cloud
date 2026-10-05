@@ -22,6 +22,8 @@ Statuts : à faire, en cours, bloqué, terminé. Une tâche n’est prête que s
 ## Jalons suivants sans dates imposées
 État courant après T07a, 05/10 à 15 h 49 : module graphique créé et testé dans Unity, nouvel exe compilé sans erreur/avertissement ; navigation complète de cet exe non validée. Priorité : revue manuelle du déplacement jusqu'à la baie et de son contournement après deux essais automatiques échoués, puis diagnostic à partir des preuves. Ne pas engager la chambre ou l'interaction pédagogique avant cette revue. Ancien player T07 validé conservé ; APK et Quest inchangés.
 
+Publication T07a confirmée : b2cfd56 et c7cddec poussés sur origin/main ; README avant/après et preuves d'échecs disponibles. SHA distant et README identiques, deux images principales accessibles HTTP 200. Ce jalon documentaire ne clôt pas la validation du nouveau player.
+
 T06a : contournement enregistré et testé dans Unity ; confirmation utilisateur en mouvement naturel attendue. Retour utilisateur positif sur l'exe PC. Développement prêt à reprendre sur la transition Chambre → data center selon T04 ; essais Quest dès qu'un casque est disponible. Mesurer le coût des ombres douces au prochain build/essai Android ; l'APK existant conserve les anciens réglages. Reconstruire les exports pour tester de nouvelles modifications.
 
 Premier morceau Chambre → DataCenter désormais livré et testé dans l'exe PC (T07). Prochain morceau à définir sous T04 : interaction avec la baie pour expliquer réseau/traitement/stockage, textes provisoires et sources à vérifier avant production. Test utilisateur du nouveau parcours souhaité ; Quest à tester dès disponibilité avec un nouvel APK. Continuer par petits ajouts testés en Play puis export par étape jouable. Méthode dans BUILDS.md.
