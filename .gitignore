@@ -54,3 +54,8 @@ desktop.ini
 # (décommenter si besoin)
 # -------------------------------------------------------
 # docs/
+
+# Session et réponses locales du pont MCP (non distribuables)
+/tmp/
+/ConnectionTest/Captures/
+/ConnectionTest/Builds/

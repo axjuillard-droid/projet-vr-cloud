@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 /// <summary>
 /// Gère le clic souris sur l'écran PC (mode PC standalone).
@@ -41,7 +42,12 @@ public class ScreenClickHandler : MonoBehaviour
         // Ignorer si en VR
         if (InputModeManager.Instance != null && InputModeManager.Instance.IsVR) return;
 
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        var camera = Camera.main;
+        var mouse = Mouse.current;
+        if (camera == null || mouse == null) return;
+        Ray ray = Cursor.lockState == CursorLockMode.Locked
+            ? camera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0))
+            : camera.ScreenPointToRay(mouse.position.ReadValue());
         bool hitThis = false;
 
         if (Physics.Raycast(ray, out RaycastHit hit, maxRayDistance))
@@ -59,7 +65,7 @@ public class ScreenClickHandler : MonoBehaviour
         }
 
         // Clic gauche sur l'écran
-        if (_isHovered && Input.GetMouseButtonDown(0))
+        if (_isHovered && mouse.leftButton.wasPressedThisFrame)
         {
             Debug.Log("[ScreenClickHandler] Clic ! Envoi de la photo...");
             _sender.Send();

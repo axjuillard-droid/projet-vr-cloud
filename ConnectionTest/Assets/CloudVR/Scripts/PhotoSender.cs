@@ -9,6 +9,8 @@ using UnityEngine.Events;
 /// </summary>
 public class PhotoSender : MonoBehaviour
 {
+    public enum SendState { Ready, Sending, Completed }
+    public SendState State { get; private set; } = SendState.Ready;
     [Header("Références UI")]
     [Tooltip("Objet représentant la photo sélectionnée (plane, sprite, etc.)")]
     public GameObject photoObject;
@@ -26,12 +28,17 @@ public class PhotoSender : MonoBehaviour
 
     [Header("Événements")]
     [Tooltip("Déclenché quand l'envoi démarre")]
-    public UnityEvent onSendStarted;
+    public UnityEvent onSendStarted = new UnityEvent();
 
     [Tooltip("Déclenché quand l'envoi est confirmé")]
-    public UnityEvent onSendCompleted;
+    public UnityEvent onSendCompleted = new UnityEvent();
 
     private bool _isSending = false;
+
+    private void Start()
+    {
+        Reset();
+    }
 
     /// <summary>
     /// Appelé par le bouton UI ou le XR interactor.
@@ -45,6 +52,8 @@ public class PhotoSender : MonoBehaviour
     private IEnumerator SendRoutine()
     {
         _isSending = true;
+        State = SendState.Sending;
+        if (photoObject != null) photoObject.SetActive(false);
 
         // Afficher l'indicateur d'envoi
         if (sendingIndicator != null) sendingIndicator.SetActive(true);
@@ -59,8 +68,9 @@ public class PhotoSender : MonoBehaviour
         if (sendingIndicator != null) sendingIndicator.SetActive(false);
         if (confirmationIndicator != null) confirmationIndicator.SetActive(true);
 
-        onSendCompleted.Invoke();
         _isSending = false;
+        State = SendState.Completed;
+        onSendCompleted.Invoke();
     }
 
     /// <summary>
@@ -70,7 +80,11 @@ public class PhotoSender : MonoBehaviour
     {
         StopAllCoroutines();
         _isSending = false;
+        State = SendState.Ready;
+        if (photoObject != null) photoObject.SetActive(true);
         if (sendingIndicator != null) sendingIndicator.SetActive(false);
         if (confirmationIndicator != null) confirmationIndicator.SetActive(false);
+        var transition = GetComponent<StepTransition>();
+        if (transition != null) transition.ResetTrigger();
     }
 }

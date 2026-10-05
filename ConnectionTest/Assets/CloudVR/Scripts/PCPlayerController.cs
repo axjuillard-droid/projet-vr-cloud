@@ -45,8 +45,9 @@ public class PCPlayerController : MonoBehaviour
 
     private void HandleLook()
     {
-        float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity;
-        float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity;
+        Vector2 delta = Mouse.current != null ? Mouse.current.delta.ReadValue() : Vector2.zero;
+        float mouseX = delta.x * mouseSensitivity * 0.05f;
+        float mouseY = delta.y * mouseSensitivity * 0.05f;
 
         _xRotation -= mouseY;
         _xRotation = Mathf.Clamp(_xRotation, -80f, 80f);
@@ -59,8 +60,12 @@ public class PCPlayerController : MonoBehaviour
 
     private void HandleMove()
     {
-        float h = Input.GetAxis("Horizontal");
-        float v = Input.GetAxis("Vertical");
+        var keyboard = Keyboard.current;
+        if (keyboard == null) return;
+        float h = (keyboard.dKey.isPressed || keyboard.rightArrowKey.isPressed ? 1 : 0)
+            - (keyboard.aKey.isPressed || keyboard.leftArrowKey.isPressed ? 1 : 0);
+        float v = (keyboard.wKey.isPressed || keyboard.upArrowKey.isPressed ? 1 : 0)
+            - (keyboard.sKey.isPressed || keyboard.downArrowKey.isPressed ? 1 : 0);
 
         Vector3 move = transform.right * h + transform.forward * v;
         _cc.Move(move * moveSpeed * Time.deltaTime);
@@ -72,7 +77,7 @@ public class PCPlayerController : MonoBehaviour
 
     private void OnApplicationFocus(bool hasFocus)
     {
-        if (hasFocus)
+        if (hasFocus && (InputModeManager.Instance == null || InputModeManager.Instance.IsPC))
         {
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
