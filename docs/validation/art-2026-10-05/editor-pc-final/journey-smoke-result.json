@@ -1,0 +1,40 @@
+{
+    "passed": true,
+    "vr": false,
+    "captures": true,
+    "utc": "2026-10-05T13:34:31.1235327Z",
+    "unityVersion": "6000.0.58f2",
+    "platform": "WindowsEditor",
+    "graphics": "Direct3D11",
+    "error": "",
+    "arrivalPosition": {
+        "x": 0.0,
+        "y": 0.07999980449676514,
+        "z": 1.5
+    },
+    "approachPosition": {
+        "x": 0.0,
+        "y": 0.10099995136260987,
+        "z": 4.502452373504639
+    },
+    "collisionPosition": {
+        "x": 0.0,
+        "y": 0.07999986410140991,
+        "z": 6.670000076293945
+    },
+    "checks": [
+        "Destination DataCenter incluse au build",
+        "Envoi démarré",
+        "Chargement effectif de DataCenter après envoi",
+        "Une seule transition, Chambre déchargée",
+        "Nouveau InputModeManager lié à la scène destination",
+        "Un gestionnaire et une caméra active",
+        "Mode PC/VR conservé entre scènes",
+        "Arrivée au point de départ sans déplacement automatique",
+        "Première baie et repère présents",
+        "Contrôleur PC actif dans la nouvelle scène",
+        "Avancée par clavier synthétique et maintien sur le sol",
+        "Collider de la baie bloque le passage du joueur PC : (0.00, 0.08, 6.67)",
+        "Aucun second chargement différé"
+    ]
+}

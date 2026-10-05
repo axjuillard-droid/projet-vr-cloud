@@ -1,0 +1,12 @@
+{
+  "job_id": "build-c01bad23d9",
+  "result": "succeeded",
+  "platform": "StandaloneWindows64",
+  "output_path": "ConnectionTest/Builds/Windows/CloudVR-PC.exe",
+  "started_at": "2026-10-05T13:47:52.3230867Z",
+  "duration_seconds": 61.557702299999995,
+  "completed_at": "2026-10-05T13:48:53.880789Z",
+  "total_size_mb": 138.73,
+  "errors": 0,
+  "warnings": 0
+}

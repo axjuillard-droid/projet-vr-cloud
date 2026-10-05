@@ -4,11 +4,17 @@
 
 Projet universitaire réalisé en binôme : une expérience pédagogique Unity sur **PC et Meta Quest**, pour comprendre les infrastructures derrière les services en ligne. Le prototype démarre dans une chambre, puis emmène le visiteur dans une première salle de data center.
 
-**État au 5 octobre 2026 : premier parcours jouable et testé dans le player Windows.** Un premier APK Quest est compilé et contrôlé statiquement ; les essais dans un casque restent à faire.
+**État au 5 octobre 2026 : premier parcours T07 validé dans le player Windows, puis premier module graphique original ajouté.** Le nouveau décor est testé dans Unity et compilé sur PC ; la validation complète de navigation de ce nouvel exe est en attente après deux tests automatiques échoués. Un premier APK Quest est contrôlé statiquement ; essais casque à faire.
 
-![Première baie du prototype Windows : trois baies et le panneau « Le cloud a une adresse physique »](docs/validation/journey-2026-10-05/player-journey/datacenter-approach.png)
+![Baie originale détaillée : façades de serveurs, stockage, voyants et chemins de câbles](docs/validation/art-2026-10-05/editor-pc-final/datacenter-detail.png)
 
-*Capture réelle du player Windows, 5 octobre 2026. Salle et baies originales simplifiées ; textes et rendu encore provisoires.*
+*Capture réelle en Play dans Unity, 5 octobre 2026. Caméra repositionnée pour présenter le module ; textes et rendu provisoires. Baie originale générée avec Blender : 6 228 triangles, sept meshes ; cinq meshes architecturaux fusionnés.*
+
+| Premier décor T07 | Premier module détaillé T07a |
+|---|---|
+| ![Baies simplifiées avant amélioration](docs/validation/journey-2026-10-05/player-journey/datacenter-approach.png) | ![Nouvelles baies et architecture dans le player](docs/validation/art-2026-10-05/player-second-failed/datacenter-approach.png) |
+
+*Deux captures Windows. La capture récente montre le décor ; le test de navigation de ce player s'est ensuite arrêté avant la baie. [Résultats et limites du module](docs/validation/art-2026-10-05/README.md), [génération reproductible](art/README.md). La cible « 80 % de qualité » reste une appréciation visuelle à discuter.*
 
 ## Le parcours disponible
 
@@ -41,15 +47,16 @@ Voir la [vision](docs/VISION.md), le [parcours pédagogique](docs/PARCOURS.md) e
 | Élément | Niveau atteint au 05/10/2026 | À vérifier ensuite |
 |---|---|---|
 | Photo et transition Chambre → DataCenter | Implémentées, compilées et testées automatiquement sur PC | Essai utilisateur du nouveau parcours, lisibilité et confort |
-| Player Windows, deux scènes | Build réussi, 0 erreur / 0 avertissement ; tests avec GPU Direct3D11 | Performance mesurée et compréhension du scénario |
-| Parcours dans le player Windows | **13 contrôles réussis** : clic, chargement unique, mode, caméra, spawn, déplacement, collision | Entrées naturelles et ergonomie |
-| Régression photo dans le même player | **9 contrôles réussis**, sortie normale du processus | Retour utilisateur sur les états affichés |
+| Player Windows, deux scènes et nouveau décor T07a | Dernier build réussi : 0 erreur / 0 avertissement | Navigation du nouvel exe : revue manuelle après deux tests échoués |
+| Parcours dans l'ancien player T07 (14 h 41) | **13 contrôles réussis** : clic, chargement unique, mode, caméra, spawn, déplacement, collision | Revalider la navigation de T07a ; ancien player conservé localement |
+| Régression photo dans l'ancien player T07 | **9 contrôles réussis**, sortie normale du processus | Retour utilisateur et nouvelle régression après résolution du blocage |
+| Module graphique T07a dans Unity | **13 contrôles PC et 13 VR logiques réussis**, captures inspectées | Comparaison visuelle utilisateur, mesure Quest ; adaptation ultérieure du probe à revalider |
 | Rigs VR entre scènes | **13 contrôles logiques réussis dans Unity**, téléportation injectée | Tracking, manettes, rayon, rotation et confort dans le casque |
 | APK Quest initial | Compilation réussie ; **15 contrôles statiques réussis** | Nouveau build à deux scènes, installation et essai sur un Quest identifié |
 
 **L’APK existant contient seulement Chambre.** Il ne comprend pas encore DataCenter ni le dernier réglage de rendu Mobile. Aucune validation matérielle Quest n’est revendiquée.
 
-Le build Windows final du 5 octobre a pris **34,9 secondes avec les caches locaux** ; cette durée ne prédit pas celle d’un premier build. Les tests graphiques ont utilisé un Intel Iris Xe / Direct3D11 et ne constituent pas une mesure de FPS.
+Le dernier build Windows du 5 octobre a pris **61,6 secondes avec les caches locaux** ; cette durée ne prédit pas celle d’un premier build. Les tests graphiques ont utilisé un Intel Iris Xe / Direct3D11 et ne constituent pas une mesure de FPS. La [preuve T07a](docs/validation/art-2026-10-05/README.md) conserve les deux échecs du player ; la cause de l'arrêt à z=5,256 est à établir.
 
 Rapports, empreintes SHA256, captures et tentatives échouées : [preuves du parcours](docs/validation/journey-2026-10-05/README.md). Le [contrôle APK](docs/validation/android-build-2026-10-05/README.md) est documenté séparément.
 
@@ -83,6 +90,8 @@ Pour travailler dans Play sur PC, sélectionner Windows et la qualité PC. Atten
 | Fermer le player Windows | Alt + F4 |
 
 Pour tester le livrable construit localement, lancer **`ConnectionTest/Builds/Windows/CloudVR-PC.exe`**. Conserver tout le dossier Windows avec l’exécutable, ses DLL et `CloudVR-PC_Data`.
+
+Le dernier exe contient le nouveau décor mais sa navigation complète est encore à vérifier. Essai manuel attendu : envoyer la photo, avancer jusqu'à la baie, vérifier l'arrêt contre elle puis la contourner. L'ancien player T07 validé est conservé localement dans `ConnectionTest/Builds/Windows-Journey-20261005/`.
 
 Les exécutables et APK sont des sorties locales ignorées par Git : **ce dépôt fournit les sources et les procédures de compilation**, pas un téléchargement de ces builds.
 
@@ -163,6 +172,8 @@ skills/reuse-first/           Recherche avant création
 | MCP for Unity | v10.0.0 |
 
 ## Prochaines étapes
+
+Priorité actuelle : vérifier manuellement la navigation de T07a et revoir le blocage du test player avant de déclarer ce nouveau livrable validé. Ensuite, poursuivre les étapes ci-dessous.
 
 1. **Rendre la baie interactive** : réseau, traitement et stockage avec retour visuel et explications sourcées.
 2. Compléter le parcours photo : infrastructures communes, alimentation, refroidissement et supervision.

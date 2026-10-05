@@ -2,6 +2,10 @@
 
 ## T07a — Deux références visuelles proposées, 5 octobre 2026
 
+### Production originale autorisée ensuite
+
+GO utilisateur : premier module DataCenter. Réutilisation des rigs, URP/uGUI et du builder existants ; [Furniture Kit Kenney](https://kenney.nl/assets/furniture-kit) CC0 revérifié mais ne couvre pas la baie. Source/API Blender FBX interrogée localement par RNA (page API externe inaccessible), aucun téléchargement ni génération 3D payante. Générateur original tools/art/generate_server_rack.py, source .blend et FBX métriques ; détails fusionnés par matériau. Builder Unity original pour matériaux URP et architecture fusionnée. Aucun fichier commercial ni texture de référence transmis à un service de génération. Compilation/import et contrôles éditeur PC/VR logique réussis ; preuve art-2026-10-05/. Nouveau player compilé sans erreur/avertissement, deux tests de navigation player échoués et arrêtés pour revue humaine ; cause non établie, aucun essai Quest.
+
 Recherche selon reuse-first ; pages produit, aperçu visuel et EULA officielle lus. Évaluation documentaire uniquement : aucun achat, téléchargement, ajout au compte, import ou test de performance. Propositions, aucun remplacement de décor décidé.
 
 Précision utilisateur : envisager de tout créer avec l'IA, avec une cible d'environ « 80 % » de la qualité visuelle des références. Ce pourcentage est subjectif, pas un critère mesuré ni une garantie. Proposition : une baie originale détaillée et une petite salle éclairée, puis un coin chambre/bureau, comparer les captures avant de multiplier les modules. Scripts Blender/Unity pour géométrie et assemblage, matériaux propres et optimisation ; travail d'itération visuelle toujours nécessaire. Reconstituer l'ensemble des 70+ prefabs serait un périmètre bien supérieur au décor utile de notre parcours.
