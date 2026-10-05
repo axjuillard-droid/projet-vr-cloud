@@ -5,6 +5,13 @@
 - `docs/VISION.md` définit le périmètre ; `docs/DECISIONS.md` distingue décisions et propositions.
 - Préserver `Le cloud.docx`, source du sujet universitaire.
 - Répondre et documenter en français ; garder les noms techniques usuels.
+- Consulter `docs/CAPACITES_CODEX.md` pour les capacités, procédures et limites de pilotage ; vérifier leur disponibilité réelle à chaque session.
+
+## Modèle et niveau de réflexion
+- Dans chaque réponse finale, indiquer le modèle et le niveau de réflexion recommandés pour le prochain prompt, selon la prochaine tâche concrète. Exemple : « Prochain prompt : GPT-6.1 Sol — High, pour diagnostiquer l'interaction Unity. »
+- Si plusieurs prochaines tâches sont proposées, donner le réglage pour chacune ; même une réponse courte doit inclure une recommandation.
+- Privilégier un réglage proportionné : Medium pour le travail courant, High pour le débogage XR, les builds et les choix complexes. Réserver les niveaux supérieurs aux blocages difficiles ; ces indications sont des conseils, pas des garanties de consommation ou de réussite.
+- Ne pas prétendre changer le modèle du chat : l'utilisateur choisit le modèle et l'effort dans l'application. Si le modèle conseillé n'est pas disponible, proposer un équivalent parmi les choix réellement connus, sans inventer la disponibilité.
 
 ## Réutilisation avant création
 - Avant de créer du code, un modèle, une animation, une simulation ou un contenu, consulter `skills/reuse-first/SKILL.md` et rechercher brièvement une solution gratuite adaptée.
@@ -26,6 +33,13 @@
 - Sourcer les explications techniques et signaler les simplifications pédagogiques.
 - Une animation de requête représente un fonctionnement ; elle n’est pas une mesure du trajet physique réel.
 - Prévoir la voix finale et les sous-titres ; éviter de figer des textes avant validation pédagogique.
+
+## Publication GitHub et README
+- Préférence et autorisation utilisateur du 05/10/2026 : publier régulièrement les avancées de ce projet par des commits cohérents et des pushes GitHub après vérification, sans attendre la fin du projet. Respecter toute consigne ultérieure limitant cette autorisation.
+- Actualiser README.md à chaque jalon significatif : fonctionnalités disponibles, installation, commandes, preuves, limites et prochaines étapes. Ajouter des captures réelles parlantes lorsque le rendu ou le parcours évolue.
+- Vérifier le diff et les fichiers publiés ; conserver les licences tierces. Exclure builds, caches, sessions MCP, secrets et données propres à la machine ; anonymiser les journaux publics sans modifier les résultats.
+- Distinguer commit local et push confirmé ; signaler un échec de publication. Ne pas réécrire l'historique par un push forcé.
+- Cette pratique s'applique pendant les sessions de travail ; elle ne crée pas d'automatisation périodique en arrière-plan.
 
 ## Instruction existante graphify
 - Lorsque l’utilisateur écrit `/graphify`, utiliser le skill graphify disponible avant le travail demandé. Si aucun outil Skill dédié n’est disponible, lire son `SKILL.md` via les outils disponibles ; signaler une absence plutôt que prétendre l’avoir invoqué.

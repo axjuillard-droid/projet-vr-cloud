@@ -1,0 +1,20 @@
+{
+    "passed": true,
+    "unityVersion": "6000.0.58f2",
+    "utc": "2026-10-05T12:45:48.2916004Z",
+    "error": "",
+    "platform": "WindowsPlayer",
+    "graphics": "Direct3D11",
+    "captures": true,
+    "checks": [
+        "État initial Ready : photo visible, indicateurs masqués",
+        "Clic hors écran ignoré",
+        "Clic via Input System : Sending, une entrée, indicateur d'envoi visible",
+        "Second clic pendant l'envoi ignoré",
+        "Completed : confirmation visible, fin unique et transition déclenchée",
+        "Confirmation après le délai illustratif configuré",
+        "Reset rétablit Ready et réarme la transition",
+        "Nouvel envoi après reset",
+        "Reset pendant l'envoi annule la confirmation différée"
+    ]
+}

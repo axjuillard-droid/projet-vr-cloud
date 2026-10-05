@@ -1,0 +1,16 @@
+{
+  "success": true,
+  "message": "Build Succeeded.",
+  "data": {
+    "job_id": "build-ac2404c170",
+    "result": "succeeded",
+    "platform": "StandaloneWindows64",
+    "output_path": "<PROJECT_ROOT>\\ConnectionTest\\Builds\\Windows\\CloudVR-PC.exe",
+    "started_at": "2026-10-05T09:50:28.6120082Z",
+    "duration_seconds": 449.8251858,
+    "completed_at": "2026-10-05T09:57:58.437194Z",
+    "total_size_mb": 138.45,
+    "errors": 0,
+    "warnings": 0
+  }
+}

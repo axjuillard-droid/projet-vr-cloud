@@ -1,0 +1,17 @@
+{
+  "success": true,
+  "message": "Build Failed.",
+  "data": {
+    "job_id": "build-0905a18b12",
+    "result": "failed",
+    "platform": "Android",
+    "output_path": "<PROJECT_ROOT>\\ConnectionTest\\Builds\\Android\\CloudVR-Quest.apk",
+    "started_at": "2026-10-05T10:21:14.3193906Z",
+    "duration_seconds": 287.1431649,
+    "completed_at": "2026-10-05T10:26:01.4625555Z",
+    "total_size_mb": 0.0,
+    "errors": 1,
+    "warnings": 6,
+    "error": "UnityException: Invalid project path\nProject path '<PROJECT_ROOT>\\ConnectionTest' contains non-ASCII characters at position 43, Android Tools don't work properly with non-ASCII paths. Please move your project to path containing only ASCII characters."
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "success": true,
+  "message": "Code executed successfully.",
+  "data": {
+    "result": {
+      "utc": "2026-10-05T10:21:01.9116711Z",
+      "target": "Android",
+      "compiling": false,
+      "building": false,
+      "dirty": false,
+      "apkNotBundle": true,
+      "sdk": "C:\\Program Files\\Unity\\Hub\\Editor\\6000.0.58f2-x86_64\\Editor\\Data\\PlaybackEngines\\AndroidPlayer\\SDK",
+      "ndk": "C:\\Program Files\\Unity\\Hub\\Editor\\6000.0.58f2-x86_64\\Editor\\Data\\PlaybackEngines\\AndroidPlayer\\NDK",
+      "jdk": "C:\\Program Files\\Unity\\Hub\\Editor\\6000.0.58f2-x86_64\\Editor\\Data\\PlaybackEngines\\AndroidPlayer\\OpenJDK",
+      "gradle": "C:\\Program Files\\Unity\\Hub\\Editor\\6000.0.58f2-x86_64\\Editor\\Data\\PlaybackEngines\\AndroidPlayer\\Tools\\gradle",
+      "audit": "{\n    \"utc\": \"2026-10-05T10:21:01.9301560Z\",\n    \"unityVersion\": \"6000.0.58f2\",\n    \"activeTarget\": \"Android\",\n    \"backend\": \"IL2CPP\",\n    \"architecture\": \"ARM64\",\n    \"minSdk\": \"AndroidApiLevel32\",\n    \"targetSdk\": \"AndroidApiLevel34\",\n    \"bundleId\": \"com.cloudvr.prototype\",\n    \"renderMode\": \"SinglePassInstanced\",\n    \"initializeXR\": true,\n    \"androidTargetActive\": true,\n    \"loaders\": [\n        \"OpenXRLoader\"\n    ],\n    \"features\": [\n        \"MetaQuestFeature\",\n        \"MetaQuestTouchPlusControllerProfile\",\n        \"MetaQuestTouchProControllerProfile\",\n        \"OculusTouchControllerProfile\"\n    ],\n    \"graphics\": [\n        \"Vulkan\"\n    ],\n    \"errors\": [],\n    \"warnings\": [\n        \"[Optional] Switch to use InputSystem.XR.PoseControl instead of OpenXR.Input.PoseControl, which will be deprecated in a future release.\",\n        \"[Optional] Switch to use StickControl thumbsticks instead of Vector2Control, but may break existing projects that have code dependencies to the Vector2Control type. StickControl allows more input options for thumbstick-based control, such as acting as both a combined 2D vector, two independent axes or a four-way Dpad with 4 independent buttons.\",\n        \"Using the Screen Space Ambient Occlusion render feature results in significant performance overhead when the application is running natively on device. Disabling or removing that render feature is recommended.\"\n    ]\n}"
+    },
+    "compiler": "codedom"
+  }
+}

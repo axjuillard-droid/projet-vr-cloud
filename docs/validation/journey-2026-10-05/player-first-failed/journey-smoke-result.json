@@ -1,0 +1,23 @@
+{
+    "passed": false,
+    "vr": false,
+    "captures": true,
+    "utc": "2026-10-05T12:37:13.2535677Z",
+    "unityVersion": "6000.0.58f2",
+    "platform": "WindowsPlayer",
+    "graphics": "Direct3D11",
+    "error": "System.InvalidOperationException: Collider de la baie bloque le passage du joueur PC\r\n  at JourneySmoke.Check (System.Boolean condition, System.String description) [0x00022] in <PROJECT_ROOT>\\ConnectionTest\\Assets\\CloudVR\\Tests\\JourneySmoke.cs:166 \r\n  at JourneySmoke+<Exercise>d__16.MoveNext () [0x0090e] in <PROJECT_ROOT>\\ConnectionTest\\Assets\\CloudVR\\Tests\\JourneySmoke.cs:150 \r\n  at JourneySmoke+<Guarded>d__15.MoveNext () [0x00042] in <PROJECT_ROOT>\\ConnectionTest\\Assets\\CloudVR\\Tests\\JourneySmoke.cs:60 ",
+    "checks": [
+        "Destination DataCenter incluse au build",
+        "Envoi démarré",
+        "Chargement effectif de DataCenter après envoi",
+        "Une seule transition, Chambre déchargée",
+        "Nouveau InputModeManager lié à la scène destination",
+        "Un gestionnaire et une caméra active",
+        "Mode PC/VR conservé entre scènes",
+        "Arrivée au point de départ sans déplacement automatique",
+        "Première baie et repère présents",
+        "Contrôleur PC actif dans la nouvelle scène",
+        "Avancée par clavier synthétique et maintien sur le sol"
+    ]
+}

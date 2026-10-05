@@ -1,0 +1,9 @@
+lib/arm64-v8a/libUnityOpenXR.so
+lib/arm64-v8a/libUnityOpenXRHands.so
+lib/arm64-v8a/lib_burst_generated.so
+lib/arm64-v8a/libc++_shared.so
+lib/arm64-v8a/libgame.so
+lib/arm64-v8a/libil2cpp.so
+lib/arm64-v8a/libmain.so
+lib/arm64-v8a/libopenxr_loader.so
+lib/arm64-v8a/libunity.so

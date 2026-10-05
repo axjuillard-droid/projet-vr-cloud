@@ -7,7 +7,7 @@ Cette documentation constitue une mémoire de projet sur fichiers. Elle ne rempl
 1. `../AGENTS.md` : règles de travail.
 2. `STATE.md` : situation vérifiée, limites et prochaine action.
 3. `BACKLOG.md` : tâche prête et critère de fin.
-4. Charger seulement les références utiles : `VISION.md` pour le périmètre, `DECISIONS.md` pour les choix validés, `PARCOURS.md` pour le scénario, `RESOURCES.md` pour réutilisation/licences, `TOOLING.md` pour Unity/MCP.
+4. Charger seulement les références utiles : `VISION.md` pour le périmètre, `DECISIONS.md` pour les choix validés, `PARCOURS.md` pour le scénario, `RESOURCES.md` pour réutilisation/licences, `TOOLING.md` pour Unity/MCP, `CAPACITES_CODEX.md` pour les procédures de pilotage et leurs limites.
 5. Vérifier les préconditions réelles avant action ; en fin de session actualiser l’état et le statut sans recopier la conversation.
 
 ## Responsabilités des fichiers

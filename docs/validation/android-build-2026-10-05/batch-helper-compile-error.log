@@ -1,0 +1,20 @@
+##### Output
+Assets\CloudVR\Editor\PlayerSetupEditor.cs(63,13): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindFirstObjectByType instead or if finding any instance is acceptable the faster Object.FindAnyObjectByType'
+
+Assets\CloudVR\Editor\AndroidCopyBuild.cs(46,49): error CS0266: Cannot implicitly convert type 'int' to 'uint'. An explicit conversion exists (are you missing a cast?)
+
+Assets\CloudVR\Editor\AndroidCopyBuild.cs(46,81): error CS0266: Cannot implicitly convert type 'int' to 'uint'. An explicit conversion exists (are you missing a cast?)
+*** Tundra build failed (87.92 seconds - 0:01:27), 1093 items updated, 1097 evaluated
+## Script Compilation Error for: Csc Library/Bee/artifacts/1300b0aE.dag/Assembly-CSharp-Editor.dll (+2 others)
+## CmdLine: "C:\Program Files\Unity\Hub\Editor\6000.0.58f2-x86_64\Editor\Data\NetCoreRuntime\dotnet.exe" exec "C:/Program Files/Unity/Hub/Editor/6000.0.58f2-x86_64/Editor/Data/DotNetSdkRoslyn/csc.dll" /nostdlib /noconfig /shared "@Library/Bee/artifacts/1300b0aE.dag/Assembly-CSharp-Editor.rsp" "@Library/Bee/artifacts/1300b0aE.dag/Assembly-CSharp-Editor.rsp2"
+## Output:
+Assets\CloudVR\Editor\PlayerSetupEditor.cs(63,13): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindFirstObjectByType instead or if finding any instance is acceptable the faster Object.FindAnyObjectByType'
+Assets\CloudVR\Editor\AndroidCopyBuild.cs(46,49): error CS0266: Cannot implicitly convert type 'int' to 'uint'. An explicit conversion exists (are you missing a cast?)
+Assets\CloudVR\Editor\AndroidCopyBuild.cs(46,81): error CS0266: Cannot implicitly convert type 'int' to 'uint'. An explicit conversion exists (are you missing a cast?)
+
+Assets\CloudVR\Editor\PlayerSetupEditor.cs(63,13): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindFirstObjectByType instead or if finding any instance is acceptable the faster Object.FindAnyObjectByType'
+Assets\CloudVR\Editor\AndroidCopyBuild.cs(46,49): error CS0266: Cannot implicitly convert type 'int' to 'uint'. An explicit conversion exists (are you missing a cast?)
+Assets\CloudVR\Editor\AndroidCopyBuild.cs(46,81): error CS0266: Cannot implicitly convert type 'int' to 'uint'. An explicit conversion exists (are you missing a cast?)
+AssetDatabase: script compilation time: 93.554580s
+Scripts have compiler errors.
+Exiting without the bug reporter. Application will terminate with return code 1

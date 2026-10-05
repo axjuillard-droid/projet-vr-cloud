@@ -1,6 +1,6 @@
 # Parcours photo et intentions pédagogiques
 
-Mis à jour le 28 septembre 2026. Référence de conception de T04, issue des échanges utilisateur ; aucune de ces séquences n’est implémentée. Le sujet original reste `../Le cloud.docx`.
+Mis à jour le 5 octobre 2026. Référence de conception de T04, issue des échanges utilisateur. Chambre/envoi et première arrivée dans DataCenter sont désormais prototypés et testés dans l'exe PC ; les autres séquences restent à implémenter. Les descriptions pédagogiques et actions proposées ne sont pas toutes finalisées. Le sujet original reste `../Le cloud.docx`.
 
 ## Choix validés
 

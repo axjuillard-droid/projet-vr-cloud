@@ -1,0 +1,17 @@
+{
+  "utc": "2026-10-05T12:07:51.720898Z",
+  "unity": "6000.0.58f2",
+  "scene": "Assets/Scenes/Chambre.unity",
+  "sceneDirty": false,
+  "playing": false,
+  "compiling": false,
+  "platform": "Android",
+  "quality": 1,
+  "pipeline": "PC_RPAsset",
+  "mobileHDR": true,
+  "mobileSoftShadows": true,
+  "temporaryPipelines": 0,
+  "activeCameras": 1,
+  "gpu": "Intel(R) Iris(R) Xe Graphics",
+  "api": "Direct3D11"
+}

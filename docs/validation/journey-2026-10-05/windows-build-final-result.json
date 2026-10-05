@@ -1,0 +1,15 @@
+{
+  "job_id": "build-70a8e60074",
+  "result": "succeeded",
+  "platform": "StandaloneWindows64",
+  "scenes": ["Assets/Scenes/Chambre.unity", "Assets/Scenes/DataCenter.unity"],
+  "development": true,
+  "backend": "Mono",
+  "started_at": "2026-10-05T12:40:28.9425192Z",
+  "completed_at": "2026-10-05T12:41:03.873171Z",
+  "duration_seconds": 34.9306518,
+  "total_size_mb": 138.49,
+  "errors": 0,
+  "warnings": 0,
+  "output": "ConnectionTest/Builds/Windows/CloudVR-PC.exe"
+}

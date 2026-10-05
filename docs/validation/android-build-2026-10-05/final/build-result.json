@@ -1,0 +1,11 @@
+{
+    "utc": "2026-10-05T11:42:29.7671538Z",
+    "unityVersion": "6000.0.58f2",
+    "project": "<USER_HOME>\\AppData\\Local\\Temp\\CloudVR-Android-b08a85df",
+    "output": "<USER_HOME>\\AppData\\Local\\Temp\\CloudVR-Android-b08a85df\\Builds/Android\\CloudVR-Quest.apk",
+    "result": "Succeeded",
+    "durationSeconds": 59.189005699999999,
+    "bytes": 835716674,
+    "errors": 0,
+    "warnings": 5
+}

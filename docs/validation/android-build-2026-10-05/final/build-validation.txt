@@ -1,0 +1,2 @@
+    Call "QuestManifestSanitizer.OnPostGenerateGradleAndroidProject" from assembly 'Assembly-CSharp-Editor'
+[CloudVR Manifest] Eye Gaze désactivé : 2 déclarations eye tracking retirées.

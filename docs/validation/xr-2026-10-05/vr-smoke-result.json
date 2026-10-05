@@ -1,0 +1,21 @@
+{
+    "passed": true,
+    "utc": "2026-10-05T09:07:32.5422927Z",
+    "unityVersion": "6000.0.58f2",
+    "error": "",
+    "scope": "Editeur sans casque, sélection et requête injectées par API XRI",
+    "checks": [
+        "Auto sans casque : rig PC actif, rig VR inactif",
+        "Bascule VR : rig PC et viseur désactivés",
+        "Une seule caméra active : caméra XR",
+        "Téléportation et rotation par crans seules locomotions activées",
+        "Zone de téléportation raccordée au provider et à la couche Teleport",
+        "Deux rayons de téléportation du prefab sur la couche Teleport",
+        "Écran enregistré dans XR Interaction Manager avec son collider",
+        "Sélection XR → PhotoSender → indicateur envoi",
+        "Envoi XR terminé : confirmation et transition reçues",
+        "Requête acceptée par TeleportationProvider",
+        "Téléportation appliquée par la locomotion : caméra au-dessus de la destination",
+        "Retour PC : caméra FPS et viseur actifs, rig VR inactif"
+    ]
+}

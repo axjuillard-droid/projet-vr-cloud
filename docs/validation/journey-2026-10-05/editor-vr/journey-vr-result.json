@@ -1,0 +1,25 @@
+{
+    "passed": true,
+    "vr": true,
+    "captures": false,
+    "utc": "2026-10-05T12:31:26.2597271Z",
+    "unityVersion": "6000.0.58f2",
+    "platform": "WindowsEditor",
+    "graphics": "Direct3D11",
+    "error": "",
+    "checks": [
+        "Destination DataCenter incluse au build",
+        "Envoi démarré",
+        "Chargement effectif de DataCenter après envoi",
+        "Une seule transition, Chambre déchargée",
+        "Nouveau InputModeManager lié à la scène destination",
+        "Un gestionnaire et une caméra active",
+        "Mode PC/VR conservé entre scènes",
+        "Arrivée au point de départ sans déplacement automatique",
+        "Première baie et repère présents",
+        "Zone et provider XR reliés à DataCenter",
+        "Requête de téléportation injectée acceptée",
+        "Rig déplacé par la locomotion XRI, sans preuve matérielle",
+        "Aucun second chargement différé"
+    ]
+}

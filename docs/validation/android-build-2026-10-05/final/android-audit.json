@@ -1,0 +1,31 @@
+{
+    "utc": "2026-10-05T11:41:30.5005823Z",
+    "unityVersion": "6000.0.58f2",
+    "activeTarget": "Android",
+    "backend": "IL2CPP",
+    "architecture": "ARM64",
+    "minSdk": "AndroidApiLevel32",
+    "targetSdk": "AndroidApiLevel34",
+    "bundleId": "com.cloudvr.prototype",
+    "renderMode": "SinglePassInstanced",
+    "initializeXR": true,
+    "androidTargetActive": true,
+    "loaders": [
+        "OpenXRLoader"
+    ],
+    "features": [
+        "MetaQuestFeature",
+        "MetaQuestTouchPlusControllerProfile",
+        "MetaQuestTouchProControllerProfile",
+        "OculusTouchControllerProfile"
+    ],
+    "graphics": [
+        "Vulkan"
+    ],
+    "errors": [],
+    "warnings": [
+        "[Optional] Switch to use InputSystem.XR.PoseControl instead of OpenXR.Input.PoseControl, which will be deprecated in a future release.",
+        "[Optional] Switch to use StickControl thumbsticks instead of Vector2Control, but may break existing projects that have code dependencies to the Vector2Control type. StickControl allows more input options for thumbstick-based control, such as acting as both a combined 2D vector, two independent axes or a four-way Dpad with 4 independent buttons.",
+        "Using the Screen Space Ambient Occlusion render feature results in significant performance overhead when the application is running natively on device. Disabling or removing that render feature is recommended."
+    ]
+}

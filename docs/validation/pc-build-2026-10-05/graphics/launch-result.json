@@ -1,0 +1,10 @@
+{
+  "utc": "2026-10-05T09:59:59.0688933Z",
+  "exe": "<PROJECT_ROOT>\\ConnectionTest\\Builds\\Windows\\CloudVR-PC.exe",
+  "headless": false,
+  "timedOut": false,
+  "exitCode": 0,
+  "passed": true,
+  "report": "<PROJECT_ROOT>\\tmp\\unity\\pc-player-20261005-115949-a122c1\\photo-smoke-result.json",
+  "log": "<PROJECT_ROOT>\\tmp\\unity\\pc-player-20261005-115949-a122c1\\Player.log"
+}

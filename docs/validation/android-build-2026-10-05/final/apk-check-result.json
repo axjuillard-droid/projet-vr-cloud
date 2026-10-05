@@ -1,0 +1,32 @@
+{
+  "utc": "2026-10-05T11:43:21.3611587Z",
+  "apk": "<PROJECT_ROOT>\\ConnectionTest\\Builds\\Android\\CloudVR-Quest.apk",
+  "bytes": 53852334,
+  "sha256": "35CAA36B6893ACBF180B1C429B3E0A1DA9FA8C1A2CA5B2688F3986D47FEEE27D",
+  "sdk": "C:\\Program Files\\Unity\\Hub\\Editor\\6000.0.58f2-x86_64\\Editor\\Data\\PlaybackEngines\\AndroidPlayer\\SDK",
+  "jdk": "C:\\Program Files\\Unity\\Hub\\Editor\\6000.0.58f2-x86_64\\Editor\\Data\\PlaybackEngines\\AndroidPlayer\\OpenJDK",
+  "buildTools": "34.0.0",
+  "abis": [
+    "arm64-v8a"
+  ],
+  "checks": {
+    "badgingRead": true,
+    "manifestRead": true,
+    "signatureValid": true,
+    "packageId": true,
+    "minSdk32": true,
+    "targetSdk34": true,
+    "arm64Only": true,
+    "il2cpp": true,
+    "openxrPlugin": true,
+    "openxrLoader": true,
+    "vrCategoryDeclared": true,
+    "headtrackingDeclared": true,
+    "questDevicesDeclared": true,
+    "noUnusedEyeTracking": true,
+    "unityPlayerData": true
+  },
+  "passed": true,
+  "evidenceFolder": "<PROJECT_ROOT>\\tmp\\unity\\apk-check-20261005-134320-72bf5b",
+  "limitation": "Contrôle statique uniquement ; aucun lancement Android ou essai casque."
+}

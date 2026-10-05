@@ -1,0 +1,10 @@
+{
+  "utc": "2026-10-05T10:43:21.1867754Z",
+  "stage": "<USER_HOME>\\AppData\\Local\\Temp\\CloudVR-Android-b08a85df",
+  "source": "<PROJECT_ROOT>\\ConnectionTest",
+  "status": "player scripts compiled; Vulkan shaders compiling",
+  "packageLockSha256": "7FC3B6E4F5DE4BE2AE79416DA09084616A870F9B0392EB052C53C0BE060E028B",
+  "inputHandlingCopy": "New",
+  "inputHandlingOriginal": "Both",
+  "hardware": "adb devices -l: no devices"
+}

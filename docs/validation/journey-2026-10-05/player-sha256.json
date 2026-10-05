@@ -1,0 +1,17 @@
+[
+  {
+    "file": "ConnectionTest/Builds/Windows/CloudVR-PC.exe",
+    "bytes": 672256,
+    "sha256": "6D69E772C811261A2646FBF9354D032D990DBF87F983CFD31B2024B041619C4C"
+  },
+  {
+    "file": "ConnectionTest/Builds/Windows/CloudVR-PC_Data/data.unity3d",
+    "bytes": 7073431,
+    "sha256": "685A8AD18014D43DDAEE9F8F5E8E002EABC1E3B8A3532EB8952776F945E27AB8"
+  },
+  {
+    "file": "ConnectionTest/Builds/Windows/CloudVR-PC_Data/Managed/Assembly-CSharp.dll",
+    "bytes": 36352,
+    "sha256": "8F0D72D4F6E5008ACB66E79A9A02DD4594C5FFA05A154618DB36616A308C5434"
+  }
+]

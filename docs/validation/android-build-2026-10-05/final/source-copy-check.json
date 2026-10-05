@@ -1,0 +1,152 @@
+{
+  "utc": "2026-10-05T11:44:14.2690925Z",
+  "files": [
+    {
+      "file": "Assets\\CloudVR\\Editor\\ChambreSceneBuilder.cs",
+      "sha256": "C2C34F661E0874456961C84D507239DAF600900C628E9C34941821A58D94C627",
+      "matching": true
+    },
+    {
+      "file": "Assets\\CloudVR\\Editor\\PlayerSetupEditor.cs",
+      "sha256": "828175BAEF86DDBFFD69D3CBF15F24691A22934B6E0BF8F6DAE0AF09E9A32433",
+      "matching": true
+    },
+    {
+      "file": "Assets\\CloudVR\\Editor\\QuestBuildSetupEditor.cs",
+      "sha256": "8497261F1DF40CB5DE69A81378E769C6370521792451E8DF077B23BF9AC80849",
+      "matching": true
+    },
+    {
+      "file": "Assets\\CloudVR\\Editor\\QuestManifestSanitizer.cs",
+      "sha256": "D6912A0EA8E88329E70FC463E4946E10EC5634B9BE31C69149D46A8013BFDFB7",
+      "matching": true
+    },
+    {
+      "file": "Assets\\CloudVR\\Editor\\VRSetupEditor.cs",
+      "sha256": "380D6B182B9C2C4958E0C9C44A446E388306702C215040609C402FDCF283390A",
+      "matching": true
+    },
+    {
+      "file": "Assets\\CloudVR\\Scripts\\InputModeManager.cs",
+      "sha256": "0190F75F2F6CAE963002116C0818B768E384FB05FF5F76FC47BD95E0F0C0D315",
+      "matching": true
+    },
+    {
+      "file": "Assets\\CloudVR\\Scripts\\PCCrosshair.cs",
+      "sha256": "F23B022DFBC628CF549A38EBF858ABA5EC3E8FC3016C692FE0D1250108BFD7EE",
+      "matching": true
+    },
+    {
+      "file": "Assets\\CloudVR\\Scripts\\PCPlayerController.cs",
+      "sha256": "1164FD9A2D96DD4031AD6A8DC743E5C604AC4142E7E6B30CE62E7823B83B34E2",
+      "matching": true
+    },
+    {
+      "file": "Assets\\CloudVR\\Scripts\\PhotoSender.cs",
+      "sha256": "BF11A6F0FBFE0DC9A6604D312A3C38377184C296E5521DB052F9883827AA216F",
+      "matching": true
+    },
+    {
+      "file": "Assets\\CloudVR\\Scripts\\ScreenClickHandler.cs",
+      "sha256": "C1484FE64F988E3003D0F30443AABBDA1919779BA06F5D99954934C24385C15D",
+      "matching": true
+    },
+    {
+      "file": "Assets\\CloudVR\\Scripts\\StepTransition.cs",
+      "sha256": "D76195B490141A5810A8A2A1B7A203C90E8AAC93C4214268091B5F4DF4C28F79",
+      "matching": true
+    },
+    {
+      "file": "Assets\\CloudVR\\Tests\\PhotoInteractionSmoke.cs",
+      "sha256": "D0321825D1B1145348872D58E71A19FBBFD6EC5EB1605193EC94BC77CC3C86BB",
+      "matching": true
+    },
+    {
+      "file": "Assets\\CloudVR\\Tests\\VRInteractionSmoke.cs",
+      "sha256": "B5E8B5A2A4D5AE853D9C0FB703645504B119D9F2E8354B3625D02830ADD144DF",
+      "matching": true
+    },
+    {
+      "file": "Assets\\Samples\\XR Interaction Toolkit\\3.0.11\\Starter Assets\\DemoSceneAssets\\Scripts\\IncrementUIText.cs",
+      "sha256": "56C8569B3D1A8FBAA5F0D913E84DF852D9A126549CF4C21CFC657B68B9109BAC",
+      "matching": true
+    },
+    {
+      "file": "Assets\\Samples\\XR Interaction Toolkit\\3.0.11\\Starter Assets\\DemoSceneAssets\\Scripts\\MultiAnchorTeleportReticle.cs",
+      "sha256": "767CDF775862112B3E61BA5EB743FA41506CF0DAEE9A65FDB24B3507D22C992B",
+      "matching": true
+    },
+    {
+      "file": "Assets\\Samples\\XR Interaction Toolkit\\3.0.11\\Starter Assets\\Editor\\Scripts\\StarterAssetsSampleProjectValidation.cs",
+      "sha256": "FDE6C665B53E3CCAC969872B3D6BC2E8AAD25D9E3CD241446FCE7634CEFF18F8",
+      "matching": true
+    },
+    {
+      "file": "Assets\\Samples\\XR Interaction Toolkit\\3.0.11\\Starter Assets\\Scripts\\ClimbTeleportDestinationIndicator.cs",
+      "sha256": "3EAF311FC21976A8CA9260F46264DDDDFCF8EA05EDF120151378C63DB0E18F47",
+      "matching": true
+    },
+    {
+      "file": "Assets\\Samples\\XR Interaction Toolkit\\3.0.11\\Starter Assets\\Scripts\\ControllerAnimator.cs",
+      "sha256": "BF2B8A7DFED1EB9F739197C79CEF55FEB3686671F9630E1698617782A9BB2CB3",
+      "matching": true
+    },
+    {
+      "file": "Assets\\Samples\\XR Interaction Toolkit\\3.0.11\\Starter Assets\\Scripts\\ControllerInputActionManager.cs",
+      "sha256": "650F26A94B6724265BA24C86BB46109594AAE161A5000955EDDCCC979D0D9BDE",
+      "matching": true
+    },
+    {
+      "file": "Assets\\Samples\\XR Interaction Toolkit\\3.0.11\\Starter Assets\\Scripts\\DestroySelf.cs",
+      "sha256": "733F6ED89C72E800C7C1400E370E4E6D3D28A9D1782E5258C9652CE86FFC9340",
+      "matching": true
+    },
+    {
+      "file": "Assets\\Samples\\XR Interaction Toolkit\\3.0.11\\Starter Assets\\Scripts\\DynamicMoveProvider.cs",
+      "sha256": "62D10F8323CE896FD95848F8A5543615F47387B853494A6146BEDCF77A0DE11F",
+      "matching": true
+    },
+    {
+      "file": "Assets\\Samples\\XR Interaction Toolkit\\3.0.11\\Starter Assets\\Scripts\\GazeInputManager.cs",
+      "sha256": "364ECC2B67B1CF0C97B2924E620D7C0C0D3E5A6C61A8A811D53E25E71BF63C57",
+      "matching": true
+    },
+    {
+      "file": "Assets\\Samples\\XR Interaction Toolkit\\3.0.11\\Starter Assets\\Scripts\\MaterialPipelineHandler.cs",
+      "sha256": "431BD23909D481695B22654B7AA72A97224777928F1C8F7A734A695B9120947F",
+      "matching": true
+    },
+    {
+      "file": "Assets\\Samples\\XR Interaction Toolkit\\3.0.11\\Starter Assets\\Scripts\\ObjectSpawner.cs",
+      "sha256": "904A604FE940E923301B2AC3DBB2321D99A9EB7D67558D95612582DE4FFFC41A",
+      "matching": true
+    },
+    {
+      "file": "Assets\\Samples\\XR Interaction Toolkit\\3.0.11\\Starter Assets\\Scripts\\RotationAxisLockGrabTransformer.cs",
+      "sha256": "FE1AF1EAC4F8F2B11FA99960FC28CA1E8DFFCFAEFF90BA1E552D22246B44997F",
+      "matching": true
+    },
+    {
+      "file": "Assets\\Samples\\XR Interaction Toolkit\\3.0.11\\Starter Assets\\Scripts\\TeleportVolumeAnchorAffordanceStateLink.cs",
+      "sha256": "1D92C943B82B620D53231DE68768B9B0FE4DDDD5366A559B463B98379B4EA373",
+      "matching": true
+    },
+    {
+      "file": "Assets\\Samples\\XR Interaction Toolkit\\3.0.11\\Starter Assets\\Scripts\\XRPokeFollowAffordance.cs",
+      "sha256": "4B7B5DCFE495AF799737082644181BA252122226E1E2AC3D89D826145CD34F85",
+      "matching": true
+    },
+    {
+      "file": "Assets\\Scenes\\Chambre.unity",
+      "sha256": "EB0BFE8336F7F780C6C6C5823ED4D9CDF8602BC0631ED607F8587C1DDC4783C7",
+      "matching": true
+    },
+    {
+      "file": "Packages\\packages-lock.json",
+      "sha256": "7FC3B6E4F5DE4BE2AE79416DA09084616A870F9B0392EB052C53C0BE060E028B",
+      "matching": true
+    }
+  ],
+  "allMatching": true,
+  "checked": 29
+}

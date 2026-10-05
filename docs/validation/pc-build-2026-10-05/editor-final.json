@@ -1,0 +1,15 @@
+{
+  "utc": "2026-10-05T10:06:41.4852031Z",
+  "playing": false,
+  "compiling": false,
+  "building": false,
+  "scene": "Assets/Scenes/Chambre.unity",
+  "sceneDirty": false,
+  "activeTarget": "StandaloneWindows64",
+  "selectedGroup": "Standalone",
+  "startup": "Auto",
+  "pcActive": true,
+  "vrActive": false,
+  "cameras": 1,
+  "temporaryProbes": 0
+}
