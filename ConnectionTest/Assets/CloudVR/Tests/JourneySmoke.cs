@@ -18,6 +18,7 @@ public class JourneySmoke : MonoBehaviour
         public bool passed, vr, captures;
         public string utc, unityVersion, platform, graphics, error;
         public Vector3 arrivalPosition, approachPosition, collisionPosition;
+        public float collisionCommandedDistance;
         public List<string> checks = new List<string>();
     }
     readonly Result _result = new Result();
@@ -140,19 +141,28 @@ public class JourneySmoke : MonoBehaviour
             var controller = rig.GetComponent<PCPlayerController>();
             Check(controller.enabled, "Contrôleur PC actif dans la nouvelle scène");
             InputSystem.QueueStateEvent(_keyboard, new KeyboardState(Key.W));
-            // Le contrôleur intègre Time.deltaTime : attendre le même temps de simulation.
-            yield return new WaitForSeconds(1);
+            // Un premier Camera.Render peut bloquer une frame ; attendre le résultat,
+            // avec une borne réelle, plutôt qu'une durée nominale avant traitement clavier.
+            float approachDeadline = Time.realtimeSinceStartup + 8;
+            while (rig.transform.position.z < 3.3f && Time.realtimeSinceStartup < approachDeadline)
+                yield return null;
             InputSystem.QueueStateEvent(_keyboard, new KeyboardState());
             yield return new WaitForSecondsRealtime(0.1f);
             _result.approachPosition = rig.transform.position;
             Check(rig.transform.position.z > 3 && rig.transform.position.y > -0.1f, "Avancée par clavier synthétique et maintien sur le sol");
             Capture("datacenter-approach.png");
             InputSystem.QueueStateEvent(_keyboard, new KeyboardState(Key.W));
-            yield return new WaitForSeconds(2);
+            float collisionDeadline = Time.realtimeSinceStartup + 10;
+            while (_result.collisionCommandedDistance < 5 && Time.realtimeSinceStartup < collisionDeadline)
+            {
+                yield return null;
+                if (_keyboard.wKey.isPressed)
+                    _result.collisionCommandedDistance += controller.moveSpeed * Time.deltaTime;
+            }
             InputSystem.QueueStateEvent(_keyboard, new KeyboardState());
             yield return new WaitForSecondsRealtime(0.1f);
             _result.collisionPosition = rig.transform.position;
-            Check(rig.transform.position.z > 6 && rig.transform.position.z < 6.85f,
+            Check(_result.collisionCommandedDistance >= 5 && rig.transform.position.z > 6 && rig.transform.position.z < 6.85f,
                 "Collider de la baie bloque le passage du joueur PC : " + rig.transform.position);
         }
         yield return new WaitForSecondsRealtime(0.4f);

@@ -16,7 +16,6 @@ public static class DataCenterSceneBuilder
 {
     public const string ScenePath = "Assets/Scenes/DataCenter.unity";
     public const string ChambrePath = "Assets/Scenes/Chambre.unity";
-    const string RackPath = "Assets/CloudVR/Prefabs/ServerRack.prefab";
 
     [MenuItem("CloudVR/Build Scene/Data center et transition photo")]
     public static void Build()
@@ -60,9 +59,7 @@ public static class DataCenterSceneBuilder
             var floor = MakeMaterial("DC_Floor", new Color(0.18f, 0.22f, 0.28f));
             var wall = MakeMaterial("DC_Wall", new Color(0.56f, 0.62f, 0.68f));
             var dark = MakeMaterial("DC_Dark", new Color(0.055f, 0.075f, 0.11f));
-            var panel = MakeMaterial("DC_Panel", new Color(0.11f, 0.16f, 0.23f));
             var cyan = MakeMaterial("DC_Cyan", new Color(0.10f, 0.65f, 0.72f));
-            var green = MakeMaterial("DC_Status", new Color(0.25f, 0.86f, 0.5f), true);
             Box("Sol", root, new Vector3(0, -0.12f, 6), new Vector3(10, 0.24f, 12), floor);
             Box("Mur_Gauche", root, new Vector3(-5.1f, 1.6f, 6), new Vector3(0.2f, 3.2f, 12), wall);
             Box("Mur_Droit", root, new Vector3(5.1f, 1.6f, 6), new Vector3(0.2f, 3.2f, 12), wall);
@@ -70,16 +67,7 @@ public static class DataCenterSceneBuilder
             Box("Mur_Entree", root, new Vector3(0, 1.6f, -0.1f), new Vector3(10, 3.2f, 0.2f), wall);
             Box("Plafond", root, new Vector3(0, 3.3f, 6), new Vector3(10, 0.2f, 12), wall);
             Box("Chemin_Visiteur", root, new Vector3(0, 0.005f, 4), new Vector3(0.08f, 0.008f, 4), cyan, false);
-            var rack = new GameObject("ServerRack");
-            Box("Chassis", rack.transform, new Vector3(0, 1.1f, 0), new Vector3(1.1f, 2.2f, 1.0f), dark);
-            for (int i = 0; i < 8; i++)
-            {
-                float y = 0.3f + i * 0.22f;
-                Box("Equipement_" + (i + 1), rack.transform, new Vector3(0, y, -0.51f), new Vector3(0.94f, 0.17f, 0.035f), panel, false);
-                Box("Voyant_" + (i + 1), rack.transform, new Vector3(-0.36f, y, -0.535f), new Vector3(0.045f, 0.035f, 0.008f), green, false);
-            }
-            var prefab = PrefabUtility.SaveAsPrefabAsset(rack, RackPath);
-            UnityEngine.Object.DestroyImmediate(rack);
+            var prefab = DataCenterArtBuilder.BuildRack();
             for (int i = -1; i <= 1; i++)
             {
                 var instance = (GameObject)PrefabUtility.InstantiatePrefab(prefab, destination);
@@ -87,24 +75,31 @@ public static class DataCenterSceneBuilder
                 instance.transform.SetParent(root);
                 instance.transform.position = new Vector3(i * 2.25f, 0, i == 0 ? 7.5f : 9f);
             }
-            Sign(root, "Accueil", new Vector3(0, 2.55f, 6.8f), new Vector2(3.8f, 0.65f),
+            DataCenterArtBuilder.Decorate(root);
+            Sign(root, "Accueil", new Vector3(-2.5f, 2.52f, 11.85f), new Vector2(3.8f, 0.65f),
                 "LE CLOUD A UNE ADRESSE PHYSIQUE", "Bienvenue dans le data center", dark);
-            Sign(root, "Repere_Baie", new Vector3(0, 1.1f, 6.90f), new Vector2(1.02f, 0.65f),
-                "BAIE 01", "Des équipements physiques\npour les services en ligne", dark);
+            Sign(root, "Repere_Baie", new Vector3(0, 2.50f, 7.0f), new Vector2(1.20f, 0.50f),
+                "BAIE 01", "Équipements physiques", dark);
             Sign(root, "Guide_Visite", new Vector3(-2.1f, 1.65f, 4.2f), new Vector2(1.5f, 1.0f),
                 "VOTRE PHOTO, UN FIL CONDUCTEUR", "Approchez-vous de la baie 01.\n\nCette visite est une représentation\npédagogique du service photo.", dark);
             var sun = new GameObject("Eclairage_Principal").AddComponent<Light>();
             sun.type = LightType.Directional;
-            sun.intensity = 1.05f;
+            sun.intensity = 1.3f;
             sun.shadows = LightShadows.Soft;
             sun.transform.rotation = Quaternion.Euler(55, -25, 0);
             RenderSettings.sun = sun;
             var fill = new GameObject("Eclairage_Allee").AddComponent<Light>();
             fill.type = LightType.Point;
-            fill.transform.position = new Vector3(0, 2.8f, 5.5f);
-            fill.range = 10;
-            fill.intensity = 1.2f;
+            fill.transform.position = new Vector3(0, 2.7f, 4.8f);
+            fill.range = 9;
+            fill.intensity = 2.1f;
             fill.shadows = LightShadows.None;
+            var fillSide = new GameObject("Eclairage_Lateral").AddComponent<Light>();
+            fillSide.type = LightType.Point;
+            fillSide.transform.position = new Vector3(-3, 2.7f, 8.2f);
+            fillSide.range = 8;
+            fillSide.intensity = 1.6f;
+            fillSide.shadows = LightShadows.None;
             var zone = Box("Zone_Teleportation", root, new Vector3(0, 0.012f, 3.8f), new Vector3(3.2f, 0.018f, 3.5f), floor);
             var area = zone.AddComponent<TeleportationArea>();
             area.interactionManager = xr;

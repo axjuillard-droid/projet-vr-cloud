@@ -59,3 +59,7 @@ desktop.ini
 /tmp/
 /ConnectionTest/Captures/
 /ConnectionTest/Builds/
+
+# Sauvegardes automatiques Blender (la source .blend reste versionnée)
+*.blend1
+*.blend2

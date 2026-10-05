@@ -1,0 +1,52 @@
+{
+  "generator": "tools/art/generate_server_rack.py",
+  "blender": "4.5.2 LTS",
+  "units": "metres",
+  "nominalDimensions": {
+    "width": 1.1,
+    "height": 2.2,
+    "depth": 1.0
+  },
+  "meshes": [
+    {
+      "mesh": "Rack_Shell",
+      "vertices": 504,
+      "triangles": 924
+    },
+    {
+      "mesh": "Rack_Equipment",
+      "vertices": 240,
+      "triangles": 440
+    },
+    {
+      "mesh": "Rack_Metal",
+      "vertices": 1248,
+      "triangles": 2176
+    },
+    {
+      "mesh": "Rack_Recess",
+      "vertices": 1408,
+      "triangles": 2112
+    },
+    {
+      "mesh": "Rack_Cyan",
+      "vertices": 24,
+      "triangles": 36
+    },
+    {
+      "mesh": "Rack_Green",
+      "vertices": 288,
+      "triangles": 432
+    },
+    {
+      "mesh": "Rack_Amber",
+      "vertices": 72,
+      "triangles": 108
+    }
+  ],
+  "triangles": 6228,
+  "materialGroups": 7,
+  "thirdPartyAssets": false,
+  "fbx": "ConnectionTest\\Assets\\CloudVR\\Models\\ServerRack_Detailed.fbx",
+  "source": "art\\source\\ServerRack.blend"
+}
