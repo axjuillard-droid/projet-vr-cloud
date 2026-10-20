@@ -9,20 +9,33 @@ if (!(Test-Path -LiteralPath $UnityExe)) { throw "Éditeur absent : $UnityExe" }
 $metadata = Join-Path $projectRoot 'tmp/unity/android-copy-last.json'
 if ($Resume) {
     $previous = Get-Content -LiteralPath $metadata -Raw | ConvertFrom-Json
-    if ($previous.source -ne $sourceProject) { throw 'La copie précédente appartient à un autre projet.' }
+    if ($previous.source -notlike '*ConnectionTest') { throw 'La copie précédente appartient à un autre projet.' }
     if (Get-Process -Id $previous.pid -ErrorAction SilentlyContinue) { throw 'Le processus précédent est encore présent ; ne pas relancer.' }
     $stageProject = [IO.Path]::GetFullPath($previous.stage)
     $tempPrefix = [IO.Path]::GetFullPath([IO.Path]::GetTempPath()).TrimEnd('\') + '\CloudVR-Android-'
     if (!$stageProject.StartsWith($tempPrefix, [StringComparison]::OrdinalIgnoreCase)) { throw 'Copie hors du dossier temporaire prévu.' }
-    if (!(Test-Path -LiteralPath (Join-Path $stageProject 'ProjectSettings/ProjectVersion.txt'))) { throw 'Copie Unity absente.' }
+    if (!(Test-Path -LiteralPath $stageProject)) { throw 'Copie Unity absente.' }
 } else {
     $stageProject = Join-Path ([IO.Path]::GetTempPath()) ('CloudVR-Android-' + [Guid]::NewGuid().ToString('N').Substring(0,8))
 }
 if ($stageProject -match '[^\x00-\x7F]') { throw 'Le dossier temporaire doit avoir un chemin ASCII.' }
 if (!$Resume) {
     New-Item -ItemType Directory -Path $stageProject | Out-Null
-    foreach ($folder in @('Assets','Packages','ProjectSettings')) {
-        Copy-Item -LiteralPath (Join-Path $sourceProject $folder) -Destination $stageProject -Recurse
+}
+foreach ($folder in @('Assets','Packages','ProjectSettings')) {
+    $target = Join-Path $stageProject $folder
+    New-Item -ItemType Directory -Force -Path $target | Out-Null
+    Copy-Item -Path (Join-Path $sourceProject ($folder + '/*')) -Destination $target -Recurse -Force
+}
+foreach ($file in @('manifest.json','packages-lock.json')) {
+    $path = Join-Path $stageProject ('Packages/' + $file)
+    if (Test-Path -LiteralPath $path) {
+        $json = Get-Content -LiteralPath $path -Raw | ConvertFrom-Json
+        if ($json.dependencies.PSObject.Properties['com.coplaydev.unity-mcp']) {
+            $json.dependencies.PSObject.Properties.Remove('com.coplaydev.unity-mcp')
+            $str = $json | ConvertTo-Json -Depth 30
+            [IO.File]::WriteAllText($path, $str, [Text.UTF8Encoding]::new($false))
+        }
     }
 }
 # Le prototype utilise Input System ; Both n'est pas pris en charge sur Android.
@@ -56,7 +69,7 @@ if ($buildProcess.ExitCode -ne 0 -or $report.result -ne 'Succeeded') { throw "Bu
 $destination = Join-Path $sourceProject 'Builds/Android'
 New-Item -ItemType Directory -Path $destination -Force | Out-Null
 foreach ($file in @('CloudVR-Quest.apk','build-result.json','android-audit.json')) {
-    Copy-Item -LiteralPath (Join-Path $stageProject ('Builds/Android/' + $file)) -Destination $destination
+    Copy-Item -LiteralPath (Join-Path $stageProject ('Builds/Android/' + $file)) -Destination $destination -Force
 }
 $report | ConvertTo-Json
 # Pas de suppression automatique : conserver le journal et la copie pour diagnostic.
