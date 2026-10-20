@@ -1,0 +1,46 @@
+{
+    "passed": true,
+    "utc": "2026-10-20T13:58:45.5804685Z",
+    "error": "",
+    "platform": "WindowsPlayer",
+    "graphics": "Direct3D11",
+    "arrivalPosition": {
+        "x": 0.0,
+        "y": 0.07999986410140991,
+        "z": 1.5
+    },
+    "walkPosition": {
+        "x": 0.0,
+        "y": 0.10099983215332031,
+        "z": 2.5
+    },
+    "cursorAfterWalk": "None",
+    "checks": [
+        "Départ dans Chambre",
+        "Clic synthétique sur écran déclenche l'envoi",
+        "Six bornes initialisées sans étape sautée",
+        "Une seule caméra active",
+        "Avancée initiale au clavier synthétique et maintien au sol",
+        "Échap suspend réellement le déplacement malgré le clavier",
+        "Échap reprend les commandes PC",
+        "Borne future ne saute pas la progression",
+        "Raycast atteint borne 0",
+        "Borne 1 validée après animation par clic",
+        "Raycast atteint borne 1",
+        "Borne 2 validée après animation par clic",
+        "Raycast atteint borne 2",
+        "Borne 3 validée après animation par clic",
+        "Raycast atteint borne 3",
+        "Chaleur révélée sans sauter l'action de refroidissement",
+        "Borne 4 validée après animation par clic",
+        "Raycast atteint borne 4",
+        "Relais batterie illustré sans valider trop tôt",
+        "Borne 5 validée après animation par clic",
+        "Raycast atteint borne 5",
+        "Borne 6 validée après animation par clic",
+        "Six notions et huit actions terminées",
+        "Retour Chambre par Entrée et état de conclusion conservé",
+        "Photo d'exemple de nouveau visible",
+        "Recommencer remet la démo à zéro"
+    ]
+}

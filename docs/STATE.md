@@ -1,6 +1,16 @@
 # État de reprise
 
-Mis à jour le 5 octobre 2026.
+Mis à jour le 20 octobre 2026.
+
+## T08 — Démo guidée complète validée sur PC, 20/10/2026
+- **Diagnostic et résolution du raycast borne 05 (ÉLECTRICITÉ)** : le raycast échouait parce que les baies secondaires à x=±2,25m, z=9,0m masquaient la visée de la borne 05 (initialement à z=9,5m) depuis le point d'observation à x=-1,55m. Preuve mesurée en direct : le raycast touchait `Baie_Secondaire_-1` à x=-1,70, z=9,50.
+- **Correctif géométrique** : bornes 05 et 06 repositionnées à z=10,2m (au fond de l'allée, dégagées des baies secondaires) dans `DemoTourBuilder.cs`. Scènes `DataCenter.unity` et `Chambre.unity` reconstruites et sauvegardées proprement.
+- **Build Windows réussi** : compilé depuis l'éditeur via `BuildPipeline.BuildPlayer`, 0 erreur / 0 avertissement, 14,8 s avec cache. Exécutable et données à jour sous `ConnectionTest/Builds/Windows/CloudVR-PC.exe` et `data.unity3d`.
+- **Validation automatisée complète : 26 contrôles sur 26 réussis** le 20/10 à 15 h 59 Paris via `tools/Test-PCBuild.ps1 -Graphics -Demo -TimeoutSeconds 120`. `exitCode=0`, `passed=true`.
+  - Parcours complet validé : envoi photo depuis la Chambre, chargement asynchrone DataCenter, caméra unique, déplacement ZQSD/WASD, pause/reprise explicite via Échap, 6 bornes activées (Réseau, Traitement, Stockage, Refroidissement, Électricité, Supervision), 8 actions exécutées (dont chaleur révélée + refroidissement rétabli, relais batterie temporaire illustré), synthèse, retour Chambre par Entrée avec photo retrouvée, et recommencer (R) avec remise à zéro.
+  - 5 captures GPU Direct3D11 générées et archivées : `demo-arrival.png`, `demo-heat.png`, `demo-network.png`, `demo-summary.png`, `demo-room-complete.png`.
+  - Preuves conservées sous `docs/validation/demo-2026-10-20/player-passed/`.
+- Limites actuelles : validé sur PC (Windows Standalone, Direct3D11). Aucun essai Quest ni nouvel APK généré durant cette session ; ergonomie en mouvement humain naturel et confort VR restent à tester avec un casque. Prochaine étape : préparation d'un build Android / APK pour tester le parcours dans le casque Meta Quest.
 
 ## T07a — Premier module graphique original en cours, 05/10/2026
 - GO utilisateur : produire une baie détaillée originale dans une petite salle soignée. Résultat visé : FBX reproductible par Blender, prefab URP réutilisable, salle améliorée, parcours photo/collision/rigs conservés ; captures Unity puis contrôle player Windows.

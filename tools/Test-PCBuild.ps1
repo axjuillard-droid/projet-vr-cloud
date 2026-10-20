@@ -1,4 +1,4 @@
-param([switch]$Graphics, [switch]$Journey, [ValidateRange(15,180)][int]$TimeoutSeconds = 45)
+param([switch]$Graphics, [switch]$Journey, [switch]$Demo, [ValidateRange(15,180)][int]$TimeoutSeconds = 45)
 $ErrorActionPreference = 'Stop'
 $projectRoot = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..'))
 $exePath = Join-Path $projectRoot 'ConnectionTest/Builds/Windows/CloudVR-PC.exe'
@@ -6,13 +6,13 @@ if (!(Test-Path -LiteralPath $exePath)) { throw "Build PC absent : $exePath" }
 $runFolder = Join-Path $projectRoot ('tmp/unity/pc-player-' + (Get-Date -Format 'yyyyMMdd-HHmmss') + '-' + [Guid]::NewGuid().ToString('N').Substring(0, 6))
 New-Item -ItemType Directory -Path $runFolder -Force | Out-Null
 $logPath = Join-Path $runFolder 'Player.log'
-$scenario = if ($Journey) { '--cloudvr-journey-smoke' } else { '--cloudvr-pc-smoke' }
+$scenario = if ($Demo) { '--cloudvr-demo-smoke' } elseif ($Journey) { '--cloudvr-journey-smoke' } else { '--cloudvr-pc-smoke' }
 $arguments = @('-batchmode', '-logFile', ('"{0}"' -f $logPath), $scenario, '--cloudvr-smoke-output', ('"{0}"' -f $runFolder))
 if (!$Graphics) { $arguments += '-nographics' }
 $playerProcess = Start-Process -FilePath $exePath -ArgumentList $arguments -WorkingDirectory (Split-Path $exePath) -WindowStyle Hidden -PassThru
 $timedOut = !$playerProcess.WaitForExit($TimeoutSeconds * 1000)
 if ($timedOut) { Stop-Process -Id $playerProcess.Id -Force }
-$reportName = if ($Journey) { 'journey-smoke-result.json' } else { 'photo-smoke-result.json' }
+$reportName = if ($Demo) { 'demo-smoke-result.json' } elseif ($Journey) { 'journey-smoke-result.json' } else { 'photo-smoke-result.json' }
 $reportPath = Join-Path $runFolder $reportName
 $report = if (Test-Path -LiteralPath $reportPath) { Get-Content -LiteralPath $reportPath -Raw | ConvertFrom-Json } else { $null }
 $result = [ordered]@{

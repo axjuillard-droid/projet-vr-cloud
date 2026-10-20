@@ -1,0 +1,7 @@
+{
+  "gameVersionChanges": [],
+  "copyOnlyOmissions": [
+    "com.coplaydev.unity-mcp",
+    "com.unity.nuget.newtonsoft-json (dependency of editor connector)"
+  ]
+}

@@ -1,0 +1,24 @@
+{
+    "passed": false,
+    "utc": "2026-10-20T13:07:55.2421626Z",
+    "error": "System.ArgumentException: Passed in texture is invalid (null).\r\n  at (wrapper managed-to-native) UnityEngine.ImageConversion.EncodeToPNG_Injected(intptr,UnityEngine.Bindings.BlittableArrayWrapper&)\r\n  at UnityEngine.ImageConversion.EncodeToPNG (UnityEngine.Texture2D tex) [0x00006] in <74391bcf73924a64b28e7015e34efd8c>:0 \r\n  at DemoSmoke.Capture (System.String file) [0x00015] in <BUILD_COPY>\\Assets\\CloudVR\\Tests\\DemoSmoke.cs:144 \r\n  at DemoSmoke+<Exercise>d__12.MoveNext () [0x004b2] in <BUILD_COPY>\\Assets\\CloudVR\\Tests\\DemoSmoke.cs:78 \r\n  at DemoSmoke+<Guard>d__9.MoveNext () [0x00042] in <BUILD_COPY>\\Assets\\CloudVR\\Tests\\DemoSmoke.cs:39 ",
+    "platform": "WindowsPlayer",
+    "graphics": "Direct3D11",
+    "arrivalPosition": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+    },
+    "walkPosition": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+    },
+    "cursorAfterWalk": "",
+    "checks": [
+        "Départ dans Chambre",
+        "Clic synthétique sur écran déclenche l'envoi",
+        "Six bornes initialisées sans étape sautée",
+        "Une seule caméra active"
+    ]
+}

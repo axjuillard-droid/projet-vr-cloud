@@ -4,6 +4,7 @@ Statuts : à faire, en cours, bloqué, terminé. Une tâche n’est prête que s
 
 | ID | Tâche | Statut | Critère de fin |
 |---|---|---|---|
+| T08 | Première démo guidée photo de bout en bout (PC) | terminé | 20/10 : six bornes/huit actions et retour codés, build Windows 0 erreur/0 avertissement. Test PC complet : 26 contrôles passés (envoi, 6 bornes, refroidissement, batterie, supervision, synthèse, retour Entrée, reset R), exitCode=0, passed=true. Preuves et 5 captures sous docs/validation/demo-2026-10-20/player-passed/. Essai Quest et retour utilisateur restent à faire. |
 | T00 | Organiser la mémoire du projet | terminé | Vision, décisions, état, backlog et méthode de recherche présents |
 | T00a | Documenter le pilotage autonome et le conseil modèle | terminé | 05/10/2026 : CAPACITES_CODEX.md décrit capacités/méthodes/limites, TOOLING et CONTEXT reliés ; AGENTS.md impose modèle et effort recommandés à chaque réponse finale pour le prochain prompt. Aucun test matériel déduit de cette documentation. |
 | T00b | Actualiser le README et publier les jalons GitHub | terminé | 05/10 : README complet avec trois captures réelles et méthode persistante dans AGENTS ; commits b62124c et b10a0ae poussés sur origin/main avec 143 objets LFS. Liens, 39 JSON, scripts et diff vérifiés ; README distant identique et trois images HTTP 200. Aucun nouveau test Unity/casque pour cette documentation. |

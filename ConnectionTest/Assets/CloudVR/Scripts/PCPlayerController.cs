@@ -15,6 +15,7 @@ public class PCPlayerController : MonoBehaviour
     [Header("Regard souris")]
     public float mouseSensitivity = 2f;
     public Transform cameraTransform;
+    public bool InputPaused { get; private set; }
 
     private CharacterController _cc;
     private float _xRotation = 0f;
@@ -39,8 +40,16 @@ public class PCPlayerController : MonoBehaviour
 
     private void Update()
     {
-        HandleLook();
+        if (InputPaused) return;
+        if (Cursor.lockState == CursorLockMode.Locked) HandleLook();
         HandleMove();
+    }
+
+    public void TogglePause()
+    {
+        InputPaused = !InputPaused;
+        Cursor.lockState = InputPaused ? CursorLockMode.None : CursorLockMode.Locked;
+        Cursor.visible = InputPaused;
     }
 
     private void HandleLook()
@@ -63,12 +72,12 @@ public class PCPlayerController : MonoBehaviour
         var keyboard = Keyboard.current;
         if (keyboard == null) return;
         float h = (keyboard.dKey.isPressed || keyboard.rightArrowKey.isPressed ? 1 : 0)
-            - (keyboard.aKey.isPressed || keyboard.leftArrowKey.isPressed ? 1 : 0);
-        float v = (keyboard.wKey.isPressed || keyboard.upArrowKey.isPressed ? 1 : 0)
+            - (keyboard.aKey.isPressed || keyboard.qKey.isPressed || keyboard.leftArrowKey.isPressed ? 1 : 0);
+        float v = (keyboard.wKey.isPressed || keyboard.zKey.isPressed || keyboard.upArrowKey.isPressed ? 1 : 0)
             - (keyboard.sKey.isPressed || keyboard.downArrowKey.isPressed ? 1 : 0);
 
         Vector3 move = transform.right * h + transform.forward * v;
-        _cc.Move(move * moveSpeed * Time.deltaTime);
+        _cc.Move(Vector3.ClampMagnitude(move, 1f) * moveSpeed * Time.deltaTime);
 
         // Gravité simple
         if (!_cc.isGrounded)
@@ -77,7 +86,7 @@ public class PCPlayerController : MonoBehaviour
 
     private void OnApplicationFocus(bool hasFocus)
     {
-        if (hasFocus && (InputModeManager.Instance == null || InputModeManager.Instance.IsPC))
+        if (hasFocus && !InputPaused && (InputModeManager.Instance == null || InputModeManager.Instance.IsPC))
         {
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;

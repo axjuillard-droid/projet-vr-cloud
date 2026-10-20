@@ -2,6 +2,12 @@
 
 **Du clic sur « envoyer une photo » aux équipements physiques du cloud.**
 
+**Jalon du 20 octobre 2026 : démo guidée complète à six bornes validée sur PC (26 contrôles sur 26 réussis).** Parcours de bout en bout validé dans le player Windows : envoi de la photo depuis la Chambre, traversée du data center, 6 bornes physiques, 8 actions (chaleur, refroidissement, relais batterie, alerte), synthèse interactive, retour chambre et reset. [Guide de la démo](docs/DEMO.md), [preuves et captures réelles](docs/validation/demo-2026-10-20/player-passed/).
+
+![Démo guidée : synthèse finale dans le player Windows](docs/validation/demo-2026-10-20/player-passed/demo-summary.png)
+
+*Capture réelle du player Windows Direct3D11 du 20/10. Parcours complet validé sur PC ; essai matériel Meta Quest à réaliser avec le prochain APK.*
+
 Projet universitaire réalisé en binôme : une expérience pédagogique Unity sur **PC et Meta Quest**, pour comprendre les infrastructures derrière les services en ligne. Le prototype démarre dans une chambre, puis emmène le visiteur dans une première salle de data center.
 
 **État au 5 octobre 2026 : premier parcours T07 validé dans le player Windows, puis premier module graphique original ajouté.** Le nouveau décor est testé dans Unity et compilé sur PC ; la validation complète de navigation de ce nouvel exe est en attente après deux tests automatiques échoués. Un premier APK Quest est contrôlé statiquement ; essais casque à faire.

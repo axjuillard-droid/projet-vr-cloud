@@ -1,0 +1,10 @@
+{
+    "passed": false,
+    "utc": "2026-10-20T13:01:10.3882533Z",
+    "error": "System.InvalidOperationException: Clic synthétique sur écran déclenche l'envoi\r\n  at DemoSmoke.Check (System.Boolean value, System.String message) [0x00022] in <BUILD_COPY>\\Assets\\CloudVR\\Tests\\DemoSmoke.cs:45 \r\n  at DemoSmoke+<Exercise>d__12.MoveNext () [0x0034c] in <BUILD_COPY>\\Assets\\CloudVR\\Tests\\DemoSmoke.cs:64 \r\n  at DemoSmoke+<Guard>d__9.MoveNext () [0x00042] in <BUILD_COPY>\\Assets\\CloudVR\\Tests\\DemoSmoke.cs:39 ",
+    "platform": "WindowsPlayer",
+    "graphics": "Direct3D11",
+    "checks": [
+        "Départ dans Chambre"
+    ]
+}
