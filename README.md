@@ -2,25 +2,23 @@
 
 **Du clic sur « envoyer une photo » aux équipements physiques du cloud.**
 
-**Jalon du 20 octobre 2026 : démo guidée complète à six bornes validée sur PC (26 contrôles sur 26 réussis).** Parcours de bout en bout validé dans le player Windows : envoi de la photo depuis la Chambre, traversée du data center, 6 bornes physiques, 8 actions (chaleur, refroidissement, relais batterie, alerte), synthèse interactive, retour chambre et reset. [Guide de la démo](docs/DEMO.md), [preuves et captures réelles](docs/validation/demo-2026-10-20/player-passed/).
+**Jalon du 20 octobre 2026 : refonte visuelle & immersive complète (Chambre réaliste, Network Ride dans la fibre optique, Sas militaire du Data Center).**
+- **Chambre étudiante 3D réaliste** : Lit étudiant avec couette bleu pétrole, bureau gamer moderne en bois/métal avec tour PC vitrée à ventilateur RGB, clavier rétroéclairé, tapis XXL, étagère murale avec livres et succulente en pot, panorama extérieur au crépuscule.
+- **Ergonomie d'assise fluide (`ChairSeatInteraction`)** : Touche `E` pour s'asseoir confortablement sur la chaise face au moniteur, libération du curseur souris pour interagir avec le bureau, `ZQSD` / `Échap` pour se relever.
+- **Interface OS animée (`ScreenOSController`)** : Jauge de transfert uGUI détaillée montrant les étapes réseau réelles (Chiffrement AES-256, Négociation TLS 1.3, Routage des paquets IP, Réception Data Center).
+- **Network Data Ride (Transition spectaculaire)** : Plongée de la caméra dans le câble de fibre optique (`Data_Fiber_Tunnel`), impulsions de paquets magenta, guides d'ondes cyan émissifs à 10 Gbps et affichage HUD des couches de transit.
+- **Sas de Sécurité Militaire Tier IV (`DataCenter_Airlock`)** : Portes étanches blindées en acier lourd, bandes d'avertissement jaunes industrielles, hublots pare-balles fumés, balise gyrophare d'alerte orange émissive et badgeuse RFID avec diode de statut vert/rouge.
+- **Build Windows compilé et 26/26 tests validés** : 0 erreur / 0 avertissement, 138,9 Mo (`CloudVR-PC.exe`), parcours démo 100% réussi sans régression sous GPU Direct3D11.
 
-![Démo guidée : synthèse finale dans le player Windows](docs/validation/demo-2026-10-20/player-passed/demo-summary.png)
-
-*Capture réelle du player Windows Direct3D11 du 20/10. Parcours complet validé sur PC ; essai matériel Meta Quest à réaliser avec le prochain APK.*
-
-Projet universitaire réalisé en binôme : une expérience pédagogique Unity sur **PC et Meta Quest**, pour comprendre les infrastructures derrière les services en ligne. Le prototype démarre dans une chambre, puis emmène le visiteur dans une première salle de data center.
-
-**État au 5 octobre 2026 : premier parcours T07 validé dans le player Windows, puis premier module graphique original ajouté.** Le nouveau décor est testé dans Unity et compilé sur PC ; la validation complète de navigation de ce nouvel exe est en attente après deux tests automatiques échoués. Un premier APK Quest est contrôlé statiquement ; essais casque à faire.
-
-![Baie originale détaillée : façades de serveurs, stockage, voyants et chemins de câbles](docs/validation/art-2026-10-05/editor-pc-final/datacenter-detail.png)
-
-*Capture réelle en Play dans Unity, 5 octobre 2026. Caméra repositionnée pour présenter le module ; textes et rendu provisoires. Baie originale générée avec Blender : 6 228 triangles, sept meshes ; cinq meshes architecturaux fusionnés.*
-
-| Premier décor T07 | Premier module détaillé T07a |
+| Chambre étudiante meublée | Vue assise devant le PC gamer |
 |---|---|
-| ![Baies simplifiées avant amélioration](docs/validation/journey-2026-10-05/player-journey/datacenter-approach.png) | ![Nouvelles baies et architecture dans le player](docs/validation/art-2026-10-05/player-second-failed/datacenter-approach.png) |
+| ![Chambre étudiante : lit, bureau gamer, chaise et étagère](docs/validation/art-2026-10-20/chambre-complete.png) | ![Vue assise : moniteur, clavier gamer et tour RGB](docs/validation/art-2026-10-20/chambre-seated.png) |
 
-*Deux captures Windows. La capture récente montre le décor ; le test de navigation de ce player s'est ensuite arrêté avant la baie. [Résultats et limites du module](docs/validation/art-2026-10-05/README.md), [génération reproductible](art/README.md). La cible « 80 % de qualité » reste une appréciation visuelle à discuter.*
+| Transition : vol dans la fibre optique (Network Ride) | Arrivée : Sas militaire blindé Tier IV |
+|---|---|
+| ![Vol à travers le câble de fibre optique](docs/validation/art-2026-10-20/fiber-tunnel-ride.png) | ![Sas de sécurité haute sécurité du Data Center](docs/validation/art-2026-10-20/datacenter-airlock.png) |
+
+*Captures réelles du rendu Unity URP Direct3D11, 20 octobre 2026.*
 
 ## Le parcours disponible
 
