@@ -133,4 +133,59 @@ public static class ProceduralAudioService
         clip.SetData(samples, 0);
         return clip;
     }
+
+    /// <summary>
+    /// Clic mécanique sec de serrure / poignée quart de tour de baie serveur.
+    /// </summary>
+    public static AudioClip CreateHandleTurnSound()
+    {
+        float duration = 0.18f;
+        int numSamples = (int)(SampleRate * duration);
+        float[] samples = new float[numSamples];
+
+        for (int i = 0; i < numSamples; i++)
+        {
+            float t = (float)i / SampleRate;
+            float freq = t < 0.05f ? 850f : 1400f;
+            float env = Mathf.Exp(-t * 28f);
+            samples[i] = Mathf.Sin(2f * Mathf.PI * freq * t) * env * 0.4f;
+        }
+
+        AudioClip clip = AudioClip.Create("Handle_Turn", numSamples, 1, SampleRate, false);
+        clip.SetData(samples, 0);
+        return clip;
+    }
+
+    /// <summary>
+    /// Glissement métallique à billes des rails télescopiques d'un serveur rack.
+    /// </summary>
+    public static AudioClip CreateSlideRailSound()
+    {
+        float duration = 1.1f;
+        int numSamples = (int)(SampleRate * duration);
+        float[] samples = new float[numSamples];
+
+        System.Random rng = new System.Random(404);
+        float filter = 0f;
+
+        for (int i = 0; i < numSamples; i++)
+        {
+            float t = (float)i / SampleRate;
+            float progress = t / duration;
+            float envelope = Mathf.Sin(progress * Mathf.PI);
+
+            // Bruit de frottement métallique filtré
+            float noise = ((float)rng.NextDouble() * 2f - 1f) * 0.18f;
+            filter += (noise - filter) * 0.08f;
+
+            // Harmonique métallique légère de rail à billes
+            float hum = Mathf.Sin(2f * Mathf.PI * 340f * t) * 0.06f;
+
+            samples[i] = Mathf.Clamp((filter + hum) * envelope * 1.5f, -1f, 1f);
+        }
+
+        AudioClip clip = AudioClip.Create("Slide_Rail", numSamples, 1, SampleRate, false);
+        clip.SetData(samples, 0);
+        return clip;
+    }
 }

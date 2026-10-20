@@ -9,15 +9,20 @@
 - **Network Data Ride (Transition spectaculaire)** : Plongée de la caméra dans le câble de fibre optique (`Data_Fiber_Tunnel`), son de vortex optique, impulsions de paquets magenta, guides d'ondes cyan émissifs à 10 Gbps et affichage HUD des couches de transit.
 - **Sas de Sécurité Militaire Tier IV (`DataCenter_Airlock`)** : Portes étanches blindées animées, montants en acier lourd, bandes d'avertissement jaunes industrielles, hublots pare-balles fumés, balise gyrophare d'alerte orange émissive et badgeuse RFID avec diode de statut vert/rouge.
 - **Spatialisation sonore industrielle & Audio procédural (`ProceduralAudioService`)** : Zéro asset externe lourd, génération à la volée du bourdonnement basse fréquence continu des turbines de serveurs (moteurs 60Hz/120Hz + souffle d'air filtré), bip d'autorisation RFID, vérin hydraulique d'ouverture et sifflement de transit fibre.
-- **Build Windows compilé et 26/26 tests validés** : 0 erreur / 0 avertissement, 138,9 Mo (`CloudVR-PC.exe`), parcours démo 100% réussi sans régression sous GPU Direct3D11.
+- **Interactivité Matérielle : Baie Ouvrable & Serveur 2U Extractible (`ServerBladeInteraction`)** : Porte de baie sur charnières avec serrure quart de tour, extraction télescopique du serveur 2U sur glissières métalliques à billes, mise en valeur des composants internes (bi-processeur avec imposants radiateurs passifs en cuivre/aluminium, 16 barrettes de RAM DDR5 avec LED cyan, 8 disques SSD NVMe hot-swap) et étiquettes holographiques descriptives.
+- **Build Windows compilé et 26/26 tests validés** : 0 erreur / 0 avertissement, 139,02 Mo (`CloudVR-PC.exe`), parcours démo 100% réussi sans régression sous GPU Direct3D11.
 
 | Chambre étudiante meublée | Vue assise devant le PC gamer |
 |---|---|
 | ![Chambre étudiante : lit, bureau gamer, chaise et étagère](docs/validation/art-2026-10-20/chambre-complete.png) | ![Vue assise : moniteur, clavier gamer et tour RGB](docs/validation/art-2026-10-20/chambre-seated.png) |
 
-| Transition : vol dans la fibre optique (Network Ride) | Arrivée : Sas militaire blindé Tier IV |
+| Transition : vol dans la fibre optique (Network Ride) | Sas de sécurité militaire blindé Tier IV |
 |---|---|
 | ![Vol à travers le câble de fibre optique](docs/validation/art-2026-10-20/fiber-tunnel-ride.png) | ![Sas de sécurité haute sécurité du Data Center](docs/validation/art-2026-10-20/datacenter-airlock.png) |
+
+| Interactivité matérielle : Serveur 2U extrait sur ses rails (Baie 01) |
+|---|
+| ![Serveur 2U extrait révélant les CPUs, la RAM et les étiquettes holographiques](docs/validation/art-2026-10-20/server-blade-extracted.png) |
 
 *Captures réelles du rendu Unity URP Direct3D11, 20 octobre 2026.*
 

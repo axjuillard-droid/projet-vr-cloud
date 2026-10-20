@@ -17,9 +17,16 @@ Mis à jour le 20 octobre 2026.
   - Sas de sécurité blindé haute sécurité (`DataCenter_Airlock.fbx`) : montants en acier lourd, bandes d'avertissement jaunes industrielles, portes coulissantes gauche et droite indépendantes avec hublots pare-balles, verrous de sécurité, badgeuse RFID avec diode de statut vert/rouge et balise gyrophare d'alerte orange émissive.
   - Contrôleur mécanique et spatialisation audio (`AirlockDoorController.cs`) : rotation continue du gyrophare, bip cristallin d'autorisation RFID, bruitage de décompression/vérin hydraulique et coulissement mécanique des battants gauche et droit.
   - Synthétiseur audio procédural pur C# (`ProceduralAudioService.cs`) : zéro dépendance, zéro asset externe lourd, génération à la volée du bourdonnement lourd continu des turbines de serveurs (moteurs 60Hz/120Hz + souffle d'air filtré), bips RFID, vérins hydrauliques et transit fibre.
-- **Build Windows réussi** : compilé depuis Unity via `manage_build`, 0 erreur / 0 avertissement, 138,9 Mo sous `ConnectionTest/Builds/Windows/CloudVR-PC.exe`.
+- **Jalon 4 (Interactivité Matérielle : Baie Ouvrable & Serveur 2U Extractible)** :
+  - Modèle 3D du serveur rack 2U (`Server_Blade_Detailed.fbx`) et porte de baie (`Server_Rack_Door.fbx`) modélisés sous Blender 4.5.2 LTS (`tools/art/generate_server_blade.py`).
+  - Composants internes physiques du cloud fidèlement représentés : bi-processeur avec imposants radiateurs passifs en cuivre/aluminium (`Blade_Heatsink`), 16 barrettes de RAM DDR5 avec LED cyan (`Blade_RAM`), 4 ventilateurs d'extraction hot-swap (`Blade_Fans`), 8 baies de disques SSD NVMe en façade (`Blade_Chassis`) et glissières de rack télescopiques en acier brossé (`Blade_Rails`).
+  - Contrôleur d'interaction 3 étapes (`ServerBladeInteraction.cs`) :
+    - 1er clic : ouverture de la porte de baie sur charnières à 95° avec clic de poignée quart de tour (`ProceduralAudioService.CreateHandleTurnSound()`).
+    - 2ème clic : extraction télescopique du serveur 2U vers l'avant (0,52 m) avec bruit de roulement à billes (`ProceduralAudioService.CreateSlideRailSound()`), allumage de la lumière d'inspection douce et affichage des étiquettes holographiques descriptives.
+    - 3ème clic : réinsertion du serveur et fermeture de la baie.
+- **Build Windows réussi** : compilé depuis Unity via `manage_build`, 0 erreur / 0 avertissement, 139,02 Mo sous `ConnectionTest/Builds/Windows/CloudVR-PC.exe`.
 - **Validation automatisée de non-régression : 26 contrôles sur 26 réussis** sous GPU Direct3D11 (`tools/Test-PCBuild.ps1 -Graphics -Demo -TimeoutSeconds 120`). `exitCode=0`, `passed=true`.
-- Limites actuelles : parcours PC testé et validé sur PC (Direct3D11). Le ride, le sas animé et les ambiances audio sont intégrés ; le build Android pour Meta Quest de ces nouveaux graphismes pourra être compilé via `tools/Build-AndroidCopy.ps1`.
+- Limites actuelles : parcours PC testé et validé sur PC (Direct3D11). Le ride, le sas animé, les ambiances audio et le serveur extractible sont intégrés ; le build Android pour Meta Quest pourra être compilé via `tools/Build-AndroidCopy.ps1`.
 
 ## T08 — Démo guidée complète validée sur PC, 20/10/2026
 - **Diagnostic et résolution du raycast borne 05 (ÉLECTRICITÉ)** : le raycast échouait parce que les baies secondaires à x=±2,25m, z=9,0m masquaient la visée de la borne 05 (initialement à z=9,5m) depuis le point d'observation à x=-1,55m. Preuve mesurée en direct : le raycast touchait `Baie_Secondaire_-1` à x=-1,70, z=9,50.
