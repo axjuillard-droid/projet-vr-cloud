@@ -142,19 +142,34 @@ public static class DatacenterSecurityArtBuilder
         bLight.intensity = 1.8f;
         bLight.shadows = LightShadows.None;
 
+        // Contrôleur mécanique et audio du sas
+        var doorController = airlockGo.GetComponent<AirlockDoorController>();
+        if (doorController == null) doorController = airlockGo.AddComponent<AirlockDoorController>();
+        doorController.LocateDoorParts();
+
         EditorUtility.SetDirty(dcRoot);
         EditorSceneManager.MarkSceneDirty(dcRoot.scene);
-        Debug.Log("[SecurityArt] Sas de Sécurité Militaire Tier IV installé dans DataCenter_Root !");
+        Debug.Log("[SecurityArt] Sas de Sécurité Militaire Tier IV installé avec AirlockDoorController !");
     }
 
-    private static void AssignMaterial(GameObject root, string matNamePart, Material mat)
+    private static void AssignMaterial(GameObject root, string matNamePart, Material targetMat)
     {
         foreach (var r in root.GetComponentsInChildren<MeshRenderer>())
         {
-            if (r.gameObject.name.IndexOf(matNamePart, StringComparison.OrdinalIgnoreCase) >= 0 ||
-               (r.sharedMaterial != null && r.sharedMaterial.name.IndexOf(matNamePart, StringComparison.OrdinalIgnoreCase) >= 0))
+            var mats = r.sharedMaterials;
+            bool modified = false;
+            for (int i = 0; i < mats.Length; i++)
             {
-                r.sharedMaterial = mat;
+                if (mats[i] != null && mats[i].name.IndexOf(matNamePart, StringComparison.OrdinalIgnoreCase) >= 0)
+                {
+                    mats[i] = targetMat;
+                    modified = true;
+                }
+            }
+            if (modified) r.sharedMaterials = mats;
+            else if (r.gameObject.name.IndexOf(matNamePart, StringComparison.OrdinalIgnoreCase) >= 0)
+            {
+                r.sharedMaterial = targetMat;
             }
         }
     }

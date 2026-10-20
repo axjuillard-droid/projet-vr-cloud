@@ -6,8 +6,9 @@
 - **Chambre étudiante 3D réaliste** : Lit étudiant avec couette bleu pétrole, bureau gamer moderne en bois/métal avec tour PC vitrée à ventilateur RGB, clavier rétroéclairé, tapis XXL, étagère murale avec livres et succulente en pot, panorama extérieur au crépuscule.
 - **Ergonomie d'assise fluide (`ChairSeatInteraction`)** : Touche `E` pour s'asseoir confortablement sur la chaise face au moniteur, libération du curseur souris pour interagir avec le bureau, `ZQSD` / `Échap` pour se relever.
 - **Interface OS animée (`ScreenOSController`)** : Jauge de transfert uGUI détaillée montrant les étapes réseau réelles (Chiffrement AES-256, Négociation TLS 1.3, Routage des paquets IP, Réception Data Center).
-- **Network Data Ride (Transition spectaculaire)** : Plongée de la caméra dans le câble de fibre optique (`Data_Fiber_Tunnel`), impulsions de paquets magenta, guides d'ondes cyan émissifs à 10 Gbps et affichage HUD des couches de transit.
-- **Sas de Sécurité Militaire Tier IV (`DataCenter_Airlock`)** : Portes étanches blindées en acier lourd, bandes d'avertissement jaunes industrielles, hublots pare-balles fumés, balise gyrophare d'alerte orange émissive et badgeuse RFID avec diode de statut vert/rouge.
+- **Network Data Ride (Transition spectaculaire)** : Plongée de la caméra dans le câble de fibre optique (`Data_Fiber_Tunnel`), son de vortex optique, impulsions de paquets magenta, guides d'ondes cyan émissifs à 10 Gbps et affichage HUD des couches de transit.
+- **Sas de Sécurité Militaire Tier IV (`DataCenter_Airlock`)** : Portes étanches blindées animées, montants en acier lourd, bandes d'avertissement jaunes industrielles, hublots pare-balles fumés, balise gyrophare d'alerte orange émissive et badgeuse RFID avec diode de statut vert/rouge.
+- **Spatialisation sonore industrielle & Audio procédural (`ProceduralAudioService`)** : Zéro asset externe lourd, génération à la volée du bourdonnement basse fréquence continu des turbines de serveurs (moteurs 60Hz/120Hz + souffle d'air filtré), bip d'autorisation RFID, vérin hydraulique d'ouverture et sifflement de transit fibre.
 - **Build Windows compilé et 26/26 tests validés** : 0 erreur / 0 avertissement, 138,9 Mo (`CloudVR-PC.exe`), parcours démo 100% réussi sans régression sous GPU Direct3D11.
 
 | Chambre étudiante meublée | Vue assise devant le PC gamer |

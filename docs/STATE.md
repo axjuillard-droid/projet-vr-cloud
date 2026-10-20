@@ -2,7 +2,7 @@
 
 Mis à jour le 20 octobre 2026.
 
-## T09 — Refonte visuelle et immersive complète (Jalons 1, 2 & 3) validée sur PC, 20/10/2026
+## T09 — Refonte visuelle et immersive complète (Jalons 1, 2 & 3 + Audio & Animation Sas) validée sur PC, 20/10/2026
 - **Jalon 1 (Chambre Réaliste & Ergonomie)** :
   - Mobilier complet généré par Blender 4.5.2 LTS (`tools/art/generate_room_furniture.py`) et importé sous URP Lit :
     - Grand lit étudiant en bois avec matelas, couette bleu pétrole et oreillers (`Bed_Student.fbx`).
@@ -12,12 +12,14 @@ Mis à jour le 20 octobre 2026.
     - Lueur d'écran dynamique cyan (`Lueur_Ecran_PC`) et interface OS animée avec barre de progression uGUI (`ScreenOSController.cs`) détaillant les étapes réseau (Chiffrement AES-256, Handshake TLS 1.3, Routage paquets IP, Livraison Data Center).
 - **Jalon 2 (Network Ride / Voyage dans la fibre optique)** :
   - Modèle 3D du tunnel fibre optique (`Data_Fiber_Tunnel.fbx`) généré par Blender (`tools/art/generate_datacenter_airlock.py`) : 4 guides d'ondes cyan néon émissifs, impulsions de paquets de données sphériques magenta et anneaux métalliques.
-  - Séquence cinématique (`NetworkDataRide.cs`) : vol à grande vitesse à l'intérieur de la fibre avec roulis dynamique et affichage HUD des couches réseau (fibre locale 10 Gbps, dorsale WAN coeur de réseau, arrivée Data Center Tier IV).
-- **Jalon 3 (Ambiance Militaire & Sas de Sécurité du Data Center)** :
-  - Sas de sécurité blindé haute sécurité (`DataCenter_Airlock.fbx`) : montants en acier lourd, bandes d'avertissement jaunes industrielles, portes étanches avec hublots pare-balles fumés, verrous de sécurité, badgeuse RFID avec diode de statut vert/rouge et balise gyrophare d'alerte orange émissive avec éclairage d'ambiance ponctuel.
+  - Séquence cinématique (`NetworkDataRide.cs`) : vol à grande vitesse à l'intérieur de la fibre avec roulis dynamique, effet sonore de vortex optique et affichage HUD des couches réseau (fibre locale 10 Gbps, dorsale WAN coeur de réseau, arrivée Data Center Tier IV).
+- **Jalon 3 (Ambiance Militaire, Audio Procédural & Animation Mécanique du Sas)** :
+  - Sas de sécurité blindé haute sécurité (`DataCenter_Airlock.fbx`) : montants en acier lourd, bandes d'avertissement jaunes industrielles, portes coulissantes gauche et droite indépendantes avec hublots pare-balles, verrous de sécurité, badgeuse RFID avec diode de statut vert/rouge et balise gyrophare d'alerte orange émissive.
+  - Contrôleur mécanique et spatialisation audio (`AirlockDoorController.cs`) : rotation continue du gyrophare, bip cristallin d'autorisation RFID, bruitage de décompression/vérin hydraulique et coulissement mécanique des battants gauche et droit.
+  - Synthétiseur audio procédural pur C# (`ProceduralAudioService.cs`) : zéro dépendance, zéro asset externe lourd, génération à la volée du bourdonnement lourd continu des turbines de serveurs (moteurs 60Hz/120Hz + souffle d'air filtré), bips RFID, vérins hydrauliques et transit fibre.
 - **Build Windows réussi** : compilé depuis Unity via `manage_build`, 0 erreur / 0 avertissement, 138,9 Mo sous `ConnectionTest/Builds/Windows/CloudVR-PC.exe`.
 - **Validation automatisée de non-régression : 26 contrôles sur 26 réussis** sous GPU Direct3D11 (`tools/Test-PCBuild.ps1 -Graphics -Demo -TimeoutSeconds 120`). `exitCode=0`, `passed=true`.
-- Limites actuelles : parcours PC testé et validé sur PC (Direct3D11). Le ride et le sas sont intégrés ; le build Android pour Meta Quest de ces nouveaux graphismes pourra être compilé via `tools/Build-AndroidCopy.ps1`.
+- Limites actuelles : parcours PC testé et validé sur PC (Direct3D11). Le ride, le sas animé et les ambiances audio sont intégrés ; le build Android pour Meta Quest de ces nouveaux graphismes pourra être compilé via `tools/Build-AndroidCopy.ps1`.
 
 ## T08 — Démo guidée complète validée sur PC, 20/10/2026
 - **Diagnostic et résolution du raycast borne 05 (ÉLECTRICITÉ)** : le raycast échouait parce que les baies secondaires à x=±2,25m, z=9,0m masquaient la visée de la borne 05 (initialement à z=9,5m) depuis le point d'observation à x=-1,55m. Preuve mesurée en direct : le raycast touchait `Baie_Secondaire_-1` à x=-1,70, z=9,50.

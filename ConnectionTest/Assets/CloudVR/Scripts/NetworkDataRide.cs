@@ -36,7 +36,11 @@ public class NetworkDataRide : MonoBehaviour
         }
 
         BuildHUD();
+        _audioSource = gameObject.AddComponent<AudioSource>();
+        _audioSource.spatialBlend = 0f;
     }
+
+    private AudioSource _audioSource;
 
     private void BuildHUD()
     {
@@ -73,6 +77,11 @@ public class NetworkDataRide : MonoBehaviour
         if (_isRiding) return;
         _cam = Camera.main;
         if (_cam == null || tunnelInstance == null) return;
+
+        if (_audioSource != null)
+        {
+            _audioSource.PlayOneShot(ProceduralAudioService.CreateFiberTransitSound(), 0.65f);
+        }
 
         StartCoroutine(RideRoutine());
     }
