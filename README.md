@@ -2,7 +2,7 @@
 
 **Du clic sur « envoyer une photo » aux équipements physiques du cloud.** Projet universitaire ESILV année 5, Unity 6000.0.58f2 / URP / C# / OpenXR.
 
-**État au 21 octobre 2026 : corrections de scénographie compilées, parcours complet en attente de revue humaine.** Le nouveau player Windows compile sans erreur ni avertissement. Deux essais de navigation ont échoué ; les anciens 26/26 contrôles ne valident pas cette version.
+**État au 21 octobre 2026 : correctifs PC livrés, 37 contrôles sur 37 réussis.** Le player Windows compile avec 0 erreur / 0 avertissement. Après reprise GO, la transition complète, la traversée de la cour au fond de salle via le sas et les six bornes sont vérifiées dans l’exécutable. Les essais humains de confort et le casque restent distincts.
 
 Les corrections disponibles :
 
@@ -11,25 +11,27 @@ Les corrections disponibles :
 - Apparition PC/VR dans la cour à Z=−28 m, face à la façade 28×18×14 m ; ancienne boîte primitive 10×12 m supprimée.
 - Sas cylindrique à Z=−4..0 m : portes coulissantes interverrouillées et pesée/scan illustratifs de 2 s. Aucun dispositif biométrique réel.
 - Salle blanche orientée sur Z=0..40 m, sol continu, 32 baies de décor et baie interactive 01 à Z=14 m. Confinement et infrastructures représentés schématiquement ; aucune certification Tier ni performance industrielle revendiquée.
-- Six bornes pédagogiques placées à Z=8/14/20/26/32/38 m, flux illustratif dirigé vers la baie déplacée. Clics et retour Chambre restent à revalider sur ce build.
+- Six bornes pédagogiques placées à Z=8/14/20/26/32/38 m, flux illustratif dirigé vers la baie déplacée. Les 32 racks sont répartis latéralement pour dégager les visées ; clics des six bornes et retour Chambre validés dans le player.
 
-| Cour extérieure du player | Transition réseau du player |
+| Cour extérieure du player | Allée centrale de 40 m |
 |---|---|
-| ![Apparition réelle dans la cour](docs/validation/monumental-2026-10-21/attempt-2/demo-arrival.png) | ![HUD des six étapes réseau](docs/validation/monumental-2026-10-21/attempt-2/demo-network-transition.png) |
+| ![Apparition réelle dans la cour](docs/validation/monumental-2026-10-21/reprise/player-final/demo-arrival.png) | ![Allée centrale dégagée vue du fond de salle](docs/validation/monumental-2026-10-21/reprise/player-final/demo-hall-end.png) |
 
 Captures Direct3D11 du 21 octobre. Elles ne prouvent pas une traversée complète ni une validation casque.
 
 | Vérification | Résultat |
 |---|---|
-| Build Windows, 15 h 28 Paris | Réussi, 28,20 s, 146 785 672 octets, 0 erreur / 0 avertissement |
-| Transition entière, spawn −28 m, déplacement initial, pause/reprise | Vérifiés dans les deux essais graphiques avec entrées synthétiques |
-| Sas | Scan et fermeture des deux portes observés au premier essai ; second essai n’a pas atteint le sas |
-| Marche continue jusqu’à +39 m | Deux échecs ; second essai à Z=−11,723 après 35 s. Cadence, timing ou collision restent à distinguer |
-| Lancement sans smoke | Fenêtre du player ouverte et chambre observée |
-| MCP Unity | Connecté au projet original, outils exposés, hors Play/compilation, zéro erreur retournée par la console |
-| Android / Quest | APK antérieur inchangé ; aucune validation de ces corrections dans le casque |
+| Build Windows, 16 h 00 Paris | Réussi, 38,84 s, 146 790 730 octets, 0 erreur / 0 avertissement |
+| Démo complète dans le player | **37/37 contrôles réussis**, Direct3D11, entrées synthétiques |
+| Transition et navigation | Six étapes ≥10,7 s, apparition −28 m, sas/scan, arrivée Z=39,002 m en 24,28 s |
+| Six bornes et conclusion | Raycasts/clics, huit actions, synthèse, retour Chambre, reset R vérifiés ; poses de visée contrôlées aux bornes |
+| Petits déplacements | 100 commandes de 0,5 mm produisent 5 cm ; seuil CharacterController corrigé |
+| Scènes originales dans Unity | 0 matériau manquant / 0 shader non supporté ; matériaux et GUID livrés par le runner |
+| MCP Unity | Connecté, builder et diagnostics exécutés ; Chambre propre hors Play, console sans erreur retournée |
+| Lancement normal | Chambre affichée ; la traversée complète ci-dessus utilise le probe automatisé |
+| Android / Quest | APK antérieur inchangé ; ces corrections restent à compiler et tester dans le casque |
 
-La validation de navigation est arrêtée après deux tentatives, conformément à AGENTS.md. Une revue humaine du déplacement est requise avant reprise du diagnostic. [Rapports, limites et captures](docs/validation/monumental-2026-10-21/README.md), [état de reprise](docs/STATE.md), [backlog](docs/BACKLOG.md).
+Les deux échecs initiaux et les diagnostics sont conservés. [Résultats finaux et limites](docs/validation/monumental-2026-10-21/reprise/README.md), [état de reprise](docs/STATE.md), [backlog](docs/BACKLOG.md). Les captures ne constituent pas une mesure de cadence de rendu ni une validation de confort humain.
 
 L’objectif reste un parcours photo guidé, puis un parcours IA scénarisé. Sous-titres provisoires, voix finale et validation pédagogique à préparer. Les extensions web et RAG réel ne sont pas implémentées. [Vision](docs/VISION.md), [parcours](docs/PARCOURS.md), [décisions](docs/DECISIONS.md).
 
@@ -64,7 +66,7 @@ Pour travailler dans Play sur PC, sélectionner Windows et la qualité PC. Atten
 
 Pour tester le livrable construit localement, lancer **`ConnectionTest/Builds/Windows/CloudVR-PC.exe`**. Conserver tout le dossier Windows avec l’exécutable, ses DLL et `CloudVR-PC_Data`.
 
-Le dernier exe contient les corrections T10, mais la traversée complète n’est pas validée. Revue humaine attendue : envoi, six étapes réseau, cour, sas et progression dans l’allée. Les détails des deux échecs sont conservés dans les preuves ci-dessus.
+Le dernier exe contient les corrections T10 et passe les 37 contrôles automatisés. Un essai libre par l’utilisateur reste utile pour apprécier le confort, la lisibilité et le rendu.
 
 Les exécutables et APK sont des sorties locales ignorées par Git : **ce dépôt fournit les sources et les procédures de compilation**, pas un téléchargement de ces builds.
 
@@ -90,7 +92,7 @@ powershell -ExecutionPolicy Bypass -File tools/Build-DemoCopy.ps1 -Complete
 
 `-Resume` réutilise une copie déjà créée ; sur une installation neuve, omettre cette option au premier lancement. Le builder maître est exécuté avant compilation ; `-Complete` vérifie le rapport avant de copier le player et les scènes générées.
 
-La commande de validation T10 est `./tools/Test-PCBuild.ps1 -Graphics -Demo -TimeoutSeconds 120`. Elle vérifie maintenant la transition complète et tente une marche continue à travers le sas avant les bornes. **Elle a échoué deux fois dans cette session ; attendre la revue humaine avant un nouvel essai.** Les scénarios historiques Photo/Journey ciblent l’ancien parcours et ne remplacent pas cette validation.
+La commande de validation T10 est `./tools/Test-PCBuild.ps1 -Graphics -Demo -TimeoutSeconds 120`. Elle vérifie maintenant la transition complète et tente une marche continue à travers le sas avant les bornes. **Dernier résultat : 37/37 contrôles réussis après reprise GO.** Les scénarios historiques Photo/Journey ciblent l’ancien parcours et ne remplacent pas cette validation.
 
 Les rapports sont écrits sous `tmp/unity/`. Les entrées clavier/souris sont synthétiques ; un essai manuel et un test casque restent distincts.
 
@@ -150,12 +152,10 @@ skills/reuse-first/           Recherche avant création
 
 ## Prochaines étapes
 
-Priorité actuelle : revue humaine de la navigation T10 après les deux échecs. Ensuite, diagnostiquer la cadence du rendu, les temps de déplacement et les colliders via le MCP connecté, avant un nouvel essai explicitement repris.
-
-1. Revalider la marche cour → sas → fond de salle, puis les six bornes et le retour Chambre.
+1. Essai libre du nouveau player PC : confort, lisibilité, perception des volumes et appréciation du rendu.
 2. Recompiler l’APK et tester tracking, téléportation, lisibilité, confort et performances sur un Quest identifié.
 3. Valider les contenus pédagogiques et préparer la voix finale.
-4. Développer le parcours IA scénarisé après stabilisation du parcours photo.
+4. Développer le parcours IA scénarisé après validation utilisateur du parcours photo.
 
 Les critères et statuts sont dans le [backlog](docs/BACKLOG.md). Le scénario complet, la narration finale et les entreprises à présenter ne sont pas encore figés.
 

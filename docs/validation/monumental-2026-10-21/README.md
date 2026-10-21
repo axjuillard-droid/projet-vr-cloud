@@ -1,4 +1,6 @@
-# Correction monumentale — 21 octobre 2026
+# Correction monumentale — historique et reprise du 21 octobre 2026
+
+**Reprise GO validée ensuite : [37/37 contrôles PC, corrections et captures finales](reprise/README.md).** Les deux essais ci-dessous décrivent la phase précédente.
 
 Sources et scènes corrigées ; build Windows final de cette session réussi : Unity 6000.0.58f2, 28,20 s, 146 785 672 octets, 0 erreur / 0 avertissement.
 

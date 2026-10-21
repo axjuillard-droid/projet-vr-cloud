@@ -121,7 +121,7 @@ public static class DatacenterMonumentalBuilder
         {
             var campusGo = (GameObject)PrefabUtility.InstantiatePrefab(campusPrefab, archRoot);
             campusGo.name = "Campus_Exterieur_TierIV";
-            // Placé devant l'entrée à Z = -22m
+            // Façade au seuil Z=-4 m, campus ouvert vers la cour.
             campusGo.transform.localPosition = new Vector3(0, 0, .1f);
             campusGo.transform.localRotation = Quaternion.Euler(0, 180, 0);
             PrefabUtility.UnpackPrefabInstance(campusGo, PrefabUnpackMode.Completely, InteractionMode.AutomatedAction);
@@ -148,8 +148,13 @@ public static class DatacenterMonumentalBuilder
             RemovePart(campusGo, "Fence_0_Base");
             RemovePart(campusGo, "Fence_0_Barbelé");
             foreach (var r in campusGo.GetComponentsInChildren<Renderer>())
+            {
                 if (r.name.StartsWith("Fence_Poteau_") && Mathf.Abs(r.bounds.center.x) < 3f)
                     r.gameObject.SetActive(false);
+                // Les fenêtres et le bandeau doivent affleurer devant la nouvelle façade.
+                if (r.name.StartsWith("Fenetre_R") || r.name == "DC_Logo_Band")
+                    r.transform.position += Vector3.back * .45f;
+            }
             Box(archRoot, "Facade_Gauche", new Vector3(-8.1f, 7, -4), new Vector3(11.8f, 14, .4f), matFacade);
             Box(archRoot, "Facade_Droite", new Vector3(8.1f, 7, -4), new Vector3(11.8f, 14, .4f), matFacade);
             Box(archRoot, "Facade_Linteau", new Vector3(0, 8.6f, -4), new Vector3(4.4f, 10.8f, .4f), matFacade);
@@ -169,7 +174,7 @@ public static class DatacenterMonumentalBuilder
         {
             var mantrapGo = (GameObject)PrefabUtility.InstantiatePrefab(mantrapPrefab, archRoot);
             mantrapGo.name = "Sas_Mantrap_Biometrique";
-            // Placé au seuil entre la zone extérieure et la salle blanche (Z = 0.5m)
+            // Sas centré à -2 m : emprise longitudinale -4..0 m.
             mantrapGo.transform.localPosition = new Vector3(0, 0, -2f);
             mantrapGo.transform.localRotation = Quaternion.Euler(0, 180, 0);
             mantrapGo.transform.localScale = new Vector3(2, 1, 2);
@@ -211,7 +216,6 @@ public static class DatacenterMonumentalBuilder
             var rScan = mantrapGo.transform.Find("BioTerm_Screen");
             if (rScan != null) ctrl.ledScanner = rScan.GetComponent<Renderer>();
 
-            // Trigger d'entrée dans le sas
             // Détection par distance au rig actif, également utilisable avec XR Origin sans Rigidbody.
         }
 
@@ -221,7 +225,7 @@ public static class DatacenterMonumentalBuilder
         {
             var wsGo = (GameObject)PrefabUtility.InstantiatePrefab(whiteSpacePrefab, archRoot);
             wsGo.name = "Grande_Salle_Blanche_Monumentale";
-            // Démarre après le sas (Z = 12m)
+            // Longueur FBX sur X : tourner et centrer pour couvrir Z=0..40 m.
             wsGo.transform.localPosition = new Vector3(0, -.8f, 20f);
             wsGo.transform.localRotation = Quaternion.Euler(0, 90, 0);
             PrefabUtility.UnpackPrefabInstance(wsGo, PrefabUnpackMode.Completely, InteractionMode.AutomatedAction);
@@ -238,6 +242,16 @@ public static class DatacenterMonumentalBuilder
             AssignMaterial(wsGo, "WS_Busway", matBusway);
             AssignMaterial(wsGo, "WS_CRAC", matCrac);
             AssignMaterial(wsGo, "WS_ColdAirGlow", matColdAir);
+            ArrangeRackRows(wsGo);
+            // Le confinement du FBX traversait l'allée centrale après rotation.
+            foreach (var r in wsGo.GetComponentsInChildren<MeshRenderer>())
+                if (r.name.StartsWith("CAC_")) r.gameObject.SetActive(false);
+            for (int side = -1; side <= 1; side += 2)
+            {
+                Box(archRoot, "Confinement_Lateral_Toit", new Vector3(side * 5, 2.6f, 20), new Vector3(1.1f, .06f, 30), matCacGlass);
+                foreach (float edge in new[] { 4.45f, 5.55f })
+                    Box(archRoot, "Confinement_Lateral_Cadre", new Vector3(side * edge, 2.58f, 20), new Vector3(.06f, .08f, 30), matCacFrame);
+            }
             // Les deux CRAC centraux des petits côtés coupaient l'allée après rotation du FBX.
             foreach (var r in wsGo.GetComponentsInChildren<MeshRenderer>())
                 if (r.name.StartsWith("CRAC_19_0_") || r.name.StartsWith("CRAC_-19_0_"))
@@ -306,6 +320,28 @@ public static class DatacenterMonumentalBuilder
     {
         foreach (var t in root.GetComponentsInChildren<Transform>(true))
             if (t.name == name) { t.gameObject.SetActive(false); return; }
+    }
+
+    private static void ArrangeRackRows(GameObject hall)
+    {
+        var renderers = hall.GetComponentsInChildren<MeshRenderer>();
+        float[] columns = { -6f, -4f, 4f, 6f };
+        for (int row = 0; row < 8; row++)
+            for (int column = 0; column < columns.Length; column++)
+            {
+                string prefix = "Rack_" + row + "_" + column + "_";
+                var body = Array.Find(renderers, r => r.name == prefix + "Body");
+                if (body == null) throw new InvalidOperationException("Rack manquant : " + prefix);
+                var center = body.bounds.center;
+                var target = new Vector3(columns[column], center.y, 6 + row * 4);
+                foreach (var part in renderers)
+                    if (part.name.StartsWith(prefix))
+                    {
+                        part.transform.position += target - center;
+                        // Deux rangées dos à dos de chaque côté, confinement latéral schématique.
+                        if (column == 0 || column == 2) part.transform.RotateAround(target, Vector3.up, 180);
+                    }
+            }
     }
 
     private static GameObject Box(Transform parent, string name, Vector3 position, Vector3 size, Material material)

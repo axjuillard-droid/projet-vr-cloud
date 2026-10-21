@@ -23,6 +23,9 @@ public class PCPlayerController : MonoBehaviour
     private void Awake()
     {
         _cc = GetComponent<CharacterController>();
+        // Un seuil de 1 mm annule moveSpeed * deltaTime au-delà de 3 000 updates/s.
+        // Conserver aussi les petits déplacements, sans dépendre de la cadence du player.
+        _cc.minMoveDistance = 0f;
     }
 
     private void Start()

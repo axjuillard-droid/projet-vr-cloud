@@ -33,6 +33,7 @@ public static class PlayerSetupEditor
         cc.height = 1.8f;
         cc.radius = 0.25f;
         cc.center = new Vector3(0, 0.9f, 0);
+        cc.minMoveDistance = 0f;
 
         var pcCtrl = player.AddComponent<PCPlayerController>();
         pcCtrl.moveSpeed = 3f;

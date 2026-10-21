@@ -37,7 +37,11 @@ if ($Complete) {
             Copy-Item -LiteralPath $generatedScene -Destination $originalScene
         }
     }
-    Get-ChildItem -LiteralPath (Join-Path $stage 'Assets/CloudVR/Materials') -Filter 'Demo_*' | ForEach-Object { Copy-Item -LiteralPath $_.FullName -Destination (Join-Path $sourceProject 'Assets/CloudVR/Materials') -Force }
+    # Les scènes sérialisent les GUID des matériaux créés par tous les builders.
+    # Copier aussi leurs .meta : sans eux les scènes originales deviennent roses après import.
+    Get-ChildItem -LiteralPath (Join-Path $stage 'Assets/CloudVR/Materials') -File |
+        Where-Object { $_.Name -like '*.mat' -or $_.Name -like '*.mat.meta' } |
+        ForEach-Object { Copy-Item -LiteralPath $_.FullName -Destination (Join-Path $sourceProject 'Assets/CloudVR/Materials') -Force }
     $report | ConvertTo-Json -Compress
     return
 }

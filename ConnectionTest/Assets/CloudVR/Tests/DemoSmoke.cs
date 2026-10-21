@@ -11,12 +11,14 @@ using UnityEngine.SceneManagement;
 /// <summary>Parcours des six bornes par raycast et souris synthétique ; poses contrôlées signalées.</summary>
 public class DemoSmoke : MonoBehaviour
 {
-    [Serializable] public class Result { public bool passed; public string utc, error, platform, graphics; public Vector3 arrivalPosition,walkPosition; public string cursorAfterWalk; public List<string> checks=new List<string>(); }
+    [Serializable] public class Result { public bool passed; public string utc, error, platform, graphics; public Vector3 arrivalPosition,walkPosition; public string cursorAfterWalk; public float walkRealSeconds,walkGameSeconds; public int walkFrames; public List<string> movement=new List<string>(); public List<string> checks=new List<string>(); }
     readonly Result _result=new Result();
     Mouse _mouse;
     Keyboard _keyboard;
     InputSettings.BackgroundBehavior _background;
     bool _oldRun;
+    InputSettings.EditorInputBehaviorInPlayMode _editorInput;
+    bool _holdForward;
     string _folder;
 
 #if !UNITY_EDITOR
@@ -50,15 +52,30 @@ public class DemoSmoke : MonoBehaviour
         InputSystem.QueueStateEvent(_mouse,new MouseState {
             position=new Vector2(Screen.width*.5f,Screen.height*.5f), buttons=(ushort)(down ? 1 : 0) });
     }
+    void MaintainMovement()
+    {
+        // Réaffirmer le périphérique et l'état à chaque mise à jour d'entrée.
+        // Laisser le contrôleur et les collisions réels traiter cette intention.
+        if (!_holdForward || _keyboard == null || InputState.currentUpdateType != InputUpdateType.Dynamic) return;
+        _keyboard.MakeCurrent();
+        InputSystem.QueueStateEvent(_keyboard,new KeyboardState(Key.W));
+    }
+    void Forward(bool held)
+    {
+        _holdForward=held; _keyboard.MakeCurrent();
+        InputSystem.QueueStateEvent(_keyboard,held ? new KeyboardState(Key.W) : new KeyboardState());
+    }
     IEnumerator Exercise()
     {
         _result.utc=DateTime.UtcNow.ToString("o"); _result.platform=Application.platform.ToString(); _result.graphics=SystemInfo.graphicsDeviceType.ToString();
         var args=Environment.GetCommandLineArgs(); int arg=Array.IndexOf(args,"--cloudvr-smoke-output");
         _folder=arg>=0 ? args[arg+1] : Path.GetFullPath(Path.Combine(Application.dataPath,"../../tmp/unity/demo-editor")); Directory.CreateDirectory(_folder);
         _background=InputSystem.settings.backgroundBehavior; _oldRun=Application.runInBackground;
+        _editorInput=InputSystem.settings.editorInputBehaviorInPlayMode;
         InputSystem.settings.backgroundBehavior=InputSettings.BackgroundBehavior.IgnoreFocus; Application.runInBackground=true;
         _mouse=InputSystem.AddDevice<Mouse>("DemoSmokeMouse"); _keyboard=InputSystem.AddDevice<Keyboard>("DemoSmokeKeyboard");
         _mouse.MakeCurrent(); _keyboard.MakeCurrent();
+        InputSystem.onBeforeUpdate+=MaintainMovement;
         InputSystem.settings.editorInputBehaviorInPlayMode=InputSettings.EditorInputBehaviorInPlayMode.AllDeviceInputAlwaysGoesToGameView;
         yield return new WaitForSecondsRealtime(1);
         Check(SceneManager.GetActiveScene().name=="Chambre","Départ dans Chambre");
@@ -91,11 +108,16 @@ public class DemoSmoke : MonoBehaviour
         controller=Camera.main.GetComponentInParent<PCPlayerController>();
         _result.arrivalPosition=controller.transform.position;
         Check(Mathf.Abs(controller.transform.position.z+28)<.3f,"Apparition dans la cour à Z=-28 m");
+        // Régression du seuil qui annulait les déplacements à cadence élevée.
+        var capsule=controller.GetComponent<CharacterController>();
+        float beforeSmallMoves=controller.transform.position.z;
+        for(int n=0;n<100;n++) capsule.Move(Vector3.forward*.0005f);
+        Check(Mathf.Abs(controller.transform.position.z-beforeSmallMoves-.05f)<.003f,"Cent commandes de 0,5 mm produisent 5 cm, sans perte liée au seuil du CharacterController");
         float startZ=controller.transform.position.z;
-        InputSystem.QueueStateEvent(_keyboard,new KeyboardState(Key.W));
+        Forward(true);
         until=Time.realtimeSinceStartup+10;
         while(controller.transform.position.z<startZ+1 && Time.realtimeSinceStartup<until) yield return null;
-        InputSystem.QueueStateEvent(_keyboard,new KeyboardState()); yield return new WaitForSecondsRealtime(.1f);
+        Forward(false); yield return new WaitForSecondsRealtime(.1f);
         _result.walkPosition=controller.transform.position; _result.cursorAfterWalk=Cursor.lockState.ToString();
         Check(controller.transform.position.z>=startZ+1 && controller.transform.position.y>-.1f,"Avancée initiale au clavier synthétique et maintien au sol");
         InputSystem.QueueStateEvent(_keyboard,new KeyboardState(Key.Escape)); yield return new WaitForSecondsRealtime(.2f);
@@ -108,10 +130,19 @@ public class DemoSmoke : MonoBehaviour
         // Vrai déplacement avec CharacterController : ne pas téléporter au-delà des murs ou du sas.
         var mantrap=FindFirstObjectByType<MantrapController>();
         bool sawScan=false, interlock=true;
-        InputSystem.QueueStateEvent(_keyboard,new KeyboardState(Key.W));
+        Forward(true);
+        float walkStart=Time.realtimeSinceStartup,gameStart=Time.time,nextSample=walkStart;
+        int firstFrame=Time.frameCount;
         until=Time.realtimeSinceStartup+35;
         while(controller.transform.position.z<39f && Time.realtimeSinceStartup<until)
         {
+            if(Time.realtimeSinceStartup>=nextSample)
+            {
+                _result.movement.Add("t="+(Time.realtimeSinceStartup-walkStart).ToString("F2",System.Globalization.CultureInfo.InvariantCulture)+
+                    " z="+controller.transform.position.z.ToString("F3",System.Globalization.CultureInfo.InvariantCulture)+
+                    " keyboard="+Keyboard.current.name+" W="+_keyboard.wKey.isPressed+" sas="+mantrap.State);
+                nextSample=Time.realtimeSinceStartup+1;
+            }
             if(mantrap.State==MantrapController.MantrapState.Scanning)
             {
                 if(!sawScan) { yield return new WaitForEndOfFrame(); Capture("demo-mantrap-scan.png"); }
@@ -119,17 +150,21 @@ public class DemoSmoke : MonoBehaviour
             }
             yield return null;
         }
-        InputSystem.QueueStateEvent(_keyboard,new KeyboardState());
+        Forward(false);
+        _result.walkRealSeconds=Time.realtimeSinceStartup-walkStart;
+        _result.walkGameSeconds=Time.time-gameStart;
+        _result.walkFrames=Time.frameCount-firstFrame;
         yield return new WaitForSecondsRealtime(.1f);
         _result.walkPosition=controller.transform.position;
+        var arrivalRotation=Camera.main.transform.rotation;
+        Camera.main.transform.rotation=Quaternion.LookRotation(Vector3.back);
         yield return new WaitForEndOfFrame(); Capture("demo-hall-end.png");
+        Camera.main.transform.rotation=arrivalRotation;
         Check(sawScan && interlock && MantrapController.ScanCompleted,"Sas traversé : fermeture des deux portes, scan réel de 2 s, autorisation");
         Check(controller.transform.position.z>=39 && controller.transform.position.y>-.1f,"Marche continue de la cour au fond à Z=39 m, sans traverser le sol ni téléporter : "+controller.transform.position);
         for(int i=0;i<6;i++) Check(Mathf.Abs(tour.stations[i].transform.position.z-(8+i*6))<.01f,"Borne "+(i+1)+" à Z="+(8+i*6)+" m");
-        yield return new WaitForEndOfFrame(); Capture("demo-hall-end.png");
         // Une mauvaise borne ne doit pas permettre de sauter une notion.
         tour.Activate(5); Check(tour.Step==0 && tour.Actions==0,"Borne future ne saute pas la progression");
-        yield return new WaitForEndOfFrame(); Capture("demo-arrival.png");
         for(int i=0;i<6;i++)
         {
             cam=Camera.main; controller=cam.GetComponentInParent<PCPlayerController>(); controller.enabled=false;
@@ -193,9 +228,12 @@ public class DemoSmoke : MonoBehaviour
     void End(bool passed,string error)
     {
         _result.passed=passed; _result.error=error;
+        _holdForward=false;
+        InputSystem.onBeforeUpdate-=MaintainMovement;
         if(_folder!=null) File.WriteAllText(Path.Combine(_folder,"demo-smoke-result.json"),JsonUtility.ToJson(_result,true));
         if(_mouse!=null) InputSystem.RemoveDevice(_mouse); if(_keyboard!=null) InputSystem.RemoveDevice(_keyboard);
         InputSystem.settings.backgroundBehavior=_background; Application.runInBackground=_oldRun;
+        InputSystem.settings.editorInputBehaviorInPlayMode=_editorInput;
         Debug.Log(passed ? "DEMO_SMOKE_PASS" : "DEMO_SMOKE_FAIL "+error);
 #if !UNITY_EDITOR
         Application.Quit(passed ? 0 : 1);

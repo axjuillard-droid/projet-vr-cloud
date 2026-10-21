@@ -1,0 +1,6 @@
+{
+  "minMoveDistance": 0.001,
+  "commandedDistance": 0.05,
+  "oldTravel": 0.0,
+  "zeroTravel": 0.0499992371
+}

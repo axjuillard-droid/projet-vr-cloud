@@ -58,6 +58,7 @@ public static class DemoTourBuilder
         UnityEngine.Object.DestroyImmediate(packet.GetComponent<Collider>()); packet.GetComponent<Renderer>().sharedMaterial=cyan; tour.packet=packet.transform; flow.SetActive(false);
         tour.thermal=new Renderer[3];
         for(int i=0;i<3;i++) tour.thermal[i]=Box(tour.transform,"Repère_thermique",new Vector3(2.8f,2.23f,14+i*6),new Vector3(1.1f,.035f,.95f),cold).GetComponent<Renderer>();
+        ValidateStationAccess(tour);
         // Ancien panneau remplacé par l'objectif et les bornes : garder l'allée lisible.
         foreach(var name in new[]{"Guide_Visite","Guide_Visite_Support"}) { var go=GameObject.Find(name); if(go!=null) go.SetActive(false); }
         EditorSceneManager.MarkSceneDirty(scene); EditorSceneManager.SaveScene(scene);
@@ -65,6 +66,18 @@ public static class DemoTourBuilder
         if(UnityEngine.Object.FindFirstObjectByType<DemoRoom>()==null) new GameObject("Demo_Accueil").AddComponent<DemoRoom>();
         EditorSceneManager.MarkSceneDirty(scene); EditorSceneManager.SaveScene(scene); AssetDatabase.SaveAssets();
         Debug.Log("[DemoTour] Six bornes et accueil enregistrés.");
+    }
+    static void ValidateStationAccess(DemoTour tour)
+    {
+        Physics.SyncTransforms();
+        foreach (var station in tour.stations)
+        {
+            var position = station.transform.position;
+            var eye = position + new Vector3(position.x < 0 ? 1.8f : -1.8f, 1.68f, 0);
+            var direction = (position + Vector3.up * 1.6f - eye).normalized;
+            if (!Physics.Raycast(eye, direction, out var hit, 4.5f) || hit.collider.GetComponentInParent<DemoStation>() != station)
+                throw new InvalidOperationException("Visée masquée pour " + station.name + " : " + (hit.collider != null ? hit.collider.name : "aucune cible"));
+        }
     }
     static Material Mat(string name,Color color)
     {

@@ -1,0 +1,13 @@
+{
+  "DataCenter": {
+    "materialSlots": 1466,
+    "missing": 0,
+    "unsupportedShaders": 0
+  },
+  "Chambre": {
+    "materialSlots": 99,
+    "missing": 0,
+    "unsupportedShaders": 0
+  },
+  "method": "Lecture MCP des MeshRenderers des deux scènes sauvegardées, hors Play, scènes propres."
+}
