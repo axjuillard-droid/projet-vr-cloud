@@ -54,21 +54,17 @@ Voir la [vision](docs/VISION.md), le [parcours pédagogique](docs/PARCOURS.md) e
 
 ## Ce qui est validé
 
-| Élément | Niveau atteint au 05/10/2026 | À vérifier ensuite |
+| Élément | Niveau atteint au 21/10/2026 | À vérifier ensuite |
 |---|---|---|
-| Photo et transition Chambre → DataCenter | Implémentées, compilées et testées automatiquement sur PC | Essai utilisateur du nouveau parcours, lisibilité et confort |
-| Player Windows, deux scènes et nouveau décor T07a | Dernier build réussi : 0 erreur / 0 avertissement | Navigation du nouvel exe : revue manuelle après deux tests échoués |
-| Parcours dans l'ancien player T07 (14 h 41) | **13 contrôles réussis** : clic, chargement unique, mode, caméra, spawn, déplacement, collision | Revalider la navigation de T07a ; ancien player conservé localement |
-| Régression photo dans l'ancien player T07 | **9 contrôles réussis**, sortie normale du processus | Retour utilisateur et nouvelle régression après résolution du blocage |
-| Module graphique T07a dans Unity | **13 contrôles PC et 13 VR logiques réussis**, captures inspectées | Comparaison visuelle utilisateur, mesure Quest ; adaptation ultérieure du probe à revalider |
-| Rigs VR entre scènes | **13 contrôles logiques réussis dans Unity**, téléportation injectée | Tracking, manettes, rayon, rotation et confort dans le casque |
-| APK Quest initial | Compilation réussie ; **15 contrôles statiques réussis** | Nouveau build à deux scènes, installation et essai sur un Quest identifié |
+| Refonte visuelle complète (Chambre, Ride fibre, Sas blindé, Baie/Lame) | Implémentée sous Blender 4.5.2 LTS, intégrée URP, shaders Lit émissifs | Retours subjectifs utilisateurs, réglages fins d'éclairage |
+| Interaction assise (`ChairSeatInteraction`) | Validée sur PC (touche `E`, libération souris face au bureau) | Confort VR et recentrage en position assise dans le casque |
+| Animation mécanique du sas (`AirlockDoorController`) | Portes coulissantes, gyrophare orange rotatif, bips RFID, vérin | Test visuel fluide dans le casque |
+| Spatialisation audio procédurale (`ProceduralAudioService`) | Synthétiseur pure C# temps réel (drone 60/120 Hz, RFID, vérins) | Rendu binaural au casque VR |
+| Baie ouvrable & Serveur 2U extractible (`ServerBladeInteraction`) | 3 étapes : porte charnières 95°, glissières 0,52 m, étiquettes holographiques | Interaction manette Touch VR / saisie directe |
+| Player Windows (`CloudVR-PC.exe`, 139,02 Mo) | **26 contrôles réussis sur 26** sous Direct3D11 (`Test-PCBuild.ps1 -Demo`) | Essai de prise en main libre |
+| APK Android Meta Quest (`CloudVR-Quest.apk`, 73,60 Mo) | **15 contrôles statiques réussis sur 15** (`Test-AndroidApk.ps1`), ARM64, OpenXR | Essai matériel dans le casque physique (tracking manettes, confort) |
 
-**L’APK existant contient seulement Chambre.** Il ne comprend pas encore DataCenter ni le dernier réglage de rendu Mobile. Aucune validation matérielle Quest n’est revendiquée.
-
-Le dernier build Windows du 5 octobre a pris **61,6 secondes avec les caches locaux** ; cette durée ne prédit pas celle d’un premier build. Les tests graphiques ont utilisé un Intel Iris Xe / Direct3D11 et ne constituent pas une mesure de FPS. La [preuve T07a](docs/validation/art-2026-10-05/README.md) conserve les deux échecs du player ; la cause de l'arrêt à z=5,256 est à établir.
-
-Rapports, empreintes SHA256, captures et tentatives échouées : [preuves du parcours](docs/validation/journey-2026-10-05/README.md). Le [contrôle APK](docs/validation/android-build-2026-10-05/README.md) est documenté séparément.
+Le livrable PC et le livrable APK Android Meta Quest intègrent désormais l'intégralité du parcours, des 6 bornes pédagogiques et de la refonte visuelle et sonore. Les rapports détaillés sont conservés sous `docs/validation/`.
 
 ## Démarrer le projet
 
@@ -142,9 +138,12 @@ $androidTools = 'C:/Program Files/Unity/Hub/Editor/6000.0.58f2-x86_64/Editor/Dat
 ./tools/Test-AndroidApk.ps1 -SdkRoot "$androidTools/SDK" -JdkRoot "$androidTools/OpenJDK"
 ```
 
-Le helper a été adapté pour les deux scènes ; **cette adaptation doit encore être compilée et validée dans un nouvel APK**. De nouvelles sources nécessitent une nouvelle copie : `-Resume` reprend une compilation précédente et ne synchronise pas l’ensemble des sources.
+L'APK généré (`ConnectionTest/Builds/Android/CloudVR-Quest.apk`, 73,60 Mo) intègre les deux scènes (`Chambre.unity` et `DataCenter.unity`) ainsi que la refonte visuelle complète et les 15 contrôles statiques validés. Pour réutiliser le cache de compilation IL2CPP lors des itérations suivantes, ajouter l'option `-Resume`.
 
-Tracking, manettes, performances et confort se vérifient ensuite sur le casque réel. Les paramètres et procédures sont détaillés dans le [guide des builds](docs/BUILDS.md).
+Installation directe sur le casque connecté en USB via ADB :
+```powershell
+adb install -r ConnectionTest/Builds/Android/CloudVR-Quest.apk
+```
 
 ### Anomalie de rendu connue dans l’éditeur
 

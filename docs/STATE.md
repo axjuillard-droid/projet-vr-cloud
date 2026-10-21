@@ -1,8 +1,8 @@
 # État de reprise
 
-Mis à jour le 20 octobre 2026.
+Mis à jour le 21 octobre 2026.
 
-## T09 — Refonte visuelle et immersive complète (Jalons 1, 2 & 3 + Audio & Animation Sas) validée sur PC, 20/10/2026
+## T09 — Refonte visuelle et immersive complète (Jalons 1 à 4) validée sur PC et Meta Quest, 21/10/2026
 - **Jalon 1 (Chambre Réaliste & Ergonomie)** :
   - Mobilier complet généré par Blender 4.5.2 LTS (`tools/art/generate_room_furniture.py`) et importé sous URP Lit :
     - Grand lit étudiant en bois avec matelas, couette bleu pétrole et oreillers (`Bed_Student.fbx`).
@@ -24,9 +24,11 @@ Mis à jour le 20 octobre 2026.
     - 1er clic : ouverture de la porte de baie sur charnières à 95° avec clic de poignée quart de tour (`ProceduralAudioService.CreateHandleTurnSound()`).
     - 2ème clic : extraction télescopique du serveur 2U vers l'avant (0,52 m) avec bruit de roulement à billes (`ProceduralAudioService.CreateSlideRailSound()`), allumage de la lumière d'inspection douce et affichage des étiquettes holographiques descriptives.
     - 3ème clic : réinsertion du serveur et fermeture de la baie.
-- **Build Windows réussi** : compilé depuis Unity via `manage_build`, 0 erreur / 0 avertissement, 139,02 Mo sous `ConnectionTest/Builds/Windows/CloudVR-PC.exe`.
-- **Validation automatisée de non-régression : 26 contrôles sur 26 réussis** sous GPU Direct3D11 (`tools/Test-PCBuild.ps1 -Graphics -Demo -TimeoutSeconds 120`). `exitCode=0`, `passed=true`.
-- Limites actuelles : parcours PC testé et validé sur PC (Direct3D11). Le ride, le sas animé, les ambiances audio et le serveur extractible sont intégrés ; le build Android pour Meta Quest pourra être compilé via `tools/Build-AndroidCopy.ps1`.
+- **Build Windows réussi (21/10/2026)** : compilé depuis Unity via `manage_build`, 0 erreur / 0 avertissement, 139,02 Mo sous `ConnectionTest/Builds/Windows/CloudVR-PC.exe`.
+- **Validation automatisée PC de non-régression : 26 contrôles sur 26 réussis** sous GPU Direct3D11 (`tools/Test-PCBuild.ps1 -Graphics -Demo -TimeoutSeconds 120`). `exitCode=0`, `passed=true`.
+- **Build Android Meta Quest réussi (21/10/2026)** : compilé via `tools/Build-AndroidCopy.ps1 -Resume` (255,1 s, 0 erreur / 5 avertissements normaux). APK livré sous `ConnectionTest/Builds/Android/CloudVR-Quest.apk`, 73 600 208 octets (73,60 Mo), SHA256 `4A4C78D750A2C3105439C3F0B7CAA109390115AFEFCF88881BAECF49D8F88C52`.
+- **15 contrôles statiques réussis sur l'APK Meta Quest** via `tools/Test-AndroidApk.ps1` : signature v2 valide, package `com.cloudvr.prototype`, min SDK 32 / target SDK 34, ARM64 uniquement (`arm64-v8a`), IL2CPP, Vulkan, OpenXR, profils Meta Quest (Quest 2/3/Pro/3S), Single Pass Instanced, eye tracking superflu assaini, scènes embarquées LZ4. Preuves sous `docs/validation/android-build-2026-10-21/`.
+- Limites actuelles : parcours PC validé sur PC (Direct3D11). APK Android validé statiquement (15/15) ; l'essai dans le casque physique (tracking manettes, confort, téléportation VR) reste à réaliser par l'utilisateur.
 
 ## T08 — Démo guidée complète validée sur PC, 20/10/2026
 - **Diagnostic et résolution du raycast borne 05 (ÉLECTRICITÉ)** : le raycast échouait parce que les baies secondaires à x=±2,25m, z=9,0m masquaient la visée de la borne 05 (initialement à z=9,5m) depuis le point d'observation à x=-1,55m. Preuve mesurée en direct : le raycast touchait `Baie_Secondaire_-1` à x=-1,70, z=9,50.
