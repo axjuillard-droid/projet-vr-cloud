@@ -1,0 +1,29 @@
+{
+  "passed": false,
+  "utc": "2026-10-21T13:28:38.6813211Z",
+  "error": "System.InvalidOperationException: Sas traversé : fermeture des deux portes, scan réel de 2 s, autorisation\r\n  at DemoSmoke.Check (System.Boolean value, System.String message) [0x00022] in <USER>\\AppData\\Local\\Temp\\CloudVR-Demo-749cb06f\\Assets\\CloudVR\\Tests\\DemoSmoke.cs:45 \r\n  at DemoSmoke+<Exercise>d__12.MoveNext () [0x00b2f] in <USER>\\AppData\\Local\\Temp\\CloudVR-Demo-749cb06f\\Assets\\CloudVR\\Tests\\DemoSmoke.cs:126 \r\n  at DemoSmoke+<Guard>d__9.MoveNext () [0x00042] in <USER>\\AppData\\Local\\Temp\\CloudVR-Demo-749cb06f\\Assets\\CloudVR\\Tests\\DemoSmoke.cs:39 ",
+  "platform": "WindowsPlayer",
+  "graphics": "Direct3D11",
+  "arrivalPosition": {
+    "x": 0.0,
+    "y": 0.07999999821186066,
+    "z": -28.0
+  },
+  "walkPosition": {
+    "x": 0.0,
+    "y": 0.1009998470544815,
+    "z": -11.722793579101562
+  },
+  "cursorAfterWalk": "None",
+  "checks": [
+    "Départ dans Chambre",
+    "Clic synthétique sur écran déclenche l'envoi",
+    "Transition complète : six étapes visibles, durée réelle >= 10,7 s, aucun bypass smoke",
+    "Six bornes initialisées sans étape sautée",
+    "Une seule caméra active",
+    "Apparition dans la cour à Z=-28 m",
+    "Avancée initiale au clavier synthétique et maintien au sol",
+    "Échap suspend réellement le déplacement malgré le clavier",
+    "Échap reprend les commandes PC"
+  ]
+}

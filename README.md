@@ -1,72 +1,37 @@
 # CloudVR — Visite immersive d’un data center
 
-**Du clic sur « envoyer une photo » aux équipements physiques du cloud.**
+**Du clic sur « envoyer une photo » aux équipements physiques du cloud.** Projet universitaire ESILV année 5, Unity 6000.0.58f2 / URP / C# / OpenXR.
 
-**Jalon du 21 octobre 2026 : Refonte monumentale et ultra-réaliste (Chambre cocooning, Transition réseau en 6 étapes, Campus extérieur sécurisé, Sas mantrap biométrique et Salle blanche 40m).**
-- **Chambre étudiante cocooning 3D réaliste** : Éclairage chaleureux 2700K ambre tamisé, rideaux d'appartement occultants (`Room_Curtains.fbx`), guirlandes lumineuses LED festives (`Fairy_Lights.fbx`), Box Internet FTTH détaillée avec diodes clignotantes (`Box_Internet.fbx`), tasse de café fumante, et générateur audio procédural de pluie feutrée contre les vitres (`CozyRoomAtmosphere.cs`).
-- **Ergonomie d'assise fluide (`ChairSeatInteraction`)** : Touche `E` pour s'asseoir confortablement sur la chaise face au moniteur gamer, libération du curseur souris pour interagir avec le bureau, `ZQSD` / `Échap` pour se relever.
-- **Transition Réseau Réaliste V2 (`NetworkTransitionV2`)** : Remplacement de l'ancien tunnel abstrait par un parcours cinématique narratif en 6 étapes documentées : Chiffrement local AES-256 → Modulation optique Box FTTH → Gaine technique d'immeuble → NRO d'arrondissement → Dorsale WAN 100 Gbps → Arrivée Campus Tier IV.
-- **Campus Extérieur & Périmètre de Sécurité Tier IV (`DataCenter_Campus`)** : Bâtiment monumental 28×18×14m, guérite vigile bicolore avec barrière levante motorisée, poste de livraison électrique / transformateurs HT 20kV, générateurs de secours industriels Caterpillar diesel, caméras PTZ infra-rouge et clôture d'enceinte concertina.
-- **Sas Mantrap Biométrique Interverrouillé (`Mantrap_Airlock`, `MantrapController`)** : Sas cylindrique d'accès de haute sécurité avec double porte hermétique interverrouillée, balance de sol anti-tailgating, scanner d'iris oculaire et badgeuse RFID Mifare avec retours sonores procéduraux (bip cristal, vérins hydrauliques).
-- **Salle Blanche Monumentale de 40×18m (`WhiteSpace_Hall`)** : 32 baies serveurs 42U alignées, confinement d'allée chaude (CAC) en polycarbonate transparent, plancher technique surélevé perforé avec éclairage bleuté rasant, armoires de climatisation de précision CRAC/CRAH en périphérie, chemins de câbles et gaines busways suspendues.
-- **Local Électrique TGBT & Salle UPS Redondante 2N (`Electrical_Room`)** : Onduleurs statiques industriels, armoires batteries lithium-ion de secours et tableaux généraux basse tension.
-- **Spatialisation sonore industrielle & Audio procédural (`ProceduralAudioService`)** : Zéro asset externe lourd, génération temps réel du bourdonnement basse fréquence continu des turbines de serveurs (moteurs 60Hz/120Hz + souffle d'air filtré), pluie feutrée, bip d'autorisation RFID et vérins hydrauliques.
-- **Interactivité Matérielle : Baie Ouvrable & Serveur 2U Extractible (`ServerBladeInteraction`)** : Porte de baie sur charnières avec serrure quart de tour, extraction télescopique du serveur 2U sur glissières métalliques à billes, mise en valeur des composants internes (bi-processeur avec imposants radiateurs passifs en cuivre/aluminium, 16 barrettes de RAM DDR5 avec LED cyan, 8 disques SSD NVMe hot-swap) et étiquettes holographiques descriptives.
-- **Build Windows compilé et 26/26 tests validés** : 0 erreur / 0 avertissement, 146,92 Mo (`CloudVR-PC.exe`), parcours démo 100% réussi sans régression sous GPU Direct3D11 (`tools/Test-PCBuild.ps1`).
+**État au 21 octobre 2026 : corrections de scénographie compilées, parcours complet en attente de revue humaine.** Le nouveau player Windows compile sans erreur ni avertissement. Deux essais de navigation ont échoué ; les anciens 26/26 contrôles ne valident pas cette version.
 
-| Chambre étudiante meublée | Vue assise devant le PC gamer |
+Les corrections disponibles :
+
+- Chambre ambrée, directionnelles désactivées, lampe à 2700K, lueur écran, guirlande et pluie procédurale conservées.
+- Envoi photo relié à la transition narrative V2 : six étapes sous-titrées avec progression pendant environ 10,8 s, puis chargement asynchrone. Ancien trajet fibre et chargement direct retirés. Trajet illustratif, aucun réseau réel mesuré, aucune photo personnelle transférée.
+- Apparition PC/VR dans la cour à Z=−28 m, face à la façade 28×18×14 m ; ancienne boîte primitive 10×12 m supprimée.
+- Sas cylindrique à Z=−4..0 m : portes coulissantes interverrouillées et pesée/scan illustratifs de 2 s. Aucun dispositif biométrique réel.
+- Salle blanche orientée sur Z=0..40 m, sol continu, 32 baies de décor et baie interactive 01 à Z=14 m. Confinement et infrastructures représentés schématiquement ; aucune certification Tier ni performance industrielle revendiquée.
+- Six bornes pédagogiques placées à Z=8/14/20/26/32/38 m, flux illustratif dirigé vers la baie déplacée. Clics et retour Chambre restent à revalider sur ce build.
+
+| Cour extérieure du player | Transition réseau du player |
 |---|---|
-| ![Chambre étudiante : lit, bureau gamer, chaise et étagère](docs/validation/art-2026-10-20/chambre-complete.png) | ![Vue assise : moniteur, clavier gamer et tour RGB](docs/validation/art-2026-10-20/chambre-seated.png) |
+| ![Apparition réelle dans la cour](docs/validation/monumental-2026-10-21/attempt-2/demo-arrival.png) | ![HUD des six étapes réseau](docs/validation/monumental-2026-10-21/attempt-2/demo-network-transition.png) |
 
-| Transition : vol dans la fibre optique (Network Ride) | Sas de sécurité militaire blindé Tier IV |
+Captures Direct3D11 du 21 octobre. Elles ne prouvent pas une traversée complète ni une validation casque.
+
+| Vérification | Résultat |
 |---|---|
-| ![Vol à travers le câble de fibre optique](docs/validation/art-2026-10-20/fiber-tunnel-ride.png) | ![Sas de sécurité haute sécurité du Data Center](docs/validation/art-2026-10-20/datacenter-airlock.png) |
+| Build Windows, 15 h 28 Paris | Réussi, 28,20 s, 146 785 672 octets, 0 erreur / 0 avertissement |
+| Transition entière, spawn −28 m, déplacement initial, pause/reprise | Vérifiés dans les deux essais graphiques avec entrées synthétiques |
+| Sas | Scan et fermeture des deux portes observés au premier essai ; second essai n’a pas atteint le sas |
+| Marche continue jusqu’à +39 m | Deux échecs ; second essai à Z=−11,723 après 35 s. Cadence, timing ou collision restent à distinguer |
+| Lancement sans smoke | Fenêtre du player ouverte et chambre observée |
+| MCP Unity | Connecté au projet original, outils exposés, hors Play/compilation, zéro erreur retournée par la console |
+| Android / Quest | APK antérieur inchangé ; aucune validation de ces corrections dans le casque |
 
-| Interactivité matérielle : Serveur 2U extrait sur ses rails (Baie 01) |
-|---|
-| ![Serveur 2U extrait révélant les CPUs, la RAM et les étiquettes holographiques](docs/validation/art-2026-10-20/server-blade-extracted.png) |
+La validation de navigation est arrêtée après deux tentatives, conformément à AGENTS.md. Une revue humaine du déplacement est requise avant reprise du diagnostic. [Rapports, limites et captures](docs/validation/monumental-2026-10-21/README.md), [état de reprise](docs/STATE.md), [backlog](docs/BACKLOG.md).
 
-*Captures réelles du rendu Unity URP Direct3D11, 20 octobre 2026.*
-
-## Le parcours disponible
-
-1. Explorer la **Chambre** avec le clavier et la souris.
-2. Viser l’écran du PC et cliquer pour envoyer une **photo d’exemple**.
-3. Observer les états « prête », « envoi » et « terminé ».
-4. Après la confirmation, arriver automatiquement dans **DataCenter**.
-5. S’approcher de la **Baie 01**, parmi trois baies, avec déplacements et collisions.
-
-L’envoi dure 2,5 secondes, puis la transition attend 2 secondes. Ces délais illustrent le scénario : **aucune photo personnelle n’est transférée et aucun trajet réseau réel n’est mesuré**. Le chargement asynchrone conserve le mode d’entrée PC/VR.
-
-| Départ dans la chambre | Arrivée dans le data center |
-|---|---|
-| ![Chambre : bureau et écran d’envoi](docs/validation/journey-2026-10-05/player-photo/photo-ready.png) | ![Data center : accueil, première baie et repère de déplacement](docs/validation/journey-2026-10-05/player-journey/datacenter-arrival.png) |
-
-*Captures du même build Windows. Les captures automatiques de caméra ne comprennent pas le viseur superposé de l’interface.*
-
-Le parcours s’arrête à cette première exploration. L’interaction explicative avec la baie, les étapes réseau/traitement/stockage, le refroidissement et l’alimentation sont les prochains ajouts.
-
-## Objectif pédagogique
-
-Relier un usage quotidien aux serveurs, au réseau, au stockage et aux infrastructures communes d’un data center. La visite doit ensuite aborder les dimensions techniques, économiques, environnementales et stratégiques du cloud.
-
-La cible interne est une démonstration d’environ **10 à 15 minutes**. Le parcours photo sera suivi d’un parcours IA scénarisé. La voix finale, les sous-titres et l’évaluation de la compréhension restent à préparer. La salle actuelle ne reproduit aucun site industriel ni aucune entreprise partenaire.
-
-Voir la [vision](docs/VISION.md), le [parcours pédagogique](docs/PARCOURS.md) et les [décisions validées et propositions](docs/DECISIONS.md). Les extensions web et RAG réel ne sont pas implémentées.
-
-## Ce qui est validé
-
-| Élément | Niveau atteint au 21/10/2026 | À vérifier ensuite |
-|---|---|---|
-| Refonte monumentale (Chambre cocooning, Transition V2 6 étapes, Campus 28m, Sas mantrap, Salle blanche 40m) | Modélisée sous Blender 4.5.2 LTS, intégrée URP, shaders Lit, éclairage 2700K et pluie procédurale | Retours subjectifs et confort d'immersion |
-| Interaction assise (`ChairSeatInteraction`) | Validée sur PC (touche `E`, libération souris face au bureau) | Confort VR et recentrage en position assise dans le casque |
-| Sas mantrap biométrique (`MantrapController`) | Séquence 5 phases : RFID, vérins, balance anti-tailgating, scanner d'iris | Test de timing immersif dans le casque |
-| Spatialisation audio procédurale (`ProceduralAudioService`, `CozyRoomAtmosphere`) | Synthétiseur pure C# temps réel (pluie feutrée, drone 60/120 Hz, RFID, vérins) | Rendu binaural au casque VR |
-| Baie ouvrable & Serveur 2U extractible (`ServerBladeInteraction`) | 3 étapes : porte charnières 95°, glissières 0,52 m, étiquettes holographiques | Interaction manette Touch VR / saisie directe |
-| Player Windows (`CloudVR-PC.exe`, 146,92 Mo) | **26 contrôles réussis sur 26** sous Direct3D11 (`Test-PCBuild.ps1 -Demo`) | Essai de prise en main libre par l'utilisateur |
-| APK Android Meta Quest (`CloudVR-Quest.apk`, 73,60 Mo) | **15 contrôles statiques réussis sur 15** (`Test-AndroidApk.ps1`), ARM64, OpenXR | Recompiler avec la nouvelle scénographie T10 |
-
-Le livrable PC et le livrable APK Android Meta Quest intègrent désormais l'intégralité du parcours, des 6 bornes pédagogiques et de la refonte visuelle et sonore. Les rapports détaillés sont conservés sous `docs/validation/`.
+L’objectif reste un parcours photo guidé, puis un parcours IA scénarisé. Sous-titres provisoires, voix finale et validation pédagogique à préparer. Les extensions web et RAG réel ne sont pas implémentées. [Vision](docs/VISION.md), [parcours](docs/PARCOURS.md), [décisions](docs/DECISIONS.md).
 
 ## Démarrer le projet
 
@@ -92,14 +57,14 @@ Pour travailler dans Play sur PC, sélectionner Windows et la qualité PC. Atten
 
 | Action | Commande |
 |---|---|
-| Se déplacer | WASD ou flèches directionnelles |
+| Se déplacer | ZQSD / WASD ou flèches directionnelles |
 | Regarder / viser | Souris |
 | Envoyer la photo | Clic gauche sur l’écran, à portée de 5 m |
 | Fermer le player Windows | Alt + F4 |
 
 Pour tester le livrable construit localement, lancer **`ConnectionTest/Builds/Windows/CloudVR-PC.exe`**. Conserver tout le dossier Windows avec l’exécutable, ses DLL et `CloudVR-PC_Data`.
 
-Le dernier exe contient le nouveau décor mais sa navigation complète est encore à vérifier. Essai manuel attendu : envoyer la photo, avancer jusqu'à la baie, vérifier l'arrêt contre elle puis la contourner. L'ancien player T07 validé est conservé localement dans `ConnectionTest/Builds/Windows-Journey-20261005/`.
+Le dernier exe contient les corrections T10, mais la traversée complète n’est pas validée. Revue humaine attendue : envoi, six étapes réseau, cour, sas et progression dans l’allée. Les détails des deux échecs sont conservés dans les preuves ci-dessus.
 
 Les exécutables et APK sont des sorties locales ignorées par Git : **ce dépôt fournit les sources et les procédures de compilation**, pas un téléchargement de ces builds.
 
@@ -116,17 +81,18 @@ Assets/Scenes/DataCenter.unity
 
 Construire vers `ConnectionTest/Builds/Windows/CloudVR-PC.exe`. Utiliser un **Development Build** pour les contrôles automatiques embarqués ; leurs probes sont exclus des builds finaux et d’Android.
 
-Depuis la racine du dépôt, après compilation :
+Depuis la racine du dépôt, le runner de compilation utilise une copie temporaire ASCII :
 
 ```powershell
-# Parcours complet, avec périphérique graphique et captures
-./tools/Test-PCBuild.ps1 -Graphics -Journey
-
-# Régression photo et resets
-./tools/Test-PCBuild.ps1 -Graphics -TimeoutSeconds 90
+powershell -ExecutionPolicy Bypass -File tools/Build-DemoCopy.ps1 -Resume -Wait
+powershell -ExecutionPolicy Bypass -File tools/Build-DemoCopy.ps1 -Complete
 ```
 
-Sans `-Graphics`, le runner effectue le scénario photo sans rendu. Il exige un rapport récent réussi **et** un code de sortie nul. Chaque exécution écrit dans un dossier distinct sous `tmp/unity/`. Ces tests injectent des entrées ; compléter avec un essai manuel.
+`-Resume` réutilise une copie déjà créée ; sur une installation neuve, omettre cette option au premier lancement. Le builder maître est exécuté avant compilation ; `-Complete` vérifie le rapport avant de copier le player et les scènes générées.
+
+La commande de validation T10 est `./tools/Test-PCBuild.ps1 -Graphics -Demo -TimeoutSeconds 120`. Elle vérifie maintenant la transition complète et tente une marche continue à travers le sas avant les bornes. **Elle a échoué deux fois dans cette session ; attendre la revue humaine avant un nouvel essai.** Les scénarios historiques Photo/Journey ciblent l’ancien parcours et ne remplacent pas cette validation.
+
+Les rapports sont écrits sous `tmp/unity/`. Les entrées clavier/souris sont synthétiques ; un essai manuel et un test casque restent distincts.
 
 ### Android / Meta Quest
 
@@ -170,7 +136,7 @@ tools/                       Runners PowerShell et helper Android
 skills/reuse-first/           Recherche avant création
 ```
 
-`PhotoSender` gère l’envoi ; `ScreenClickHandler` relie le clic à l’écran ; `StepTransition` charge DataCenter ; `InputModeManager` transmet le mode et choisit le rig. `DataCenterSceneBuilder` reconstruit la salle et ses raccordements depuis **CloudVR > Build Scene > Data center et transition photo**. Ce builder régénère la scène : le réserver à une reconstruction volontaire, hors Play et avec scènes propres.
+`PhotoSender` gère l’envoi ; `ScreenClickHandler` relie le clic à l’écran ; `NetworkTransitionV2` joue les six étapes puis `StepTransition` charge DataCenter. `InputModeManager` choisit le rig PC/VR. Le builder maître `GrandMasterBuilder.BuildAll()` assemble les deux scènes, le campus et les six bornes ; menu **CloudVR > Build Scene > ★ DÉCORATION MONUMENTALE COMPLÈTE ★**. `DataCenterSceneBuilder` reste le constructeur historique de base : rejouer le builder maître pour obtenir la scénographie monumentale. Exécuter hors Play et avec scènes propres.
 
 | Dépendance principale | Version du manifest |
 |---|---|
@@ -184,13 +150,12 @@ skills/reuse-first/           Recherche avant création
 
 ## Prochaines étapes
 
-Priorité actuelle : vérifier manuellement la navigation de T07a et revoir le blocage du test player avant de déclarer ce nouveau livrable validé. Ensuite, poursuivre les étapes ci-dessous.
+Priorité actuelle : revue humaine de la navigation T10 après les deux échecs. Ensuite, diagnostiquer la cadence du rendu, les temps de déplacement et les colliders via le MCP connecté, avant un nouvel essai explicitement repris.
 
-1. **Rendre la baie interactive** : réseau, traitement et stockage avec retour visuel et explications sourcées.
-2. Compléter le parcours photo : infrastructures communes, alimentation, refroidissement et supervision.
-3. Reconstruire l’APK à deux scènes et mesurer lisibilité, confort et performances sur un Quest identifié.
-4. Faire tester le parcours, valider les contenus pédagogiques, ajouter voix et sous-titres.
-5. Développer le parcours IA scénarisé, puis stabiliser la démonstration et sa documentation.
+1. Revalider la marche cour → sas → fond de salle, puis les six bornes et le retour Chambre.
+2. Recompiler l’APK et tester tracking, téléportation, lisibilité, confort et performances sur un Quest identifié.
+3. Valider les contenus pédagogiques et préparer la voix finale.
+4. Développer le parcours IA scénarisé après stabilisation du parcours photo.
 
 Les critères et statuts sont dans le [backlog](docs/BACKLOG.md). Le scénario complet, la narration finale et les entreprises à présenter ne sont pas encore figés.
 

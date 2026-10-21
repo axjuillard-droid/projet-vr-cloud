@@ -1,0 +1,17 @@
+{
+  "onSendCompletedMethods": [
+    "StartNetworkRide"
+  ],
+  "enabledDirectionalLights": 0,
+  "legacyObjectsRemaining": [],
+  "rackBodies": 32,
+  "stations": [
+    "Borne_02",
+    "Borne_05",
+    "Borne_04",
+    "Borne_01",
+    "Borne_03",
+    "Borne_06"
+  ],
+  "scope": "Contrôle statique des scènes enregistrées ; ne valide ni rendu ni navigation."
+}

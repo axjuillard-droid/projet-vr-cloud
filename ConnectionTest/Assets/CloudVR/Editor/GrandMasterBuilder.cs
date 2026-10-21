@@ -29,8 +29,6 @@ public static class GrandMasterBuilder
         if (roomRoot != null)
         {
             ChambreArtBuilder.Decorate(roomRoot.transform);
-            // Installer le tunnel fibre sous la chambre
-            DatacenterSecurityArtBuilder.InstallFiberTunnelInRoom();
         }
         else
         {
@@ -40,7 +38,6 @@ public static class GrandMasterBuilder
             if (roomRoot != null)
             {
                 ChambreArtBuilder.Decorate(roomRoot.transform);
-                DatacenterSecurityArtBuilder.InstallFiberTunnelInRoom();
             }
         }
         EditorSceneManager.MarkSceneDirty(roomScene);

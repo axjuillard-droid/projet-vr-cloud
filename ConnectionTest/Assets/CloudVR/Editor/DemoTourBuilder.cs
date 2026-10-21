@@ -30,8 +30,8 @@ public static class DemoTourBuilder
         for(int i=0;i<6;i++)
         {
             var go=new GameObject("Borne_"+(i+1).ToString("00")); go.transform.SetParent(tour.transform);
-            float z = (i / 2 == 2) ? 10.2f : (3.3f + (i / 2) * 3.1f);
-            go.transform.position = new Vector3(i % 2 == 0 ? -3.35f : 3.35f, 0, z);
+            float z = 8f + i * 6f;
+            go.transform.position = new Vector3(i % 2 == 0 ? -1.9f : 1.9f, 0, z);
             go.transform.rotation=Quaternion.Euler(0,i%2==0 ? -90 : 90,0);
             var station=go.AddComponent<DemoStation>(); station.index=i; tour.stations[i]=station;
             Box(go.transform,"Console",new Vector3(0,.62f,0),new Vector3(.85f,1.24f,.6f),dark);
@@ -57,7 +57,7 @@ public static class DemoTourBuilder
         var packet=GameObject.CreatePrimitive(PrimitiveType.Sphere); packet.name="Requête_illustrée"; packet.transform.SetParent(flow.transform,false); packet.transform.localScale=Vector3.one*.13f;
         UnityEngine.Object.DestroyImmediate(packet.GetComponent<Collider>()); packet.GetComponent<Renderer>().sharedMaterial=cyan; tour.packet=packet.transform; flow.SetActive(false);
         tour.thermal=new Renderer[3];
-        for(int i=0;i<3;i++) tour.thermal[i]=Box(tour.transform,"Repère_thermique",new Vector3(i==0 ? 0 : i==1 ? -2.25f : 2.25f,2.23f,i==0 ? 7.5f : 9),new Vector3(1.1f,.035f,.95f),cold).GetComponent<Renderer>();
+        for(int i=0;i<3;i++) tour.thermal[i]=Box(tour.transform,"Repère_thermique",new Vector3(2.8f,2.23f,14+i*6),new Vector3(1.1f,.035f,.95f),cold).GetComponent<Renderer>();
         // Ancien panneau remplacé par l'objectif et les bornes : garder l'allée lisible.
         foreach(var name in new[]{"Guide_Visite","Guide_Visite_Support"}) { var go=GameObject.Find(name); if(go!=null) go.SetActive(false); }
         EditorSceneManager.MarkSceneDirty(scene); EditorSceneManager.SaveScene(scene);

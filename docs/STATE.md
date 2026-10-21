@@ -2,6 +2,17 @@
 
 Mis à jour le 21 octobre 2026.
 
+## T10 — Corrections compilées, validation de navigation arrêtée pour revue, 21/10/2026
+- Implémenté et scènes régénérées : ancienne boîte 10×12 m et décor fusionné retirés, rigs PC/VR à Z=−28 m, campus ajouré, sas −4..0 m avec portes coulissantes interverrouillées et scan illustratif de 2 s, salle orientée sur Z avec sol continu 0..40 m, baie interactive à Z=14 m et six bornes à 8/14/20/26/32/38 m. Surfaces de téléportation cour/sas/salle préparées, aucun essai XR réel.
+- Chambre : événement persistant PhotoSender → NetworkTransitionV2, ancienne route directe et ancien NetworkDataRide supprimés ; HUD/sous-titres/barre en six étapes (≈10,8 s), légers changements de regard PC, tracking caméra XR conservé. Aucun bypass smoke dans V2. Directionnelles désactivées, lampe réglée 2700K, lueur écran/guirlande/pluie conservées. Textes provisoires, trajet illustratif sans mesure réseau réelle, voix finale à prévoir.
+- Build Windows livré par les deux commandes demandées (`-Resume -Wait`, puis `-Complete`) : Unity 6000.0.58f2, 21/10 à 15 h 28 Paris, 28,20 s, **146 785 672 octets, 0 erreur / 0 avertissement**. Premier build intermédiaire : 0 erreur / 1 avertissement de champ inutilisé, corrigé. APK inchangé.
+- Deux essais graphiques du player, clavier/souris synthétiques : la transition complète ≥10,7 s et ses six étapes, le spawn −28 m, l’avancée initiale et pause/reprise passent dans les deux essais. Essai 1 : scan du sas observé, échec avant +39 m ; deux CRAC sur l’axe central du modèle ensuite déplacés. Essai 2 : scan non atteint, position finale (0 ; 0,101 ; −11,723) au terme des 35 s de marche commandée. Cause du second échec non établie : timing/cadence/collision à distinguer. Les six clics et le retour Chambre ne sont pas validés par cette session.
+- **Arrêt de la validation de navigation après deux échecs, selon AGENTS.md ; revue humaine requise avant nouvelle tentative.** Ne pas présenter le test historique 26/26 comme validation de cette version. Preuves anonymisées et captures : `docs/validation/monumental-2026-10-21/` ; originaux sous tmp ignoré. Les captures de cour/sas sont réelles ; le nom hall-end de l’essai 2 désigne la fin du délai, encore dans la cour.
+- Audit statique des scènes sauvegardées réussi : anciens objets absents, 32 corps de rack, six bornes, un seul callback StartNetworkRide, aucune directionnelle activée dans Chambre (`scene-audit.json`).
+- Lancement normal sans smoke effectué avec computer-use : chambre affichée et inspectée dans la fenêtre du player ; fermeture confirmée. Aucun troisième parcours de navigation. Aucune validation casque.
+- MCP Unity désormais **connecté et vérifié** via HTTP local : instance ConnectionTest / Unity 6000.0.58f2, chemin original confirmé, Chambre hors Play/compilation, prêt pour outils ; lecture console renvoie zéro erreur. Outils scènes/objets/composants/captures/C#/physique/profiler/tests/builds exposés ; aucun MCP Unity natif directement listé par le chat. Accès PowerShell local hors sandbox requis. Aucun MCP Blender testé ; scripts disponibles.
+- Publication GitHub de ces corrections et preuves en préparation ; ne pas confondre compilation réussie et parcours validé.
+
 ## T10 — Refonte monumentale et ultra-réaliste : Diagnostic des anomalies UX et Passage de relais, 21/10/2026
 - **Diagnostic sans complaisance des retours utilisateur sur le build `CloudVR-PC.exe`** :
   - **Constat utilisateur** : « c'est pas ouf il y a beaucoup de bug ».

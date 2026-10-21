@@ -1,198 +1,109 @@
 using System.Collections;
 using UnityEngine;
-using TMPro;
+using UnityEngine.UI;
 
-/// <summary>
-/// Nouvelle transition réseau réaliste V2 :
-/// Au lieu du tunnel abstrait, la caméra suit le signal depuis la tour PC
-/// jusqu'à l'arrivée devant le campus extérieur du data center.
-/// 5 étapes cinématiques avec HUD textuel contextuel.
-/// Compatible avec les tests automatiques --cloudvr-demo-smoke.
-/// </summary>
+/// <summary>Six étapes narratives illustratives ; aucune mesure de réseau réel.</summary>
 public class NetworkTransitionV2 : MonoBehaviour
 {
-    // ── Références scène ──────────────────────────────────────────────────
-    [Header("Caméra & Player")]
-    public Camera    mainCamera;
-    public Transform playerTransform;     // Désactiver le player pendant la transition
+    public GameObject hudPanel;
+    public Text hudTitle, hudSubtitle, hudProgress;
+    public Image progressBar;
+    public StepTransition stepTransition;
+    public Transform tourPC, boxInternet;
+    public float stepDuration = 1.8f;
+    public bool IsRunning { get; private set; }
+    public int CurrentStep { get; private set; }
+    public static int CompletedStages { get; private set; }
+    public static float CompletedDuration { get; private set; }
+    private PCPlayerController _controller;
+    private bool _controllerWasEnabled;
+    private ChairSeatInteraction _seat;
+    private bool _seatWasEnabled;
 
-    [Header("Objets de la chambre")]
-    public Transform boxInternet;         // La Box Internet sur le bureau (LED clignotante)
-    public Transform tourPC;              // La tour PC (point de départ)
+    private static readonly string[] Titles = {
+        "Préparation de la photo", "Connexion à la box Internet", "Accès fibre optique",
+        "Transit chez les opérateurs", "Arrivée au data center", "Réception de la requête" };
+    private static readonly string[] Subtitles = {
+        "Les données sont préparées et la connexion sécurisée.",
+        "Le réseau local rejoint le fournisseur d’accès.",
+        "Le signal rejoint le réseau de collecte de l’opérateur.",
+        "Les routeurs acheminent les paquets vers le service.",
+        "Le réseau du site reçoit la requête destinée aux serveurs.",
+        "Découvrez maintenant les équipements physiques du service." };
 
-    [Header("HUD")]
-    public GameObject          hudPanel;
-    public TextMeshProUGUI     hudTitle;
-    public TextMeshProUGUI     hudSubtitle;
-    public TextMeshProUGUI     hudProgress;
-    public UnityEngine.UI.Image progressBar;
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+    static void ResetEvidence() { CompletedStages = 0; CompletedDuration = 0; }
 
-    [Header("Timings (secondes)")]
-    public float stepDuration = 1.8f;    // Durée de chaque étape
-    public float fadeDuration = 0.35f;
-
-    [Header("Callbacks")]
-    public StepTransition stepTransition; // La scène DataCenter sera chargée à la fin
-
-    // ── Étapes narratives ─────────────────────────────────────────────────
-    private static readonly (string title, string sub, float progress)[] Steps =
-    {
-        ("Chiffrement de la photo",
-         "AES-256-GCM · Clé éphémère générée localement",
-         0.10f),
-
-        ("Connexion à la Box Internet",
-         "Ethernet 1 Gbps · Fibre FTTH · Port WAN activé",
-         0.22f),
-
-        ("Réseau local → Nœud de Raccordement Optique",
-         "Gaine technique immeuble · PM-Rue · NRO ×1 Gbps",
-         0.42f),
-
-        ("Transit dorsale opérateur",
-         "WAN longue distance · MPLS · 100 Gbps · Latence < 2 ms",
-         0.65f),
-
-        ("Arrivée au Data Center Tier IV",
-         "Campus sécurisé · Liaison fibre dédiée · Authentification en cours…",
-         0.90f),
-
-        ("Réception confirmée",
-         "Photo stockée · Checksums SHA-256 validés · CRC32 OK",
-         1.00f),
-    };
-
-    // ── Etat interne ──────────────────────────────────────────────────────
-    private bool _running;
-    private bool _smokeMode;
-    private float _camOrigFOV;
-    private Vector3 _camOrigPos;
-    private Quaternion _camOrigRot;
-    private CharacterController _cc;
-
-    void Awake()
-    {
-        _smokeMode = System.Array.IndexOf(System.Environment.GetCommandLineArgs(), "--cloudvr-demo-smoke") >= 0
-                  || System.Array.IndexOf(System.Environment.GetCommandLineArgs(), "smoke") >= 0;
-        if (hudPanel != null) hudPanel.SetActive(false);
-    }
-
-    // ── API publique ──────────────────────────────────────────────────────
-    /// <summary>Lance la cinématique de transition réseau.</summary>
     public void StartNetworkRide()
     {
-        if (_running) return;
-        StartCoroutine(_smokeMode ? SmokeTransition() : FullTransition());
+        if (IsRunning || stepTransition == null || stepTransition.IsTriggered) return;
+        IsRunning = true;
+        StartCoroutine(Play());
     }
 
-    // ── Smoke (tests automatisés) ─────────────────────────────────────────
-    IEnumerator SmokeTransition()
+    IEnumerator Play()
     {
-        yield return new WaitForSeconds(0.1f);
-        stepTransition?.TriggerTransition();
+        // Résoudre la caméra active après le choix PC/VR, jamais la caméra PC inactive.
+        var camera = Camera.main;
+        _controller = camera != null ? camera.GetComponentInParent<PCPlayerController>() : null;
+        _controllerWasEnabled = _controller != null && _controller.enabled;
+        if (_controller != null) _controller.enabled = false;
+        _seat = FindFirstObjectByType<ChairSeatInteraction>();
+        _seatWasEnabled = _seat != null && _seat.enabled;
+        if (_seat != null) _seat.enabled = false;
+        var canvas = hudPanel.GetComponent<Canvas>();
+        bool vr = InputModeManager.Instance != null && InputModeManager.Instance.IsVR;
+        canvas.worldCamera = camera;
+        canvas.renderMode = vr ? RenderMode.WorldSpace : RenderMode.ScreenSpaceCamera;
+        canvas.planeDistance = .5f;
+        if (vr && camera != null)
+        {
+            // Garder le tracking : aucun déplacement artificiel de la caméra XR.
+            hudPanel.transform.SetParent(camera.transform, false);
+            hudPanel.transform.localPosition = new Vector3(0, 0, 2);
+            hudPanel.transform.localScale = Vector3.one * .0018f;
+            hudPanel.GetComponent<RectTransform>().sizeDelta = new Vector2(1280, 720);
+        }
+        hudPanel.SetActive(true);
+        CompletedStages = 0;
+        float started = Time.unscaledTime;
+        Vector3 cameraPosition = camera != null ? camera.transform.position : Vector3.zero;
+        Quaternion cameraRotation = camera != null ? camera.transform.rotation : Quaternion.identity;
+        for (int i = 0; i < Titles.Length; i++)
+        {
+            CurrentStep = i + 1;
+            hudTitle.text = Titles[i]; hudSubtitle.text = Subtitles[i];
+            hudProgress.text = $"Étape {CurrentStep} / 6 — trajet illustratif, non mesuré";
+            Debug.Log($"[NetworkTransitionV2] Étape {CurrentStep}/6 : {Titles[i]}");
+            float elapsed = 0;
+            var focus = i == 0 ? tourPC : i == 1 ? boxInternet : null;
+            Quaternion look = focus != null && camera != null
+                ? Quaternion.LookRotation(focus.position + Vector3.up * (i == 0 ? 1f : .12f) - cameraPosition)
+                : cameraRotation;
+            Quaternion from = camera != null ? camera.transform.rotation : Quaternion.identity;
+            while (elapsed < stepDuration)
+            {
+                elapsed += Time.unscaledDeltaTime;
+                float progress = (i + Mathf.Clamp01(elapsed / stepDuration)) / 6f;
+                progressBar.fillAmount = progress;
+                progressBar.rectTransform.localScale = new Vector3(progress, 1, 1);
+                if (!vr && camera != null)
+                    camera.transform.rotation = Quaternion.Slerp(from, look, Mathf.SmoothStep(0, 1, Mathf.Clamp01(elapsed / .6f)));
+                yield return null;
+            }
+            CompletedStages++;
+        }
+        CompletedDuration = Time.unscaledTime - started;
+        if (!vr && camera != null) camera.transform.SetPositionAndRotation(cameraPosition, cameraRotation);
+        Debug.Log($"[NetworkTransitionV2] Six étapes terminées en {CompletedDuration:F2}s.");
+        // Le chargement asynchrone reste centralisé dans StepTransition.
+        stepTransition.TriggerTransition();
     }
 
-    // ── Cinématique complète ──────────────────────────────────────────────
-    IEnumerator FullTransition()
+    void OnDisable()
     {
-        _running = true;
-
-        // Sauvegarder état caméra
-        _camOrigFOV = mainCamera != null ? mainCamera.fieldOfView : 60f;
-        _camOrigPos = mainCamera != null ? mainCamera.transform.position : Vector3.zero;
-        _camOrigRot = mainCamera != null ? mainCamera.transform.rotation : Quaternion.identity;
-
-        // Désactiver le CharacterController pendant la ciné
-        _cc = playerTransform?.GetComponent<CharacterController>();
-        if (_cc) _cc.enabled = false;
-
-        // Afficher HUD
-        if (hudPanel != null) hudPanel.SetActive(true);
-
-        // ── Étape 0 : Zoom sur la tour PC (point de départ du signal) ────
-        yield return StartCoroutine(MoveCameraTo(
-            tourPC != null ? tourPC.position + Vector3.up * 0.5f + Vector3.back * 0.4f : _camOrigPos + Vector3.back * 0.5f,
-            tourPC != null ? Quaternion.LookRotation((tourPC.position - mainCamera.transform.position).normalized) : _camOrigRot,
-            70f, fadeDuration));
-
-        // ── Étapes narratives ─────────────────────────────────────────────
-        for (int i = 0; i < Steps.Length; i++)
-        {
-            var (title, sub, prog) = Steps[i];
-            yield return StartCoroutine(DisplayStep(title, sub, prog, i));
-        }
-
-        // ── Fondu final et chargement de la scène ─────────────────────────
-        yield return StartCoroutine(FadeHUD(false));
-        if (hudPanel != null) hudPanel.SetActive(false);
-
-        // Restaurer la caméra
-        if (mainCamera != null)
-        {
-            mainCamera.fieldOfView = _camOrigFOV;
-            mainCamera.transform.position = _camOrigPos;
-            mainCamera.transform.rotation = _camOrigRot;
-        }
-        if (_cc) _cc.enabled = true;
-
-        _running = false;
-        stepTransition?.TriggerTransition();
-    }
-
-    // ── Afficher une étape ────────────────────────────────────────────────
-    IEnumerator DisplayStep(string title, string sub, float targetProgress, int stepIndex)
-    {
-        // Mettre à jour le HUD
-        if (hudTitle    != null) hudTitle.text    = title;
-        if (hudSubtitle != null) hudSubtitle.text = sub;
-        if (hudProgress != null) hudProgress.text = $"Étape {stepIndex + 1} / {Steps.Length}";
-
-        // Animation de la barre de progression
-        float startProg = progressBar != null ? progressBar.fillAmount : 0f;
-        float elapsed   = 0f;
-        while (elapsed < stepDuration)
-        {
-            elapsed += Time.deltaTime;
-            float t = Mathf.Clamp01(elapsed / stepDuration);
-            if (progressBar != null) progressBar.fillAmount = Mathf.Lerp(startProg, targetProgress, t);
-            yield return null;
-        }
-    }
-
-    // ── Mouvement caméra fluide ───────────────────────────────────────────
-    IEnumerator MoveCameraTo(Vector3 targetPos, Quaternion targetRot, float targetFOV, float duration)
-    {
-        if (mainCamera == null) yield break;
-        float elapsed  = 0f;
-        Vector3    sp  = mainCamera.transform.position;
-        Quaternion sr  = mainCamera.transform.rotation;
-        float      sf  = mainCamera.fieldOfView;
-        while (elapsed < duration)
-        {
-            elapsed += Time.deltaTime;
-            float t  = Mathf.SmoothStep(0f, 1f, Mathf.Clamp01(elapsed / duration));
-            mainCamera.transform.position   = Vector3.Lerp(sp, targetPos, t);
-            mainCamera.transform.rotation   = Quaternion.Slerp(sr, targetRot, t);
-            mainCamera.fieldOfView          = Mathf.Lerp(sf, targetFOV, t);
-            yield return null;
-        }
-    }
-
-    // ── Fondu du HUD ─────────────────────────────────────────────────────
-    IEnumerator FadeHUD(bool fadeIn)
-    {
-        if (hudPanel == null) yield break;
-        var group = hudPanel.GetComponent<CanvasGroup>();
-        if (group == null) group = hudPanel.AddComponent<CanvasGroup>();
-        float start = fadeIn ? 0f : 1f;
-        float end   = fadeIn ? 1f : 0f;
-        float elapsed = 0f;
-        while (elapsed < fadeDuration)
-        {
-            elapsed      += Time.deltaTime;
-            group.alpha   = Mathf.Lerp(start, end, elapsed / fadeDuration);
-            yield return null;
-        }
-        group.alpha = end;
+        if (_controller != null) _controller.enabled = _controllerWasEnabled;
+        if (_seat != null) _seat.enabled = _seatWasEnabled;
+        IsRunning = false;
     }
 }

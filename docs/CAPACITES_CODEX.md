@@ -89,3 +89,9 @@ Conseils de travail datés du 05/10/2026, adaptés au projet et aux modèles ann
 Monter le niveau seulement quand la tâche le justifie ; Xhigh/Max ne constituent pas un réglage quotidien nécessaire. L'effort porte sur le raisonnement du modèle, pas sur la puissance de Unity ou du PC. Les [conseils officiels de sélection](https://developers.openai.com/api/docs/guides/model-selection) et la [description de l'effort](https://developers.openai.com/api/docs/guides/reasoning) ont été consultés pendant la session ; les recommandations par tâche ci-dessus sont notre choix de travail.
 
 À chaque réponse finale, rappeler le réglage du prochain prompt et la tâche visée. Donner un réglage par option si plusieurs suites sont proposées. Si la suite est inconnue, conseiller le réglage courant et préciser quand passer à High. Ne pas différer un travail autorisé uniquement pour demander un changement de modèle.
+
+## Vérification réelle du 21 octobre 2026
+
+MCP Unity HTTP local `127.0.0.1:8080/mcp` connecté : initialisation et `tools/list` réussies, une instance ConnectionTest, Unity 6000.0.58f2, projet original confirmé. `project/info`, `editor/state`, `custom-tools` et `read_console` lus : Chambre active, hors Play/compilation, prêt pour outils, zéro erreur retournée. Outils disponibles : scènes/objets/composants, C# en éditeur, matériaux, caméra/captures, physique/profiler, tests et builds. Accès HTTP local via PowerShell hors sandbox nécessaire dans cette session ; aucun outil Unity natif directement exposé au chat. Sessions conservées uniquement sous tmp ignoré.
+
+Compilation Windows via copie ASCII et Build-DemoCopy réellement exécutée ; second build sans erreur/avertissement. Contrôle Windows `@oai/sky` initialisé via le skill computer-use, inventaire de fenêtres réussi. Aucun MCP Blender vérifié ; génération Blender par scripts reste la méthode du projet. Aucun essai casque pendant cette session.

@@ -145,12 +145,17 @@ public static class PlayerSetupEditor
 
         SetupPhotoDisplay(screenFace.transform, sender);
 
+        var networkRide = UnityEngine.Object.FindFirstObjectByType<NetworkTransitionV2>();
         bool connected = false;
         for (int i = 0; i < sender.onSendCompleted.GetPersistentEventCount(); i++)
-            connected |= sender.onSendCompleted.GetPersistentTarget(i) == transition
-                && sender.onSendCompleted.GetPersistentMethodName(i) == nameof(StepTransition.TriggerTransition);
+            connected |= networkRide != null
+                ? sender.onSendCompleted.GetPersistentTarget(i) == networkRide
+                : sender.onSendCompleted.GetPersistentTarget(i) == transition;
         if (!connected)
-            UnityEditor.Events.UnityEventTools.AddPersistentListener(sender.onSendCompleted, transition.TriggerTransition);
+        {
+            if (networkRide != null) UnityEditor.Events.UnityEventTools.AddPersistentListener(sender.onSendCompleted, networkRide.StartNetworkRide);
+            else UnityEditor.Events.UnityEventTools.AddPersistentListener(sender.onSendCompleted, transition.TriggerTransition);
+        }
         EditorUtility.SetDirty(sender);
         EditorUtility.SetDirty(transition);
         UnityEditor.SceneManagement.EditorSceneManager.MarkSceneDirty(screenFace.scene);

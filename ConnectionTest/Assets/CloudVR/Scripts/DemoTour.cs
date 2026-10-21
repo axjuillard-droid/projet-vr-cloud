@@ -121,11 +121,12 @@ public class DemoTour : MonoBehaviour
         flowRoot.gameObject.SetActive(true);
         int stage = Step;
         var origin = stations[stage].transform.position + Vector3.up * 1.5f;
-        var target = new Vector3(0, stage == 0 ? 1.65f : stage == 2 ? .55f : 1.15f, 6.91f);
+        var rack = GameObject.Find("Baie_01").transform;
+        var target = rack.position + rack.rotation * new Vector3(0, stage == 0 ? 1.65f : stage == 2 ? .55f : 1.15f, -.59f);
         var line = flowRoot.GetComponent<LineRenderer>();
         line.sharedMaterial = stage==3 ? coldMaterial : stage==4 ? warmMaterial : packetMaterial;
         packet.GetComponent<Renderer>().sharedMaterial = line.sharedMaterial;
-        line.SetPositions(new[] {origin, new Vector3(origin.x,2.6f,origin.z), new Vector3(0,2.6f,6.8f),target});
+        line.SetPositions(new[] {origin, new Vector3(origin.x,3.1f,origin.z), new Vector3(target.x,3.1f,target.z),target});
         var start = Time.unscaledTime;
         while (Time.unscaledTime - start < 2.8f)
         {

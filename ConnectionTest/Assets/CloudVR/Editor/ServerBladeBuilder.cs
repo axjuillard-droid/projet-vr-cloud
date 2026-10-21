@@ -63,6 +63,9 @@ public static class ServerBladeBuilder
         if (oldDoor != null) UnityEngine.Object.DestroyImmediate(oldDoor.gameObject);
         var oldBlade = baie01.transform.Find("Server_Blade_2U");
         if (oldBlade != null) UnityEngine.Object.DestroyImmediate(oldBlade.gameObject);
+        for (int i = baie01.transform.childCount - 1; i >= 0; i--)
+            if (baie01.transform.GetChild(i).name == "Lumiere_Inspection_Blade")
+                UnityEngine.Object.DestroyImmediate(baie01.transform.GetChild(i).gameObject);
 
         // ── 1. Matériaux du serveur ──
         var matChassis = GetOrCreateMaterial("Blade_Chassis", new Color(0.12f, 0.14f, 0.17f), 0.7f, 0.4f);

@@ -1,0 +1,12 @@
+{
+  "utc": "2026-10-21T13:25:27.5734576Z",
+  "exe": "<USER>\\Dropbox\\Ecole_Axel\\ESILV\\année 5\\projet_vr_cloud\\ConnectionTest\\Builds\\Windows\\CloudVR-PC.exe",
+  "headless": false,
+  "scenario": "--cloudvr-demo-smoke",
+  "timedOut": false,
+  "timeoutSeconds": 120,
+  "exitCode": 1,
+  "passed": false,
+  "report": "<USER>\\Dropbox\\Ecole_Axel\\ESILV\\année 5\\projet_vr_cloud\\tmp\\unity\\pc-player-20261021-152423-c4ad9a\\demo-smoke-result.json",
+  "log": "<USER>\\Dropbox\\Ecole_Axel\\ESILV\\année 5\\projet_vr_cloud\\tmp\\unity\\pc-player-20261021-152423-c4ad9a\\Player.log"
+}

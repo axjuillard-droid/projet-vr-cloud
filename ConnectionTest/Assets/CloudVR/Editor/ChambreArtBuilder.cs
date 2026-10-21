@@ -3,7 +3,9 @@ using System;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEditor.SceneManagement;
+using UnityEditor.Events;
 using UnityEngine;
+using UnityEngine.UI;
 
 /// <summary>
 /// Décorateur artistique complet de la Chambre étudiante Cocooning (Jalon A) :
@@ -271,6 +273,16 @@ public static class ChambreArtBuilder
         atmos.guirlandeIntensity = 1.1f;
         atmos.guirlandePulse = true;
         atmos.rainEnabled = true;
+        foreach (var light in UnityEngine.Object.FindObjectsByType<Light>(FindObjectsInactive.Include, FindObjectsSortMode.None))
+            if (light.type == LightType.Directional) light.enabled = false;
+        RenderSettings.sun = null;
+        RenderSettings.ambientMode = UnityEngine.Rendering.AmbientMode.Flat;
+        RenderSettings.ambientLight = new Color(.12f, .085f, .055f);
+        deskLight.useColorTemperature = true;
+        deskLight.colorTemperature = 2700f;
+        deskLight.color = Color.white;
+
+        ConfigureNetworkTransition(roomRoot);
 
         // ── 13. Contrôleur d'interface OS sur l'écran ────────────────
         var screenFace = GameObject.Find("Screen_Face");
@@ -281,6 +293,46 @@ public static class ChambreArtBuilder
         }
 
         Debug.Log("[ChambreArtBuilder] Chambre Cocooning V2 complète décorée avec succès !");
+    }
+
+    private static void ConfigureNetworkTransition(Transform roomRoot)
+    {
+        var sender = UnityEngine.Object.FindFirstObjectByType<PhotoSender>();
+        if (sender == null) throw new InvalidOperationException("PhotoSender absent de Chambre.");
+        foreach (var oldRide in roomRoot.GetComponentsInChildren<NetworkDataRide>(true))
+            UnityEngine.Object.DestroyImmediate(oldRide);
+        var tunnel = roomRoot.Find("Network_Ride_Tunnel");
+        if (tunnel != null) UnityEngine.Object.DestroyImmediate(tunnel.gameObject);
+        var previous = GameObject.Find("Network_Transition_Manager");
+        if (previous != null) UnityEngine.Object.DestroyImmediate(previous);
+        var go = new GameObject("Network_Transition_Manager");
+        var ride = go.AddComponent<NetworkTransitionV2>();
+        ride.tourPC = GameObject.Find("Setup_Bureau_Gamer")?.transform;
+        ride.boxInternet = GameObject.Find("Box_Internet_FTTH")?.transform;
+        ride.stepTransition = sender.GetComponent<StepTransition>();
+        ride.stepTransition.nextSceneName = "DataCenter";
+        ride.stepTransition.delayBeforeTransition = 0;
+        var hud = new GameObject("Network_HUD", typeof(RectTransform), typeof(Canvas), typeof(CanvasScaler));
+        hud.transform.SetParent(go.transform, false);
+        var canvas = hud.GetComponent<Canvas>(); canvas.renderMode = RenderMode.ScreenSpaceOverlay; canvas.sortingOrder = 1000;
+        var scaler = hud.GetComponent<CanvasScaler>(); scaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
+        scaler.referenceResolution = new Vector2(1280, 720);
+        var panel = DemoTour.Panel(hud.transform, "Narration", new Vector2(.10f,.10f), new Vector2(.90f,.38f));
+        ride.hudTitle = DemoTour.Label(panel, "Titre", 30, new Vector2(.04f,.60f), new Vector2(.96f,.95f), Color.cyan);
+        ride.hudSubtitle = DemoTour.Label(panel, "Sous_titres", 22, new Vector2(.04f,.28f), new Vector2(.96f,.60f), Color.white);
+        ride.hudProgress = DemoTour.Label(panel, "Étape", 18, new Vector2(.04f,.05f), new Vector2(.96f,.25f), Color.white);
+        ride.progressBar = DemoTour.Panel(panel, "Progression", new Vector2(.04f,.01f), new Vector2(.96f,.03f)).GetComponent<Image>();
+        ride.progressBar.color = Color.cyan;
+        ride.progressBar.rectTransform.pivot = new Vector2(0, .5f);
+        ride.hudPanel = hud; hud.SetActive(false);
+        // Enlever uniquement les anciennes routes de chargement ; garder les autres observateurs.
+        for (int i = sender.onSendCompleted.GetPersistentEventCount() - 1; i >= 0; i--)
+            if (sender.onSendCompleted.GetPersistentTarget(i) is StepTransition ||
+                sender.onSendCompleted.GetPersistentTarget(i) is NetworkTransitionV2 ||
+                sender.onSendCompleted.GetPersistentTarget(i) == null)
+                UnityEventTools.RemovePersistentListener(sender.onSendCompleted, i);
+        UnityEventTools.AddPersistentListener(sender.onSendCompleted, ride.StartNetworkRide);
+        EditorUtility.SetDirty(sender);
     }
 
     private static void AssignMaterial(GameObject root, string matNamePart, Material mat)

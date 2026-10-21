@@ -33,8 +33,6 @@ public class PhotoSender : MonoBehaviour
     [Tooltip("Déclenché quand l'envoi est confirmé")]
     public UnityEvent onSendCompleted = new UnityEvent();
 
-    private bool _isSending = false;
-
     private void Start()
     {
         Reset();
@@ -45,13 +43,12 @@ public class PhotoSender : MonoBehaviour
     /// </summary>
     public void Send()
     {
-        if (_isSending) return;
+        if (State != SendState.Ready) return;
         StartCoroutine(SendRoutine());
     }
 
     private IEnumerator SendRoutine()
     {
-        _isSending = true;
         State = SendState.Sending;
         if (photoObject != null) photoObject.SetActive(false);
 
@@ -68,7 +65,6 @@ public class PhotoSender : MonoBehaviour
         if (sendingIndicator != null) sendingIndicator.SetActive(false);
         if (confirmationIndicator != null) confirmationIndicator.SetActive(true);
 
-        _isSending = false;
         State = SendState.Completed;
         onSendCompleted.Invoke();
     }
@@ -79,7 +75,6 @@ public class PhotoSender : MonoBehaviour
     public void Reset()
     {
         StopAllCoroutines();
-        _isSending = false;
         State = SendState.Ready;
         if (photoObject != null) photoObject.SetActive(true);
         if (sendingIndicator != null) sendingIndicator.SetActive(false);

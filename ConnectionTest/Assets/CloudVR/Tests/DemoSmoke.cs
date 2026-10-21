@@ -66,18 +66,31 @@ public class DemoSmoke : MonoBehaviour
         var sender=FindFirstObjectByType<PhotoSender>(); var cam=Camera.main;
         var controller=cam.GetComponentInParent<PCPlayerController>();
         controller.enabled=false; cam.transform.LookAt(sender.transform.position);
+        yield return new WaitForEndOfFrame(); Capture("demo-room-start.png");
         Cursor.lockState=CursorLockMode.Locked;
         yield return new WaitForSecondsRealtime(.2f); Button(true); yield return new WaitForSecondsRealtime(.2f); Button(false);
         Check(sender.State==PhotoSender.SendState.Sending,"Clic synthétique sur écran déclenche l'envoi");
         float until=Time.realtimeSinceStartup+20;
-        while(SceneManager.GetActiveScene().name!="DataCenter" && Time.realtimeSinceStartup<until) yield return null;
+        bool capturedTransition=false;
+        while(SceneManager.GetActiveScene().name!="DataCenter" && Time.realtimeSinceStartup<until)
+        {
+            var ride=FindFirstObjectByType<NetworkTransitionV2>();
+            if(!capturedTransition && ride!=null && ride.CurrentStep==3)
+            {
+                yield return new WaitForEndOfFrame(); Capture("demo-network-transition.png"); capturedTransition=true;
+            }
+            yield return null;
+        }
         yield return new WaitForSecondsRealtime(.8f);
+        Check(capturedTransition && NetworkTransitionV2.CompletedStages==6 && NetworkTransitionV2.CompletedDuration>=10.7f,
+            "Transition complète : six étapes visibles, durée réelle >= 10,7 s, aucun bypass smoke");
         var tour=FindFirstObjectByType<DemoTour>();
         Check(tour!=null && tour.Step==0 && tour.stations.Length==6,"Six bornes initialisées sans étape sautée");
         Check(FindObjectsByType<Camera>(FindObjectsSortMode.None).Length==1,"Une seule caméra active");
         yield return new WaitForEndOfFrame(); Capture("demo-arrival.png");
         controller=Camera.main.GetComponentInParent<PCPlayerController>();
         _result.arrivalPosition=controller.transform.position;
+        Check(Mathf.Abs(controller.transform.position.z+28)<.3f,"Apparition dans la cour à Z=-28 m");
         float startZ=controller.transform.position.z;
         InputSystem.QueueStateEvent(_keyboard,new KeyboardState(Key.W));
         until=Time.realtimeSinceStartup+10;
@@ -92,6 +105,28 @@ public class DemoSmoke : MonoBehaviour
         InputSystem.QueueStateEvent(_keyboard,new KeyboardState(Key.Escape)); yield return new WaitForSecondsRealtime(.2f);
         InputSystem.QueueStateEvent(_keyboard,new KeyboardState()); yield return new WaitForSecondsRealtime(.1f);
         Check(!controller.InputPaused,"Échap reprend les commandes PC");
+        // Vrai déplacement avec CharacterController : ne pas téléporter au-delà des murs ou du sas.
+        var mantrap=FindFirstObjectByType<MantrapController>();
+        bool sawScan=false, interlock=true;
+        InputSystem.QueueStateEvent(_keyboard,new KeyboardState(Key.W));
+        until=Time.realtimeSinceStartup+35;
+        while(controller.transform.position.z<39f && Time.realtimeSinceStartup<until)
+        {
+            if(mantrap.State==MantrapController.MantrapState.Scanning)
+            {
+                if(!sawScan) { yield return new WaitForEndOfFrame(); Capture("demo-mantrap-scan.png"); }
+                sawScan=true; interlock &= !mantrap.EntryOpen && !mantrap.ExitOpen;
+            }
+            yield return null;
+        }
+        InputSystem.QueueStateEvent(_keyboard,new KeyboardState());
+        yield return new WaitForSecondsRealtime(.1f);
+        _result.walkPosition=controller.transform.position;
+        yield return new WaitForEndOfFrame(); Capture("demo-hall-end.png");
+        Check(sawScan && interlock && MantrapController.ScanCompleted,"Sas traversé : fermeture des deux portes, scan réel de 2 s, autorisation");
+        Check(controller.transform.position.z>=39 && controller.transform.position.y>-.1f,"Marche continue de la cour au fond à Z=39 m, sans traverser le sol ni téléporter : "+controller.transform.position);
+        for(int i=0;i<6;i++) Check(Mathf.Abs(tour.stations[i].transform.position.z-(8+i*6))<.01f,"Borne "+(i+1)+" à Z="+(8+i*6)+" m");
+        yield return new WaitForEndOfFrame(); Capture("demo-hall-end.png");
         // Une mauvaise borne ne doit pas permettre de sauter une notion.
         tour.Activate(5); Check(tour.Step==0 && tour.Actions==0,"Borne future ne saute pas la progression");
         yield return new WaitForEndOfFrame(); Capture("demo-arrival.png");
