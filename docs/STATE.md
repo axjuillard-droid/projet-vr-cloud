@@ -1,6 +1,29 @@
 # État de reprise
 
-Mis à jour le 21 octobre 2026.
+Mis à jour le 21 octobre 2026 (Soir).
+
+## T13 — Audit critique approfondi et indépendant du build 16h56, 21/10/2026
+- **Audit indépendant sans complaisance** réalisé à la demande de l'utilisateur, confrontant le build livré aux exigences du sujet d'ingénierie universitaire (`Le cloud.docx`). Les 37 tests automatisés réussis (`DemoSmoke`) ne valident pas la qualité visuelle, la crédibilité industrielle ni l'intérêt pédagogique.
+- **Vérification d'exécution réelle** : `ConnectionTest/Builds/Windows/CloudVR-PC.exe` (146,87 Mo, 21/10 à 16h56) lancé et testé sur GPU Direct3D11 via `tools/Test-PCBuild.ps1 -Graphics -Demo -TimeoutSeconds 120`. 9 captures réelles capturées (`tmp/unity/pc-player-20261021-180632-b5ab9e/`) et inspectées visuellement pixel par pixel.
+- **Audit des capacités et outils** : port local 8080 (`http://127.0.0.1:8080/mcp`) testé via PowerShell : connexion TCP refusée. Processus Unity actif (PID 17972, Unity 6000.0.58f2), mais serveur MCP interne inactif/non démarré ; aucun outil MCP exposé dans la session. Blender 4.5.2 LTS présent localement, pilotable en batch Python CLI (`tools/art/`), aucun serveur MCP Blender.
+- **12 défauts réels identifiés et documentés** dans `docs/AUDIT_GLOBAL_2026-10-21.md` :
+  - *DEF-01 (Bloquant)* : Allée centrale anormalement large de 8 m, baies clairsemées (aberration spatiale pour un m² de salle blanche).
+  - *DEF-02 (Majeur)* : Confinement CAC déconnecté et flottant dans le vide à 2,6 m sans sceller les rangées.
+  - *DEF-03 (Bloquant)* : Local TGBT/UPS (`Electrical_Room.fbx`) placé à $X=-26$ m, enfermé derrière un mur plein étanche de la salle blanche (jamais vu par le joueur).
+  - *DEF-04 (Majeur)* : Sas mantrap mis à l'échelle $\times 2$ (4 m de large) et écran 100% gris aveugle pendant les 2s de scan (risque de cinétose VR).
+  - *DEF-05 (Majeur)* : HUD 2D massif couvrant plus de 45% de la vue avec du texte brut, rompant l'immersion.
+  - *DEF-06 (Majeur)* : Poteau électrique PDU traversant la borne 01 et coupant son texte ("01 R|SEAU").
+  - *DEF-07 (Majeur)* : Transition réseau réduite à un diaporama 2D statique dans la chambre pendant 10,8s sans voyage 3D, avec statut "Fichier persisté" prématuré.
+  - *DEF-08 (Bloquant)* : Boucle d'interaction répétitive (les 6 bornes appellent la même boule sur une ligne vers la Baie 01) sans manipulation physique ni dilemme.
+  - *DEF-09 (Majeur)* : Contresens conceptuel sur le refroidissement ("activer le refroidissement" pour une photo au lieu de résoudre une perturbation thermique).
+  - *DEF-10 (Moyen)* : Campus extérieur flottant dans un vide noir sans horizon ni skybox fermée.
+  - *DEF-11 (Moyen)* : Éclairage avec brûlures saturées de blanc dans la chambre et matériaux plastiques unis sans PBR.
+  - *DEF-12 (Moyen)* : 1 490 MeshRenderers non batchés risquant de faire chuter le framerate sur Meta Quest.
+- **Aucune modification de code ou de scène** engagée pendant cette phase d'audit, conformément aux règles du projet.
+- **Livrables produits** :
+  - Rapport maître : `docs/AUDIT_GLOBAL_2026-10-21.md` (Verdict, Tableau DEF-01 à DEF-12, Critique des 6 séquences, Parcours diégétique proposé, Plan d'action P0 à P3, Limites d'audit).
+  - Dossier de passage de relais et prompt pour ChatGPT actualisés : `docs/PASSAGE_RELAIS_CHATGPT.md`.
+- **Limites matérielles confirmées** : Aucun test sur casque Meta Quest physique réalisé sur ce build d'après-midi.
 
 ## T12 — Sols corrigés et nouveau player livré, 21/10/2026
 - Correctif implémenté dans le builder : parking importé désactivé ; anciennes 779 dalles désactivées ; sol continu conservé comme collider sans rendu, joints à −15 mm et dallage complet 18×40 m groupé en un mesh (2 010 dalles, 8 040 sommets, 4 020 triangles). GUID du mesh conservé et livraison ajoutée à Build-DemoCopy.

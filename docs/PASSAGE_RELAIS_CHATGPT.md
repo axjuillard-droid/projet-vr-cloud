@@ -1,8 +1,9 @@
 # Dossier de Passage de Relais — Projet CloudVR
 **Destination : ChatGPT / Autre Agent IA**  
-**Date : 21 octobre 2026**  
-**Auteur : Codex / Antigravity Assistant**  
-**Dépôt Git :** `https://github.com/axjuillard-droid/projet-vr-cloud.git` (Branche `main`)
+**Date : 21 octobre 2026 (Mise à jour après Audit Global Approfondi)**  
+**Auteur : Antigravity Assistant (DeepMind)**  
+**Dépôt Git :** `https://github.com/axjuillard-droid/projet-vr-cloud.git` (Branche `main`)  
+**Rapport d'audit de référence :** `docs/AUDIT_GLOBAL_2026-10-21.md`
 
 ---
 
@@ -18,120 +19,105 @@
 
 ---
 
-## 2. Diagnostic Lucide des Anomalies UX et des Bugs du Build Actuel
+## 2. Bilan de l'Audit Approfondi du Build 16h56
 
-L'utilisateur a testé l'exécutable `CloudVR-PC.exe` généré le 21/10 et a constaté à juste titre des bugs majeurs qui dégradent l'expérience utilisateur (« c'est pas ouf, il y a beaucoup de bug »).
+L'exécutable `ConnectionTest/Builds/Windows/CloudVR-PC.exe` (build du 21/10 à 16h56) a été exécuté sur GPU Direct3D11 et audité visuellement à partir de 9 captures d'écran réelles (`tmp/unity/pc-player-20261021-180632-b5ab9e/`).
 
-### Pourquoi le test automatisé (26/26 passed) n'a pas vu ces bugs ?
-La suite de smoke tests automatisés (`tools/Test-PCBuild.ps1 -Demo`) s'exécute avec le drapeau `--cloudvr-demo-smoke`. Ce drapeau a été conçu pour valider les machines à états des scripts (envoi photo, chargement de scène, présence des 6 bornes, raycast). Mais il **court-circuite les cinématiques (bypass de 0.1s)** et ne teste pas la disposition spatiale ni la visibilité des objets pour un être humain.
+### Le paradoxe des tests : 37/37 au vert, mais expérience humaine défectueuse
+La suite de smoke tests automatisés (`tools/Test-PCBuild.ps1 -Demo`) valide la logique d'état (marche à Z=39m, raycasts sur les bornes, progression des étapes). Cependant, ces assertions n'évaluent ni le rendu subjectif, ni la pertinence pédagogique, ni l'ergonomie VR.
 
-### Les 4 Bugs Majeurs identifiés :
-
-1. **La cinématique de transition réseau ne se joue pas au runtime :**
-   - Le script `ConnectionTest/Assets/CloudVR/Scripts/NetworkTransitionV2.cs` a été créé avec les 6 étapes narratives et la barre de progression.
-   - **Bug :** Dans la scène `Chambre.unity`, `PhotoSender.cs` déclenche directement `StepTransition.TriggerTransition()`. L'événement n'était pas relié à `NetworkTransitionV2.StartNetworkRide()`. Lors du clic du joueur, Unity coupe instantanément vers la scène `DataCenter.unity` sans transition narrative.
-
-2. **Occlusion spatiale totale dans `DataCenter.unity` (Le joueur est enfermé) :**
-   - Dans `DataCenter.unity`, l'ancienne boîte primitive de 10×12 m créée par `DataCenterSceneBuilder.cs` (`Mur_Entree` à $z=-0.1$m, `Mur_Fond` à $z=12.1$m, murs latéraux et plafond) est **restée dans la scène**.
-   - Le modèle du campus extérieur (`DataCenter_Campus.fbx`) a été placé à $z=-22$m : il se trouve donc **derrière le mur plein de l'entrée ($z=-0.1$m)**. Le joueur ne peut absolument pas le voir !
-   - La grande salle blanche de 40 mètres (`WhiteSpace_Hall.fbx`) a été placée à $z=+12$m : elle se trouve **derrière le mur plein du fond ($z=12.1$m)**. Elle est totalement occultée !
-   - Le joueur apparaît à $z=1.5$m, bloqué dans l'ancien couloir étroit avec le sas mantrap posé à $z=0.5$m qui entre en collision avec lui.
-
-3. **Mauvaise répartition des 6 bornes pédagogiques :**
-   - Les bornes de la démo (`Borne_01` à `Borne_06` générées par `DemoTourBuilder.cs`) sont restées calées sur les coordonnées de l'ancienne petite salle ($z$ de 3.3m à 10.2m).
-   - Elles doivent être redistribuées le long des 40 mètres de la grande salle blanche pour accompagner la marche du visiteur.
-
-4. **Ambiance lumineuse de la chambre :**
-   - La lumière blanche clinique par défaut n'a pas été désactivée, ce qui écrase l'ambiance chaleureuse 2700K et les guirlandes LED.
+### Tableau synthétique des 12 défauts identifiés (cf. `docs/AUDIT_GLOBAL_2026-10-21.md`) :
+1. **DEF-01 (Bloquant)** : **Allée centrale de 8 m de large** avec baies clairsemées ($X=\pm 4$m et $\pm 6$m). Inconcevable dans un vrai data center où le m² de salle blanche est optimisé.
+2. **DEF-02 (Majeur)** : **Confinement thermique CAC flottant** à 2,6 m de haut sans reposer sur les baies ni fermer les rangées.
+3. **DEF-03 (Bloquant)** : **Local TGBT/UPS (`Electrical_Room.fbx`) totalement inaccessible**, placé à $X=-26$m derrière un mur plein étanche de la salle blanche.
+4. **DEF-04 (Majeur)** : **Sas Mantrap géant ($\times 2$, 4m de large)** perdant son rôle anti-tailgating, et écran 100% gris aveugle pendant les 2s de scan (risque de nausée VR).
+5. **DEF-05 (Majeur)** : **HUD 2D massif** (3 bandeaux noirs fixes) couvrant 45% du champ de vision avec du texte brut, rompant l'immersion.
+6. **DEF-06 (Majeur)** : **Poteau électrique PDU traversant l'écran de la Borne 01** et coupant son texte ("01 R|SEAU").
+7. **DEF-07 (Majeur)** : **Transition réseau statique** : le joueur reste immobile dans la chambre pendant 10,8s devant du texte, avec un statut "Fichier persisté" prématuré.
+8. **DEF-08 (Bloquant)** : **Boucle d'interaction répétitive** : les 6 bornes appellent la même sphère glissant sur une ligne au plafond pendant 2,8s vers la Baie 01.
+9. **DEF-09 (Majeur)** : **Contresens conceptuel sur le refroidissement** : l'interaction demande d'"activer le refroidissement" pour une photo au lieu de maintenir une régulation ou corriger une perturbation thermique.
+10. **DEF-10 (Moyen)** : **Campus extérieur flottant dans un néant sombre** sans skybox atmosphérique fermée ni décor d'horizon.
+11. **DEF-11 (Moyen)** : **Éclairage saturé de blanc** dans la chambre et matériaux plastiques unis sans PBR.
+12. **DEF-12 (Moyen)** : **1 490 MeshRenderers non batchés** risquant de pénaliser le framerate sur Meta Quest.
 
 ---
 
-## 3. Plan d'Action Immédiat pour ChatGPT
+## 3. Plan d'Action Priorisé de Réhabilitation
 
-Pour transformer le prototype en une expérience grandiose, fluide et sans bug, voici la feuille de route exacte :
+### Phase P0 : Fondations Spatiales, Confinement & Rendu (Priorité Immédiate)
+1. **Resserrer l'allée centrale de la salle blanche** : passer l'allée centrale de circulation de 8,0 m à 2,2 m de large dans `DatacenterMonumentalBuilder.cs`. Rapprocher les rangées de baies 42U pour former deux allées froides confinées denses.
+2. **Sceller le confinement CAC** : ajuster les toitures en polycarbonate pour qu'elles reposent directement sur le dessus des baies, avec des portes coulissantes vitrées aux extrémités.
+3. **Ouvrir l'accès au local TGBT/UPS** : créer une ouverture ou une baie vitrée à $X=-3$m permettant au visiteur d'entrer et de voir les armoires d'onduleurs et les batteries.
+4. **Supprimer le HUD 2D massif** : basculer l'affichage des consignes sur les pupitres et écrans 3D du monde (interface diégétique).
+5. **Dégager la visée de la Borne 01** : repositionner les descentes de busway pour ne pas chevaucher la borne réseau.
 
-### Étape 1 : Nettoyer et réaligner spatialement `DataCenter.unity`
-Dans `ConnectionTest/Assets/CloudVR/Editor/DatacenterMonumentalBuilder.cs` :
-1. **Supprimer l'ancienne boîte primitive :** Détruire les objets `Mur_Entree`, `Mur_Fond`, `Mur_Gauche`, `Mur_Droit`, `Sol` et `Plafond` hérités de l'ancien builder.
-2. **Organiser l'axe spatial Z en continu :**
-   - **Zone 1 (Extérieur / Sécurité) :** $Z \in [-30\text{m}, -4\text{m}]$  
-     Le campus extérieur, la guérite vigile, la barrière levante et les générateurs Caterpillar.
-     **Point de départ du joueur dans DataCenter :** $X=0, Y=0.08, Z=-25$ (face au campus monumental).
-   - **Zone 2 (Sas d'Accès Mantrap Biométrique) :** $Z \in [-4\text{m}, +4\text{m}]$  
-     Sas cylindrique avec portes coulissantes animées. La porte extérieure s'ouvre, le joueur entre, la porte se referme, pesée anti-tailgating + scan rétinien (2 secondes), puis la porte intérieure s'ouvre.
-   - **Zone 3 (Grande Salle Blanche 40×18m) :** $Z \in [+4\text{m}, +44\text{m}]$  
-     Les 32 baies serveurs 42U, le faux plancher soufflant bleuté, le confinement d'allée chaude CAC, la baie interactive 01 (serveur 2U extractible) et le local électrique TGBT/UPS en aile latérale ($X=-22\text{m}$).
-3. **Repositionner les 6 bornes pédagogiques dans l'allée centrale de la salle blanche :**
-   - Borne 01 (Réseau) : $Z = 8\text{m}$
-   - Borne 02 (Traitement / CPU) : $Z = 14\text{m}$ (face à la Baie 01 interactive)
-   - Borne 03 (Stockage / NVMe) : $Z = 20\text{m}$
-   - Borne 04 (Refroidissement / CRAC) : $Z = 26\text{m}$
-   - Borne 05 (Énergie / TGBT) : $Z = 32\text{m}$ (près de la porte du local UPS)
-   - Borne 06 (Supervision & Synthèse) : $Z = 38\text{m}$
+### Phase P1 : Module de Référence Interactif "Traitement & Refroidissement"
+1. **Interaction Baie 01 & Serveur 2U** : ouverture de la baie 01 par poignée quart-de-tour, extraction télescopique du serveur 2U modélisé sous Blender (`Server_Blade_Detailed.fbx`), révélation des bi-CPU, RAM et SSD NVMe avec étiquettes holographiques.
+2. **Gestion thermique dynamique** : vue thermique diégétique (22°C allée froide, 38°C rejet arrière), simulation d'une fuite d'air froid (porte de confinement entrouverte à refermer pour rétablir le régime nominal).
 
-### Étape 2 : Câbler proprement la Transition Réseau V2
-Dans `Chambre.unity` :
-1. Attacher `NetworkTransitionV2.cs` à un GameObject dédié `Network_Transition_Manager`.
-2. Connecter `PhotoSender.onSendCompleted` à `NetworkTransitionV2.StartNetworkRide()`.
-3. S'assurer que `NetworkTransitionV2` affiche le HUD en plein écran, défile les 6 étapes avec la barre de progression, puis appelle `SceneManager.LoadSceneAsync("DataCenter")`.
-4. Éteindre la `Directional Light` blanche au profit de la lumière chaude 2700K et des guirlandes pour obtenir le rendu cocooning.
+### Phase P2 : Transition Réseau 3D
+- Remplacer le temps d'attente statique dans la chambre par un véritable trajet 3D dynamique de 6 à 8 secondes (entrée dans le coeur de la fibre monomode, survol réseau et adduction dans le data center).
 
-### Étape 3 : Compiler et Valider
-1. Exécuter le builder maître dans Unity.
-2. Compiler le player Windows : `powershell -ExecutionPolicy Bypass -File tools/Build-DemoCopy.ps1 -Resume -Wait` puis `tools/Build-DemoCopy.ps1 -Complete`.
-3. Tester le player : `ConnectionTest/Builds/Windows/CloudVR-PC.exe`.
+### Phase P3 : Supervision Globale et Métriques Réelles
+- Clôture de la visite devant un mur de supervision DCIM avec affichage du PUE (1,22 décomposé), de l'empreinte carbone et des enjeux de souveraineté.
 
 ---
 
-## 4. Guide des Commandes et Outils
+## 4. Boîte à Outils et Commandes Reproductibles
 
 | Action | Commande PowerShell |
 |---|---|
-| **Régénérer les modèles 3D (Blender)** | `python tools/art/generate_cozy_room.py` |
+| **Vérifier l'état Git** | `git status` |
+| **Régénérer les modèles Blender** | `python tools/art/generate_datacenter_hall.py`<br>`python tools/art/generate_server_blade.py` |
 | **Compiler le build Windows Standalone** | `powershell -ExecutionPolicy Bypass -File tools/Build-DemoCopy.ps1 -Resume -Wait`<br>puis `powershell -ExecutionPolicy Bypass -File tools/Build-DemoCopy.ps1 -Complete` |
-| **Exécuter la suite de tests PC (26 contrôles)** | `powershell -ExecutionPolicy Bypass -File tools/Test-PCBuild.ps1 -Graphics -Demo -TimeoutSeconds 120` |
+| **Exécuter la suite de tests PC GPU (avec captures)** | `powershell -ExecutionPolicy Bypass -File tools/Test-PCBuild.ps1 -Graphics -Demo -TimeoutSeconds 120` |
 | **Compiler l'APK Android Meta Quest** | `powershell -ExecutionPolicy Bypass -File tools/Build-AndroidCopy.ps1 -Resume` |
-| **Vérifier l'APK Meta Quest (15 contrôles)** | `powershell -ExecutionPolicy Bypass -File tools/Test-AndroidApk.ps1` |
+| **Vérifier l'APK Meta Quest (15 contrôles statiques)** | `powershell -ExecutionPolicy Bypass -File tools/Test-AndroidApk.ps1` |
 
 ---
 
 ## 5. PROMPT COMPLET À COPIER-COLLER DANS CHATGPT
 
-Copiez l'intégralité du bloc ci-dessous dans votre invite ChatGPT :
+Copiez l'intégralité du bloc ci-dessous dans votre invite ChatGPT pour lancer la reprise :
 
 ```markdown
 Bonjour ChatGPT ! Tu reprends le projet universitaire d'ingénierie ESILV Année 5 "CloudVR : Visite immersive d’un Data Center" (Unity 6000.0.58f2, URP, C#, Blender 4.5.2 LTS, OpenXR pour PC Windows et Meta Quest).
 
-Le dépôt Git local et distant est à jour : https://github.com/axjuillard-droid/projet-vr-cloud.git (branche main).
+Le dépôt Git distant est à jour : https://github.com/axjuillard-droid/projet-vr-cloud.git (branche main).
+Dossier local : C:\Users\axjui\Dropbox\Ecole_Axel\ESILV\année 5\projet_vr_cloud
 
-### 1. Contexte et Retours Utilisateur
-La dernière version livrée dans `ConnectionTest/Builds/Windows/CloudVR-PC.exe` a été testée par l'utilisateur et souffre de bugs majeurs qui bloquent l'expérience :
-- La transition réseau réaliste V2 n'est pas jouée au clic sur l'écran (coupure brutale).
-- Dans la scène `DataCenter.unity`, le joueur apparaît enfermé dans une ancienne boîte de 10x12m : le campus extérieur (placé à Z=-22m) et la nouvelle salle blanche monumentale de 40m (placée à Z=+12m) sont masqués derrière des murs pleins primitifs non supprimés !
-- Le sas d'accès cylindrique mantrap entre en collision directe avec le joueur au spawn.
-- Les 6 bornes pédagogiques sont restées entassées dans l'ancien espace restreint au lieu de jalonner l'allée centrale de 40 mètres.
+### 1. Contexte et Diagnostic Récent
+Un audit critique approfondi indépendant vient d'être réalisé sur l'exécutable `ConnectionTest/Builds/Windows/CloudVR-PC.exe` (146,87 Mo, build du 21/10 à 16h56) et documenté dans `docs/AUDIT_GLOBAL_2026-10-21.md`.
+Bien que les tests automatisés réussissent (37/37 assertions), l'expérience humaine réelle souffre de plusieurs défauts majeurs identifiés :
+- **Aberration spatiale** : L'allée centrale de la salle blanche fait 8 mètres de large (plus large qu'une autoroute), les baies sont clairsemées, et le confinement thermique CAC en verre flotte dans le vide à 2,6m sans toucher les racks.
+- **Zone technique masquée** : Le local TGBT/UPS (`Electrical_Room.fbx`) est relégué à X=-26m, enfermé derrière un mur plein étanche de la salle blanche, invisible pour le visiteur.
+- **UI étouffante** : 3 grands bandeaux noirs 2D fixes couvrent plus de 45% de l'écran avec du texte brut au lieu d'une interface diégétique 3D.
+- **Poteau traversant** : Un montant de busway traverse la Borne 01 et coupe son texte ("01 R|SEAU").
+- **Sas démesuré** : Le sas mantrap fait 4m de large (taille d'une rame de métro) et plonge le joueur dans un écran 100% gris uni pendant les 2s de scan.
+- **Activités répétitives** : Les 6 étapes réutilisent la même boule bleue glissant sur une ligne au plafond pendant 2,8s vers la Baie 01, sans manipulation physique réelle. Le modèle 3D détaillé du serveur 2U extractible (`Server_Blade_Detailed.fbx`) n'est même pas exploité.
 
-### 2. Ce que tu dois faire immédiatement
-Consulte le dossier de passage de relais dans `docs/PASSAGE_RELAIS_CHATGPT.md` et `docs/STATE.md`.
-Ta première tâche est de corriger la scénographie pour la rendre grandiose, fluide et parfaitement jouable :
+### 2. Ta Mission Immédiate : Implémenter la Phase P0 (Fondations Spatiales et Rendu)
+Consulte impérativement `AGENTS.md`, `docs/STATE.md`, `docs/BACKLOG.md` et `docs/AUDIT_GLOBAL_2026-10-21.md`.
 
-1. Dans `ConnectionTest/Assets/CloudVR/Editor/DatacenterMonumentalBuilder.cs` :
-   - Supprime définitivement l'ancienne boîte primitive (`Mur_Entree`, `Mur_Fond`, `Mur_Gauche`, `Mur_Droit`, `Sol`, `Plafond` créés par l'ancien DataCenterSceneBuilder).
-   - Réorganise l'axe Z :
-     * Z = -28m : Point d'apparition du joueur (Player_PC / Player_VR) dans la cour extérieure, face au bâtiment monumental 28x18x14m, avec la guérite vigile, la barrière et les générateurs Caterpillar.
-     * Z = -4m à 0m : Le sas cylindrique biométrique Mantrap (portes extérieures qui s'ouvrent à l'approche, séquence de pesée/scan, puis ouverture sur la salle blanche).
-     * Z = 0m à +40m : La grande salle blanche WhiteSpace de 40m avec les 32 racks 42U, le confinement d'allée chaude, et la baie interactive 01 à Z=14m.
-   - Distribue les 6 bornes de visite (`DemoTourBuilder.cs`) le long de cette grande allée (Z = 8m, 14m, 20m, 26m, 32m, 38m).
+Modifications attendues en priorité dans `ConnectionTest/Assets/CloudVR/Editor/DatacenterMonumentalBuilder.cs` :
+1. **Resserrer la Salle Blanche** :
+   - Réduire la largeur de l'allée centrale de 8,0 m à 2,2 m (rapprocher les colonnes de baies 42U pour former deux rangées denses et réalistes).
+   - Ajuster la toiture de confinement CAC pour qu'elle repose hermétiquement sur le sommet des baies avec des cloisons/portes fermant l'allée.
+2. **Ouvrir le Local TGBT/UPS** :
+   - Créer une baie vitrée d'observation et une porte franchissable donnant un accès direct depuis la salle blanche vers le local électrique attenant.
+3. **Nettoyer les Obstructions et l'UI** :
+   - Déplacer la descente de busway qui traverse la Borne 01.
+   - Désactiver les bandeaux noirs d'overlay 2D fixes du HUD au profit de l'affichage sur les consoles 3D du monde.
+4. **Sas Mantrap Réaliste** :
+   - Ramener le diamètre du sas à 1,8 m (taille humaine anti-tailgating) et conserver la visibilité intérieure pendant le scan (mire de scan rétinien/badgeuse au lieu d'un écran aveugle).
 
-2. Dans `ConnectionTest/Assets/CloudVR/Editor/ChambreArtBuilder.cs` & `PhotoSender.cs` :
-   - Câble l'événement `onSendCompleted` de `PhotoSender` pour qu'il déclenche la cinématique narrative de `NetworkTransitionV2.cs` (les 6 étapes avec HUD et barre de progression) avant de charger la scène `DataCenter`.
-   - Éteins la lumière directionnelle blanche d'origine pour ne laisser que l'ambiance cocooning ambrée 2700K, la lueur de l'écran, les fairy lights et la pluie contre les vitres.
+### 3. Commandes de Compilation et de Test
+- Pour compiler le build Windows :
+  `powershell -ExecutionPolicy Bypass -File tools/Build-DemoCopy.ps1 -Resume -Wait`
+  puis
+  `powershell -ExecutionPolicy Bypass -File tools/Build-DemoCopy.ps1 -Complete`
+- Pour exécuter la suite de tests et vérifier les captures réelles :
+  `powershell -ExecutionPolicy Bypass -File tools/Test-PCBuild.ps1 -Graphics -Demo -TimeoutSeconds 120`
 
-3. Recompile le projet pour Windows via PowerShell :
-   `powershell -ExecutionPolicy Bypass -File tools/Build-DemoCopy.ps1 -Resume -Wait`
-   puis
-   `powershell -ExecutionPolicy Bypass -File tools/Build-DemoCopy.ps1 -Complete`
-   Vérifie que le build s'exécute sans erreur et teste le résultat dans `ConnectionTest/Builds/Windows/CloudVR-PC.exe`.
-
-Reste concis, rigoureux, et documente tes modifications dans `docs/STATE.md` et `docs/BACKLOG.md`.
+Reste concis, rigoureux, préserve `Le cloud.docx`, et documente tes résultats dans `docs/STATE.md` et `docs/BACKLOG.md`.
 ```
