@@ -7,6 +7,26 @@
 
 ---
 
+## État courant — P1 livré le 21/10 à 23 h 15 Paris
+
+**T16 terminé** : Baie_01 ouvre sa porte, extrait son serveur, demande l'inspection CPU/RAM/NVMe puis la remise en place. La borne 04 demande de réparer une fuite de confinement, avec mauvaises options et retour thermique progressif ; refroidissement toujours actif. Modèle fictif, ratio de puissance sous hypothèse de régime constant. **64/64 contrôles player DX11**, 20 P1 + 14 P0 pré-build, BuildPipeline 0 erreur/avertissement. Captures et limites : [preuves P1](validation/p1-2026-10-21/README.md).
+
+**Prochaine tâche prête : T17/P2, voyage réseau 3D** ; quatre autres activités encore au prototype, casque et performance non validés. Les demandes P0/P1 historiques plus bas ne doivent pas faire refaire les lots livrés. MCP utilisé ; Chambre restituée propre, console retournant zéro erreur. Audit composite final additionnel incomplet après deux erreurs NullReferenceException de requêtes : ne pas revendiquer de bilan complet des matériaux final. Les scènes originales sont identiques à la copie compilée par SHA-256.
+
+Verrou Git historique revu après GO puis sauvegardé sous tmp, sans arrêter de processus ; publication P0/T20/P1 en cours. STATE fait foi pour la confirmation du push.
+
+## Historique de reprise — P0 livré le 21/10 à 22 h 05 Paris
+
+Correctif utilisateur ultérieur **T20 livré à 22 h 38** : trois groupes électrogènes étaient coplanaires au mur ouest de salle blanche à X=−9 m. Déplacés hors du bâtiment, écart désormais 6 m ; comparaison de sept angles et sept vues player propres, 14 contrôles géométriques et 40/40 contrôles PC. [Preuves et limites](validation/west-wall-2026-10-21/README.md). Dernier build local à utiliser ; publication Git toujours suspendue. Après réimport final, le MCP ne répond plus aux pings ; revérifier sa connexion avant de piloter l'éditeur.
+
+Les instructions P0 ci-dessous sont désormais **implémentées** : allée mesurée à 2,20 m, 32 baies au total, confinement raccordé avec portes, local électrique accessible au clavier, sas compact transparent et six consoles 3D sans HUD massif. Build Windows 0 erreur/0 avertissement ; **40/40 contrôles player réussis**, captures et limites dans [les preuves P0](validation/p0-2026-10-21/README.md). MCP Unity effectivement connecté et utilisé lors de cette reprise, contrairement au constat de l'audit de 16h56. Scènes originales relues sans matériau manquant.
+
+Lire d'abord `STATE.md` et `BACKLOG.md` ; le prompt P0 historique plus bas ne doit pas faire refaire ce travail. **Prochain morceau prêt : T16/P1**, manipulation de Baie_01 et résolution d'une anomalie thermique, puis T17/P2 pour le voyage réseau 3D. Les six activités et la transition V2 restent celles du prototype ; le texte « activer le refroidissement » est encore à reprendre. Aucun test Quest ni nouvel APK.
+
+Publication locale en attente de revue : deux préparations de commit refusées par `index.lock`, Git LFS filter-process encore actif. Aucun commit/push P0 ; sources, scènes et preuves conservées non commitées. Voir T19 et `validation/p0-2026-10-21/git-publication.json` avant tout nouveau travail ou publication.
+
+---
+
 ## 1. Contexte du Projet & Objectifs Académiques
 
 - **Projet :** Visite immersive en Réalité Virtuelle d'un Data Center : *« Du clic sur "envoyer une photo" aux équipements physiques du Cloud »*.

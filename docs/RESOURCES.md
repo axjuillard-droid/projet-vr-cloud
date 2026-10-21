@@ -1,5 +1,21 @@
 # Ressources évaluées
 
+## T16 — P1 Maintenance et diagnostic d'air, 21 octobre 2026
+
+Réutilisation du serveur 2U et de la porte originaux (`generate_server_blade.py`), audio procédural, uGUI, Input System et XRI 3.0.11 installés. `XRSimpleInteractable.selectEntered` vérifié dans le package local ; pas de framework supplémentaire ni de code tiers copié. Le décor de Baie_01 fusionne des façades pleines et ne peut exposer le tiroir : cadre ouvert original construit dans cette seule baie, modèles détaillés existants conservés. Pas de nouveau téléchargement ; licences existantes conservées.
+
+Références : [DOE, Best Practices Guide 2024](https://www.energy.gov/sites/default/files/2024-07/best-practice-guide-data-center-design.pdf), [ENERGY STAR, confinement](https://www.energystar.gov/products/data_center_equipment/16-more-ways-cut-energy-waste-data-center/containmentenclosures). Le principe documenté est la réduction du mélange/contournement d'air ; textes paraphrasés, aucun média copié. Les températures 22/30/32 °C, charge IT 12 kW, auxiliaires 3/4/5 kW et constante thermique de 1,5 s sont **choisis pour un scénario fictif à temps accéléré**, sans valeur normative ou prédictive. PUE calculé comme (IT + auxiliaires) / IT pour ce scénario ; pas d'empreinte carbone réelle attribuée à une photo.
+
+Précision après lecture du guide DOE, section 8.1 (p.29, PDF p.37) : le PUE de référence compare les énergies du site et de l'IT sur une période annuelle. L'écran P1 affiche donc le ratio de puissances fictives avec la mention « PUE indicatif, hypothèse de régime constant » ; il ne constitue pas un PUE annuel mesuré ni un résultat comparable à un opérateur réel.
+
+## T20 — Conflit groupes électrogènes / mur ouest, 21 octobre 2026
+
+Correction locale comprise et reproduite : réutilisation des trois groupes originaux du FBX Campus, du builder et des matériaux existants. Déplacement de toutes leurs pièces ensemble ; dalle d'appui créée avec le composant Box déjà présent. Aucun téléchargement, nouvelle dépendance ou code tiers ; aucune recherche externe nécessaire selon AGENTS. Le contrôle pré-build mesure leur séparation de la salle, sans prétendre certifier une implantation électrique ou incendie industrielle.
+
+## T14/T15 — Réutilisation pour la phase P0, 21 octobre 2026
+
+Skill local reuse-first relu. Correction locale d'une implantation comprise : réutilisation des FBX originaux WhiteSpace_Hall, Mantrap_Airlock et Electrical_Room, des matériaux URP et de uGUI/XRI déjà évalués. Pas de téléchargement, achat ni nouvelle dépendance. Les 31 baies décoratives sont regroupées par matériau via Mesh.CombineMeshes (API présente dans Unity installé) ; Baie_01 reste interactive. Portes et validation géométrique originales, aucune promesse de certification, de simulation aéraulique ou d'anti-tailgating réel. Pièce nominale du sas de 1,8 m, débord de toiture distinct. Build PC du 21/10 à 22 h 05 et 40/40 contrôles player réussis ; rendu/performance Quest et lisibilité en casque non validés.
+
 ## T12 — Correction locale des surfaces, 21 octobre 2026
 
 Réutilisation des matériaux et builders du projet, Mesh/Camera.Render déjà disponibles dans Unity et vérifiés dans les sources du package MCP local. Aucun asset externe nécessaire pour cette correction comprise : pas de nouvelle recherche, téléchargement ou dépendance Unity. Dallage et scripts originaux, asset mesh généré publié avec son GUID. Composition des captures par Pillow/imageio-ffmpeg déjà installés dans l'environnement Python ; ni ces bibliothèques ni le binaire ffmpeg redistribués. La vidéo compare des rendus du projet et ne mesure pas les performances. Sources et méthode : validation/floors-2026-10-21/.

@@ -1,0 +1,37 @@
+{
+  "cameraPosition": "(0.000, 1.730, 14.000)",
+  "capsuleHeight": 1.8,
+  "capsuleCenter": "(0.000, 0.900, 0.000)",
+  "hits": [
+    {
+      "collider": "Player_PC",
+      "distance": 0.05330264,
+      "belongsToPlayer": true,
+      "point": "(0.085, 1.679, 13.971)"
+    },
+    {
+      "collider": "Cible_Door",
+      "distance": 1.306187,
+      "belongsToPlayer": false,
+      "point": "(1.115, 1.057, 13.621)"
+    },
+    {
+      "collider": "Door_Interactive_Pivot",
+      "distance": 1.44606292,
+      "belongsToPlayer": false,
+      "point": "(1.230, 0.988, 13.582)"
+    },
+    {
+      "collider": "Montant",
+      "distance": 1.63286388,
+      "belongsToPlayer": false,
+      "point": "(1.384, 0.895, 13.530)"
+    },
+    {
+      "collider": "WhiteSpace_Sol_Continu",
+      "distance": 3.43762231,
+      "belongsToPlayer": false,
+      "point": "(2.867, 0.000, 13.026)"
+    }
+  ]
+}

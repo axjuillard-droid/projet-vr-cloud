@@ -1,0 +1,19 @@
+{
+  "observedParis": "2026-10-21T22:11:40+02:00",
+  "localHead": "21181d9769eb7a54fac088dd73ff216549a95bb4",
+  "remoteMainObservedBeforeAttempts": "21181d9769eb7a54fac088dd73ff216549a95bb4",
+  "commitCreated": false,
+  "pushAttempted": false,
+  "failedStageAttempts": 2,
+  "error": "Unable to create .git/index.lock: File exists",
+  "lock": {
+    "bytes": 0,
+    "createdParis": "2026-10-21T18:31:30.6646218+02:00",
+    "modifiedParis": "2026-10-21T18:31:30.6646218+02:00",
+    "ownerConfirmed": false
+  },
+  "processObservation": "git-lfs.exe filter-process encore actif lors du diagnostic ; propriétaire du verrou non confirmé",
+  "lockMovedOrDeleted": false,
+  "automaticStop": "AGENTS.md : après deux tentatives infructueuses sur un même blocage, consigner les preuves et arrêter cette tâche pour revue humaine",
+  "remaining": "Revoir le verrou et son propriétaire, puis reprendre staging, contrôle LFS, commit et push. Sources, scènes, build et preuves P0 restent sur disque."
+}

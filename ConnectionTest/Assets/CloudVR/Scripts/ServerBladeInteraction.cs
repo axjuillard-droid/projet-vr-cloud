@@ -1,7 +1,6 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.XR.Interaction.Toolkit.Interactables;
 
 /// <summary>
 /// Contrôle l'interaction physique avec la baie serveur et le tiroir extractible 2U :
@@ -20,6 +19,8 @@ public class ServerBladeInteraction : MonoBehaviour
     public Transform serverBlade;
     public Light inspectionLight;
     public GameObject hardwareLabels;
+    public Transform handle;
+    public bool IsAnimating => _isAnimating;
 
     [Header("Paramètres d'animation")]
     public float doorOpenAngle = 95f;
@@ -48,29 +49,7 @@ public class ServerBladeInteraction : MonoBehaviour
         if (inspectionLight != null) inspectionLight.enabled = false;
         if (hardwareLabels != null) hardwareLabels.SetActive(false);
 
-        // Configuration pour XR / VR
-        var interactable = GetComponent<XRSimpleInteractable>();
-        if (interactable != null)
-        {
-            interactable.selectEntered.AddListener(_ => Interact());
-        }
-    }
-
-    private void Update()
-    {
-        // En mode PC : détection de clic gauche si visé
-        if (InputModeManager.Instance != null && InputModeManager.Instance.IsVR) return;
-        if (Input.GetMouseButtonDown(0))
-        {
-            Ray ray = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
-            if (Physics.Raycast(ray, out RaycastHit hit, 3.5f))
-            {
-                if (hit.collider.gameObject == gameObject || hit.collider.transform.IsChildOf(transform))
-                {
-                    Interact();
-                }
-            }
-        }
+        // Les entrées PC/XRI sont routées une seule fois par P1LearningModule/P1ActionTarget.
     }
 
     public void Interact()
@@ -100,8 +79,11 @@ public class ServerBladeInteraction : MonoBehaviour
             audioSource.PlayOneShot(ProceduralAudioService.CreateHandleTurnSound(), 0.7f);
         }
 
+        for(float t=0;t<.2f;t+=Time.deltaTime)
+        {if(handle!=null)handle.localRotation=Quaternion.Euler(0,0,90*Mathf.SmoothStep(0,1,t/.2f));yield return null;}
+        if(handle!=null)handle.localRotation=Quaternion.Euler(0,0,90);
         Quaternion startRot = rackDoor != null ? rackDoor.localRotation : Quaternion.identity;
-        Quaternion targetRot = _doorClosedRot * Quaternion.Euler(0, -doorOpenAngle, 0);
+        Quaternion targetRot = _doorClosedRot * Quaternion.Euler(0, doorOpenAngle, 0);
 
         float elapsed = 0f;
         while (elapsed < animDuration)
@@ -188,6 +170,7 @@ public class ServerBladeInteraction : MonoBehaviour
             yield return null;
         }
         if (rackDoor != null) rackDoor.localRotation = _doorClosedRot;
+        if(handle!=null)handle.localRotation=Quaternion.identity;
 
         CurrentState = State.DoorClosed;
         _isAnimating = false;

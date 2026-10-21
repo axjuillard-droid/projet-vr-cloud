@@ -1,0 +1,10 @@
+{
+  "scene": "Assets/Scenes/DataCenter.unity",
+  "dirty": false,
+  "activeMeshRenderers": 577,
+  "missingMaterialSlots": 0,
+  "unsupportedShaderSlots": 0,
+  "proximityDoors": 3,
+  "stations": 6,
+  "scanLabel": true
+}

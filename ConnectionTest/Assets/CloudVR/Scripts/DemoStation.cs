@@ -7,6 +7,7 @@ public class DemoStation : MonoBehaviour
     public int index;
     public Renderer indicator;
     public UnityEngine.UI.Text caption;
+    public UnityEngine.UI.Text information;
     DemoTour _tour;
     XRSimpleInteractable _xr;
     void Start()

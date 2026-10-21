@@ -1,0 +1,26 @@
+{
+  "sceneHashesMatchBuildCopy": true,
+  "sceneHashes": {
+    "Chambre.unity": "1E369943C5E85BF3E490D5B1BFA815E9D5BA54D7F5EDF928FE491A8A80A54AC0",
+    "DataCenter.unity": "2A1C318CDFF402EB429257AD604463387014D42F665E8D0F2AD7C0509183918E"
+  },
+  "mcpObserved": {
+    "DataCenter": {
+      "dirty": false,
+      "playing": false,
+      "modulePresent": true,
+      "moduleActive": true,
+      "tourPresent": true
+    }
+  },
+  "additionalCompositeAudit": {
+    "completed": false,
+    "attempts": 2,
+    "error": "NullReferenceException in MCPDynamicCode.Execute",
+    "action": "Stopped for review; no complete material audit inferred"
+  },
+  "restoredScene": "Chambre",
+  "restoreResult": "Chambre ouverte, hors Play",
+  "consoleReturnedErrorEntries": 0,
+  "hardwareQuestTested": false
+}

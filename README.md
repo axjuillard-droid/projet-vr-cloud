@@ -2,38 +2,42 @@
 
 **Du clic sur « envoyer une photo » aux équipements physiques du cloud.** Projet universitaire ESILV année 5, Unity 6000.0.58f2 / URP / C# / OpenXR.
 
-**État au 21 octobre 2026 : sols corrigés, nouveau build PC livré à 16 h 56, 37 contrôles sur 37 réussis.** Le player Windows compile avec 0 erreur / 0 avertissement. La traversée de la cour au fond de salle via le sas et les six bornes sont vérifiées dans l’exécutable. Les essais humains de confort et le casque restent distincts.
+**État au 21 octobre 2026 : P1 livré à 23 h 15, 64 contrôles sur 64 réussis dans le player Windows.** La borne Traitement demande désormais d'ouvrir Baie_01, d'extraire le serveur, d'identifier CPU/RAM/NVMe puis de le remettre en place. Le module Refroidissement demande de diagnostiquer une fuite de confinement : acquitter ou ventiler davantage ne répare pas la porte ; sa fermeture permet un retour thermique progressif. Mesures d'air/énergie fictives explicitement signalées. [Preuves et limites P1](docs/validation/p1-2026-10-21/README.md).
 
-**Retour humain & audit critique : transition et pédagogie à reprendre.** Les surfaces concurrentes détectées sont corrigées : parking importé retiré du rendu, ancien dallage remplacé par un mesh groupé sur 18×40 m, collision continue invisible et joints en retrait. [Avant/après et preuves](docs/validation/floors-2026-10-21/README.md), [comparaison vidéo hors Play](docs/validation/floors-2026-10-21/floor-comparison.mp4). Un audit critique approfondi indépendant sans complaisance du build de 16h56 a identifié 12 axes majeurs de progrès (allée 8m, toiture CAC flottante, local TGBT masqué, HUD 2D invasif, activités répétitives) : voir le [Rapport d'audit global](docs/AUDIT_GLOBAL_2026-10-21.md) et le [Dossier de passage de relais ChatGPT](docs/PASSAGE_RELAIS_CHATGPT.md).
+P0 conserve l'allée de 2,20 m, les baies regroupées, le sas transparent et le local électrique accessible. Les groupes électrogènes qui affleuraient le mur ouest sont déplacés hors du bâtiment : [sept comparaisons avant/après](docs/validation/west-wall-2026-10-21/README.md), [jalon P0](docs/validation/p0-2026-10-21/README.md). Publication des jalons en cours après validation.
+
+**Travail restant identifié par l'audit :** la transition V2 reste une séquence de textes/progression ; le voyage réseau 3D est la prochaine tâche T17. Réseau, Stockage, Électricité et Supervision conservent leurs mécaniques antérieures. [Audit critique](docs/AUDIT_GLOBAL_2026-10-21.md), [état de reprise](docs/STATE.md). P1 améliore deux modules, sans terminer la refonte des six activités.
 
 Les corrections disponibles :
 
 - Chambre ambrée, directionnelles désactivées, lampe à 2700K, lueur écran, guirlande et pluie procédurale conservées.
 - Envoi photo relié à la transition narrative V2 : six étapes sous-titrées avec progression pendant environ 10,8 s, puis chargement asynchrone. Ancien trajet fibre et chargement direct retirés. Trajet illustratif, aucun réseau réel mesuré, aucune photo personnelle transférée.
 - Apparition PC/VR dans la cour à Z=−28 m, face à la façade 28×18×14 m ; ancienne boîte primitive 10×12 m supprimée.
-- Sas cylindrique à Z=−4..0 m : portes coulissantes interverrouillées et pesée/scan illustratifs de 2 s. Aucun dispositif biométrique réel.
-- Salle blanche orientée sur Z=0..40 m, sol continu, 32 baies de décor et baie interactive 01 à Z=14 m. Confinement et infrastructures représentés schématiquement ; aucune certification Tier ni performance industrielle revendiquée.
-- Six bornes pédagogiques placées à Z=8/14/20/26/32/38 m, flux illustratif dirigé vers la baie déplacée. Les 32 racks sont répartis latéralement pour dégager les visées ; clics des six bornes et retour Chambre validés dans le player.
+- Sas et raccords d'entrée à Z=−4..0 m : chambre cylindrique nominale de 1,8 m, portes transparentes interverrouillées et progression du scan illustratif de 2 s dans le monde. Aucun dispositif biométrique réel.
+- Salle blanche Z=0..40 m, sol continu et **32 baies au total**, dont Baie_01 à Z=14 m. Deux rangées denses entre Z=9,5 et 23,9 m autour d'une allée de 2,20 m, toit/impostes/niches de confinement raccordés et portes automatiques. Infrastructures schématiques ; aucune certification Tier ni performance thermique revendiquée.
+- Local TGBT/UPS en aile attenante, porte franchissable à Z=30 m, vitrage d'observation et équipements tournés vers la circulation.
+- Six bornes à gauche, Z=8/14/20/26/32/38 m. Les objectifs et textes apparaissent sur leurs écrans 3D ; HUD massif du data center supprimé, descentes PDU gênantes retirées. Baie interactive et diagnostic d’air P1 intégrés ; quatre autres activités encore à approfondir.
 
-| Cour extérieure du player | Allée centrale de 40 m |
+| Baie ouverte, serveur extrait — player | Fuite corrigée — player |
 |---|---|
-| ![Apparition réelle dans la cour](docs/validation/floors-2026-10-21/player/demo-arrival.png) | ![Allée centrale dégagée vue du fond de salle](docs/validation/floors-2026-10-21/player/demo-hall-end.png) |
+| ![Inspection CPU RAM NVMe](docs/validation/p1-2026-10-21/player/demo-server-extracted.png) | ![Température et auxiliaires fictifs après correction](docs/validation/p1-2026-10-21/player/demo-cooling-recovered.png) |
 
-Captures Direct3D11 du 21 octobre. Elles ne prouvent pas une traversée complète ni une validation casque.
+Captures réelles du player Direct3D11, poses de visée contrôlées par le probe. Sélections PC/XRI déclenchant des animations contraintes ; aucune validation casque ou manipulation libre.
 
 | Vérification | Résultat |
 |---|---|
-| Build Windows, 16 h 56 Paris | Réussi, 20,45 s, 146 874 635 octets, 0 erreur / 0 avertissement |
-| Démo complète dans le player | **37/37 contrôles réussis**, Direct3D11, entrées synthétiques |
-| Transition et navigation | Six étapes ≥10,7 s, apparition −28 m, sas/scan, arrivée Z=39,001 m en 24,28 s |
-| Six bornes et conclusion | Raycasts/clics, huit actions, synthèse, retour Chambre, reset R vérifiés ; poses de visée contrôlées aux bornes |
+| Build Windows, 23 h 15 Paris | Réussi, 32,09 s, 146 965 984 octets pour le build, 0 erreur / 0 avertissement BuildPipeline |
+| Démo complète dans le player | **64/64 contrôles réussis**, Direct3D11, entrées synthétiques |
+| Transition et navigation | Six étapes ≥10,7 s, apparition −28 m, sas/scan, arrivée Z=39,0004 m en 24,75 s |
+| Bifurcation électrique | Retour au clavier à Z≈30 puis entrée par la porte à X<−12 ; sans téléportation sur ce trajet |
+| Six bornes et conclusion | Sept activations de console, inspection et remise en place obligatoires, mauvais choix thermiques et stabilisation ; synthèse, retour Chambre et reset R vérifiés |
 | Petits déplacements | 100 commandes de 0,5 mm produisent 5 cm ; seuil CharacterController corrigé |
-| Scènes originales dans Unity | 0 matériau manquant / 0 shader non supporté ; matériaux et GUID livrés par le runner |
-| MCP Unity | Connecté, builder et diagnostics exécutés ; Chambre propre hors Play, console sans erreur retournée |
-| Lancement normal | Chambre affichée ; la traversée complète ci-dessus utilise le probe automatisé |
+| Audit des scènes P0 à 22 h 05 | DataCenter : 577 MeshRenderers actifs, 0 matériau manquant / 0 shader non supporté ; Chambre : 0 matériau manquant. Compteur antérieur aux deux nouvelles dalles T20 |
+| MCP Unity | Diagnostic de visée et mesures effectués ; scènes livrées identiques à la copie par SHA-256. Audit composite final incomplet après deux erreurs de requête ; Chambre restituée, console sans erreur retournée |
+| Conditions de l'essai P1 | Probe automatisé dans le vrai player ; pas d'essai humain de confort ou de benchmark |
 | Android / Quest | APK antérieur inchangé ; ces corrections restent à compiler et tester dans le casque |
 
-Les deux échecs initiaux et les diagnostics sont conservés. [Résultats finaux et limites](docs/validation/monumental-2026-10-21/reprise/README.md), [état de reprise](docs/STATE.md), [backlog](docs/BACKLOG.md). Les captures ne constituent pas une mesure de cadence de rendu ni une validation de confort humain.
+Le premier échec de visée P0 et sa correction sont conservés dans [les résultats P0](docs/validation/p0-2026-10-21/README.md), avec captures et journaux anonymisés. [État de reprise](docs/STATE.md), [backlog](docs/BACKLOG.md). Réduction de résolution des ombres signalée dans le journal ; aucun benchmark PC/Quest ni confort humain validé. Les cinq meshes de rangées ne représentent pas le nombre total de draw calls.
 
 L’objectif reste un parcours photo guidé, puis un parcours IA scénarisé. Sous-titres provisoires, voix finale et validation pédagogique à préparer. Les extensions web et RAG réel ne sont pas implémentées. [Vision](docs/VISION.md), [parcours](docs/PARCOURS.md), [décisions](docs/DECISIONS.md).
 
@@ -64,11 +68,13 @@ Pour travailler dans Play sur PC, sélectionner Windows et la qualité PC. Atten
 | Se déplacer | ZQSD / WASD ou flèches directionnelles |
 | Regarder / viser | Souris |
 | Envoyer la photo | Clic gauche sur l’écran, à portée de 5 m |
+| Sélectionner une borne ou une commande de baie | Viser, puis clic gauche ou E |
+| Mettre en pause / reprendre | Échap |
 | Fermer le player Windows | Alt + F4 |
 
 Pour tester le livrable construit localement, lancer **`ConnectionTest/Builds/Windows/CloudVR-PC.exe`**. Conserver tout le dossier Windows avec l’exécutable, ses DLL et `CloudVR-PC_Data`.
 
-Le dernier exe contient les corrections T10 et passe les 37 contrôles automatisés. Un essai libre par l’utilisateur reste utile pour apprécier le confort, la lisibilité et le rendu.
+Le dossier Windows livré contient P0, le correctif du mur et P1, et passe les 64 contrôles automatisés. Le lanceur `.exe` peut garder sa date du 20/10 à 14 h 58 : le contenu reconstruit est notamment dans `CloudVR-PC_Data/data.unity3d` (21/10 à 23 h 15 min 33 s) et les DLL. [Empreintes des fichiers livrés](docs/validation/p1-2026-10-21/delivery-manifest.json). Un essai libre reste utile pour apprécier le confort, la lisibilité et le rendu.
 
 Les exécutables et APK sont des sorties locales ignorées par Git : **ce dépôt fournit les sources et les procédures de compilation**, pas un téléchargement de ces builds.
 
@@ -94,7 +100,7 @@ powershell -ExecutionPolicy Bypass -File tools/Build-DemoCopy.ps1 -Complete
 
 `-Resume` réutilise une copie déjà créée ; sur une installation neuve, omettre cette option au premier lancement. Le builder maître est exécuté avant compilation ; `-Complete` vérifie le rapport avant de copier le player et les scènes générées.
 
-La commande de validation T10 est `./tools/Test-PCBuild.ps1 -Graphics -Demo -TimeoutSeconds 120`. Elle vérifie maintenant la transition complète et tente une marche continue à travers le sas avant les bornes. **Dernier résultat : 37/37 contrôles réussis après reprise GO.** Les scénarios historiques Photo/Journey ciblent l’ancien parcours et ne remplacent pas cette validation.
+La commande de validation actuelle est `./tools/Test-PCBuild.ps1 -Graphics -Demo -TimeoutSeconds 120`. Elle vérifie la transition complète, une marche continue à travers le sas, l'accès électrique et les bornes. **Dernier résultat : 64/64 contrôles réussis.** Les scénarios historiques Photo/Journey ciblent l’ancien parcours et ne remplacent pas cette validation.
 
 Les rapports sont écrits sous `tmp/unity/`. Les entrées clavier/souris sont synthétiques ; un essai manuel et un test casque restent distincts.
 

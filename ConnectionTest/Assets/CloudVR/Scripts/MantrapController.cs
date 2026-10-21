@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 
 /// <summary>Sas illustratif : approche, portes coulissantes interverrouillées, pesée/scan, sortie.</summary>
 public class MantrapController : MonoBehaviour
@@ -11,6 +12,8 @@ public class MantrapController : MonoBehaviour
     public float scanDuration = 2f;
     public float holdOpenSeconds = 5f;
     public AudioSource audioSource;
+    public Text scanLabel;
+    float _scanStarted;
     public MantrapState State { get; private set; }
     public bool EntryOpen => _entryAmount > .99f;
     public bool ExitOpen => _exitAmount > .99f;
@@ -42,6 +45,9 @@ public class MantrapController : MonoBehaviour
     {
         var player = Player(); if (player == null) return;
         Vector3 p = player.position;
+        if(scanLabel!=null)scanLabel.text=State==MantrapState.Scanning
+            ? "CONTRÔLE D'ACCÈS\n"+Mathf.Clamp01((Time.time-_scanStarted)/scanDuration).ToString("P0")
+            : State==MantrapState.Authorized ? "ACCÈS AUTORISÉ" : "Sas individuel • avancez au centre";
         bool nearby = Mathf.Abs(p.x - transform.position.x) < 1.1f;
         if (State == MantrapState.Idle) _reverse = p.z > transform.position.z;
         bool approach = nearby && Mathf.Abs(p.z - transform.position.z) < 5f;
@@ -53,7 +59,7 @@ public class MantrapController : MonoBehaviour
         doorExit.localPosition = _exitClosed + Vector3.right * (_exitAmount * 1.1f);
         SetLED(ledEntry, entryWanted ? matLedGreen : matLedRed);
         SetLED(ledExit, exitWanted ? matLedGreen : matLedRed);
-        if (State == MantrapState.Idle && nearby && Mathf.Abs(p.z - transform.position.z) < .55f)
+        if (State == MantrapState.Idle && nearby && Mathf.Abs(p.z - transform.position.z) < .18f)
             PlayerEnteredSas();
         if (State == MantrapState.Authorized && (_reverse ? p.z < transform.position.z - 3.2f : p.z > transform.position.z + 3.2f))
         {
@@ -73,6 +79,8 @@ public class MantrapController : MonoBehaviour
         // Attendre la fermeture complète avant de compter le scan.
         while (_entryAmount > .001f || _exitAmount > .001f) yield return null;
         State = MantrapState.Scanning;
+        _scanStarted=Time.time;
+        if(scanLabel!=null)scanLabel.text="CONTRÔLE D'ACCÈS\n0 %";
         SetLED(ledScanner, matLedScanning);
         audioSource.PlayOneShot(_beep);
         yield return new WaitForSeconds(scanDuration);

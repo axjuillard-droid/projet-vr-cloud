@@ -31,19 +31,20 @@ public static class DemoTourBuilder
         {
             var go=new GameObject("Borne_"+(i+1).ToString("00")); go.transform.SetParent(tour.transform);
             float z = 8f + i * 6f;
-            go.transform.position = new Vector3(i % 2 == 0 ? -1.9f : 1.9f, 0, z);
-            go.transform.rotation=Quaternion.Euler(0,i%2==0 ? -90 : 90,0);
+            go.transform.position = new Vector3(-1.65f, 0, z);
+            go.transform.rotation=Quaternion.Euler(0,-90,0);
             var station=go.AddComponent<DemoStation>(); station.index=i; tour.stations[i]=station;
             Box(go.transform,"Console",new Vector3(0,.62f,0),new Vector3(.85f,1.24f,.6f),dark);
             Box(go.transform,"Socle",new Vector3(0,.045f,0),new Vector3(1,.09f,.75f),metal);
-            station.indicator=Box(go.transform,"Bande_lumineuse",new Vector3(0,1.20f,-.31f),new Vector3(.78f,.04f,.025f),cyan).GetComponent<Renderer>();
-            var panel=Box(go.transform,"Écran",new Vector3(0,1.63f,-.12f),new Vector3(1.15f,.65f,.08f),dark);
-            var collider=go.AddComponent<BoxCollider>(); collider.center=new Vector3(0,.96f,0); collider.size=new Vector3(1.2f,1.92f,.65f);
+            station.indicator=Box(go.transform,"Bande_lumineuse",new Vector3(0,.96f,-.31f),new Vector3(.78f,.04f,.025f),cyan).GetComponent<Renderer>();
+            var panel=Box(go.transform,"Écran",new Vector3(0,1.45f,-.34f),new Vector3(1.15f,.9f,.08f),dark);
+            var collider=go.AddComponent<BoxCollider>(); collider.center=new Vector3(0,.96f,-.04f); collider.size=new Vector3(1.2f,1.92f,.8f);
             var xr=go.AddComponent<XRSimpleInteractable>(); xr.interactionManager=manager; xr.interactionLayers=1; xr.colliders.Clear(); xr.colliders.Add(collider);
             var screen=new GameObject("Légende",typeof(RectTransform),typeof(Canvas)); screen.transform.SetParent(go.transform,false);
-            screen.transform.localPosition=new Vector3(0,1.63f,-.165f); screen.transform.localScale=Vector3.one*.002f;
-            screen.GetComponent<RectTransform>().sizeDelta=new Vector2(550,290); screen.GetComponent<Canvas>().renderMode=RenderMode.WorldSpace;
-            station.caption=DemoTour.Label(screen.transform,"Action",34,new Vector2(.04f,.04f),new Vector2(.96f,.96f),Color.white);
+            screen.transform.localPosition=new Vector3(0,1.45f,-.385f); screen.transform.localScale=Vector3.one*.002f;
+            screen.GetComponent<RectTransform>().sizeDelta=new Vector2(550,440); screen.GetComponent<Canvas>().renderMode=RenderMode.WorldSpace;
+            station.caption=DemoTour.Label(screen.transform,"Action",28,new Vector2(.04f,.72f),new Vector2(.96f,.98f),Color.cyan);
+            station.information=DemoTour.Label(screen.transform,"Information",20,new Vector2(.04f,.03f),new Vector2(.96f,.70f),Color.white);
             station.caption.alignment=TextAnchor.MiddleCenter; station.caption.text=(i+1).ToString("00")+"  "+DemoTour.Titles[i];
             // Icônes géométriques originales, sans collider supplémentaire.
             if(i<3) for(int row=0;row<3;row++) Box(go.transform,"Module",new Vector3((row-1)*.20f,.83f,-.315f),new Vector3(.14f,.24f,.03f),metal);
@@ -58,6 +59,7 @@ public static class DemoTourBuilder
         UnityEngine.Object.DestroyImmediate(packet.GetComponent<Collider>()); packet.GetComponent<Renderer>().sharedMaterial=cyan; tour.packet=packet.transform; flow.SetActive(false);
         tour.thermal=new Renderer[3];
         for(int i=0;i<3;i++) tour.thermal[i]=Box(tour.transform,"Repère_thermique",new Vector3(2.8f,2.23f,14+i*6),new Vector3(1.1f,.035f,.95f),cold).GetComponent<Renderer>();
+        P1LearningBuilder.Build(tour);
         ValidateStationAccess(tour);
         // Ancien panneau remplacé par l'objectif et les bornes : garder l'allée lisible.
         foreach(var name in new[]{"Guide_Visite","Guide_Visite_Support"}) { var go=GameObject.Find(name); if(go!=null) go.SetActive(false); }

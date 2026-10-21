@@ -1,0 +1,24 @@
+{
+  "source": "Unity Camera.Render hors Play, caméra FPS_Camera",
+  "position": [
+    -7.6,
+    1.65,
+    12.4
+  ],
+  "rotationsY": [
+    195,
+    205,
+    220,
+    235,
+    250,
+    265,
+    280
+  ],
+  "pitch": 0,
+  "roll": 0,
+  "beforeAfterResolution": [
+    640,
+    373
+  ],
+  "note": "Captures réelles à poses et résolution identiques ; comparaison visuelle, pas benchmark ni essai humain."
+}

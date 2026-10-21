@@ -14,6 +14,8 @@ public static class DemoCopyBuild
         try
         {
             GrandMasterBuilder.BuildAll();
+            P0SpatialValidation.Validate("Builds/Demo/p0-layout-audit.json");
+            P1LearningValidation.Validate("Builds/Demo/p1-learning-audit.json");
             PlayerSettings.runInBackground=true;
             var report=BuildPipeline.BuildPlayer(new BuildPlayerOptions {
                 scenes=new[]{"Assets/Scenes/Chambre.unity","Assets/Scenes/DataCenter.unity"}, locationPathName="Builds/Demo/CloudVR-PC.exe",

@@ -4,6 +4,10 @@ $projectRoot=[IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..'))
 $sourceProject=Join-Path $projectRoot 'ConnectionTest'
 $metadata=Join-Path $projectRoot 'tmp/unity/demo-copy-last.json'
 $unityExe='C:/Program Files/Unity/Hub/Editor/6000.0.58f2-x86_64/Editor/Unity.exe'
+function Copy-ChangedFile([string]$Source,[string]$Destination) {
+    if ((Test-Path -LiteralPath $Destination) -and (Get-FileHash -LiteralPath $Source).Hash -eq (Get-FileHash -LiteralPath $Destination).Hash) { return }
+    Copy-Item -LiteralPath $Source -Destination $Destination -Force
+}
 if ($Resume -or $Complete) {
     $run=Get-Content -LiteralPath $metadata -Raw | ConvertFrom-Json
     $stage=[IO.Path]::GetFullPath($run.stage)
@@ -24,15 +28,31 @@ if ($Complete) {
     $reportUtc=[DateTimeOffset]$report.utc
     if ($reportUtc -lt [DateTimeOffset]$run.utc) { throw 'Rapport antérieur au lancement.' }
     if ((Get-Content -LiteralPath $run.log -Raw) -notmatch 'Exiting batchmode successfully') { throw 'Fermeture normale du batch non constatée.' }
-    foreach ($guard in $run.guards) { if ((Get-FileHash -LiteralPath (Join-Path $projectRoot $guard.file)).Hash -ne $guard.hash) { throw ('Fichier original modifié pendant le build, revue requise : '+$guard.file) } }
+    foreach ($guard in $run.guards) {
+        $currentHash=(Get-FileHash -LiteralPath (Join-Path $projectRoot $guard.file)).Hash
+        if ($currentHash -eq $guard.hash) { continue }
+        # Reprise d'une livraison interrompue : accepter seulement la scène générée identique.
+        $generated=Join-Path $stage $guard.file.Substring('ConnectionTest/'.Length)
+        if ($guard.file -like 'ConnectionTest/Assets/Scenes/*.unity' -and
+            $currentHash -eq (Get-FileHash -LiteralPath $generated).Hash) { continue }
+        throw ('Fichier original modifié pendant le build, revue requise : '+$guard.file)
+    }
     foreach ($name in @('WhiteSpace_FloorTiles.asset','WhiteSpace_FloorTiles.asset.meta')) {
         if (!(Test-Path -LiteralPath (Join-Path $stage ('Assets/CloudVR/Models/'+$name)))) { throw ('Ressource de sol générée absente : '+$name) }
     }
+    $p0Meshes = @(Get-ChildItem -LiteralPath (Join-Path $stage 'Assets/CloudVR/Models') -Filter 'P0_Racks_*.asset' -File)
+    if ($p0Meshes.Count -eq 0) { throw 'Meshes des rangées P0 absents.' }
+    foreach ($mesh in $p0Meshes) { if (!(Test-Path -LiteralPath ($mesh.FullName+'.meta'))) { throw 'GUID de mesh P0 absent.' } }
     $destination=Join-Path $sourceProject 'Builds/Windows'
     $backup=Join-Path $sourceProject 'Builds/Windows-PreDemo-20261020'
     if ((Test-Path -LiteralPath $destination) -and !(Test-Path -LiteralPath $backup)) { Copy-Item -LiteralPath $destination -Destination $backup -Recurse }
     New-Item -ItemType Directory -Force -Path $destination | Out-Null
-    Copy-Item -Path (Join-Path $stage 'Builds/Demo/*') -Destination $destination -Recurse -Force
+    $generatedBuild=Join-Path $stage 'Builds/Demo'
+    Get-ChildItem -LiteralPath $generatedBuild -File -Recurse | ForEach-Object {
+        $target=Join-Path $destination $_.FullName.Substring($generatedBuild.Length).TrimStart('\','/')
+        New-Item -ItemType Directory -Force -Path (Split-Path $target) | Out-Null
+        Copy-ChangedFile $_.FullName $target
+    }
     foreach ($name in @('Chambre.unity','DataCenter.unity')) {
         $generatedScene=Join-Path $stage ('Assets/Scenes/'+$name)
         $originalScene=Join-Path $sourceProject ('Assets/Scenes/'+$name)
@@ -44,10 +64,14 @@ if ($Complete) {
     # Copier aussi leurs .meta : sans eux les scènes originales deviennent roses après import.
     Get-ChildItem -LiteralPath (Join-Path $stage 'Assets/CloudVR/Materials') -File |
         Where-Object { $_.Name -like '*.mat' -or $_.Name -like '*.mat.meta' } |
-        ForEach-Object { Copy-Item -LiteralPath $_.FullName -Destination (Join-Path $sourceProject 'Assets/CloudVR/Materials') -Force }
+        ForEach-Object { Copy-ChangedFile $_.FullName (Join-Path $sourceProject ('Assets/CloudVR/Materials/'+$_.Name)) }
     # Le dallage groupé est un mesh généré par le builder, référencé par GUID dans DataCenter.
     foreach ($name in @('WhiteSpace_FloorTiles.asset','WhiteSpace_FloorTiles.asset.meta')) {
-        Copy-Item -LiteralPath (Join-Path $stage ('Assets/CloudVR/Models/'+$name)) -Destination (Join-Path $sourceProject ('Assets/CloudVR/Models/'+$name)) -Force
+        Copy-ChangedFile (Join-Path $stage ('Assets/CloudVR/Models/'+$name)) (Join-Path $sourceProject ('Assets/CloudVR/Models/'+$name))
+    }
+    foreach ($mesh in $p0Meshes) {
+        Copy-ChangedFile $mesh.FullName (Join-Path $sourceProject ('Assets/CloudVR/Models/'+$mesh.Name))
+        Copy-ChangedFile ($mesh.FullName+'.meta') (Join-Path $sourceProject ('Assets/CloudVR/Models/'+$mesh.Name+'.meta'))
     }
     $report | ConvertTo-Json -Compress
     return

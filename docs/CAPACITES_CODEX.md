@@ -2,6 +2,10 @@
 
 État vérifié le 5 octobre 2026. Ce guide couvre les moyens utiles au projet ; les outils accessibles peuvent varier entre les sessions. `STATE.md` fait foi pour les validations, `TOOLING.md` pour l'inventaire installé. Un outil disponible ne signifie pas qu'un test a réussi.
 
+Vérification de session du 21/10/2026, reprise P0 : outils MCP Unity natifs disponibles et utilisés (`execute_code`, `read_console`, `manage_camera`) dans le projet original, serveur redémarré depuis le panneau Unity. Scènes livrées relues, capture positionnée et matériaux contrôlés. Compilation par copie PowerShell puis exécution réelle du player Direct3D11 : 40/40 contrôles, [preuves P0](validation/p0-2026-10-21/README.md). Aucune capacité matérielle Quest/Blender MCP validée par cette reprise. Les lignes historiques ci-dessous ne doivent pas remplacer cette preuve datée.
+
+Vérification P1 du 21/10 à 23 h 19 : build Windows et **64/64 contrôles** Direct3D11, 20 contrôles P1 + 14 P0 pré-build, captures inspectées. MCP utilisé pour diagnostiquer le rayon qui touchait la capsule du visiteur ; dialogues Unity débloqués par computer-use. Les timeouts ne prouvent pas l'absence de mutation. Deux diagnostics composites finaux ont échoué ; audit additionnel arrêté, Chambre restituée hors Play et console sans erreur retournée. XRI raccordé, aucun test casque, prise libre ou benchmark. [Preuves P1](validation/p1-2026-10-21/README.md).
+
 ## Ce que Codex peut prendre en charge
 
 | Domaine | Ce que je peux faire et comment | Niveau constaté / conditions |

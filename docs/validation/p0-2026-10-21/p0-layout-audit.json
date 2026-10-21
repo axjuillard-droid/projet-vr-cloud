@@ -1,0 +1,20 @@
+{
+  "passed": true,
+  "decorativeRacks": 31,
+  "groupedRackRenderers": 5,
+  "nominalAisleWidth": 2.200000047683716,
+  "nominalMantrapDiameter": 1.7999999523162842,
+  "measuredAisleWidth": 2.1999998092651367,
+  "checks": [
+    "31 baies fixes + baie interactive = 32",
+    "Rendu des rangées groupé par matériau",
+    "Largeur entre façades mesurée : 2,200 m",
+    "Passage central sans obstacle fixe : libre",
+    "Accès local électrique sans obstacle fixe : libre",
+    "Raccord de façade : contournement latéral droit bloqué",
+    "Raccord de façade : contournement latéral gauche bloqué",
+    "Sas nominal 1,8 m",
+    "Scan lisible et porte transparente",
+    "Zone de téléportation centrale contenue dans l'allée"
+  ]
+}

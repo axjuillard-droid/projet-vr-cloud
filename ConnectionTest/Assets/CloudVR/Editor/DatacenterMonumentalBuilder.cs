@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
+using UnityEngine.UI;
 
 /// <summary>
 /// Décorateur monumental du Data Center Tier IV (Jalons C & D) :
@@ -64,7 +65,7 @@ public static class DatacenterMonumentalBuilder
         // Retirer aussi le décor fusionné et les équipements de l'ancienne salle 10 x 12 m.
         foreach (var name in new[] { "Mur_Entree", "Mur_Fond", "Mur_Gauche", "Mur_Droit", "Sol", "Plafond",
             "Architecture_Originale", "Chemin_Visiteur", "Sas_Securite_TierIV", "Baie_Secondaire_-1", "Baie_Secondaire_1",
-            "Accueil", "Accueil_Support", "Repere_Baie", "Repere_Baie_Support", "Guide_Visite", "Guide_Visite_Support", "Zone_Teleportation_Cour", "Zone_Teleportation_Sas" })
+            "Accueil", "Accueil_Support", "Repere_Baie", "Repere_Baie_Support", "Guide_Visite", "Guide_Visite_Support", "Zone_Teleportation_Cour", "Zone_Teleportation_Sas", "Zone_Teleportation_Electrique" })
         {
             var legacy = dcRoot.Find(name);
             if (legacy != null) UnityEngine.Object.DestroyImmediate(legacy.gameObject);
@@ -73,7 +74,7 @@ public static class DatacenterMonumentalBuilder
         foreach (var rig in new[] { mode.pcRig, mode.vrRig })
             rig.transform.SetPositionAndRotation(new Vector3(0, .08f, -28f), Quaternion.identity);
         var rack = dcRoot.Find("Baie_01");
-        if (rack != null) rack.SetPositionAndRotation(new Vector3(2.8f, 0, 14f), Quaternion.Euler(0, 90, 0));
+        if (rack != null) rack.SetPositionAndRotation(new Vector3(1.75f, 0, 14f), Quaternion.Euler(0, 90, 0));
         // ── 0. Nettoyage idempotent ──────────────────────────────────
         var oldCampus = dcRoot.Find("Monumental_Architecture");
         if (oldCampus != null) UnityEngine.Object.DestroyImmediate(oldCampus.gameObject);
@@ -115,6 +116,8 @@ public static class DatacenterMonumentalBuilder
         var matSteel      = GetOrCreateMaterial("Mantrap_Steel",     new Color(0.30f, 0.33f, 0.36f), 0.85f, 0.75f);
         var matMantrapG   = GetOrCreateMaterial("Mantrap_Glass",     new Color(0.45f, 0.65f, 0.75f), 0.05f, 0.95f);
         var matScanner    = GetOrCreateMaterial("Mantrap_Scanner",   new Color(0.05f, 0.55f, 0.90f), 0f, 0.8f, 2.2f, new Color(0.05f, 0.55f, 0.90f));
+        P0SpatialBuilder.Glass(matMantrapG,.12f);
+        P0SpatialBuilder.Glass(matCacGlass,.10f);
 
         // ── 2. Campus extérieur (placé à l'extérieur / entrée) ──────
         var campusPrefab = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/CloudVR/Models/DataCenter_Campus.fbx");
@@ -153,6 +156,14 @@ public static class DatacenterMonumentalBuilder
             RemovePart(campusGo, "Fence_0_Barbelé");
             foreach (var r in campusGo.GetComponentsInChildren<Renderer>())
             {
+                // Les conteneurs de 6 m à X=-12 affleuraient le mur intérieur X=-9.
+                // Déplacer ensemble conteneurs, grilles et échappements hors de l'enveloppe X=-14.
+                if (r.name.StartsWith("Genset_"))
+                {
+                    r.transform.position += Vector3.left * 6f;
+                    if (r.name.EndsWith("_Container") && r.GetComponent<Collider>() == null)
+                        r.gameObject.AddComponent<BoxCollider>();
+                }
                 if (r.name.StartsWith("Fence_Poteau_") && Mathf.Abs(r.bounds.center.x) < 3f)
                     r.gameObject.SetActive(false);
                 // Les fenêtres et le bandeau doivent affleurer devant la nouvelle façade.
@@ -168,9 +179,12 @@ public static class DatacenterMonumentalBuilder
                 Box(archRoot, "Cloture_Ouverte", new Vector3(side * 8.2f, .75f, -12.9f), new Vector3(11.6f, 1.5f, .15f), matFence);
             }
             Box(archRoot, "Campus_Toiture", new Vector3(0, 14, 5), new Vector3(28, .2f, 18), matConcrete);
+            Box(archRoot, "Groupes_Electrogenes_Dalle", new Vector3(-18, -.1f, 6.6f), new Vector3(7.2f, .2f, 14), matConcrete);
+            Box(archRoot, "Groupes_Electrogenes_Acces", new Vector3(-18, -.1f, -2.2f), new Vector3(7.2f, .2f, 3.6f), matConcrete);
         }
         Box(archRoot, "Cour_Continue", new Vector3(0, -.10f, -18), new Vector3(40, .20f, 28), matAsphalt);
         Box(archRoot, "Seuil_Continu", new Vector3(0, -.10f, -2), new Vector3(4.4f, .20f, 4), matFloorTile);
+        P0SpatialBuilder.MantrapVestibule(archRoot,matConcrete);
 
         // ── 3. Sas Mantrap Biométrique Unitaire ────────────────────────
         var mantrapPrefab = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/CloudVR/Models/Mantrap_Airlock.fbx");
@@ -181,7 +195,7 @@ public static class DatacenterMonumentalBuilder
             // Sas centré à -2 m : emprise longitudinale -4..0 m.
             mantrapGo.transform.localPosition = new Vector3(0, 0, -2f);
             mantrapGo.transform.localRotation = Quaternion.Euler(0, 180, 0);
-            mantrapGo.transform.localScale = new Vector3(2, 1, 2);
+            mantrapGo.transform.localScale = new Vector3(.9f, 1, .9f);
             PrefabUtility.UnpackPrefabInstance(mantrapGo, PrefabUnpackMode.Completely, InteractionMode.AutomatedAction);
             // Les deux cylindres et les anciens cadres étaient des volumes fermés, sans ouverture.
             foreach (var name in new[] { "Mantrap_Wall_Outer", "Mantrap_Wall_Inner", "Door_Entry_Frame", "Door_Exit_Frame", "Door_Entry_Warn", "Door_Exit_Warn" })
@@ -190,7 +204,7 @@ public static class DatacenterMonumentalBuilder
             {
                 float angle = i * 15f * Mathf.Deg2Rad;
                 if (Mathf.Abs(Mathf.Sin(angle)) < .64f) continue; // ouvertures nord / sud de 2,3 m
-                var panel = Box(archRoot, "Mantrap_Paroi", new Vector3(Mathf.Sin(angle) * 1.84f, 1.3f, -2 + Mathf.Cos(angle) * 1.84f), new Vector3(.49f, 2.6f, .08f), matSteel);
+                var panel = Box(archRoot, "Mantrap_Paroi", new Vector3(Mathf.Sin(angle) * .9f, 1.3f, -2 + Mathf.Cos(angle) * .9f), new Vector3(.24f, 2.6f, .04f), matSteel);
                 panel.transform.rotation = Quaternion.Euler(0, i * 15f, 0);
             }
 
@@ -208,6 +222,8 @@ public static class DatacenterMonumentalBuilder
             ctrl.matLedRed = matLedR;
             ctrl.matLedScanning = matScanner;
             ctrl.scanDuration = 2f;
+            P0SpatialBuilder.Sign(archRoot,"Mantrap_Scan",new Vector3(0,1.8f,-1.06f),0,"Contrôle d'accès simulé",.8f);
+            ctrl.scanLabel=archRoot.Find("Mantrap_Scan").GetComponentInChildren<Text>();
             foreach (var door in new[] { ctrl.doorEntry, ctrl.doorExit })
                 if (door != null) door.gameObject.AddComponent<BoxCollider>();
 
@@ -246,7 +262,7 @@ public static class DatacenterMonumentalBuilder
             AssignMaterial(wsGo, "WS_Busway", matBusway);
             AssignMaterial(wsGo, "WS_CRAC", matCrac);
             AssignMaterial(wsGo, "WS_ColdAirGlow", matColdAir);
-            ArrangeRackRows(wsGo);
+            P0SpatialBuilder.RackRows(wsGo,archRoot);
             // Les 779 dalles importées étaient coplanaires au sol continu et ne
             // couvraient que 24,6 x 11,4 m. Le dallage complet est construit plus bas.
             foreach (var r in wsGo.GetComponentsInChildren<MeshRenderer>())
@@ -254,12 +270,7 @@ public static class DatacenterMonumentalBuilder
             // Le confinement du FBX traversait l'allée centrale après rotation.
             foreach (var r in wsGo.GetComponentsInChildren<MeshRenderer>())
                 if (r.name.StartsWith("CAC_")) r.gameObject.SetActive(false);
-            for (int side = -1; side <= 1; side += 2)
-            {
-                Box(archRoot, "Confinement_Lateral_Toit", new Vector3(side * 5, 2.6f, 20), new Vector3(1.1f, .06f, 30), matCacGlass);
-                foreach (float edge in new[] { 4.45f, 5.55f })
-                    Box(archRoot, "Confinement_Lateral_Cadre", new Vector3(side * edge, 2.58f, 20), new Vector3(.06f, .08f, 30), matCacFrame);
-            }
+            P0SpatialBuilder.Containment(archRoot,matCacGlass,matCacFrame);
             // Les deux CRAC centraux des petits côtés coupaient l'allée après rotation du FBX.
             foreach (var r in wsGo.GetComponentsInChildren<MeshRenderer>())
                 if (r.name.StartsWith("CRAC_19_0_") || r.name.StartsWith("CRAC_-19_0_"))
@@ -296,14 +307,17 @@ public static class DatacenterMonumentalBuilder
             var elecGo = (GameObject)PrefabUtility.InstantiatePrefab(elecPrefab, archRoot);
             elecGo.name = "Local_Technique_TGBT_UPS";
             // Placé en aile latérale (X = -26m, Z = 12m)
-            elecGo.transform.localPosition = new Vector3(-26f, 0, 12f);
+            elecGo.transform.localPosition = new Vector3(-19f, 0, 30f);
             elecGo.transform.localRotation = Quaternion.identity;
 
             AssignMaterial(elecGo, "Campus_Concrete", matConcrete);
             AssignMaterial(elecGo, "WS_Busway", matBusway);
             AssignMaterial(elecGo, "Campus_LED_Green", matLedG);
             AssignMaterial(elecGo, "Campus_LED_Red", matLedR);
+            P0SpatialBuilder.Electrical(archRoot,elecGo,matConcrete,matCacGlass,matMetal);
         }
+        P0SpatialBuilder.Sign(archRoot,"Accueil_Visite",new Vector3(0,2.5f,1),0,
+            "DÉCOUVRIR LE CLOUD\n6 consoles • clic / E pour agir • Échap : pause",2.2f);
 
         Debug.Log("[DatacenterMonumentalBuilder] Data Center Monumental Tier IV complet installé avec succès !");
         // Étendre les surfaces XR sans ajouter une dalle opaque au-dessus du sol.
@@ -311,16 +325,20 @@ public static class DatacenterMonumentalBuilder
         if (zone != null)
         {
             zone.localPosition = new Vector3(0, .012f, 20);
-            zone.localScale = new Vector3(3.6f, .018f, 39.8f);
+            zone.localScale = new Vector3(1.4f, .018f, 39.8f);
             zone.GetComponent<Renderer>().enabled = false;
             var outside = UnityEngine.Object.Instantiate(zone.gameObject, dcRoot);
             outside.name = "Zone_Teleportation_Cour";
-            outside.transform.localPosition = new Vector3(0, .012f, -18);
-            outside.transform.localScale = new Vector3(3.6f, .018f, 27.8f);
+            outside.transform.localPosition = new Vector3(0, .012f, -18.3f);
+            outside.transform.localScale = new Vector3(3.6f, .018f, 27f);
             var sasZone = UnityEngine.Object.Instantiate(zone.gameObject, dcRoot);
             sasZone.name = "Zone_Teleportation_Sas";
             sasZone.transform.localPosition = new Vector3(0, .05f, -2);
-            sasZone.transform.localScale = new Vector3(1.3f, .018f, 1.2f);
+            sasZone.transform.localScale = new Vector3(.6f, .018f, .8f);
+            var electricalZone = UnityEngine.Object.Instantiate(zone.gameObject, dcRoot);
+            electricalZone.name = "Zone_Teleportation_Electrique";
+            electricalZone.transform.localPosition = new Vector3(-6.5f, .012f, 30);
+            electricalZone.transform.localScale = new Vector3(13f, .018f, .9f);
         }
     }
 
@@ -373,28 +391,6 @@ public static class DatacenterMonumentalBuilder
         tiles.transform.SetParent(parent, false);
         tiles.GetComponent<MeshFilter>().sharedMesh = mesh;
         tiles.GetComponent<MeshRenderer>().sharedMaterial = tileMaterial;
-    }
-
-    private static void ArrangeRackRows(GameObject hall)
-    {
-        var renderers = hall.GetComponentsInChildren<MeshRenderer>();
-        float[] columns = { -6f, -4f, 4f, 6f };
-        for (int row = 0; row < 8; row++)
-            for (int column = 0; column < columns.Length; column++)
-            {
-                string prefix = "Rack_" + row + "_" + column + "_";
-                var body = Array.Find(renderers, r => r.name == prefix + "Body");
-                if (body == null) throw new InvalidOperationException("Rack manquant : " + prefix);
-                var center = body.bounds.center;
-                var target = new Vector3(columns[column], center.y, 6 + row * 4);
-                foreach (var part in renderers)
-                    if (part.name.StartsWith(prefix))
-                    {
-                        part.transform.position += target - center;
-                        // Deux rangées dos à dos de chaque côté, confinement latéral schématique.
-                        if (column == 0 || column == 2) part.transform.RotateAround(target, Vector3.up, 180);
-                    }
-            }
     }
 
     private static GameObject Box(Transform parent, string name, Vector3 position, Vector3 size, Material material)

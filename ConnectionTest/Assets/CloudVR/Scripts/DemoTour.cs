@@ -10,20 +10,21 @@ public class DemoTour : MonoBehaviour
     public static readonly string[] Titles = { "RÉSEAU", "TRAITEMENT", "STOCKAGE", "REFROIDISSEMENT", "ÉLECTRICITÉ", "SUPERVISION" };
     public static readonly string[] Goals = {
         "Activez la borne 01 à gauche : faites entrer la requête.",
-        "Activez la borne 02 à droite : faites traiter la photo.",
+        "Borne 02 : inspectez la baie de démonstration à droite, puis remettez-la en place.",
         "Rejoignez la borne 03 à gauche : conservez le fichier.",
-        "Borne 04 à droite : observez la chaleur, puis activez le refroidissement.",
+        "Borne 04 : diagnostiquez une entrée d'air trop chaude et rétablissez le confinement.",
         "Borne 05 au fond à gauche : observez le relais de l'alimentation.",
-        "Borne 06 au fond à droite : transmettez l'alerte à l'équipe." };
+        "Borne 06 au fond à gauche : transmettez l'alerte à l'équipe." };
     public static readonly string[] Lessons = {
         "Le réseau relie votre appareil au service distant. Les équipements réseau acheminent les échanges vers les machines qui hébergent le service.",
         "Un logiciel exécuté sur des serveurs reçoit la demande, vérifie ce qu'il doit faire et organise l'enregistrement. Le serveur est une machine ; le service est un logiciel.",
         "Le stockage conserve le fichier pour le retrouver après l'envoi. Des copies peuvent améliorer la disponibilité ; elles ne remplacent pas une stratégie de sauvegarde.",
-        "Les équipements consomment de l'électricité et produisent de la chaleur. Ici, l'air frais traverse les baies ; l'air réchauffé repart vers le système de refroidissement.",
+        "Le refroidissement fonctionne en continu. Une fuite de confinement favorise les mélanges d'air : corriger la cause évite de compenser uniquement par davantage de ventilation.",
         "Serveurs, réseau et refroidissement dépendent d'une alimentation organisée. Ici, une batterie illustre un relais temporaire ; la continuité dépend de toute l'installation.",
         "Des outils signalent les événements et des personnes organisent les interventions. Les équipes du site et celles du service coopèrent, avec des responsabilités différentes." };
 
     public DemoStation[] stations;
+    public P1LearningModule learning;
     public int Step { get; private set; }
     public bool Busy { get; private set; }
     public bool Finished => Step >= Titles.Length;
@@ -37,11 +38,9 @@ public class DemoTour : MonoBehaviour
     public Transform packet;
     public Renderer[] thermal;
     public Material coldMaterial, warmMaterial, packetMaterial;
-    Text _objective, _body, _list, _hint, _heading;
-    Image _progress;
     DemoStation _hover;
     float _nextAction;
-    bool _heatShown, _mainsInterrupted;
+    bool _mainsInterrupted;
     Camera _camera;
     int _drawnStep=-1;
     string _drawnMessage, _drawnHint;
@@ -50,7 +49,6 @@ public class DemoTour : MonoBehaviour
     void Start()
     {
         _camera = Camera.main;
-        BuildHud();
         Message = "Votre photo devient notre fil conducteur. Explorez les six bornes : elles montrent les ressources physiques nécessaires au service.";
         UpdateHud();
     }
@@ -80,7 +78,8 @@ public class DemoTour : MonoBehaviour
 
     string ActionLabel()
     {
-        if (Step == 3) return _heatShown ? "Activer le refroidissement" : "Révéler la chaleur";
+        if (Step == 1) return learning!=null&&learning.ComputeStarted?"Manipuler la baie à droite":"Commencer l'inspection de baie";
+        if (Step == 3) return learning!=null&&learning.CoolingStarted?"Corriger la fuite à la porte":"Diagnostiquer l'anomalie d'air";
         if (Step == 4) return _mainsInterrupted ? "Rétablir l'alimentation principale" : "Illustrer le relais batterie";
         if (Step == 5) return "Transmettre l'alerte à l'équipe";
         return "Observer le rôle de cet équipement";
@@ -92,13 +91,19 @@ public class DemoTour : MonoBehaviour
         if (Finished) { ReturnToRoom(); return; }
         if (index < Step) { Message = Lessons[index]; return; }
         if (index != Step) { Message = "Cette borne sera disponible ensuite. " + Goals[Step]; return; }
+        if(Step==1&&learning.ComputeStarted||Step==3&&learning.CoolingStarted)return;
         Actions++;
         _nextAction = Time.unscaledTime + .5f;
-        if (Step == 3 && !_heatShown)
+        if (Step == 1)
         {
-            _heatShown = true;
-            foreach (var r in thermal) r.sharedMaterial = warmMaterial;
-            Message = "VUE THERMIQUE SCHÉMATIQUE\nLa chaleur doit être évacuée. Activez à nouveau cette borne pour montrer un circuit de refroidissement à air.";
+            learning.BeginCompute();
+            Message="Baie 01 à droite : poignée, tiroir, repères CPU / RAM / NVMe. Inspectez puis réinsérez pour continuer.\nDémonstration hors production, sans maintenance sur un service réel.";
+            return;
+        }
+        if(Step==3)
+        {
+            learning.BeginCooling();
+            Message="Porte de confinement à Z=24, juste avant cette console. Lisez l'afficheur à droite, comparez les actions puis fermez la porte avec sa poignée verte.\nScénario fictif, temps accéléré.";
             return;
         }
         if (Step == 4 && !_mainsInterrupted)
@@ -109,10 +114,17 @@ public class DemoTour : MonoBehaviour
             StartCoroutine(ShowFlow(false));
             return;
         }
-        if (Step == 3) { CoolingRestored = true; foreach (var r in thermal) r.sharedMaterial = coldMaterial; }
         if (Step == 5) AlertAcknowledged = true;
         Message = Lessons[Step];
         StartCoroutine(ShowFlow(true));
+    }
+
+    public void CompletePhysicalStep(int expected,string explanation)
+    {
+        if(Busy||Step!=expected)return;
+        if(expected==1&&!learning.ComputeCompleted||expected==3&&!learning.CoolingRecovered)return;
+        if(expected==3)CoolingRestored=true;
+        Step++;Message=explanation;UpdateHud();
     }
 
     IEnumerator ShowFlow(bool advance)
@@ -153,59 +165,17 @@ public class DemoTour : MonoBehaviour
 
     void UpdateHud()
     {
-        if (_body == null) return;
         if (_drawnStep==Step && _drawnMessage==Message && _drawnHint==HoverHint && _drawnBusy==Busy) return;
         _drawnStep=Step; _drawnMessage=Message; _drawnHint=HoverHint; _drawnBusy=Busy;
-        _heading.text = Finished ? "SYNTHÈSE  /  PHOTO DISPONIBLE" : "DÉCOUVERTE  " + (Step+1).ToString("00") + " / 06  •  " + Titles[Step];
-        _objective.text = Finished ? "Retour chambre : Entrée ou sélectionnez une borne" : Goals[Step];
-        _body.text = Message;
-        _hint.text = Busy ? "Observation en cours…  Flux illustratif, non mesuré" : HoverHint;
-        _progress.fillAmount = Step/6f;
-        _progress.rectTransform.localScale = new Vector3(Step/6f,1,1);
-        string rows = "VOTRE PARCOURS\n\n";
-        for (int i=0;i<6;i++)
+        for(int i=0;i<stations.Length;i++)
         {
-            rows += (i < Step ? "<color=#6EE7B7>✓  " : i==Step ? "<color=#67E8F9>›  " : "<color=#91A4BE>   ") + (i+1).ToString("00") + "  " + Titles[i] + "</color>\n\n";
-            if (stations[i].indicator != null) stations[i].indicator.sharedMaterial = i < Step ? coldMaterial : i==Step ? packetMaterial : warmMaterial;
-            stations[i].caption.text = (i+1).ToString("00") + "  " + Titles[i] + "\n" + (i < Step ? "DÉCOUVERT • RELIRE" : i==Step ? ActionLabel() : "À DÉCOUVRIR");
+            var station=stations[i];
+            station.indicator.sharedMaterial=i<Step?coldMaterial:i==Step?packetMaterial:warmMaterial;
+            station.caption.text=(i+1).ToString("00")+"  "+Titles[i]+"\n"+(i<Step?"DÉCOUVERT • RELIRE":i==Step?ActionLabel():"À DÉCOUVRIR");
+            if(station.information!=null) station.information.text=Finished ? Message+"\nClic / E : retour chambre" :
+                i==Step ? Goals[Step]+"\n\n"+Message+"\n\n"+(Busy?"Flux illustratif en cours…":"Visez cet écran • clic ou E") :
+                i<Step ? Lessons[i] : "Suivez les consoles numérotées.\n\n"+Titles[i]+"\nÉtape "+(i+1)+" / 6";
         }
-        _list.text = rows;
-    }
-
-    void BuildHud()
-    {
-        var hud = new GameObject("Demo_HUD",typeof(RectTransform),typeof(Canvas),typeof(CanvasScaler));
-        hud.transform.SetParent(transform,false);
-        var canvas = hud.GetComponent<Canvas>();
-        bool vr = InputModeManager.Instance != null && InputModeManager.Instance.IsVR;
-        canvas.renderMode = vr ? RenderMode.WorldSpace : RenderMode.ScreenSpaceCamera;
-        canvas.worldCamera = _camera;
-        canvas.planeDistance = .65f;
-        if (vr)
-        {
-            hud.transform.SetParent(_camera.transform,false);
-            hud.transform.localPosition = new Vector3(0,-.45f,2);
-            hud.transform.localScale = Vector3.one*.0016f;
-            hud.GetComponent<RectTransform>().sizeDelta = new Vector2(1280,720);
-        }
-        else
-        {
-            var scale=hud.GetComponent<CanvasScaler>();
-            scale.uiScaleMode=CanvasScaler.ScaleMode.ScaleWithScreenSize;
-            scale.referenceResolution=new Vector2(1280,720);
-            scale.matchWidthOrHeight=.5f;
-        }
-        var top=Panel(hud.transform,"Objectif",new Vector2(.025f,.85f),new Vector2(.975f,.98f));
-        _heading=Label(top,"Titre",20,new Vector2(.02f,.55f),new Vector2(.98f,.98f),new Color(.4f,.9f,1));
-        _objective=Label(top,"Consigne",23,new Vector2(.02f,.05f),new Vector2(.98f,.55f),Color.white);
-        var left=Panel(hud.transform,"Parcours",new Vector2(.025f,.35f),new Vector2(.24f,.82f));
-        _list=Label(left,"Étapes",18,new Vector2(.06f,.03f),new Vector2(.98f,.97f),Color.white);
-        var bottom=Panel(hud.transform,"Narration",new Vector2(.27f,.025f),new Vector2(.975f,.28f));
-        _body=Label(bottom,"Sous_titres",21,new Vector2(.025f,.22f),new Vector2(.975f,.94f),Color.white);
-        _hint=Label(bottom,"Action",17,new Vector2(.025f,.02f),new Vector2(.975f,.2f),new Color(.4f,.9f,1));
-        var bar=Panel(hud.transform,"Progression",new Vector2(.025f,.83f),new Vector2(.975f,.837f));
-        _progress=bar.GetComponent<Image>(); _progress.color=new Color(.2f,.8f,.8f);
-        _progress.type=Image.Type.Filled; _progress.fillMethod=Image.FillMethod.Horizontal;
     }
 
     public static RectTransform Panel(Transform parent,string name,Vector2 min,Vector2 max)

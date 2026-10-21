@@ -238,7 +238,7 @@ public static class ChambreArtBuilder
         var screenLight = glowGo.AddComponent<Light>();
         screenLight.type = LightType.Point;
         screenLight.range = 1.8f;
-        screenLight.intensity = 1.6f;
+        screenLight.intensity = .65f;
         screenLight.color = new Color(0.15f, 0.65f, 0.95f);
         screenLight.shadows = LightShadows.None;
 
@@ -249,7 +249,7 @@ public static class ChambreArtBuilder
         var deskLight = deskLampGo.AddComponent<Light>();
         deskLight.type = LightType.Point;
         deskLight.range = 3.2f;
-        deskLight.intensity = 2.2f;
+        deskLight.intensity = .9f;
         deskLight.color = new Color(1.0f, 0.72f, 0.30f); // Ambre chaud 2700K
         deskLight.shadows = LightShadows.None;
 
@@ -260,7 +260,7 @@ public static class ChambreArtBuilder
         var fairyLight = fairyLightGo.AddComponent<Light>();
         fairyLight.type = LightType.Point;
         fairyLight.range = 2.4f;
-        fairyLight.intensity = 1.1f;
+        fairyLight.intensity = .4f;
         fairyLight.color = new Color(1.0f, 0.85f, 0.45f);
         fairyLight.shadows = LightShadows.None;
 
@@ -269,8 +269,8 @@ public static class ChambreArtBuilder
         atmos.lampeBureau = deskLight;
         atmos.guirlandeLight = fairyLight;
         atmos.lueurEcranPC = screenLight;
-        atmos.lampeBureauIntensity = 2.2f;
-        atmos.guirlandeIntensity = 1.1f;
+        atmos.lampeBureauIntensity = .9f;
+        atmos.guirlandeIntensity = .4f;
         atmos.guirlandePulse = true;
         atmos.rainEnabled = true;
         foreach (var light in UnityEngine.Object.FindObjectsByType<Light>(FindObjectsInactive.Include, FindObjectsSortMode.None))

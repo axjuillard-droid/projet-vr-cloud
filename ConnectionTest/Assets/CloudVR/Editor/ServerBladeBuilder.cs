@@ -81,8 +81,9 @@ public static class ServerBladeBuilder
         // ── 2. Instanciation du serveur 2U à hauteur des yeux (~1.25m) ──
         var bladeGo = (GameObject)PrefabUtility.InstantiatePrefab(bladePrefab, baie01.transform);
         bladeGo.name = "Server_Blade_2U";
-        bladeGo.transform.localPosition = new Vector3(0, 1.25f, -0.44f);
-        bladeGo.transform.localRotation = Quaternion.identity;
+        // Le FBX observé a sa façade vers +Z ; retourner pour tirer vers l'allée (-Z local).
+        bladeGo.transform.localPosition = new Vector3(0, 1.25f, .34f);
+        bladeGo.transform.localRotation = Quaternion.Euler(0,180,0);
 
         AssignMaterial(bladeGo, "Chassis", matChassis);
         AssignMaterial(bladeGo, "Rails", matRails);
@@ -105,6 +106,8 @@ public static class ServerBladeBuilder
         doorGo.name = "Door_Model";
         doorGo.transform.localPosition = new Vector3(0.47f, 0f, 0f); // Décalé pour que le pivot soit à gauche
         doorGo.transform.localRotation = Quaternion.identity;
+        var doorCollider=doorPivot.AddComponent<BoxCollider>();
+        doorCollider.center=new Vector3(.47f,1.01f,0);doorCollider.size=new Vector3(.94f,2.02f,.04f);
 
         var matDoorFrame = GetOrCreateMaterial("Door_Frame", new Color(0.08f, 0.09f, 0.11f), 0.75f, 0.35f);
         var matDoorHandle = GetOrCreateMaterial("Door_Handle", new Color(0.60f, 0.65f, 0.70f), 0.85f, 0.50f);
@@ -146,7 +149,7 @@ public static class ServerBladeBuilder
         txt.fontSize = 20;
         txt.alignment = TextAnchor.MiddleCenter;
         txt.color = new Color(0.15f, 0.95f, 1.0f);
-        txt.text = "SERVEUR COMPUTE RACK 2U\n• Bi-Processeur Intel Xeon Scalable (64 Cores)\n• 512 Go RAM DDR5 ECC Régistrée\n• 8x SSD NVMe PCIe 5.0 Hot-Swap";
+        txt.text = "SERVEUR DE DÉMONSTRATION 2U\nCPU : traitement • RAM : mémoire volatile\nSSD NVMe : stockage persistant\nMaintenance pédagogique hors production";
         textGo.GetComponent<RectTransform>().sizeDelta = new Vector2(380, 110);
         labelsGo.SetActive(false);
 
@@ -157,6 +160,7 @@ public static class ServerBladeBuilder
         interaction.serverBlade = bladeGo.transform;
         interaction.inspectionLight = inspLight;
         interaction.hardwareLabels = labelsGo;
+        interaction.serverSlideDistance=.64f;
 
         EditorUtility.SetDirty(baie01);
         EditorSceneManager.MarkSceneDirty(baie01.scene);

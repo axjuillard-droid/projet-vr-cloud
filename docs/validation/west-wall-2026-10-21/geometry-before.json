@@ -1,0 +1,23 @@
+{
+  "phase": "before",
+  "generatorClearance": [
+    {
+      "name": "Genset_1_Container",
+      "wallInnerFace": -9,
+      "generatorFace": -8.999999,
+      "gap": -9.536743e-7
+    },
+    {
+      "name": "Genset_2_Container",
+      "wallInnerFace": -9,
+      "generatorFace": -8.999999,
+      "gap": -9.536743e-7
+    },
+    {
+      "name": "Genset_0_Container",
+      "wallInnerFace": -9,
+      "generatorFace": -9,
+      "gap": 0
+    }
+  ]
+}
