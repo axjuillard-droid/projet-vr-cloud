@@ -11,7 +11,7 @@ Mis à jour le 21 octobre 2026.
 - Audit statique des scènes sauvegardées réussi : anciens objets absents, 32 corps de rack, six bornes, un seul callback StartNetworkRide, aucune directionnelle activée dans Chambre (`scene-audit.json`).
 - Lancement normal sans smoke effectué avec computer-use : chambre affichée et inspectée dans la fenêtre du player ; fermeture confirmée. Aucun troisième parcours de navigation. Aucune validation casque.
 - MCP Unity désormais **connecté et vérifié** via HTTP local : instance ConnectionTest / Unity 6000.0.58f2, chemin original confirmé, Chambre hors Play/compilation, prêt pour outils ; lecture console renvoie zéro erreur. Outils scènes/objets/composants/captures/C#/physique/profiler/tests/builds exposés ; aucun MCP Unity natif directement listé par le chat. Accès PowerShell local hors sandbox requis. Aucun MCP Blender testé ; scripts disponibles.
-- Publication GitHub de ces corrections et preuves en préparation ; ne pas confondre compilation réussie et parcours validé.
+- Publication GitHub confirmée sur origin/main : `ced25d4` (sources, scènes, README et preuves), push ordinaire réussi depuis `10024ea`, 10 objets LFS / 7,3 Mo transférés. Diff vérifié, rapports JSON lisibles, audit statique réussi et LFS fsck OK. Builds, caches, sessions MCP et document universitaire exclus. Le parcours reste en attente de revue humaine.
 
 ## T10 — Refonte monumentale et ultra-réaliste : Diagnostic des anomalies UX et Passage de relais, 21/10/2026
 - **Diagnostic sans complaisance des retours utilisateur sur le build `CloudVR-PC.exe`** :
