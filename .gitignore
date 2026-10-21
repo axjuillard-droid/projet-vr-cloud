@@ -63,3 +63,6 @@ desktop.ini
 # Sauvegardes automatiques Blender (la source .blend reste versionnée)
 *.blend1
 *.blend2
+
+# Documentations locales / CDC temporaires
+CDC_INSIDE_THE_DATA_CENTER.pdf

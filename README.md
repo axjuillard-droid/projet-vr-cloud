@@ -2,15 +2,17 @@
 
 **Du clic sur « envoyer une photo » aux équipements physiques du cloud.**
 
-**Jalon du 20 octobre 2026 : refonte visuelle & immersive complète (Chambre réaliste, Network Ride dans la fibre optique, Sas militaire du Data Center).**
-- **Chambre étudiante 3D réaliste** : Lit étudiant avec couette bleu pétrole, bureau gamer moderne en bois/métal avec tour PC vitrée à ventilateur RGB, clavier rétroéclairé, tapis XXL, étagère murale avec livres et succulente en pot, panorama extérieur au crépuscule.
-- **Ergonomie d'assise fluide (`ChairSeatInteraction`)** : Touche `E` pour s'asseoir confortablement sur la chaise face au moniteur, libération du curseur souris pour interagir avec le bureau, `ZQSD` / `Échap` pour se relever.
-- **Interface OS animée (`ScreenOSController`)** : Jauge de transfert uGUI détaillée montrant les étapes réseau réelles (Chiffrement AES-256, Négociation TLS 1.3, Routage des paquets IP, Réception Data Center).
-- **Network Data Ride (Transition spectaculaire)** : Plongée de la caméra dans le câble de fibre optique (`Data_Fiber_Tunnel`), son de vortex optique, impulsions de paquets magenta, guides d'ondes cyan émissifs à 10 Gbps et affichage HUD des couches de transit.
-- **Sas de Sécurité Militaire Tier IV (`DataCenter_Airlock`)** : Portes étanches blindées animées, montants en acier lourd, bandes d'avertissement jaunes industrielles, hublots pare-balles fumés, balise gyrophare d'alerte orange émissive et badgeuse RFID avec diode de statut vert/rouge.
-- **Spatialisation sonore industrielle & Audio procédural (`ProceduralAudioService`)** : Zéro asset externe lourd, génération à la volée du bourdonnement basse fréquence continu des turbines de serveurs (moteurs 60Hz/120Hz + souffle d'air filtré), bip d'autorisation RFID, vérin hydraulique d'ouverture et sifflement de transit fibre.
+**Jalon du 21 octobre 2026 : Refonte monumentale et ultra-réaliste (Chambre cocooning, Transition réseau en 6 étapes, Campus extérieur sécurisé, Sas mantrap biométrique et Salle blanche 40m).**
+- **Chambre étudiante cocooning 3D réaliste** : Éclairage chaleureux 2700K ambre tamisé, rideaux d'appartement occultants (`Room_Curtains.fbx`), guirlandes lumineuses LED festives (`Fairy_Lights.fbx`), Box Internet FTTH détaillée avec diodes clignotantes (`Box_Internet.fbx`), tasse de café fumante, et générateur audio procédural de pluie feutrée contre les vitres (`CozyRoomAtmosphere.cs`).
+- **Ergonomie d'assise fluide (`ChairSeatInteraction`)** : Touche `E` pour s'asseoir confortablement sur la chaise face au moniteur gamer, libération du curseur souris pour interagir avec le bureau, `ZQSD` / `Échap` pour se relever.
+- **Transition Réseau Réaliste V2 (`NetworkTransitionV2`)** : Remplacement de l'ancien tunnel abstrait par un parcours cinématique narratif en 6 étapes documentées : Chiffrement local AES-256 → Modulation optique Box FTTH → Gaine technique d'immeuble → NRO d'arrondissement → Dorsale WAN 100 Gbps → Arrivée Campus Tier IV.
+- **Campus Extérieur & Périmètre de Sécurité Tier IV (`DataCenter_Campus`)** : Bâtiment monumental 28×18×14m, guérite vigile bicolore avec barrière levante motorisée, poste de livraison électrique / transformateurs HT 20kV, générateurs de secours industriels Caterpillar diesel, caméras PTZ infra-rouge et clôture d'enceinte concertina.
+- **Sas Mantrap Biométrique Interverrouillé (`Mantrap_Airlock`, `MantrapController`)** : Sas cylindrique d'accès de haute sécurité avec double porte hermétique interverrouillée, balance de sol anti-tailgating, scanner d'iris oculaire et badgeuse RFID Mifare avec retours sonores procéduraux (bip cristal, vérins hydrauliques).
+- **Salle Blanche Monumentale de 40×18m (`WhiteSpace_Hall`)** : 32 baies serveurs 42U alignées, confinement d'allée chaude (CAC) en polycarbonate transparent, plancher technique surélevé perforé avec éclairage bleuté rasant, armoires de climatisation de précision CRAC/CRAH en périphérie, chemins de câbles et gaines busways suspendues.
+- **Local Électrique TGBT & Salle UPS Redondante 2N (`Electrical_Room`)** : Onduleurs statiques industriels, armoires batteries lithium-ion de secours et tableaux généraux basse tension.
+- **Spatialisation sonore industrielle & Audio procédural (`ProceduralAudioService`)** : Zéro asset externe lourd, génération temps réel du bourdonnement basse fréquence continu des turbines de serveurs (moteurs 60Hz/120Hz + souffle d'air filtré), pluie feutrée, bip d'autorisation RFID et vérins hydrauliques.
 - **Interactivité Matérielle : Baie Ouvrable & Serveur 2U Extractible (`ServerBladeInteraction`)** : Porte de baie sur charnières avec serrure quart de tour, extraction télescopique du serveur 2U sur glissières métalliques à billes, mise en valeur des composants internes (bi-processeur avec imposants radiateurs passifs en cuivre/aluminium, 16 barrettes de RAM DDR5 avec LED cyan, 8 disques SSD NVMe hot-swap) et étiquettes holographiques descriptives.
-- **Build Windows compilé et 26/26 tests validés** : 0 erreur / 0 avertissement, 139,02 Mo (`CloudVR-PC.exe`), parcours démo 100% réussi sans régression sous GPU Direct3D11.
+- **Build Windows compilé et 26/26 tests validés** : 0 erreur / 0 avertissement, 146,92 Mo (`CloudVR-PC.exe`), parcours démo 100% réussi sans régression sous GPU Direct3D11 (`tools/Test-PCBuild.ps1`).
 
 | Chambre étudiante meublée | Vue assise devant le PC gamer |
 |---|---|
@@ -56,13 +58,13 @@ Voir la [vision](docs/VISION.md), le [parcours pédagogique](docs/PARCOURS.md) e
 
 | Élément | Niveau atteint au 21/10/2026 | À vérifier ensuite |
 |---|---|---|
-| Refonte visuelle complète (Chambre, Ride fibre, Sas blindé, Baie/Lame) | Implémentée sous Blender 4.5.2 LTS, intégrée URP, shaders Lit émissifs | Retours subjectifs utilisateurs, réglages fins d'éclairage |
+| Refonte monumentale (Chambre cocooning, Transition V2 6 étapes, Campus 28m, Sas mantrap, Salle blanche 40m) | Modélisée sous Blender 4.5.2 LTS, intégrée URP, shaders Lit, éclairage 2700K et pluie procédurale | Retours subjectifs et confort d'immersion |
 | Interaction assise (`ChairSeatInteraction`) | Validée sur PC (touche `E`, libération souris face au bureau) | Confort VR et recentrage en position assise dans le casque |
-| Animation mécanique du sas (`AirlockDoorController`) | Portes coulissantes, gyrophare orange rotatif, bips RFID, vérin | Test visuel fluide dans le casque |
-| Spatialisation audio procédurale (`ProceduralAudioService`) | Synthétiseur pure C# temps réel (drone 60/120 Hz, RFID, vérins) | Rendu binaural au casque VR |
+| Sas mantrap biométrique (`MantrapController`) | Séquence 5 phases : RFID, vérins, balance anti-tailgating, scanner d'iris | Test de timing immersif dans le casque |
+| Spatialisation audio procédurale (`ProceduralAudioService`, `CozyRoomAtmosphere`) | Synthétiseur pure C# temps réel (pluie feutrée, drone 60/120 Hz, RFID, vérins) | Rendu binaural au casque VR |
 | Baie ouvrable & Serveur 2U extractible (`ServerBladeInteraction`) | 3 étapes : porte charnières 95°, glissières 0,52 m, étiquettes holographiques | Interaction manette Touch VR / saisie directe |
-| Player Windows (`CloudVR-PC.exe`, 139,02 Mo) | **26 contrôles réussis sur 26** sous Direct3D11 (`Test-PCBuild.ps1 -Demo`) | Essai de prise en main libre |
-| APK Android Meta Quest (`CloudVR-Quest.apk`, 73,60 Mo) | **15 contrôles statiques réussis sur 15** (`Test-AndroidApk.ps1`), ARM64, OpenXR | Essai matériel dans le casque physique (tracking manettes, confort) |
+| Player Windows (`CloudVR-PC.exe`, 146,92 Mo) | **26 contrôles réussis sur 26** sous Direct3D11 (`Test-PCBuild.ps1 -Demo`) | Essai de prise en main libre par l'utilisateur |
+| APK Android Meta Quest (`CloudVR-Quest.apk`, 73,60 Mo) | **15 contrôles statiques réussis sur 15** (`Test-AndroidApk.ps1`), ARM64, OpenXR | Recompiler avec la nouvelle scénographie T10 |
 
 Le livrable PC et le livrable APK Android Meta Quest intègrent désormais l'intégralité du parcours, des 6 bornes pédagogiques et de la refonte visuelle et sonore. Les rapports détaillés sont conservés sous `docs/validation/`.
 

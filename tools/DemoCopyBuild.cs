@@ -13,7 +13,7 @@ public static class DemoCopyBuild
         Directory.CreateDirectory("Builds/Demo");
         try
         {
-            DemoTourBuilder.Build();
+            GrandMasterBuilder.BuildAll();
             PlayerSettings.runInBackground=true;
             var report=BuildPipeline.BuildPlayer(new BuildPlayerOptions {
                 scenes=new[]{"Assets/Scenes/Chambre.unity","Assets/Scenes/DataCenter.unity"}, locationPathName="Builds/Demo/CloudVR-PC.exe",

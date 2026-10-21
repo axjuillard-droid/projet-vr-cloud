@@ -2,7 +2,25 @@
 
 Mis à jour le 21 octobre 2026.
 
-## T09 — Refonte visuelle et immersive complète (Jalons 1 à 4) validée sur PC et Meta Quest, 21/10/2026
+## T10 — Refonte monumentale et ultra-réaliste (Chambre Cocooning, Transition Réseau V2, Campus Extérieur, Sas Mantrap et Salle Blanche 40m) validée sur PC, 21/10/2026
+- **Demande et vision utilisateur** : refonte ambitieuse et ultra-réaliste pour dépasser le cadre abstrait initial :
+  - **Jalon A (Chambre Cocooning)** : Ambiance chaleureuse 2700K ambre tamisée, rideaux d'appartement occultants (`Room_Curtains.fbx`), guirlandes lumineuses LED festives (`Fairy_Lights.fbx`), Box Internet FTTH détaillée avec diodes clignotantes (`Box_Internet.fbx`), tasse de café fumante, et générateur audio procédural de pluie feutrée contre les vitres (`CozyRoomAtmosphere.cs`).
+  - **Jalon B (Transition Réseau V2)** : Remplacement du tunnel abstrait par un parcours cinématique narratif en 6 étapes (`NetworkTransitionV2.cs`) : Chiffrement local AES-256 → Modulation optique Box FTTH → Gaine technique d'immeuble → NRO d'arrondissement → Dorsale WAN 100 Gbps → Arrivée Campus Tier IV.
+  - **Jalon C (Campus Extérieur & Périmètre de Sécurité)** : Bâtiment monumental 28×18×14m (`DataCenter_Campus.fbx`), guérite vigile bicolore avec barrière levante motorisée, poste de livraison électrique / transformateurs HT 20kV, générateurs de secours industriels Caterpillar diesel, caméras PTZ infra-rouge et clôture d'enceinte concertina.
+  - **Jalon D (Sas Mantrap Biométrique & Salle Blanche Monumentale)** :
+    - Sas cylindrique d'accès biométrique interverrouillé (`Mantrap_Airlock.fbx`, `MantrapController.cs`) : double porte à verrouillage électromagnétique mutuel, balance de sol anti-tailgating, scanner d'iris oculaire et badgeuse RFID Mifare avec retours sonores procéduraux.
+    - Salle blanche imposante de 40×18m (`WhiteSpace_Hall.fbx`) : 32 baies serveurs 42U alignées, confinement d'allée chaude (CAC) en polycarbonate transparent, plancher technique surélevé perforé avec éclairage bleuté rasant, armoires de climatisation de précision CRAC/CRAH en périphérie, chemins de câbles et gaines busways suspendues.
+    - Local électrique TGBT / Salle UPS redondante 2N (`Electrical_Room.fbx`) : onduleurs statiques industriels, armoires batteries lithium-ion et tableaux généraux basse tension.
+- **Builders Éditeur Unity & Orchestrateur** :
+  - `ChambreArtBuilder.cs` : instanciation procédurale du mobilier cocooning et de l'ambiance lumineuse.
+  - `DatacenterMonumentalBuilder.cs` : instanciation et texturation URP du campus extérieur, du sas mantrap, de la salle blanche 40m et du local TGBT.
+  - `GrandMasterBuilder.cs` : orchestrateur global générant l'ensemble des scènes `Chambre.unity` et `DataCenter.unity` et configurant les bornes du parcours pédagogique.
+- **Build Windows réussi (21/10/2026 à 15h07 Paris)** :
+  - Compilé en batchmode autonome via `tools/Build-DemoCopy.ps1 -Resume` puis finalisé avec `-Complete`.
+  - Résultat BuildPipeline : `Succeeded`, 0 erreur, 0 avertissement, durée 193,8 s, taille 146,92 Mo sous `ConnectionTest/Builds/Windows/CloudVR-PC.exe` et `CloudVR-PC_Data`.
+- **Validation automatisée PC de non-régression : 26 contrôles sur 26 réussis** sous GPU Direct3D11 le 21/10 à 15h08 (`tools/Test-PCBuild.ps1 -Graphics -Demo -TimeoutSeconds 120`). `exitCode=0`, `passed=true`.
+  - Intégrité complète du parcours vérifiée : départ chambre, clic d'envoi photo, initialisation des 6 bornes, caméra unique, déplacement ZQSD/WASD, pause/reprise Échap, activations séquentielles des 6 bornes et 8 actions, simulation de refroidissement, bascule UPS batterie, et réinitialisation propre.
+- **Limites actuelles** : Exécutable PC Windows validé et prêt à l'emploi. Recompilation de l'APK Android Meta Quest (`tools/Build-AndroidCopy.ps1`) avec la nouvelle scénographie à planifier.
 - **Jalon 1 (Chambre Réaliste & Ergonomie)** :
   - Mobilier complet généré par Blender 4.5.2 LTS (`tools/art/generate_room_furniture.py`) et importé sous URP Lit :
     - Grand lit étudiant en bois avec matelas, couette bleu pétrole et oreillers (`Bed_Student.fbx`).

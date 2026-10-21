@@ -1,4 +1,4 @@
-param([switch]$Resume,[switch]$Complete)
+param([switch]$Resume,[switch]$Complete,[switch]$Wait)
 $ErrorActionPreference='Stop'
 $projectRoot=[IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..'))
 $sourceProject=Join-Path $projectRoot 'ConnectionTest'
@@ -57,14 +57,21 @@ foreach ($folder in @('Assets','Packages','ProjectSettings')) {
 foreach ($file in @('manifest.json','packages-lock.json')) {
     $path=Join-Path $stage ('Packages/'+$file)
     $json=Get-Content -LiteralPath $path -Raw | ConvertFrom-Json
-    $json.dependencies.PSObject.Properties.Remove('com.coplaydev.unity-mcp')
-    $json | ConvertTo-Json -Depth 30 | Set-Content -LiteralPath $path -Encoding utf8
+    $str = $json | ConvertTo-Json -Depth 30
+    [IO.File]::WriteAllText($path, $str, [Text.UTF8Encoding]::new($false))
 }
 Copy-Item -LiteralPath (Join-Path $PSScriptRoot 'DemoCopyBuild.cs') -Destination (Join-Path $stage 'Assets/CloudVR/Editor/DemoCopyBuild.cs') -Force
-$arguments=@('-batchmode','-nographics','-quit','-buildTarget','Win64','-projectPath',('"{0}"' -f $stage),'-executeMethod','DemoCopyBuild.Run','-logFile',('"{0}"' -f $run.log))
+$arguments=@('-batchmode','-nographics','-quit','-buildTarget','Win64','-projectPath',$stage,'-executeMethod','DemoCopyBuild.Run','-logFile',$run.log)
 $process=Start-Process -FilePath $unityExe -ArgumentList $arguments -WindowStyle Hidden -PassThru
 $run.pid=$process.Id; $run.utc=[DateTime]::UtcNow.ToString('o')
 New-Item -ItemType Directory -Force -Path (Split-Path $metadata) | Out-Null
 $run | ConvertTo-Json -Depth 8 | Set-Content -LiteralPath $metadata -Encoding utf8
 $run | ConvertTo-Json -Depth 8 -Compress
-# Non bloquant : consulter log/PID, puis appeler -Complete uniquement après arrêt normal.
+if ($Wait) {
+    Write-Host "Attente du processus $($process.Id)..."
+    $deadline = [DateTime]::UtcNow.AddMinutes(15)
+    while (!$process.WaitForExit(1000)) {
+        if ([DateTime]::UtcNow -gt $deadline) { throw "Attente expirée pour le build PC." }
+    }
+    Write-Host "Processus terminé (Code $($process.ExitCode))."
+}
