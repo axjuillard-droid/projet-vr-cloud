@@ -1,5 +1,9 @@
 # Ressources évaluées
 
+## T12 — Correction locale des surfaces, 21 octobre 2026
+
+Réutilisation des matériaux et builders du projet, Mesh/Camera.Render déjà disponibles dans Unity et vérifiés dans les sources du package MCP local. Aucun asset externe nécessaire pour cette correction comprise : pas de nouvelle recherche, téléchargement ou dépendance Unity. Dallage et scripts originaux, asset mesh généré publié avec son GUID. Composition des captures par Pillow/imageio-ffmpeg déjà installés dans l'environnement Python ; ni ces bibliothèques ni le binaire ffmpeg redistribués. La vidéo compare des rendus du projet et ne mesure pas les performances. Sources et méthode : validation/floors-2026-10-21/.
+
 ## T11 — Audit de réalisme et matériaux, 21 octobre 2026
 
 Méthode locale `skills/reuse-first/SKILL.md` consultée. Besoin : références factuelles et matériaux sobres pour Unity 6000.0.58f2/URP/PC/Quest. Audit documentaire uniquement, aucun téléchargement ni package ajouté.

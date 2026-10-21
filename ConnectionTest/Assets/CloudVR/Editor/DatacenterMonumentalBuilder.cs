@@ -1,5 +1,6 @@
 #if UNITY_EDITOR
 using System;
+using System.Collections.Generic;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
@@ -145,6 +146,9 @@ public static class DatacenterMonumentalBuilder
             // Le modèle de référence était un bloc plein : conserver une véritable façade ajourée.
             RemovePart(campusGo, "DC_Building_Core");
             RemovePart(campusGo, "DC_Facade_Front");
+            // Ce parking importé traversait la cour, le sas et le début de salle à Y=0.
+            // Cour_Continue et Seuil_Continu assurent déjà le sol et ses collisions.
+            RemovePart(campusGo, "Sol_Parking");
             RemovePart(campusGo, "Fence_0_Base");
             RemovePart(campusGo, "Fence_0_Barbelé");
             foreach (var r in campusGo.GetComponentsInChildren<Renderer>())
@@ -243,6 +247,10 @@ public static class DatacenterMonumentalBuilder
             AssignMaterial(wsGo, "WS_CRAC", matCrac);
             AssignMaterial(wsGo, "WS_ColdAirGlow", matColdAir);
             ArrangeRackRows(wsGo);
+            // Les 779 dalles importées étaient coplanaires au sol continu et ne
+            // couvraient que 24,6 x 11,4 m. Le dallage complet est construit plus bas.
+            foreach (var r in wsGo.GetComponentsInChildren<MeshRenderer>())
+                if (r.name.StartsWith("Dalle_")) r.gameObject.SetActive(false);
             // Le confinement du FBX traversait l'allée centrale après rotation.
             foreach (var r in wsGo.GetComponentsInChildren<MeshRenderer>())
                 if (r.name.StartsWith("CAC_")) r.gameObject.SetActive(false);
@@ -267,7 +275,7 @@ public static class DatacenterMonumentalBuilder
                 if (r.name.StartsWith("WS_Wall_") || r.name.EndsWith("_Body"))
                     r.gameObject.AddComponent<BoxCollider>();
             }
-            Box(archRoot, "WhiteSpace_Sol_Continu", new Vector3(0, -.12f, 20), new Vector3(18, .24f, 40), matFloorTile);
+            BuildHallFloor(archRoot, matFloorTile, matFloorPerf);
             Box(archRoot, "WhiteSpace_Entree_G", new Vector3(-5.6f, 2.1f, 0), new Vector3(6.8f, 4.2f, .2f), matCeiling);
             Box(archRoot, "WhiteSpace_Entree_D", new Vector3(5.6f, 2.1f, 0), new Vector3(6.8f, 4.2f, .2f), matCeiling);
             Box(archRoot, "WhiteSpace_Entree_Haut", new Vector3(0, 3.7f, 0), new Vector3(4.4f, 1, .2f), matCeiling);
@@ -320,6 +328,51 @@ public static class DatacenterMonumentalBuilder
     {
         foreach (var t in root.GetComponentsInChildren<Transform>(true))
             if (t.name == name) { t.gameObject.SetActive(false); return; }
+    }
+
+    private static void BuildHallFloor(Transform parent, Material tileMaterial, Material jointMaterial)
+    {
+        // Collision unique, plane et continue, à Y=0 ; aucun renderer concurrent.
+        var collision = Box(parent, "WhiteSpace_Sol_Continu", new Vector3(0, -.12f, 20), new Vector3(18, .24f, 40), tileMaterial);
+        collision.GetComponent<MeshRenderer>().enabled = false;
+        // Les joints sont réellement en retrait de 15 mm, jamais coplanaires aux dalles.
+        var joints = Box(parent, "WhiteSpace_Joints", new Vector3(0, -.065f, 20), new Vector3(18, .10f, 40), jointMaterial);
+        UnityEngine.Object.DestroyImmediate(joints.GetComponent<Collider>());
+
+        const float pitch = .6f, gap = .004f;
+        var vertices = new List<Vector3>();
+        var triangles = new List<int>();
+        var uv = new List<Vector2>();
+        // 30 colonnes et 67 rangées, dernière rangée recoupée exactement à Z=40.
+        for (int column = 0; column < 30; column++)
+            for (int row = 0; row < 67; row++)
+            {
+                float x0 = -9 + column * pitch + gap * .5f;
+                float x1 = -9 + (column + 1) * pitch - gap * .5f;
+                float z0 = row * pitch + gap * .5f;
+                float z1 = Mathf.Min(40, (row + 1) * pitch) - gap * .5f;
+                int n = vertices.Count;
+                vertices.Add(new Vector3(x0, 0, z0)); vertices.Add(new Vector3(x1, 0, z0));
+                vertices.Add(new Vector3(x1, 0, z1)); vertices.Add(new Vector3(x0, 0, z1));
+                uv.Add(Vector2.zero); uv.Add(Vector2.right); uv.Add(Vector2.one); uv.Add(Vector2.up);
+                triangles.Add(n); triangles.Add(n + 2); triangles.Add(n + 1);
+                triangles.Add(n); triangles.Add(n + 3); triangles.Add(n + 2);
+            }
+        const string path = "Assets/CloudVR/Models/WhiteSpace_FloorTiles.asset";
+        var mesh = AssetDatabase.LoadAssetAtPath<Mesh>(path);
+        if (mesh == null)
+        {
+            mesh = new Mesh { name = "WhiteSpace_FloorTiles" };
+            AssetDatabase.CreateAsset(mesh, path);
+        }
+        mesh.Clear();
+        mesh.SetVertices(vertices); mesh.SetUVs(0, uv); mesh.SetTriangles(triangles, 0);
+        mesh.RecalculateNormals(); mesh.RecalculateBounds();
+        EditorUtility.SetDirty(mesh);
+        var tiles = new GameObject("WhiteSpace_Dallage", typeof(MeshFilter), typeof(MeshRenderer));
+        tiles.transform.SetParent(parent, false);
+        tiles.GetComponent<MeshFilter>().sharedMesh = mesh;
+        tiles.GetComponent<MeshRenderer>().sharedMaterial = tileMaterial;
     }
 
     private static void ArrangeRackRows(GameObject hall)

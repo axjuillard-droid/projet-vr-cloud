@@ -1,0 +1,16 @@
+{
+  "date": "2026-10-21",
+  "source": "Saved scene inspected via MCP after final build delivery; outside Play",
+  "activeLegacyTiles": 0,
+  "visibleImportedParking": 0,
+  "missingMeshes": 0,
+  "missingMaterials": 0,
+  "vertices": 8040,
+  "triangles": 4020,
+  "tileY": 0,
+  "jointY": -0.0149999969,
+  "collisionY": 0,
+  "floorRendererEnabled": false,
+  "meshGuid": "7b7cf58db82ea8c4aab4cf734f9f769c",
+  "limitation": "Geometry audit; not a global visual quality or headset validation"
+}

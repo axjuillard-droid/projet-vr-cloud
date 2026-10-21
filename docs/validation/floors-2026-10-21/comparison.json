@@ -1,0 +1,13 @@
+{
+  "frames": 124,
+  "fpsPlayback": 10,
+  "durationSeconds": 12.4,
+  "zones": [
+    "cour",
+    "sas",
+    "salle",
+    "rasant"
+  ],
+  "source": "Editor camera sweeps outside Play",
+  "limitation": "Playback speed is synthetic, not a benchmark or headset validation"
+}

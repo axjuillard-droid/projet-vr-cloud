@@ -2,9 +2,9 @@
 
 **Du clic sur « envoyer une photo » aux équipements physiques du cloud.** Projet universitaire ESILV année 5, Unity 6000.0.58f2 / URP / C# / OpenXR.
 
-**État au 21 octobre 2026 : correctifs PC livrés, 37 contrôles sur 37 réussis.** Le player Windows compile avec 0 erreur / 0 avertissement. Après reprise GO, la transition complète, la traversée de la cour au fond de salle via le sas et les six bornes sont vérifiées dans l’exécutable. Les essais humains de confort et le casque restent distincts.
+**État au 21 octobre 2026 : sols corrigés, nouveau build PC livré à 16 h 56, 37 contrôles sur 37 réussis.** Le player Windows compile avec 0 erreur / 0 avertissement. La traversée de la cour au fond de salle via le sas et les six bornes sont vérifiées dans l’exécutable. Les essais humains de confort et le casque restent distincts.
 
-**Retour humain après livraison : rendu et pédagogie à reprendre.** Des scintillements sont signalés ; l'audit MCP confirme 779 dalles presque coplanaires au sol ajouté, ainsi qu'un recouvrement cour/parking. La transition est essentiellement textuelle et les activités restent répétitives. [Critique sourcée et priorités](docs/CRITIQUE_2026-10-21.md) ; première tâche : supprimer les surfaces concurrentes et vérifier le rendu en mouvement. Ces nouveaux correctifs ne sont pas encore intégrés au build.
+**Retour humain : transition et pédagogie à reprendre.** Les surfaces concurrentes détectées sont corrigées : parking importé retiré du rendu, ancien dallage remplacé par un mesh groupé sur 18×40 m, collision continue invisible et joints en retrait. [Avant/après et preuves](docs/validation/floors-2026-10-21/README.md), [comparaison vidéo hors Play](docs/validation/floors-2026-10-21/floor-comparison.mp4). Les grandes découpes parasites ont disparu aux angles comparés ; reflets, joints fins et qualité d'ombres restent à surveiller en essai humain. La transition reste essentiellement textuelle et les activités répétitives : [critique sourcée et priorités](docs/CRITIQUE_2026-10-21.md).
 
 Les corrections disponibles :
 
@@ -17,15 +17,15 @@ Les corrections disponibles :
 
 | Cour extérieure du player | Allée centrale de 40 m |
 |---|---|
-| ![Apparition réelle dans la cour](docs/validation/monumental-2026-10-21/reprise/player-final/demo-arrival.png) | ![Allée centrale dégagée vue du fond de salle](docs/validation/monumental-2026-10-21/reprise/player-final/demo-hall-end.png) |
+| ![Apparition réelle dans la cour](docs/validation/floors-2026-10-21/player/demo-arrival.png) | ![Allée centrale dégagée vue du fond de salle](docs/validation/floors-2026-10-21/player/demo-hall-end.png) |
 
 Captures Direct3D11 du 21 octobre. Elles ne prouvent pas une traversée complète ni une validation casque.
 
 | Vérification | Résultat |
 |---|---|
-| Build Windows, 16 h 00 Paris | Réussi, 38,84 s, 146 790 730 octets, 0 erreur / 0 avertissement |
+| Build Windows, 16 h 56 Paris | Réussi, 20,45 s, 146 874 635 octets, 0 erreur / 0 avertissement |
 | Démo complète dans le player | **37/37 contrôles réussis**, Direct3D11, entrées synthétiques |
-| Transition et navigation | Six étapes ≥10,7 s, apparition −28 m, sas/scan, arrivée Z=39,002 m en 24,28 s |
+| Transition et navigation | Six étapes ≥10,7 s, apparition −28 m, sas/scan, arrivée Z=39,001 m en 24,28 s |
 | Six bornes et conclusion | Raycasts/clics, huit actions, synthèse, retour Chambre, reset R vérifiés ; poses de visée contrôlées aux bornes |
 | Petits déplacements | 100 commandes de 0,5 mm produisent 5 cm ; seuil CharacterController corrigé |
 | Scènes originales dans Unity | 0 matériau manquant / 0 shader non supporté ; matériaux et GUID livrés par le runner |

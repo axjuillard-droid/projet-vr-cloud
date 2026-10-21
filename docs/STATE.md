@@ -2,6 +2,13 @@
 
 Mis à jour le 21 octobre 2026.
 
+## T12 — Sols corrigés et nouveau player livré, 21/10/2026
+- Correctif implémenté dans le builder : parking importé désactivé ; anciennes 779 dalles désactivées ; sol continu conservé comme collider sans rendu, joints à −15 mm et dallage complet 18×40 m groupé en un mesh (2 010 dalles, 8 040 sommets, 4 020 triangles). GUID du mesh conservé et livraison ajoutée à Build-DemoCopy.
+- Captures contrôlées hors Play effectuées avant/après : 31 angles par zone (cour, sas, salle, angle rasant), mêmes caméra/éclairage. Grandes découpes parasites absentes aux vues comparées ; les joints fins et reflets doivent rester distingués du z-fighting. Ne pas assimiler ces séquences à un essai humain ou une mesure FPS du player.
+- Audit MCP après livraison : 0 ancienne dalle active, 0 parking importé visible, sol de collision sans renderer actif, 0 mesh/matériau manquant. GUID mesh confirmé. Chambre : un seul sol visible, lancement normal observé puis player fermé ; aucune traversée native manuelle revendiquée.
+- **Build Windows livré à 16 h 56 min 39 s Paris** : Succeeded, 20,45 s de BuildPipeline, 146 874 635 octets, **0 erreur / 0 avertissement**. `-Resume -Wait` puis `-Complete` exécutés. **37/37 contrôles player réussis**, exitCode=0, terminés à 16 h 58 min 22 s ; marche réelle au clavier synthétique jusqu'à Z=39,001 m en 24,28 s, sas/scan, six bornes/huit actions et retour/reset. Frames logiques distinctes du FPS interactif.
+- Preuves anonymisées, comparaison vidéo et limites : `docs/validation/floors-2026-10-21/`. Les grandes découpes de surfaces ont disparu aux angles comparés ; aucune absence universelle de scintillement/aliasing revendiquée. Avertissement de rendu conservé : résolution de six shadow maps réduite pour l'atlas 2048 ; distinct du bilan de compilation. Chambre régénérée par le constructeur maître, noms/nombres d'objets comparés identiques. Aucun changement des sources transition/activités, de la configuration XR ni d'APK ; aucun casque testé. Prochaine tâche prête T13 : transition visuelle.
+
 ## T11 — Critique après essai humain, 21/10/2026
 - Retour utilisateur : progression améliorée, scintillements/triangles lors des rotations, transition réseau peu perceptible, activités jugées insuffisantes. Les 37 contrôles T10 restent fonctionnels ; ils ne valident pas la qualité visuelle ou pédagogique.
 - Audit sourcé : `docs/CRITIQUE_2026-10-21.md`. Six situations physiques proposées, enjeux énergie/eau/chaleur/disponibilité, direction artistique et critères de validation ; propositions non encore implémentées.

@@ -92,6 +92,8 @@ Monter le niveau seulement quand la tâche le justifie ; Xhigh/Max ne constituen
 
 ## Vérification réelle du 21 octobre 2026
 
+**Actualisation T11/T12 :** les outils natifs `mcp__unityMCP` sont désormais directement exposés au chat et ont été utilisés : ressources custom-tools/editor-state, execute_code, refresh et console. Ils permettent l'audit des scènes et les balayages caméra hors Play. Le paragraphe HTTP ci-dessous décrit l'état antérieur de la session. Aucun nouveau connecteur Blender ni essai casque vérifié.
+
 MCP Unity HTTP local `127.0.0.1:8080/mcp` connecté : initialisation et `tools/list` réussies, une instance ConnectionTest, Unity 6000.0.58f2, projet original confirmé. `project/info`, `editor/state`, `custom-tools` et `read_console` lus : Chambre active, hors Play/compilation, prêt pour outils, zéro erreur retournée. Outils disponibles : scènes/objets/composants, C# en éditeur, matériaux, caméra/captures, physique/profiler, tests et builds. Accès HTTP local via PowerShell hors sandbox nécessaire dans cette session ; aucun outil Unity natif directement exposé au chat. Sessions conservées uniquement sous tmp ignoré.
 
 Compilation Windows via copie ASCII et Build-DemoCopy réellement exécutée ; second build sans erreur/avertissement. Contrôle Windows `@oai/sky` initialisé via le skill computer-use, inventaire de fenêtres réussi. Aucun MCP Blender vérifié ; génération Blender par scripts reste la méthode du projet. Aucun essai casque pendant cette session.

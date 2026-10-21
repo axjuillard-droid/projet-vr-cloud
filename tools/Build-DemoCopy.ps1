@@ -25,6 +25,9 @@ if ($Complete) {
     if ($reportUtc -lt [DateTimeOffset]$run.utc) { throw 'Rapport antérieur au lancement.' }
     if ((Get-Content -LiteralPath $run.log -Raw) -notmatch 'Exiting batchmode successfully') { throw 'Fermeture normale du batch non constatée.' }
     foreach ($guard in $run.guards) { if ((Get-FileHash -LiteralPath (Join-Path $projectRoot $guard.file)).Hash -ne $guard.hash) { throw ('Fichier original modifié pendant le build, revue requise : '+$guard.file) } }
+    foreach ($name in @('WhiteSpace_FloorTiles.asset','WhiteSpace_FloorTiles.asset.meta')) {
+        if (!(Test-Path -LiteralPath (Join-Path $stage ('Assets/CloudVR/Models/'+$name)))) { throw ('Ressource de sol générée absente : '+$name) }
+    }
     $destination=Join-Path $sourceProject 'Builds/Windows'
     $backup=Join-Path $sourceProject 'Builds/Windows-PreDemo-20261020'
     if ((Test-Path -LiteralPath $destination) -and !(Test-Path -LiteralPath $backup)) { Copy-Item -LiteralPath $destination -Destination $backup -Recurse }
@@ -42,6 +45,10 @@ if ($Complete) {
     Get-ChildItem -LiteralPath (Join-Path $stage 'Assets/CloudVR/Materials') -File |
         Where-Object { $_.Name -like '*.mat' -or $_.Name -like '*.mat.meta' } |
         ForEach-Object { Copy-Item -LiteralPath $_.FullName -Destination (Join-Path $sourceProject 'Assets/CloudVR/Materials') -Force }
+    # Le dallage groupé est un mesh généré par le builder, référencé par GUID dans DataCenter.
+    foreach ($name in @('WhiteSpace_FloorTiles.asset','WhiteSpace_FloorTiles.asset.meta')) {
+        Copy-Item -LiteralPath (Join-Path $stage ('Assets/CloudVR/Models/'+$name)) -Destination (Join-Path $sourceProject ('Assets/CloudVR/Models/'+$name)) -Force
+    }
     $report | ConvertTo-Json -Compress
     return
 }
