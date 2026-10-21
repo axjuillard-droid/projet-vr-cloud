@@ -4,6 +4,8 @@
 
 **État au 21 octobre 2026 : correctifs PC livrés, 37 contrôles sur 37 réussis.** Le player Windows compile avec 0 erreur / 0 avertissement. Après reprise GO, la transition complète, la traversée de la cour au fond de salle via le sas et les six bornes sont vérifiées dans l’exécutable. Les essais humains de confort et le casque restent distincts.
 
+**Retour humain après livraison : rendu et pédagogie à reprendre.** Des scintillements sont signalés ; l'audit MCP confirme 779 dalles presque coplanaires au sol ajouté, ainsi qu'un recouvrement cour/parking. La transition est essentiellement textuelle et les activités restent répétitives. [Critique sourcée et priorités](docs/CRITIQUE_2026-10-21.md) ; première tâche : supprimer les surfaces concurrentes et vérifier le rendu en mouvement. Ces nouveaux correctifs ne sont pas encore intégrés au build.
+
 Les corrections disponibles :
 
 - Chambre ambrée, directionnelles désactivées, lampe à 2700K, lueur écran, guirlande et pluie procédurale conservées.

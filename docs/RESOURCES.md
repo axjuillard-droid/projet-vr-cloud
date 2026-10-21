@@ -1,5 +1,16 @@
 # Ressources évaluées
 
+## T11 — Audit de réalisme et matériaux, 21 octobre 2026
+
+Méthode locale `skills/reuse-first/SKILL.md` consultée. Besoin : références factuelles et matériaux sobres pour Unity 6000.0.58f2/URP/PC/Quest. Audit documentaire uniquement, aucun téléchargement ni package ajouté.
+
+- [Poly Haven : licence](https://polyhaven.com/license) vérifiée : assets HDRI/textures/modèles sous CC0, adaptation et redistribution dans le dépôt public permises, attribution facultative (provenance à conserver). Le site, ses textes, logos et rendus de présentation ne sont pas tous CC0. **Candidat retenu pour sélection ultérieure** de textures sol/métal ; aucun asset précis ni coût de rendu validé. Adaptation URP et textures réduites pour Quest à mesurer ; effort estimé faible à moyen. Pas de plugin nécessaire.
+- Références pédagogiques : [AIE Energy and AI 2025](https://www.iea.org/reports/energy-and-ai/energy-demand-from-ai), [ASHRAE carte 2015](https://xp20.ashrae.org/datacom1_4th/ReferenceCard.pdf), [Google PUE](https://datacenters.google/efficiency/) et [eau](https://datacenters.google/water/), [Commission européenne](https://energy.ec.europa.eu/topics/energy-efficiency/energy-efficiency-targets-directive-and-rules/energy-efficiency-directive/energy-performance-data-centres_en), [AWS protection des données S3](https://docs.aws.amazon.com/AmazonS3/latest/userguide/data-protection.html). Consultation et reformulation originales avec liens ; aucun tableau, média, marque ou modèle industriel redistribué. La carte ASHRAE est ancienne et ne couvre pas tous les matériels actuels ; pas de reproduction du tableau protégé. Les communications d'opérateurs sont identifiées comme telles.
+- [Uptime Tier](https://uptimeinstitute.com/tiers?trk=public_post_main-feed-card-text) : résumé officiel indexé consulté, accès intégral refusé 403. Ne pas présenter une certification ou une conformité du site fictif. Pas de copie de standard.
+- [Unity : conflits de profondeur](https://docs.unity.com/en-us/engine/6000.3/manual/materials-and-shaders/shaders/writing-custom/shader-writing/sl/writing-shader-render-state-commands/set-depth-bias) : référence de principe 6.3, pas une mise à niveau du projet 6.0 ni une décision de masquer les doublons par shader.
+
+Conclusion : réutiliser les sources pour un récit rigoureux et proposer des matériaux CC0 ; traiter d'abord les surfaces superposées, puis réaliser un module de référence refroidissement. Voir `CRITIQUE_2026-10-21.md`. Pas d'asset acheté, installé ou importé ; compatibilité/performance réelle des futurs assets non testée.
+
 ## T07a — Deux références visuelles proposées, 5 octobre 2026
 
 ### Production originale autorisée ensuite

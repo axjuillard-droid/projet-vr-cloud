@@ -1,0 +1,13 @@
+{
+  "date": "2026-10-21",
+  "method": "Unity MCP execute_code; saved DataCenter scene opened additively outside Play, inspected then closed; Chambre restored clean",
+  "tileCount": 779,
+  "coplanarTileConflicts": 779,
+  "maxTileSurfaceDifferenceMetres": 7.41332769e-7,
+  "tileEnvelope": "Center: (0.000, -0.020, 20.000), Extents: (5.698, 0.020, 12.298)",
+  "floor": "Center: (0.000, -0.120, 20.000), Extents: (9.000, 0.120, 20.000)",
+  "parking": "Center: (0.000, -0.050, 0.100), Extents: (20.000, 0.050, 15.000)",
+  "court": "Center: (0.000, -0.100, -18.000), Extents: (20.000, 0.100, 14.000)",
+  "parkingCourtSurfaceDifferenceMetres": 0.00000178813934,
+  "diagnostic": "AABB and surface audit only; no moving-camera A/B performed"
+}

@@ -2,6 +2,13 @@
 
 Mis à jour le 21 octobre 2026.
 
+## T11 — Critique après essai humain, 21/10/2026
+- Retour utilisateur : progression améliorée, scintillements/triangles lors des rotations, transition réseau peu perceptible, activités jugées insuffisantes. Les 37 contrôles T10 restent fonctionnels ; ils ne valident pas la qualité visuelle ou pédagogique.
+- Audit sourcé : `docs/CRITIQUE_2026-10-21.md`. Six situations physiques proposées, enjeux énergie/eau/chaleur/disponibilité, direction artistique et critères de validation ; propositions non encore implémentées.
+- MCP natif Unity réellement utilisé : ConnectionTest 6000.0.58f2, hors Play. DataCenter chargé temporairement en additif puis fermé ; Chambre restituée propre. **779/779 dalles recouvrent le sol visible à Y≈0**, écart maximal 0,742 µm ; parking et cour se recouvrent à 1,79 µm. Chevauchements confirmés, z-fighting très probable ; causalité de tous les scintillements à vérifier par vidéo/A-B en mouvement. Preuve : `docs/validation/critique-2026-10-21/geometry-audit.json`.
+- Code/captures précédentes : V2 = six textes/barre et deux orientations, sans voyage 3D ; consigne d'envoi encore visible, écran annonçant déjà la persistance pendant le trajet. DemoTour réutilise ligne/boule de 2,8 s pour presque toutes les étapes ; pas de simulation thermique/électrique couplée.
+- Priorité prête **T12 : sols et stabilité visuelle**, puis transition et module de référence refroidissement avant refonte des autres activités. Aucun code/scène/build modifié dans cet audit, aucun nouvel essai player ni casque. Recherche reuse-first : Poly Haven CC0 candidat matériaux, aucun asset importé ; détails RESOURCES.
+
 ## T10 — Correctifs PC livrés et validés après reprise GO, 21/10/2026
 - **Build Windows final livré** à 16 h 00 Paris : Unity 6000.0.58f2, 38,84 s, 146 790 730 octets, **0 erreur / 0 avertissement**. Commandes `Build-DemoCopy.ps1 -Resume -Wait`, puis `-Complete` exécutées.
 - **37/37 contrôles réussis** à 16 h 02 Paris dans le player Direct3D11 : clic/envoi, six étapes réseau sans bypass, spawn −28 m, cent petits déplacements (5 cm), maintien au sol, pause/reprise, sas interverrouillé/scan, marche jusqu’à Z=39,002 m en 24,28 s, six bornes aux positions demandées, huit actions, synthèse, retour Chambre et reset. Entrées synthétiques ; poses de visée contrôlées aux bornes. Le compteur de frames batch ne mesure pas la performance de rendu interactif.
