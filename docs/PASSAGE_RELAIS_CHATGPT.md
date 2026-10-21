@@ -13,7 +13,7 @@
 
 **Prochaine tâche prête : T17/P2, voyage réseau 3D** ; quatre autres activités encore au prototype, casque et performance non validés. Les demandes P0/P1 historiques plus bas ne doivent pas faire refaire les lots livrés. MCP utilisé ; Chambre restituée propre, console retournant zéro erreur. Audit composite final additionnel incomplet après deux erreurs NullReferenceException de requêtes : ne pas revendiquer de bilan complet des matériaux final. Les scènes originales sont identiques à la copie compilée par SHA-256.
 
-Verrou Git historique revu après GO puis sauvegardé sous tmp, sans arrêter de processus ; publication P0/T20/P1 en cours. STATE fait foi pour la confirmation du push.
+Verrou Git historique revu après GO puis sauvegardé sous tmp, sans arrêter de processus. **P0/T20/P1 publiés : `cddd29a` sur origin/main**, SHA distant confirmé ; STATE et les preuves P1 consignent la validation. Les mentions de publication suspendue plus bas sont historiques.
 
 ## Historique de reprise — P0 livré le 21/10 à 22 h 05 Paris
 

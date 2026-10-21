@@ -48,6 +48,6 @@ La régression P1 conserve la marche cour/sas/salle et l'accès électrique, pui
 
 ## Publication et outils
 
-Le verrou Git antérieur a été revu après GO : fichier vide ancien, ouverture exclusive possible, aucun `git.exe` actif ; seul un filtre LFS orphelin subsistait. Verrou conservé par déplacement sous tmp, aucun processus arrêté. P1 validé sur PC ; commit/push en préparation, confirmation dans STATE. L'échec historique est conservé dans les preuves P0.
+Le verrou Git antérieur a été revu après GO : fichier vide ancien, ouverture exclusive possible, aucun `git.exe` actif ; seul un filtre LFS orphelin subsistait. Verrou conservé par déplacement sous tmp, aucun processus arrêté. P1 validé sur PC ; **commit `cddd29a` poussé sur origin/main**, SHA distant confirmé, 87 objets LFS / 21 Mo. Diff, trente JSON, liens, anonymisation et Git LFS fsck contrôlés ; sorties de build, caches et sessions exclus. [Confirmation](git-publication.json). L'échec historique est conservé dans les preuves P0.
 
 L'éditeur avait une boîte de rechargement externe qui bloquait le MCP : scène rechargée par computer-use, puis C# et mesures vérifiés. Un appel du builder a ensuite expiré côté outil tout en enregistrant les scènes : reprise de build avec de nouveaux gardes, sans contourner la protection des scènes. Ne jamais conclure à l'absence de mutation à partir du seul timeout de transport.
