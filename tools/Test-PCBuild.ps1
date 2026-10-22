@@ -7,8 +7,9 @@ $runFolder = Join-Path $projectRoot ('tmp/unity/pc-player-' + (Get-Date -Format 
 New-Item -ItemType Directory -Path $runFolder -Force | Out-Null
 $logPath = Join-Path $runFolder 'Player.log'
 $scenario = if ($Demo) { '--cloudvr-demo-smoke' } elseif ($Journey) { '--cloudvr-journey-smoke' } else { '--cloudvr-pc-smoke' }
-$arguments = @('-batchmode', '-logFile', ('"{0}"' -f $logPath), $scenario, '--cloudvr-smoke-output', ('"{0}"' -f $runFolder))
-if (!$Graphics) { $arguments += '-nographics' }
+$arguments = @('-logFile', ('"{0}"' -f $logPath), $scenario, '--cloudvr-smoke-output', ('"{0}"' -f $runFolder))
+# Écarter le batch en mode graphique ; la disponibilité du backbuffer reste à vérifier.
+if (!$Graphics) { $arguments += @('-batchmode','-nographics') }
 $playerProcess = Start-Process -FilePath $exePath -ArgumentList $arguments -WorkingDirectory (Split-Path $exePath) -WindowStyle Hidden -PassThru
 $timedOut = !$playerProcess.WaitForExit($TimeoutSeconds * 1000)
 if ($timedOut) { Stop-Process -Id $playerProcess.Id -Force }

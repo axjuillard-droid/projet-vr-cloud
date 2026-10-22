@@ -11,7 +11,7 @@ public partial class DemoSmoke
     {
         var camera=Camera.main;var pc=camera.GetComponentInParent<PCPlayerController>();pc.enabled=false;
         var cc=pc.GetComponent<CharacterController>();cc.enabled=false;pc.transform.position=new Vector3(0,.08f,(int)action<=2?8:19.4f);cc.enabled=true;
-        var target=Array.Find(m.targets,t=>t.action==action);camera.transform.LookAt(target.transform.position);Physics.SyncTransforms();
+        var target=Array.Find(m.targets,t=>t.action==action);_cueExpected=target;camera.transform.LookAt(target.transform.position);Physics.SyncTransforms();
         bool picked=P1LearningModule.TryPick(camera.ViewportPointToRay(new Vector3(.5f,.5f,0)),pc.transform,out var hit)&&hit.collider.GetComponentInParent<DataServiceTarget>()==target;
         Check(picked,"Raycast données atteint "+action+" ; contact="+(hit.collider!=null?hit.collider.name:"aucun"));
     }
@@ -33,7 +33,7 @@ public partial class DemoSmoke
         tour.Activate(0);Check(tour.Step==0&&tour.Actions==1,"Répéter la console réseau ne remplace pas l'observation");
         AimData(m,DataServiceTarget.Action.ReadResponse);yield return ClickFacility();
         Check(!m.ResponseRead&&tour.Step==0,"Réponse sur chemin B refusée avant la panne observée");
-        AimData(m,DataServiceTarget.Action.IsolateLink);yield return DataPause();yield return ClickFacility();
+        AimData(m,DataServiceTarget.Action.IsolateLink);yield return InspectCue(_cueExpected);yield return CaptureInterface("ux-network-focus.png");yield return DataPause();yield return ClickFacility();
         Check(m.NetworkPhase==DataServiceLearning.NetworkState.Primary,"Pause : isolation réseau ignorée");yield return DataPause();
         AimData(m,DataServiceTarget.Action.IsolateLink);yield return ClickFacility();
         Check(m.NetworkPhase==DataServiceLearning.NetworkState.Converging&&!m.networkSignals[0].gameObject.activeSelf,"Perte du lien A : adaptation différée, signaux interrompus");
@@ -61,7 +61,7 @@ public partial class DemoSmoke
         Check(!m.RecoveryReady&&m.Job==DataServiceLearning.StorageJob.None,"Point de restauration prématuré refusé avant la réplique guidée");
         AimData(m,DataServiceTarget.Action.RestorePhoto);yield return ClickFacility();
         Check(!m.PhotoRestored&&!m.StorageCompleted,"Restauration sans point et sans incident refusée");
-        AimData(m,DataServiceTarget.Action.Replicate);yield return ClickFacility();
+        AimData(m,DataServiceTarget.Action.Replicate);yield return InspectCue(_cueExpected);yield return CaptureInterface("ux-storage-focus.png");yield return ClickFacility();
         Check(m.Job==DataServiceLearning.StorageJob.Replication&&!m.ReplicaReady&&!m.ReplicaHasPhoto,"Réplication asynchrone : B pas encore disponible au lancement");
         yield return DataPause();float progress=m.Progress;yield return new WaitForSecondsRealtime(.35f);
         Check(Mathf.Abs(m.Progress-progress)<.001f,"Pause : progression de copie suspendue");yield return DataPause();

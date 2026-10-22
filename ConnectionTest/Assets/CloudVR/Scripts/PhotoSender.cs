@@ -43,6 +43,8 @@ public class PhotoSender : MonoBehaviour
     /// </summary>
     public void Send()
     {
+        var pc=Camera.main!=null?Camera.main.GetComponentInParent<PCPlayerController>():null;
+        if(pc!=null&&pc.InputPaused)return;
         if (State != SendState.Ready) return;
         StartCoroutine(SendRoutine());
     }

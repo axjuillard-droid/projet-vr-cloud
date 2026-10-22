@@ -88,6 +88,7 @@ public partial class DemoSmoke : MonoBehaviour
         controller.enabled=false; cam.transform.LookAt(sender.transform.position);
         yield return new WaitForEndOfFrame(); Capture("demo-room-start.png");
         Cursor.lockState=CursorLockMode.Locked;
+        yield return ExerciseRoomPause(sender);
         yield return new WaitForSecondsRealtime(.2f); Button(true); yield return new WaitForSecondsRealtime(.2f); Button(false);
         Check(sender.State==PhotoSender.SendState.Sending,"Clic synthétique sur écran déclenche l'envoi");
         float until=Time.realtimeSinceStartup+20;
@@ -98,6 +99,7 @@ public partial class DemoSmoke : MonoBehaviour
             var ride=FindFirstObjectByType<NetworkTransitionV2>();
             if(ride!=null&&ride.IsRunning&&!earlyStatusChecked)
             {
+                Check(!FindFirstObjectByType<PCCrosshair>(FindObjectsInactive.Include).CueVisible,"Viseur et aide masqués pendant la cinématique réseau");
                 bool premature=false;
                 foreach(var text in FindObjectsByType<UnityEngine.UI.Text>(FindObjectsInactive.Include,FindObjectsSortMode.None))if(text.text.Contains("Fichier persisté"))premature=true;
                 Check(!premature&&!sender.confirmationIndicator.activeInHierarchy,"Départ réseau : aucun stockage annoncé et ancienne confirmation masquée");earlyStatusChecked=true;
@@ -235,6 +237,7 @@ public partial class DemoSmoke : MonoBehaviour
                 var p1=tour.learning;var blade=p1.rack;
                 Check(p1.ComputeStarted&&tour.Step==1,"La borne 02 attend une manipulation, sans valider par un flux automatique");
                 AimPhysical(p1,P1ActionTarget.Action.Door,14);
+                yield return InspectCue(Array.Find(p1.targets,t=>t.action==P1ActionTarget.Action.Door));
                 InputSystem.QueueStateEvent(_keyboard,new KeyboardState(Key.Escape));yield return new WaitForSecondsRealtime(.15f);
                 InputSystem.QueueStateEvent(_keyboard,new KeyboardState());yield return new WaitForSecondsRealtime(.1f);
                 Button(true);yield return new WaitForSecondsRealtime(.15f);Button(false);
@@ -244,10 +247,12 @@ public partial class DemoSmoke : MonoBehaviour
                 var drawerTarget=Array.Find(p1.targets,t=>t.action==P1ActionTarget.Action.Drawer);
                 cam.transform.LookAt(drawerTarget.transform.position);
                 Check(P1LearningModule.TryPick(cam.ViewportPointToRay(new Vector3(.5f,.5f,0)),controller.transform,out var closedHit)&&closedHit.collider.transform.IsChildOf(blade.rackDoor),"La porte fermée reste un obstacle de visée, même lorsque la capsule du visiteur est ignorée");
+                yield return new WaitForEndOfFrame();Check(FindFirstObjectByType<PCCrosshair>().FocusedTarget!=drawerTarget,"Aide sans sélection du tiroir au travers de la porte fermée");
                 cam.transform.LookAt(Array.Find(p1.targets,t=>t.action==P1ActionTarget.Action.Door).transform.position);
                 Button(true);yield return new WaitForSecondsRealtime(.15f);Button(false);
                 yield return new WaitForSecondsRealtime(.15f);Button(true);yield return new WaitForSecondsRealtime(.15f);Button(false);
                 Check(blade.IsAnimating&&blade.CurrentState!=ServerBladeInteraction.State.ServerExtracted,"Double clic pendant ouverture ne saute pas à l'extraction");
+                yield return ExerciseAnimationPause(blade);
                 yield return new WaitForSecondsRealtime(1);
                 Check(blade.CurrentState==ServerBladeInteraction.State.DoorOpened,"Poignée sélectionnée par raycast : porte ouverte sur charnière");
                 var inserted=blade.serverBlade.localPosition;
@@ -271,6 +276,7 @@ public partial class DemoSmoke : MonoBehaviour
             {
                 var p1=tour.learning;
                 Check(tour.Step==3&&!tour.CoolingRestored&&p1.CoolingActive&&p1.containment.OpenAmount>.25f,"Anomalie de confinement : porte entrouverte, refroidissement déjà actif");
+                yield return ExerciseThermalPause(p1);
                 AimPhysical(p1,P1ActionTarget.Action.ResetAlarm,26);Button(true);yield return new WaitForSecondsRealtime(.15f);Button(false);yield return new WaitForSecondsRealtime(.3f);
                 Check(tour.Step==3&&!p1.LeakSealed&&p1.InletTemperature>31,"Acquitter l'alarme ne répare pas la fuite ni la température");
                 float aux=p1.AuxiliaryKW;
@@ -292,6 +298,8 @@ public partial class DemoSmoke : MonoBehaviour
         }
         Check(tour.Finished && tour.CoolingRestored && tour.BackupShown && tour.AlertAcknowledged && tour.Actions==6,"Six notions terminées, six activations de console et manipulations physiques requises");
         yield return new WaitForEndOfFrame(); Capture("demo-summary.png");
+        yield return DataPause();tour.ReturnToRoom();yield return new WaitForSecondsRealtime(.2f);
+        Check(SceneManager.GetActiveScene().name=="DataCenter"&&controller.InputPaused,"Retour à la chambre bloqué pendant la pause");yield return DataPause();
         InputSystem.QueueStateEvent(_keyboard,new KeyboardState(Key.Enter));
         yield return new WaitForSecondsRealtime(.2f); InputSystem.QueueStateEvent(_keyboard,new KeyboardState());
         until=Time.realtimeSinceStartup+15;

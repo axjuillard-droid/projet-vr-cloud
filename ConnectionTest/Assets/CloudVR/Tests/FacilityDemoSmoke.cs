@@ -9,7 +9,7 @@ using UnityEngine.InputSystem.LowLevel;
 public partial class DemoSmoke
 {
     IEnumerator ClickFacility()
-    {Button(true);yield return new WaitForSecondsRealtime(.15f);Button(false);yield return new WaitForSecondsRealtime(.3f);}
+    {yield return InspectCue(_cueExpected);Button(true);yield return new WaitForSecondsRealtime(.15f);Button(false);yield return new WaitForSecondsRealtime(.3f);}
     IEnumerator WalkFacility(Key key,float target)
     {
         var pc=Camera.main.GetComponentInParent<PCPlayerController>();pc.transform.rotation=Quaternion.identity;Camera.main.transform.localRotation=Quaternion.identity;pc.enabled=true;
@@ -23,7 +23,7 @@ public partial class DemoSmoke
     {
         var camera=Camera.main;var pc=camera.GetComponentInParent<PCPlayerController>();pc.enabled=false;
         var cc=pc.GetComponent<CharacterController>();cc.enabled=false;pc.transform.position=position;cc.enabled=true;
-        var target=Array.Find(module.targets,t=>t.action==action);camera.transform.LookAt(target.transform.position);Physics.SyncTransforms();
+        var target=Array.Find(module.targets,t=>t.action==action);_cueExpected=target;camera.transform.LookAt(target.transform.position);Physics.SyncTransforms();
         bool reached=P1LearningModule.TryPick(camera.ViewportPointToRay(new Vector3(.5f,.5f,0)),pc.transform,out var hit)&&hit.collider.GetComponentInParent<FacilityActionTarget>()==target;
         Check(reached,"Raycast exploitation atteint "+action+" ; contact="+(hit.collider!=null?hit.collider.name:"aucun"));
     }

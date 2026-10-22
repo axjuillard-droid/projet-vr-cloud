@@ -7,7 +7,15 @@
 
 ---
 
-## État courant — T21 livré le 22/10 à 17 h 20 min 02 s Paris
+## État courant — Correctifs T22 livrés, revue Overlay suspendue
+
+Build Windows 18 h 06 min 59 s Paris, **193/193 contrôles fonctionnels PC**, 88 pré-build. Aide sur les vraies cibles/prérequis/portées/obstacles, petits boutons agrandis et pause temps/audio avec gardes envoi/retour/rejeu. Les six activités sont conservées. [Preuves T22](validation/ergonomics-2026-10-22/README.md), [revue critique](REVUE_ERGONOMIE_2026-10-22.md).
+
+**Ne pas revendiquer la composition Overlay validée** : capture nulle en batch puis PNG noirs hors batch en fenêtre masquée, vérification suspendue pour revue humaine après deux tentatives selon AGENTS. Opt-in de capture non relancé. Référence du probe pendant le film corrigée pour inclure le viseur inactif. T22 reste en cours sur cette revue humaine. Aucun casque/benchmark.
+
+MCP débloqué par Reload sur scène propre, Chambre propre hors Play restituée. Vingt matériaux initiaux préservés par SHA-256 et exclus du commit, ne pas les réinitialiser. Publication des correctifs à confirmer dans STATE.
+
+## Historique — T21 livré le 22/10 à 17 h 20 min 02 s Paris
 
 Réseau : perte de A, adaptation illustrée sur B, lecture du service puis remise en état. Stockage : réplique B et point C avant incident, panne de A, lecture B, suppression logique propagée dans ce scénario, restauration C → B et relecture. Ancien flux à validation automatique retiré. **152/152 contrôles PC**, 88 pré-build et captures inspectées ; [preuves et limites](validation/data-service-2026-10-22/README.md). Aucun TCP/S3 réel, aucune donnée personnelle, aucun essai casque ni benchmark.
 

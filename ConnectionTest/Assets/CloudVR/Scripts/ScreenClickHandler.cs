@@ -45,6 +45,8 @@ public class ScreenClickHandler : MonoBehaviour
         var camera = Camera.main;
         var mouse = Mouse.current;
         if (camera == null || mouse == null) return;
+        var pc=camera.GetComponentInParent<PCPlayerController>();
+        if(pc!=null&&pc.InputPaused)return;
         Ray ray = Cursor.lockState == CursorLockMode.Locked
             ? camera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0))
             : camera.ScreenPointToRay(mouse.position.ReadValue());

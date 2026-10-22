@@ -19,6 +19,8 @@ public class PCPlayerController : MonoBehaviour
 
     private CharacterController _cc;
     private float _xRotation = 0f;
+    float _resumeScale=1;
+    bool _resumeAudioPause;
 
     private void Awake()
     {
@@ -50,10 +52,18 @@ public class PCPlayerController : MonoBehaviour
 
     public void TogglePause()
     {
-        InputPaused = !InputPaused;
+        // La séquence photo/réseau est une lecture courte, préservée d'une interruption partielle.
+        var ride=FindFirstObjectByType<NetworkTransitionV2>();var sender=FindFirstObjectByType<PhotoSender>();
+        if(!InputPaused&&((ride!=null&&ride.IsRunning)||(sender!=null&&sender.State==PhotoSender.SendState.Sending)))return;
+        if(InputPaused)ReleasePause();
+        else{_resumeScale=Time.timeScale;_resumeAudioPause=AudioListener.pause;InputPaused=true;Time.timeScale=0;AudioListener.pause=true;}
         Cursor.lockState = InputPaused ? CursorLockMode.None : CursorLockMode.Locked;
         Cursor.visible = InputPaused;
     }
+
+    void ReleasePause(){if(!InputPaused)return;Time.timeScale=_resumeScale;AudioListener.pause=_resumeAudioPause;InputPaused=false;}
+    void OnDestroy(){ReleasePause();}
+    void OnDisable(){if(!gameObject.activeInHierarchy)ReleasePause();}
 
     private void HandleLook()
     {

@@ -2,7 +2,9 @@
 
 **Du clic sur « envoyer une photo » aux équipements physiques du cloud.** Projet universitaire ESILV année 5, Unity 6000.0.58f2 / URP / C# / OpenXR.
 
-**État au 22 octobre 2026 : Réseau et Stockage interactifs livrés, 152/152 contrôles PC réussis.** Une liaison indisponible déclenche un basculement illustré ; le stockage distingue réplique, panne, suppression logique et restauration d'un point conservé. Les six étapes demandent maintenant leur observation ou manipulation ; le simple clic de console ne les termine plus. [Preuves T21 et limites](docs/validation/data-service-2026-10-22/README.md). [Commit f91e21e](https://github.com/axjuillard-droid/projet-vr-cloud/commit/f91e21eced5a6cea594cc47b395892ec0452afe6) poussé sur `main`, SHA distant confirmé.
+**État au 22 octobre 2026 : aides et pause PC implémentées, 193/193 contrôles fonctionnels réussis.** Le viseur nomme l'objet réellement visé, les petits boutons sont agrandis et Échap suspend temps/audio hors envoi/film. **Composition visuelle du nouvel Overlay encore à vérifier humainement** : deux captures non probantes conservées, vérification suspendue selon la règle du projet. [Revue critique](docs/REVUE_ERGONOMIE_2026-10-22.md), [preuves T22 et limites](docs/validation/ergonomics-2026-10-22/README.md).
+
+Réseau/Stockage conservent basculement, copies différées, panne et restauration : [preuves T21](docs/validation/data-service-2026-10-22/README.md). Les six activités restent des démonstrations pédagogiques hors ligne.
 
 Le local électrique conserve l'observation UPS/groupe/transfert ; la supervision demande lecture d'incident puis préparation du rapport. [Preuves T18](docs/validation/facility-2026-10-22/README.md).
 
@@ -46,8 +48,8 @@ Captures réelles du player Direct3D11, poses de visée contrôlées par le prob
 
 | Vérification | Résultat |
 |---|---|
-| Build Windows, 22/10 à 17 h 20 min 02 s Paris | Réussi, 58,76 s, 147 095 349 octets pour le build, 0 erreur / 0 avertissement BuildPipeline |
-| Démo complète dans le player | **152/152 contrôles réussis**, Direct3D11, entrées synthétiques |
+| Build Windows, 22/10 à 18 h 06 min 59 s Paris | Réussi, 17,62 s, 147 111 310 octets pour le build, 0 erreur / 0 avertissement BuildPipeline |
+| Démo complète dans le player | **193/193 contrôles fonctionnels réussis**, Direct3D11, entrées synthétiques |
 | Transition et navigation | Six étapes 3D en 7,50 s, caméra et signaux déplacés ; apparition −28 m, sas/scan, arrivée Z≈39 m en 24,75 s |
 | Bifurcation électrique | Entrée par la porte à Z≈30, trajet clavier vers le pupitre puis UPS à X≈−21 et retour ; poses de visée contrôlées ensuite |
 | Six bornes et conclusion | Six activations de console, chemins réseau, réplique/restauration, baie/thermique, UPS/groupe/transfert et lecture/rapport requis ; refus, reprise, synthèse, retour Chambre et reset R vérifiés |
@@ -55,7 +57,7 @@ Captures réelles du player Direct3D11, poses de visée contrôlées par le prob
 | Audit des scènes P0 à 22 h 05 | DataCenter : 577 MeshRenderers actifs, 0 matériau manquant / 0 shader non supporté ; Chambre : 0 matériau manquant. Compteur antérieur aux deux nouvelles dalles T20 |
 | MCP Unity | HTTP/SSE connecté et utilisé, Chambre restituée propre, décor de film au repos inactif et narration raccordée ; console sans erreur retournée |
 | Confort VR par API sans casque | 8/8 contrôles de logique ; aucune validation du rendu optique, des manettes ou du confort matériel |
-| Conditions de l'essai T21 | Probe automatisé dans le vrai player ; épuisement par pas API de 200 s, visées contrôlées ; pas d'essai humain de confort ou de benchmark |
+| Conditions de l'essai T22 | Probe automatisé dans le vrai player ; épuisement par pas API de 200 s, visées contrôlées ; pas d'essai humain de confort ou de benchmark |
 | Android / Quest | APK antérieur inchangé ; ces corrections restent à compiler et tester dans le casque |
 
 Le premier échec de visée P0 et sa correction sont conservés dans [les résultats P0](docs/validation/p0-2026-10-21/README.md), avec captures et journaux anonymisés. [État de reprise](docs/STATE.md), [backlog](docs/BACKLOG.md). Réduction de résolution des ombres signalée dans le journal ; aucun benchmark PC/Quest ni confort humain validé. Les cinq meshes de rangées ne représentent pas le nombre total de draw calls.
@@ -90,12 +92,12 @@ Pour travailler dans Play sur PC, sélectionner Windows et la qualité PC. Atten
 | Regarder / viser | Souris |
 | Envoyer la photo | Clic gauche sur l’écran, à portée de 5 m |
 | Sélectionner une borne ou une commande de baie | Viser, puis clic gauche ou E |
-| Mettre en pause / reprendre | Échap |
+| Mettre en pause / reprendre | Échap, hors envoi et film réseau |
 | Fermer le player Windows | Alt + F4 |
 
 Pour tester le livrable construit localement, lancer **`ConnectionTest/Builds/Windows/CloudVR-PC.exe`**. Conserver tout le dossier Windows avec l’exécutable, ses DLL et `CloudVR-PC_Data`.
 
-Le dossier Windows livré contient P0, le correctif du mur, P1, T17, T18 et T21, et passe les 152 contrôles automatisés. Le lanceur `.exe` peut garder sa date du 20/10 à 14 h 58 : le contenu reconstruit est notamment dans `CloudVR-PC_Data/data.unity3d` (22/10, voir le manifeste T21) et les DLL. [Empreintes des fichiers livrés](docs/validation/data-service-2026-10-22/delivery-manifest.json). Un essai libre reste utile pour apprécier le confort, la lisibilité et le rendu.
+Le dossier Windows livré contient P0, le correctif du mur, P1, T17, T18, T21 et les correctifs T22, et passe les 193 contrôles fonctionnels automatisés. L'aide et le message de pause demandent encore une revue visuelle humaine. Le lanceur `.exe` peut garder sa date du 20/10 à 14 h 58 : le contenu reconstruit est notamment dans `CloudVR-PC_Data/data.unity3d` (22/10, voir le manifeste T22) et les DLL. [Empreintes des fichiers livrés](docs/validation/ergonomics-2026-10-22/delivery-manifest.json). Un essai libre reste utile pour apprécier le confort, la lisibilité et le rendu.
 
 Les exécutables et APK sont des sorties locales ignorées par Git : **ce dépôt fournit les sources et les procédures de compilation**, pas un téléchargement de ces builds.
 
@@ -121,7 +123,7 @@ powershell -ExecutionPolicy Bypass -File tools/Build-DemoCopy.ps1 -Complete
 
 `-Resume` réutilise une copie déjà créée ; sur une installation neuve, omettre cette option au premier lancement. Le builder maître est exécuté avant compilation ; `-Complete` vérifie le rapport avant de copier le player et les scènes générées.
 
-La commande de validation actuelle est `./tools/Test-PCBuild.ps1 -Graphics -Demo -TimeoutSeconds 180`. Elle vérifie la transition complète, une marche continue à travers le sas, les six activités, leurs cas négatifs et le retour/reset. **Dernier résultat : 152/152 contrôles réussis.**
+La commande de validation actuelle est `./tools/Test-PCBuild.ps1 -Graphics -Demo -TimeoutSeconds 180`. Elle vérifie la transition complète, une marche continue à travers le sas, les six activités, leurs cas négatifs et le retour/reset. **Dernier résultat : 193/193 contrôles fonctionnels réussis.**
 
 La branche confort est contrôlée séparément par `./tools/Test-NetworkComfort.ps1` : huit contrôles par API dans le player sans casque. Cela ne remplace pas un essai Quest. Les scénarios historiques Photo/Journey ciblent l’ancien parcours et ne remplacent pas cette validation.
 

@@ -48,6 +48,7 @@ public class P1LearningModule : MonoBehaviour
     {
         var camera=Camera.main;
         var pc=camera!=null?camera.GetComponentInParent<PCPlayerController>():null;
+        if(pc!=null&&pc.InputPaused)return;
         bool vr=InputModeManager.Instance!=null&&InputModeManager.Instance.IsVR;
         if(!vr&&camera!=null&&pc!=null&&!pc.InputPaused&&
             ((Mouse.current!=null&&Mouse.current.leftButton.wasPressedThisFrame)||(Keyboard.current!=null&&Keyboard.current.eKey.wasPressedThisFrame))&&
@@ -92,12 +93,12 @@ public class P1LearningModule : MonoBehaviour
         }
         if(Time.unscaledTime>=_nextDisplay){_nextDisplay=Time.unscaledTime+.1f;UpdateDisplays();}
     }
-    public static bool TryPick(Ray ray,Transform observer,out RaycastHit nearest)
+    public static bool TryPick(Ray ray,Transform observer,out RaycastHit nearest,float maxDistance=3.5f)
     {
         // Une visée plongeante peut entrer dans la capsule du visiteur : ignorer seulement son propre rig.
         // Conserver le premier obstacle du décor, sans sélectionner au travers d'une porte ou d'une baie.
         nearest=default;float distance=float.PositiveInfinity;
-        foreach(var h in Physics.RaycastAll(ray,3.5f,Physics.DefaultRaycastLayers,QueryTriggerInteraction.Collide))
+        foreach(var h in Physics.RaycastAll(ray,maxDistance,Physics.DefaultRaycastLayers,QueryTriggerInteraction.Collide))
         {
             if(observer!=null&&h.collider.transform.IsChildOf(observer))continue;
             if(h.distance<distance){distance=h.distance;nearest=h;}

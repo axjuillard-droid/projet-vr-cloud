@@ -1,0 +1,12 @@
+{
+  "utc": "2026-10-22T16:10:34.0237388Z",
+  "exe": "<PROJECT>/ConnectionTest/Builds/Windows/CloudVR-PC.exe",
+  "headless": false,
+  "scenario": "--cloudvr-demo-smoke",
+  "timedOut": false,
+  "timeoutSeconds": 180,
+  "exitCode": 0,
+  "passed": true,
+  "report": "<PROJECT>/tmp/unity/pc-player-20261022-180843-49f75f/demo-smoke-result.json",
+  "log": "<PROJECT>/tmp/unity/pc-player-20261022-180843-49f75f/Player.log"
+}

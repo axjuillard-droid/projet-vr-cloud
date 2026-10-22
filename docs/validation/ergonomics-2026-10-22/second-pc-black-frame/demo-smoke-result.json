@@ -1,0 +1,33 @@
+{
+  "passed": false,
+  "utc": "2026-10-22T15:57:16.5674965Z",
+  "error": "System.NullReferenceException: Object reference not set to an instance of an object\r\n  at DemoSmoke+<Exercise>d__23.MoveNext () [0x0065e] in <BUILD_COPY>/Assets/CloudVR/Tests/DemoSmoke.cs:102 \r\n  at DemoSmoke+<Guard>d__18.MoveNext () [0x00064] in <BUILD_COPY>/Assets/CloudVR/Tests/DemoSmoke.cs:42 ",
+  "platform": "WindowsPlayer",
+  "graphics": "Direct3D11",
+  "arrivalPosition": {
+    "x": 0.0,
+    "y": 0.0,
+    "z": 0.0
+  },
+  "walkPosition": {
+    "x": 0.0,
+    "y": 0.0,
+    "z": 0.0
+  },
+  "cursorAfterWalk": "",
+  "walkRealSeconds": 0.0,
+  "walkGameSeconds": 0.0,
+  "walkFrames": 0,
+  "movement": [],
+  "checks": [
+    "Départ dans Chambre",
+    "Aide contextuelle sur l'objet réellement visé : Screen_Face",
+    "Capture complète de l'interface : ux-room-focus.png",
+    "Pause visible, sans cible active, temps et audio suspendus",
+    "Pause chambre : clic et appel Send ignorés, photo conservée",
+    "Capture complète de l'interface : ux-pause-room.png",
+    "Reprise rétablit le temps et l'audio avant l'envoi",
+    "Contrôle API : désactiver le rig libère la pause globale",
+    "Clic synthétique sur écran déclenche l'envoi"
+  ]
+}

@@ -56,10 +56,10 @@ public class DemoTour : MonoBehaviour
         if (_camera == null) _camera = Camera.main;
         _hover = null;
         bool pc = InputModeManager.Instance == null || InputModeManager.Instance.IsPC;
-        if (pc && _camera != null && Physics.Raycast(_camera.ViewportPointToRay(new Vector3(.5f,.5f,0)), out var hit, 4.5f))
+        var controller = _camera != null ? _camera.GetComponentInParent<PCPlayerController>() : null;
+        if (pc && _camera != null && controller!=null&&P1LearningModule.TryPick(_camera.ViewportPointToRay(new Vector3(.5f,.5f,0)),controller.transform,out var hit,4.5f))
             _hover = hit.collider.GetComponentInParent<DemoStation>();
         var keyboard = Keyboard.current;
-        var controller = _camera != null ? _camera.GetComponentInParent<PCPlayerController>() : null;
         if (pc && keyboard != null && keyboard.escapeKey.wasPressedThisFrame)
         {
             controller?.TogglePause();
@@ -67,7 +67,7 @@ public class DemoTour : MonoBehaviour
         if (pc && controller != null && !controller.InputPaused && _hover != null &&
             ((Mouse.current != null && Mouse.current.leftButton.wasPressedThisFrame) || (keyboard != null && keyboard.eKey.wasPressedThisFrame)))
             _hover.Activate();
-        if (pc && Finished && keyboard != null && keyboard.enterKey.wasPressedThisFrame) ReturnToRoom();
+        if (pc && Finished && controller!=null&&!controller.InputPaused&&keyboard != null && keyboard.enterKey.wasPressedThisFrame) ReturnToRoom();
         HoverHint = _hover == null ? "Visez une borne • clic gauche ou E • Échap : libérer la souris" :
             Finished ? "Clic / E : retourner dans la chambre" : _hover.index == Step ? "CLIC / E — " + ActionLabel() :
             _hover.index < Step ? "CLIC / E — relire cette étape" : "Suivez d'abord l'objectif affiché";
@@ -147,6 +147,7 @@ public class DemoTour : MonoBehaviour
 
     public void ReturnToRoom()
     {
+        var pc=Camera.main!=null?Camera.main.GetComponentInParent<PCPlayerController>():null;if(pc!=null&&pc.InputPaused)return;
         if (!Finished || Busy) return;
         DemoSession.Completed = true;
         InputModeManager.Instance?.PrepareNextScene();

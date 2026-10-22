@@ -23,7 +23,7 @@ public static class DataServiceBuilder
     static DataServiceTarget Button(DataServiceLearning m,Transform p,DataServiceTarget.Action action,float x,float y,string label,float width=.72f)
     {
         var pos=new Vector3(x,y,-.07f);Box(p,"Commande_"+action,pos,new Vector3(width,.24f,.08f),m.dark);
-        Label(p,"Nom_"+action,pos+Vector3.back*.05f,new Vector2(width-.04f,.19f),32,label,400);
+        Label(p,"Nom_"+action,pos+Vector3.back*.05f,new Vector2(width-.04f,.21f),36,label,300);
         return Target(m,p,action,pos+Vector3.back*.06f,new Vector3(width,.25f,.1f));
     }
     static LineRenderer Path(Transform parent,string name,Vector3[] points,Material material)
@@ -57,7 +57,7 @@ public static class DataServiceBuilder
             Label(m.networkPanel,"Nom_Nœud",item,new Vector2(item.x==0?.48f:.34f,.18f),32,item.x<0?"ENTRÉE":item.x>0?"SERVICE":item.y>0?"LIEN A":"LIEN B",240);
         targets.Add(Target(m,m.networkPanel,DataServiceTarget.Action.IsolateLink,new Vector3(0,.28f,-.23f),new Vector3(.50f,.20f,.1f)));
         targets.Add(Target(m,m.networkPanel,DataServiceTarget.Action.ReadResponse,new Vector3(.94f,.1f,-.23f),new Vector3(.35f,.30f,.1f)));
-        targets.Add(Button(m,m.networkPanel,DataServiceTarget.Action.RestoreLink,0,-1.03f,"RÉTABLIR LIEN A",1.1f));
+        targets.Add(Button(m,m.networkPanel,DataServiceTarget.Action.RestoreLink,0,-1.03f,"RÉTABLIR A",1.1f));
         m.networkPaths=new LineRenderer[2];
         for(int i=0;i<2;i++){float y=i==0?.28f:-.08f;m.networkPaths[i]=Path(m.networkPanel,"Chemin_"+i,new[]{new Vector3(-.94f,.1f,-.16f),new Vector3(-.35f,y,-.16f),new Vector3(.35f,y,-.16f),new Vector3(.94f,.1f,-.16f)},m.signal);}
         m.storageNodes=new Renderer[3];

@@ -34,7 +34,7 @@ public static class FacilityOperationsBuilder
     {
         var key=new GameObject("P3_Commande_"+action).transform;key.SetParent(panel,false);key.localPosition=p;
         Box(key,"Bouton",Vector3.zero,new Vector3(width,.24f,.08f),mat);
-        Text(key,"Légende",new Vector3(0,0,-.05f),new Vector2(width-.04f,.18f),380,24,label);
+        Text(key,"Légende",new Vector3(0,0,-.05f),new Vector2(width-.04f,.18f),380,30,label);
         return Target(module,key,action,new Vector3(0,0,-.06f),new Vector3(width,.25f,.10f));
     }
     public static void Build(DemoTour tour)

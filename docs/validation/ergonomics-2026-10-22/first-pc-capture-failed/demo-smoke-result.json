@@ -1,0 +1,26 @@
+{
+  "passed": false,
+  "utc": "2026-10-22T15:56:04.4762967Z",
+  "error": "System.InvalidOperationException: Capture complète de l'interface : ux-room-focus.png\r\n  at DemoSmoke.Check (System.Boolean value, System.String message) [0x00022] in <BUILD_COPY>/Assets/CloudVR/Tests/DemoSmoke.cs:50 \r\n  at DemoSmoke+<CaptureInterface>d__29.MoveNext () [0x00054] in <BUILD_COPY>/Assets/CloudVR/Tests/ErgonomicsDemoSmoke.cs:21 \r\n  at DemoSmoke+<Guard>d__18.MoveNext () [0x00064] in <BUILD_COPY>/Assets/CloudVR/Tests/DemoSmoke.cs:42 ",
+  "platform": "WindowsPlayer",
+  "graphics": "Direct3D11",
+  "arrivalPosition": {
+    "x": 0.0,
+    "y": 0.0,
+    "z": 0.0
+  },
+  "walkPosition": {
+    "x": 0.0,
+    "y": 0.0,
+    "z": 0.0
+  },
+  "cursorAfterWalk": "",
+  "walkRealSeconds": 0.0,
+  "walkGameSeconds": 0.0,
+  "walkFrames": 0,
+  "movement": [],
+  "checks": [
+    "Départ dans Chambre",
+    "Aide contextuelle sur l'objet réellement visé : Screen_Face"
+  ]
+}

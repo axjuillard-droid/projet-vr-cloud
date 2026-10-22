@@ -32,7 +32,7 @@ public class DemoRoom : MonoBehaviour
         title.text=DemoSession.Completed ? "PHOTO RETROUVÉE  /  FIN DE LA DÉMONSTRATION" : "CLOUDVR  /  OÙ VA VOTRE PHOTO ?";
         body.text=DemoSession.Completed ?
             "Le cloud dépend de machines, d'énergie et d'équipes. Matériel, énergie et travail ont un coût et un impact.\nLe lieu d'hébergement ne suffit pas à déterminer qui contrôle les données. R : recommencer." :
-            "Visez l'écran du bureau et cliquez pour envoyer la photo d'exemple, puis découvrez six équipements.\nDéplacement : WASD / ZQSD / flèches • souris : regarder • Échap : libérer la souris. Démo hors ligne.";
+            "Visez l'écran du bureau et cliquez pour envoyer la photo d'exemple, puis découvrez six équipements.\nDéplacement : WASD / ZQSD / flèches • souris : regarder • Échap : pause / reprendre hors cinématique. Démo hors ligne.";
         if (DemoSession.Completed)
         {
             var screen=FindFirstObjectByType<ScreenClickHandler>(); if (screen!=null) screen.enabled=false;
@@ -57,6 +57,7 @@ public class DemoRoom : MonoBehaviour
     }
     public void Replay()
     {
+        var pc=Camera.main!=null?Camera.main.GetComponentInParent<PCPlayerController>():null;if(pc!=null&&pc.InputPaused)return;
         DemoSession.Completed=false;
         InputModeManager.Instance?.PrepareNextScene();
         SceneManager.LoadSceneAsync("Chambre");
