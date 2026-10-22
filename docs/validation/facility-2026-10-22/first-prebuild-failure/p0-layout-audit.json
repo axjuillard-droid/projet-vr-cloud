@@ -1,0 +1,15 @@
+{
+    "passed": false,
+    "decorativeRacks": 31,
+    "groupedRackRenderers": 5,
+    "nominalAisleWidth": 2.200000047683716,
+    "nominalMantrapDiameter": 1.7999999523162842,
+    "measuredAisleWidth": 2.1999998092651369,
+    "externalGenerators": 0,
+    "minimumGeneratorHallClearance": 0.0,
+    "checks": [
+        "31 baies fixes + baie interactive = 32",
+        "Rendu des rangées groupé par matériau",
+        "Largeur entre façades mesurée : 2,200 m"
+    ]
+}

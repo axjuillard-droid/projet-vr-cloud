@@ -1,0 +1,24 @@
+{
+    "passed": true,
+    "checks": [
+        "Exploitation reliée au parcours et au modèle thermique",
+        "Sept commandes distinctes et son extérieur référencés",
+        "Commande PC/XRI : StartGenerator",
+        "Visée libre StartGenerator : P3_Cible_StartGenerator",
+        "Commande PC/XRI : Transfer",
+        "Visée libre Transfer : P3_Cible_Transfer",
+        "Commande PC/XRI : Replay",
+        "Visée libre Replay : P3_Cible_Replay",
+        "Commande PC/XRI : InspectUPS",
+        "Visée libre InspectUPS : P3_Cible_InspectUPS",
+        "Commande PC/XRI : ReadIncident",
+        "Visée libre ReadIncident : P3_Cible_ReadIncident",
+        "Commande PC/XRI : RouteNetwork",
+        "Visée libre RouteNetwork : P3_Cible_RouteNetwork",
+        "Commande PC/XRI : RouteEnergy",
+        "Visée libre RouteEnergy : P3_Cible_RouteEnergy",
+        "Six afficheurs du monde raccordés",
+        "Indicateurs distincts secteur, batterie et groupe",
+        "État initial sans incident forcé ni coupure préalable"
+    ]
+}

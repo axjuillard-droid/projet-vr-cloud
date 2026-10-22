@@ -7,11 +7,17 @@
 
 ---
 
-## État courant — T17 livré le 22/10 à 11 h 55 Paris
+## État courant — T18 livré le 22/10 à 12 h 38 min 58 s Paris
+
+Local TGBT/UPS : réserve fictive limitée, observation de l'UPS original, groupe stable puis transfert différé. Supervision : chronologie, mauvaise équipe refusée, lecture préalable puis rapport préparé sans envoi. Secours réels normalement automatiques, ici découpés pour observation. Énergie/température de scénario ; PUE annuel/eau/carbone non calculés sans données. **105/105 contrôles player**, 64 contrôles pré-build et captures inspectées. [Preuves T18](validation/facility-2026-10-22/README.md).
+
+Premier échec P0 de circulation conservé/corrigé sans affaiblir le test ; premier player 105/105 conservé, cadrage de capture revu puis nouvelle compilation/régression. MCP HTTP/SSE vérifié. Vingt matériaux préexistants préservés par SHA-256 et exclus du commit, ne pas les réinitialiser. Réseau/Stockage restent à approfondir ; voix/pédagogie/performance et casque non validés. Publication à confirmer dans STATE.
+
+## Historique — T17 livré le 22/10 à 11 h 55 Paris
 
 Voyage 3D de 7,50 s réutilisant les FBX fibre/campus et le son existants, statut de stockage prématuré retiré. **68/68 contrôles PC**, 14 P0 + 20 P1 + 11 P2 pré-build, 8/8 contrôles de logique confort par API sans casque. Narration observée dans la fenêtre native. Les captures `Camera.Render` omettent les Canvas Overlay : ne pas en déduire une absence d'interface. [Preuves T17 et limites](validation/network-3d-2026-10-22/README.md).
 
-MCP HTTP/SSE utilisé après activation utilisateur, outils natifs absents du catalogue courant. Chambre propre restituée, console sans erreur retournée. Vingt matériaux modifiés dès le départ préservés/exclus du commit T17 ; ne pas les réinitialiser. VR sur écran fixe : logique testée, rendu/tracking/Quest et confort non validés. **Prochaine tâche prête : T18**, local TGBT et supervision. **Publication T17 confirmée : `a6ce9f6` sur origin/main**, 30 objets LFS / 11 Mo ; vingt matériaux initiaux restent hors commit. STATE et les preuves T17 consignent les validations.
+MCP HTTP/SSE utilisé après activation utilisateur, outils natifs absents du catalogue courant. Chambre propre restituée, console sans erreur retournée. Vingt matériaux modifiés dès le départ préservés/exclus du commit T17 ; ne pas les réinitialiser. VR sur écran fixe : logique testée, rendu/tracking/Quest et confort non validés. T18, alors prochaine tâche prête, est livré dans l'état courant ci-dessus. **Publication T17 confirmée : `a6ce9f6` sur origin/main**, 30 objets LFS / 11 Mo ; vingt matériaux initiaux restent hors commit. STATE et les preuves T17 consignent les validations.
 
 ## Historique — P1 livré le 21/10 à 23 h 15 Paris
 

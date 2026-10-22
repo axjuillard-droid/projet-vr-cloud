@@ -9,7 +9,7 @@ using UnityEngine.InputSystem.LowLevel;
 using UnityEngine.SceneManagement;
 
 /// <summary>Parcours des six bornes par raycast et souris synthétique ; poses contrôlées signalées.</summary>
-public class DemoSmoke : MonoBehaviour
+public partial class DemoSmoke : MonoBehaviour
 {
     [Serializable] public class Result { public bool passed; public string utc, error, platform, graphics; public Vector3 arrivalPosition,walkPosition; public string cursorAfterWalk; public float walkRealSeconds,walkGameSeconds; public int walkFrames; public List<string> movement=new List<string>(); public List<string> checks=new List<string>(); }
     readonly Result _result=new Result();
@@ -35,15 +35,17 @@ public class DemoSmoke : MonoBehaviour
     }
     IEnumerator Guard()
     {
-        var iterator=Exercise();
-        while(true)
+        var iterators=new Stack<IEnumerator>();iterators.Push(Exercise());
+        while(iterators.Count>0)
         {
             object step=null; bool next;
-            try { next=iterator.MoveNext(); if(next) step=iterator.Current; }
+            try { var iterator=iterators.Peek();next=iterator.MoveNext();if(next)step=iterator.Current; }
             catch(Exception e) { End(false,e.ToString()); yield break; }
-            if(!next) { End(true,null); yield break; }
+            if(!next){iterators.Pop();continue;}
+            if(step is IEnumerator nested){iterators.Push(nested);continue;}
             yield return step;
         }
+        End(true,null);
     }
     void Check(bool value,string message) { if(!value) throw new InvalidOperationException(message); _result.checks.Add(message); }
     void Button(bool down)
@@ -279,18 +281,14 @@ public class DemoSmoke : MonoBehaviour
                 Check(p1.CoolingRecovered&&p1.InletTemperature<24&&p1.CoolingActive&&p1.AuxiliaryKW==3,"Température stabilisée, refroidissement continu et auxiliaires revenus au scénario nominal");
                 Camera.main.transform.LookAt(p1.thermalDisplay.transform.position);yield return new WaitForEndOfFrame();Capture("demo-cooling-recovered.png");
             }
-            if(i==4)
-            {
-                Check(tour.BackupShown && tour.Step==4,"Relais batterie illustré sans valider trop tôt");
-                yield return new WaitForSecondsRealtime(3);
-                Button(true); yield return new WaitForSecondsRealtime(.15f); Button(false);
-            }
+            if(i==4)yield return ExerciseFacilityPower(tour);
+            if(i==5)yield return ExerciseFacilitySupervision(tour);
             if(i==0) { yield return new WaitForEndOfFrame(); Capture("demo-network.png"); }
             until=Time.realtimeSinceStartup+8;
             while(tour.Step==i && Time.realtimeSinceStartup<until) yield return null;
             Check(tour.Step==i+1,"Borne "+(i+1)+" validée après interaction");
         }
-        Check(tour.Finished && tour.CoolingRestored && tour.BackupShown && tour.AlertAcknowledged && tour.Actions==7,"Six notions terminées, sept activations de console et manipulations physiques requises");
+        Check(tour.Finished && tour.CoolingRestored && tour.BackupShown && tour.AlertAcknowledged && tour.Actions==6,"Six notions terminées, six activations de console et manipulations physiques requises");
         yield return new WaitForEndOfFrame(); Capture("demo-summary.png");
         InputSystem.QueueStateEvent(_keyboard,new KeyboardState(Key.Enter));
         yield return new WaitForSecondsRealtime(.2f); InputSystem.QueueStateEvent(_keyboard,new KeyboardState());

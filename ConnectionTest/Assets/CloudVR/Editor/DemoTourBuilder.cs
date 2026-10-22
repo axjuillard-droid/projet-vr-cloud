@@ -60,6 +60,7 @@ public static class DemoTourBuilder
         tour.thermal=new Renderer[3];
         for(int i=0;i<3;i++) tour.thermal[i]=Box(tour.transform,"Repère_thermique",new Vector3(2.8f,2.23f,14+i*6),new Vector3(1.1f,.035f,.95f),cold).GetComponent<Renderer>();
         P1LearningBuilder.Build(tour);
+        FacilityOperationsBuilder.Build(tour);
         ValidateStationAccess(tour);
         // Ancien panneau remplacé par l'objectif et les bornes : garder l'allée lisible.
         foreach(var name in new[]{"Guide_Visite","Guide_Visite_Support"}) { var go=GameObject.Find(name); if(go!=null) go.SetActive(false); }

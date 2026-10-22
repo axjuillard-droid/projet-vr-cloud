@@ -48,7 +48,9 @@ if ($Complete) {
     if ((Test-Path -LiteralPath $destination) -and !(Test-Path -LiteralPath $backup)) { Copy-Item -LiteralPath $destination -Destination $backup -Recurse }
     New-Item -ItemType Directory -Force -Path $destination | Out-Null
     $generatedBuild=Join-Path $stage 'Builds/Demo'
-    Get-ChildItem -LiteralPath $generatedBuild -File -Recurse | ForEach-Object {
+    # Un diagnostic d'un essai échoué peut rester dans la copie après une reprise réussie.
+    Get-ChildItem -LiteralPath $generatedBuild -File -Recurse |
+        Where-Object { $_.FullName -ne (Join-Path $generatedBuild 'build-error.txt') } | ForEach-Object {
         $target=Join-Path $destination $_.FullName.Substring($generatedBuild.Length).TrimStart('\','/')
         New-Item -ItemType Directory -Force -Path (Split-Path $target) | Out-Null
         Copy-ChangedFile $_.FullName $target

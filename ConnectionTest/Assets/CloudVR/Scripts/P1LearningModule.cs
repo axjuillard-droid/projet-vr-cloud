@@ -24,7 +24,7 @@ public class P1LearningModule : MonoBehaviour
     public bool CoolingRecovered { get; private set; }
     public bool LeakSealed { get; private set; }
     public bool FansBoosted { get; private set; }
-    public bool CoolingActive => true;
+    public bool CoolingActive => tour.facility==null||tour.facility.ServiceAvailable;
     public float InletTemperature { get; private set; }=22;
     public float ITLoadKW => 12;
     public float AuxiliaryKW => !CoolingStarted||LeakSealed ? 3 : FansBoosted ? 5 : 4;
@@ -66,7 +66,7 @@ public class P1LearningModule : MonoBehaviour
         }
         if(CoolingStarted)
         {
-            float target=LeakSealed?22:FansBoosted?30:32;
+            float target=!CoolingActive?40:LeakSealed?22:FansBoosted?30:32;
             InletTemperature=Mathf.Lerp(InletTemperature,target,1-Mathf.Exp(-Time.deltaTime/1.5f));
             _stable=LeakSealed&&containment.OpenAmount<.02f&&InletTemperature<24?_stable+Time.deltaTime:0;
             if(!CoolingRecovered&&_stable>1)
@@ -81,8 +81,8 @@ public class P1LearningModule : MonoBehaviour
             if(CoolingRecovered&&!_automaticRestored&&rig!=null&&Mathf.Abs(rig.transform.position.z-containment.transform.position.z)>3.2f)
             {containment.manualOverride=false;_automaticRestored=true;}
         }
-        if(_fans!=null){_fans.volume=CoolingStarted&&!LeakSealed?(FansBoosted ? .27f : .18f):.08f;_fans.pitch=FansBoosted&&!LeakSealed?1.15f:.85f;}
-        if(fan!=null)fan.Rotate(Vector3.forward,(FansBoosted&&!LeakSealed?900:360)*Time.deltaTime);
+        if(_fans!=null){_fans.volume=!CoolingActive?0:CoolingStarted&&!LeakSealed?(FansBoosted ? .27f : .18f):.08f;_fans.pitch=FansBoosted&&!LeakSealed?1.15f:.85f;}
+        if(fan!=null&&CoolingActive)fan.Rotate(Vector3.forward,(FansBoosted&&!LeakSealed?900:360)*Time.deltaTime);
         for(int i=0;i<airMarkers.Length;i++)
         {
             var line=airMarkers[i].parent.GetComponent<LineRenderer>();
@@ -170,7 +170,7 @@ public class P1LearningModule : MonoBehaviour
     void UpdateDisplays()
     {
         if(rackDisplay!=null)rackDisplay.text=_rackMessage;
-        if(thermalDisplay!=null)thermalDisplay.text="AIR / ÉNERGIE • SCÉNARIO FICTIF\nEntrée : "+InletTemperature.ToString("F1")+" °C • cible 22 °C\nIT : 12 kW • auxiliaires : "+AuxiliaryKW.ToString("F1")+" kW\nPtot / PIT : "+PUE.ToString("F2")+" • PUE indicatif\n(régime constant, temps accéléré)\nRefroidissement toujours actif\nPorte : "+(LeakSealed?"fermée":CoolingStarted?"entrouverte":"automatique");
+        if(thermalDisplay!=null)thermalDisplay.text="AIR / ÉNERGIE • SCÉNARIO FICTIF\nEntrée : "+InletTemperature.ToString("F1")+" °C • cible 22 °C\nDemande IT : 12 kW • auxiliaires : "+AuxiliaryKW.ToString("F1")+" kW\nPtot / PIT : "+PUE.ToString("F2")+" • PUE indicatif\n(régime constant, temps accéléré)\nRefroidissement : "+(CoolingActive?"alimenté":"arrêté, réserve épuisée")+"\nPorte : "+(LeakSealed?"fermée":CoolingStarted?"entrouverte":"automatique");
     }
     void OnDestroy(){if(_fanClip!=null)Destroy(_fanClip);}
 }

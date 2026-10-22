@@ -1,0 +1,4 @@
+System.InvalidOperationException: Passage central sans obstacle fixe : Support
+  at P0SpatialValidation.Require (System.Boolean value, System.String description, P0SpatialValidation+Report report) [0x00016] in <BUILD_COPY>/Assets/CloudVR/Editor/P0SpatialValidation.cs:90 
+  at P0SpatialValidation.Validate (System.String output) [0x00204] in <BUILD_COPY>/Assets/CloudVR/Editor/P0SpatialValidation.cs:53 
+  at DemoCopyBuild.Run () [0x00010] in <BUILD_COPY>/Assets/CloudVR/Editor/DemoCopyBuild.cs:17 

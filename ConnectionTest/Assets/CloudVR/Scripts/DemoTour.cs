@@ -13,8 +13,8 @@ public class DemoTour : MonoBehaviour
         "Borne 02 : inspectez la baie de démonstration à droite, puis remettez-la en place.",
         "Rejoignez la borne 03 à gauche : conservez le fichier.",
         "Borne 04 : diagnostiquez une entrée d'air trop chaude et rétablissez le confinement.",
-        "Borne 05 au fond à gauche : observez le relais de l'alimentation.",
-        "Borne 06 au fond à gauche : transmettez l'alerte à l'équipe." };
+        "Borne 05 : rejoignez le local électrique et observez le secours UPS / groupe.",
+        "Borne 06 : lisez l'incident au mur de supervision et préparez son relais humain." };
     public static readonly string[] Lessons = {
         "Le réseau relie votre appareil au service distant. Les équipements réseau acheminent les échanges vers les machines qui hébergent le service.",
         "Un logiciel exécuté sur des serveurs reçoit la demande, vérifie ce qu'il doit faire et organise l'enregistrement. Le serveur est une machine ; le service est un logiciel.",
@@ -25,6 +25,7 @@ public class DemoTour : MonoBehaviour
 
     public DemoStation[] stations;
     public P1LearningModule learning;
+    public FacilityOperations facility;
     public int Step { get; private set; }
     public bool Busy { get; private set; }
     public bool Finished => Step >= Titles.Length;
@@ -40,7 +41,6 @@ public class DemoTour : MonoBehaviour
     public Material coldMaterial, warmMaterial, packetMaterial;
     DemoStation _hover;
     float _nextAction;
-    bool _mainsInterrupted;
     Camera _camera;
     int _drawnStep=-1;
     string _drawnMessage, _drawnHint;
@@ -80,8 +80,8 @@ public class DemoTour : MonoBehaviour
     {
         if (Step == 1) return learning!=null&&learning.ComputeStarted?"Manipuler la baie à droite":"Commencer l'inspection de baie";
         if (Step == 3) return learning!=null&&learning.CoolingStarted?"Corriger la fuite à la porte":"Diagnostiquer l'anomalie d'air";
-        if (Step == 4) return _mainsInterrupted ? "Rétablir l'alimentation principale" : "Illustrer le relais batterie";
-        if (Step == 5) return "Transmettre l'alerte à l'équipe";
+        if (Step == 4) return facility!=null&&facility.PowerStarted?"Rejoindre le local électrique":"Observer la perte du secteur";
+        if (Step == 5) return facility!=null&&facility.SupervisionStarted?"Lire le mur de supervision":"Ouvrir le suivi d'incident";
         return "Observer le rôle de cet équipement";
     }
 
@@ -92,6 +92,7 @@ public class DemoTour : MonoBehaviour
         if (index < Step) { Message = Lessons[index]; return; }
         if (index != Step) { Message = "Cette borne sera disponible ensuite. " + Goals[Step]; return; }
         if(Step==1&&learning.ComputeStarted||Step==3&&learning.CoolingStarted)return;
+        if(Step==4&&facility.PowerStarted||Step==5&&facility.SupervisionStarted)return;
         Actions++;
         _nextAction = Time.unscaledTime + .5f;
         if (Step == 1)
@@ -106,15 +107,16 @@ public class DemoTour : MonoBehaviour
             Message="Porte de confinement à Z=24, juste avant cette console. Lisez l'afficheur à droite, comparez les actions puis fermez la porte avec sa poignée verte.\nScénario fictif, temps accéléré.";
             return;
         }
-        if (Step == 4 && !_mainsInterrupted)
+        if (Step == 4)
         {
-            _mainsInterrupted = true;
-            BackupShown = true;
-            Message = "RELAIS TEMPORAIRE ILLUSTRÉ\nLa batterie prend ici le relais de la source principale. Aucune autonomie ni panne réelle n'est simulée. Activez à nouveau pour rétablir la source.";
-            StartCoroutine(ShowFlow(false));
+            facility.BeginPower();BackupShown=true;
+            Message="PERTE SECTEUR • UPS AUTOMATIQUEMENT EN SOUTIEN\nLocal électrique à gauche, porte à Z=30. Observez l'UPS et utilisez le pupitre de démonstration. Aucun appareil réel piloté.";
             return;
         }
-        if (Step == 5) AlertAcknowledged = true;
+        if(Step==5)
+        {
+            facility.BeginSupervision();Message="Mur de supervision au fond : chronologie, énergie et air. Lisez l'incident puis préparez un rapport pour l'équipe concernée. Données fictives, aucune communication externe.";return;
+        }
         Message = Lessons[Step];
         StartCoroutine(ShowFlow(true));
     }
@@ -124,6 +126,14 @@ public class DemoTour : MonoBehaviour
         if(Busy||Step!=expected)return;
         if(expected==1&&!learning.ComputeCompleted||expected==3&&!learning.CoolingRecovered)return;
         if(expected==3)CoolingRestored=true;
+        Step++;Message=explanation;UpdateHud();
+    }
+
+    public void CompleteFacilityStep(int expected,string explanation)
+    {
+        if(Busy||Step!=expected)return;
+        if(expected==4&&!facility.PowerCompleted||expected==5&&!facility.ReportPrepared)return;
+        if(expected==5)AlertAcknowledged=true;
         Step++;Message=explanation;UpdateHud();
     }
 
