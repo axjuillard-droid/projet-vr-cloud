@@ -12,12 +12,12 @@ public static class FacilityOperationsBuilder
 {
     static GameObject Box(Transform root,string name,Vector3 p,Vector3 size,Material mat,bool solid=false)
     {return P0SpatialBuilder.Box(root,name,p,size,mat,solid);}
-    static Transform Panel(Transform root,string name,Vector3 p,float yaw,Vector2 size,Material mat)
+    internal static Transform Panel(Transform root,string name,Vector3 p,float yaw,Vector2 size,Material mat)
     {
         var go=new GameObject(name).transform;go.SetParent(root,false);go.localPosition=p;go.localRotation=Quaternion.Euler(0,yaw,0);
         Box(go,"Support",Vector3.zero,new Vector3(size.x,size.y,.10f),mat,true);return go;
     }
-    static Text Text(Transform root,string name,Vector3 p,Vector2 size,int pixels,int font,string value="")
+    internal static Text Text(Transform root,string name,Vector3 p,Vector2 size,int pixels,int font,string value="")
     {
         var go=new GameObject(name,typeof(RectTransform),typeof(Canvas));go.transform.SetParent(root,false);go.transform.localPosition=p;
         go.transform.localScale=Vector3.one*(size.x/pixels);go.GetComponent<RectTransform>().sizeDelta=new Vector2(pixels,pixels*size.y/size.x);go.GetComponent<Canvas>().renderMode=RenderMode.WorldSpace;

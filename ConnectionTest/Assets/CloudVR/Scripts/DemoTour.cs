@@ -1,4 +1,3 @@
-using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -9,9 +8,9 @@ public class DemoTour : MonoBehaviour
 {
     public static readonly string[] Titles = { "RÉSEAU", "TRAITEMENT", "STOCKAGE", "REFROIDISSEMENT", "ÉLECTRICITÉ", "SUPERVISION" };
     public static readonly string[] Goals = {
-        "Activez la borne 01 à gauche : faites entrer la requête.",
+        "Borne 01 : observez les chemins réseau sur la maquette à droite.",
         "Borne 02 : inspectez la baie de démonstration à droite, puis remettez-la en place.",
-        "Rejoignez la borne 03 à gauche : conservez le fichier.",
+        "Borne 03 : observez réplique, panne et restauration sur la maquette à droite.",
         "Borne 04 : diagnostiquez une entrée d'air trop chaude et rétablissez le confinement.",
         "Borne 05 : rejoignez le local électrique et observez le secours UPS / groupe.",
         "Borne 06 : lisez l'incident au mur de supervision et préparez son relais humain." };
@@ -26,6 +25,7 @@ public class DemoTour : MonoBehaviour
     public DemoStation[] stations;
     public P1LearningModule learning;
     public FacilityOperations facility;
+    public DataServiceLearning data;
     public int Step { get; private set; }
     public bool Busy { get; private set; }
     public bool Finished => Step >= Titles.Length;
@@ -35,8 +35,6 @@ public class DemoTour : MonoBehaviour
     public bool AlertAcknowledged { get; private set; }
     public string Message { get; private set; }
     public string HoverHint { get; private set; }
-    public Transform flowRoot;
-    public Transform packet;
     public Renderer[] thermal;
     public Material coldMaterial, warmMaterial, packetMaterial;
     DemoStation _hover;
@@ -78,6 +76,8 @@ public class DemoTour : MonoBehaviour
 
     string ActionLabel()
     {
+        if (Step == 0) return data!=null&&data.NetworkStarted?"Observer les chemins à droite":"Commencer l'observation réseau";
+        if (Step == 2) return data!=null&&data.StorageStarted?"Observer les copies à droite":"Commencer l'observation stockage";
         if (Step == 1) return learning!=null&&learning.ComputeStarted?"Manipuler la baie à droite":"Commencer l'inspection de baie";
         if (Step == 3) return learning!=null&&learning.CoolingStarted?"Corriger la fuite à la porte":"Diagnostiquer l'anomalie d'air";
         if (Step == 4) return facility!=null&&facility.PowerStarted?"Rejoindre le local électrique":"Observer la perte du secteur";
@@ -93,6 +93,7 @@ public class DemoTour : MonoBehaviour
         if (index != Step) { Message = "Cette borne sera disponible ensuite. " + Goals[Step]; return; }
         if(Step==1&&learning.ComputeStarted||Step==3&&learning.CoolingStarted)return;
         if(Step==4&&facility.PowerStarted||Step==5&&facility.SupervisionStarted)return;
+        if(Step==0&&data.NetworkStarted||Step==2&&data.StorageStarted)return;
         Actions++;
         _nextAction = Time.unscaledTime + .5f;
         if (Step == 1)
@@ -117,8 +118,8 @@ public class DemoTour : MonoBehaviour
         {
             facility.BeginSupervision();Message="Mur de supervision au fond : chronologie, énergie et air. Lisez l'incident puis préparez un rapport pour l'équipe concernée. Données fictives, aucune communication externe.";return;
         }
-        Message = Lessons[Step];
-        StartCoroutine(ShowFlow(true));
+        if(Step==0){data.BeginNetwork();Message="Maquette à droite : isolez LIEN A, attendez B, lisez SERVICE puis rétablissez A. Aucune requête réelle ni écriture de fichier.";return;}
+        if(Step==2){data.BeginStorage();Message="Maquette à droite dans la niche : B pour répliquer, C pour préparer la restauration, A pour illustrer une panne. Suivez ensuite les explications et LIRE PHOTO.";return;}
     }
 
     public void CompletePhysicalStep(int expected,string explanation)
@@ -137,31 +138,11 @@ public class DemoTour : MonoBehaviour
         Step++;Message=explanation;UpdateHud();
     }
 
-    IEnumerator ShowFlow(bool advance)
+    public void CompleteDataStep(int expected,string explanation)
     {
-        Busy = true;
-        flowRoot.gameObject.SetActive(true);
-        int stage = Step;
-        var origin = stations[stage].transform.position + Vector3.up * 1.5f;
-        var rack = GameObject.Find("Baie_01").transform;
-        var target = rack.position + rack.rotation * new Vector3(0, stage == 0 ? 1.65f : stage == 2 ? .55f : 1.15f, -.59f);
-        var line = flowRoot.GetComponent<LineRenderer>();
-        line.sharedMaterial = stage==3 ? coldMaterial : stage==4 ? warmMaterial : packetMaterial;
-        packet.GetComponent<Renderer>().sharedMaterial = line.sharedMaterial;
-        line.SetPositions(new[] {origin, new Vector3(origin.x,3.1f,origin.z), new Vector3(target.x,3.1f,target.z),target});
-        var start = Time.unscaledTime;
-        while (Time.unscaledTime - start < 2.8f)
-        {
-            float travel = Mathf.Clamp01((Time.unscaledTime-start)/2.8f)*3;
-            int segment = Mathf.Min(2,(int)travel);
-            packet.position = Vector3.Lerp(line.GetPosition(segment),line.GetPosition(segment+1),travel-segment);
-            yield return null;
-        }
-        flowRoot.gameObject.SetActive(false);
-        if (advance) Step++;
-        Busy = false;
-        if (Finished) Message = "PHOTO DISPONIBLE — ALERTE TRANSMISE\nLe service dépend du réseau, de serveurs, du stockage, d'énergie, de refroidissement et du travail humain. Revenez dans la chambre pour retrouver la photo.";
-        UpdateHud();
+        if(Busy||Step!=expected||(expected!=0&&expected!=2))return;
+        if(expected==0&&!data.NetworkCompleted||expected==2&&!data.StorageCompleted)return;
+        Step++;Message=explanation;UpdateHud();
     }
 
     public void ReturnToRoom()

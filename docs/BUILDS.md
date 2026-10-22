@@ -1,5 +1,7 @@
 # Builds du prototype
 
+Dernier jalon PC, T21 du 22/10/2026 à 17 h 20 Paris : Réseau/Stockage interactifs, 88 contrôles pré-build et 152/152 contrôles player Direct3D11, exitCode=0. Commande complète : `./tools/Test-PCBuild.ps1 -Graphics -Demo -TimeoutSeconds 180`. [Preuves et limites](validation/data-service-2026-10-22/README.md). Aucun nouvel APK ni essai Quest ; les résultats datés du 05/10 ci-dessous sont historiques.
+
 Les sorties locales de build dans `ConnectionTest/Builds/` sont ignorées par Git. Garder l'exécutable Windows et tout son dossier de données ensemble. Le projet comporte désormais Chambre et DataCenter, reliées après l'envoi illustratif. L'ancien APK livré contient seulement Chambre ; les nouveaux exports doivent inclure les deux scènes.
 
 ## Windows

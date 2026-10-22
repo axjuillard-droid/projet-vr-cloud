@@ -10,6 +10,8 @@ Vérification T17 du 22/10 : outils Unity natifs absents du catalogue, mais MCP 
 
 Vérification T18 du 22/10 : MCP HTTP/SSE réellement utilisé pour mesurer les équipements, compiler et construire les scènes ; outils natifs absents du catalogue. 19 contrôles de références/visées exploitation et 14 P0 après correction de circulation, puis 64 pré-build et 105/105 dans le player Direct3D11. Route clavier jusqu'à l'UPS vérifiée ; épuisement par pas API explicitement distinct de la marche. Captures finales dans le monde inspectées après correction du cadrage du probe. Vingt matériaux initiaux préservés par SHA-256. [Preuves T18](validation/facility-2026-10-22/README.md). Aucun essai matériel Quest, aucun benchmark.
 
+Vérification T21 du 22/10 : MCP HTTP/SSE reconnecté après renouvellement de session, import des nouveaux assets et compilation vérifiés ; 14 contrôles P0 et 24 données dans l'éditeur, puis 88 pré-build et 152/152 dans le player Direct3D11. Neuf commandes PC/XRI, copies/pause/refus/restauration et ancienne suite vérifiés avec entrées synthétiques et poses contrôlées. Premier essai annulé pour ordre de livraison, distinct du résultat final. Chambre propre restituée ; vingt matériaux initiaux préservés. [Preuves T21](validation/data-service-2026-10-22/README.md). Rendu et interactions Quest, confort humain et performance non validés.
+
 ## Ce que Codex peut prendre en charge
 
 | Domaine | Ce que je peux faire et comment | Niveau constaté / conditions |

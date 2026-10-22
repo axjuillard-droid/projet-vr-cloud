@@ -1,0 +1,29 @@
+{
+  "passed": true,
+  "checks": [
+    "Réseau et stockage reliés au parcours",
+    "Neuf cibles, deux chemins réseau et trois trajets de copie",
+    "Marqueurs et nœuds distincts référencés",
+    "Quatre afficheurs dans le monde raccordés",
+    "Commande PC/XRI : IsolateLink",
+    "Visée données IsolateLink : Données_Cible_IsolateLink",
+    "Commande PC/XRI : ReadResponse",
+    "Visée données ReadResponse : Données_Cible_ReadResponse",
+    "Commande PC/XRI : RestoreLink",
+    "Visée données RestoreLink : Données_Cible_RestoreLink",
+    "Commande PC/XRI : FailPrimary",
+    "Visée données FailPrimary : Données_Cible_FailPrimary",
+    "Commande PC/XRI : Replicate",
+    "Visée données Replicate : Données_Cible_Replicate",
+    "Commande PC/XRI : RecoveryPoint",
+    "Visée données RecoveryPoint : Données_Cible_RecoveryPoint",
+    "Commande PC/XRI : ReadPhoto",
+    "Visée données ReadPhoto : Données_Cible_ReadPhoto",
+    "Commande PC/XRI : DeleteCurrent",
+    "Visée données DeleteCurrent : Données_Cible_DeleteCurrent",
+    "Commande PC/XRI : RestorePhoto",
+    "Visée données RestorePhoto : Données_Cible_RestorePhoto",
+    "Aucun parcours avancé ni copie préparée avant les bornes",
+    "Ancien trajet unique à validation automatique supprimé"
+  ]
+}

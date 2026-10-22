@@ -228,6 +228,8 @@ public partial class DemoSmoke : MonoBehaviour
             Check(Physics.Raycast(cam.ViewportPointToRay(new Vector3(.5f,.5f,0)),out var hit,4.5f) && hit.collider.GetComponentInParent<DemoStation>()==station,"Raycast atteint borne "+i);
             Button(true); yield return new WaitForSecondsRealtime(.15f); Button(false);
             yield return new WaitForSecondsRealtime(.65f);
+            if(i==0)yield return ExerciseDataNetwork(tour);
+            if(i==2)yield return ExerciseDataStorage(tour);
             if(i==1)
             {
                 var p1=tour.learning;var blade=p1.rack;

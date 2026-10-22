@@ -7,7 +7,13 @@
 
 ---
 
-## État courant — T18 livré le 22/10 à 12 h 38 min 58 s Paris
+## État courant — T21 livré le 22/10 à 17 h 20 min 02 s Paris
+
+Réseau : perte de A, adaptation illustrée sur B, lecture du service puis remise en état. Stockage : réplique B et point C avant incident, panne de A, lecture B, suppression logique propagée dans ce scénario, restauration C → B et relecture. Ancien flux à validation automatique retiré. **152/152 contrôles PC**, 88 pré-build et captures inspectées ; [preuves et limites](validation/data-service-2026-10-22/README.md). Aucun TCP/S3 réel, aucune donnée personnelle, aucun essai casque ni benchmark.
+
+MCP HTTP/SSE reconnecté, Chambre propre hors Play, console sans erreur retournée. Premier essai volontairement arrêté car lancé avant confirmation de livraison ; seul le second valide ce build. Vingt matériaux initiaux préservés par SHA-256 et exclus du commit, ne pas les réinitialiser. Les six activités sont implémentées ; prochaine tâche : revue humaine d'ergonomie et de rendu, puis voix/validation pédagogique et mesures matérielles. Publication à confirmer dans STATE.
+
+## Historique — T18 livré le 22/10 à 12 h 38 min 58 s Paris
 
 Local TGBT/UPS : réserve fictive limitée, observation de l'UPS original, groupe stable puis transfert différé. Supervision : chronologie, mauvaise équipe refusée, lecture préalable puis rapport préparé sans envoi. Secours réels normalement automatiques, ici découpés pour observation. Énergie/température de scénario ; PUE annuel/eau/carbone non calculés sans données. **105/105 contrôles player**, 64 contrôles pré-build et captures inspectées. [Preuves T18](validation/facility-2026-10-22/README.md). **Commit `d33b28c` poussé sur origin/main et SHA distant confirmé**, 54 objets LFS / 20 Mo.
 

@@ -1,0 +1,138 @@
+{
+  "passed": true,
+  "materials": [
+    {
+      "file": "ConnectionTest/Assets/CloudVR/Materials/Blade_LED_Amber.mat",
+      "sha256": "3139fba2b012813072a9c9e1c5ccb3cac944e6b5de54dcf4804388137606d072",
+      "currentSha256": "3139fba2b012813072a9c9e1c5ccb3cac944e6b5de54dcf4804388137606d072",
+      "preserved": true
+    },
+    {
+      "file": "ConnectionTest/Assets/CloudVR/Materials/Blade_LED_Cyan.mat",
+      "sha256": "9409877078c8f647d205a11bb4e5d4accea7b09ec0013d094bde4ff040a12394",
+      "currentSha256": "9409877078c8f647d205a11bb4e5d4accea7b09ec0013d094bde4ff040a12394",
+      "preserved": true
+    },
+    {
+      "file": "ConnectionTest/Assets/CloudVR/Materials/Blade_LED_Green.mat",
+      "sha256": "dfa8f2cefb399c8c70d8698173cb2340fab3e7a6d897bae87212963d7f52f447",
+      "currentSha256": "dfa8f2cefb399c8c70d8698173cb2340fab3e7a6d897bae87212963d7f52f447",
+      "preserved": true
+    },
+    {
+      "file": "ConnectionTest/Assets/CloudVR/Materials/Campus_LED_Green.mat",
+      "sha256": "927ae4667dc9beb744394e49f6576a5e1c408d16de650a770475c80b394ad2a6",
+      "currentSha256": "927ae4667dc9beb744394e49f6576a5e1c408d16de650a770475c80b394ad2a6",
+      "preserved": true
+    },
+    {
+      "file": "ConnectionTest/Assets/CloudVR/Materials/Campus_LED_Red.mat",
+      "sha256": "f23787a47ae5fadae22a70ade236df2bc4db354147f40b766d98c2153a1d04ba",
+      "currentSha256": "f23787a47ae5fadae22a70ade236df2bc4db354147f40b766d98c2153a1d04ba",
+      "preserved": true
+    },
+    {
+      "file": "ConnectionTest/Assets/CloudVR/Materials/Campus_Logo.mat",
+      "sha256": "eb77645a0640ab9e8a7eadf746d283cb515aa86758cb5d95c9c4cc076bec230a",
+      "currentSha256": "eb77645a0640ab9e8a7eadf746d283cb515aa86758cb5d95c9c4cc076bec230a",
+      "preserved": true
+    },
+    {
+      "file": "ConnectionTest/Assets/CloudVR/Materials/Door_Badge.mat",
+      "sha256": "05cd09cd2bce688ef01b44219a48449326b675b4f900cd72e69ad451ebde2bb9",
+      "currentSha256": "05cd09cd2bce688ef01b44219a48449326b675b4f900cd72e69ad451ebde2bb9",
+      "preserved": true
+    },
+    {
+      "file": "ConnectionTest/Assets/CloudVR/Materials/Door_Mesh.mat",
+      "sha256": "137f7a376fcb3a0c5907b170126e91b44936497b5ac61feb7c3db62e650bfd83",
+      "currentSha256": "137f7a376fcb3a0c5907b170126e91b44936497b5ac61feb7c3db62e650bfd83",
+      "preserved": true
+    },
+    {
+      "file": "ConnectionTest/Assets/CloudVR/Materials/Mantrap_Glass.mat",
+      "sha256": "a9a2ac61c85ce468bbbb3d278fe71d3c9252783be32b9bda1d4894458bdc6397",
+      "currentSha256": "a9a2ac61c85ce468bbbb3d278fe71d3c9252783be32b9bda1d4894458bdc6397",
+      "preserved": true
+    },
+    {
+      "file": "ConnectionTest/Assets/CloudVR/Materials/Mantrap_Scanner.mat",
+      "sha256": "4b16135a9ecda9dab00271ac21831cd95850655a892ec07bfc4ffb2fe5e4b31d",
+      "currentSha256": "4b16135a9ecda9dab00271ac21831cd95850655a892ec07bfc4ffb2fe5e4b31d",
+      "preserved": true
+    },
+    {
+      "file": "ConnectionTest/Assets/CloudVR/Materials/Room_Fairy_Bulb.mat",
+      "sha256": "710a5660e1850679668cae1cddab1109db2500e0d1003fbc4c191df7ced6c976",
+      "currentSha256": "710a5660e1850679668cae1cddab1109db2500e0d1003fbc4c191df7ced6c976",
+      "preserved": true
+    },
+    {
+      "file": "ConnectionTest/Assets/CloudVR/Materials/Room_LED_Blue.mat",
+      "sha256": "389d68425ee86d448ac98f29e846f5b3f962ce647533d88b7b8f01f8e1057b99",
+      "currentSha256": "389d68425ee86d448ac98f29e846f5b3f962ce647533d88b7b8f01f8e1057b99",
+      "preserved": true
+    },
+    {
+      "file": "ConnectionTest/Assets/CloudVR/Materials/Room_LED_Green.mat",
+      "sha256": "1a9fb0af83f24a660f35ed4b4a990a43610821f8cf9b674f082ceacd68585929",
+      "currentSha256": "1a9fb0af83f24a660f35ed4b4a990a43610821f8cf9b674f082ceacd68585929",
+      "preserved": true
+    },
+    {
+      "file": "ConnectionTest/Assets/CloudVR/Materials/Room_LED_Orange.mat",
+      "sha256": "25c3613eff368f894de11e2301f4f7318601d27c51052450a90a00a726a3ea69",
+      "currentSha256": "25c3613eff368f894de11e2301f4f7318601d27c51052450a90a00a726a3ea69",
+      "preserved": true
+    },
+    {
+      "file": "ConnectionTest/Assets/CloudVR/Materials/Room_RGB_Cyan.mat",
+      "sha256": "c028ad7cf4e3a5688e294c8a03cb420a0a571e39b41ff448154b5839a6095e8b",
+      "currentSha256": "c028ad7cf4e3a5688e294c8a03cb420a0a571e39b41ff448154b5839a6095e8b",
+      "preserved": true
+    },
+    {
+      "file": "ConnectionTest/Assets/CloudVR/Materials/Room_RGB_Red.mat",
+      "sha256": "f81e08c69413db82686981569e8d61fe12daf5028cce9bd37799736c5e7bf940",
+      "currentSha256": "f81e08c69413db82686981569e8d61fe12daf5028cce9bd37799736c5e7bf940",
+      "preserved": true
+    },
+    {
+      "file": "ConnectionTest/Assets/CloudVR/Materials/WS_CAC_Glass.mat",
+      "sha256": "cbf6f673a200a6f476431283a686a897eeadca0180b410d7381ba79dcf3c0d70",
+      "currentSha256": "cbf6f673a200a6f476431283a686a897eeadca0180b410d7381ba79dcf3c0d70",
+      "preserved": true
+    },
+    {
+      "file": "ConnectionTest/Assets/CloudVR/Materials/WS_ColdAirGlow.mat",
+      "sha256": "ccfbb797ed733502406a245f705cf8382b529f5773b8be330c7d357fcd8233f3",
+      "currentSha256": "ccfbb797ed733502406a245f705cf8382b529f5773b8be330c7d357fcd8233f3",
+      "preserved": true
+    },
+    {
+      "file": "ConnectionTest/Assets/CloudVR/Materials/WS_RackLED_B.mat",
+      "sha256": "253c9812e3404cb3d0d39806580acdfe76508943a3c3a4cd9df9e3709d2cf7fc",
+      "currentSha256": "253c9812e3404cb3d0d39806580acdfe76508943a3c3a4cd9df9e3709d2cf7fc",
+      "preserved": true
+    },
+    {
+      "file": "ConnectionTest/Assets/CloudVR/Materials/WS_RackLED_G.mat",
+      "sha256": "91735012e7e4b1fa70dea77a26ea58445c8a2634287d7bc6648b3eceeaba181d",
+      "currentSha256": "91735012e7e4b1fa70dea77a26ea58445c8a2634287d7bc6648b3eceeaba181d",
+      "preserved": true
+    }
+  ],
+  "scenes": [
+    {
+      "file": "Assets/Scenes/Chambre.unity",
+      "sha256": "6daeeeb8eb104a6c3b7f73931b143aaf8e930957e8df9e5d973f7e8a1faa8cd5",
+      "sameAsBuildCopy": true
+    },
+    {
+      "file": "Assets/Scenes/DataCenter.unity",
+      "sha256": "fe21aaee3fadc49db1f41f861f80dcfa3dcde8c550861d3ed109d96afc371912",
+      "sameAsBuildCopy": true
+    }
+  ],
+  "staleBuildErrorAbsent": true
+}

@@ -2,7 +2,9 @@
 
 **Du clic sur « envoyer une photo » aux équipements physiques du cloud.** Projet universitaire ESILV année 5, Unity 6000.0.58f2 / URP / C# / OpenXR.
 
-**État au 22 octobre 2026 : local électrique et supervision livrés, 105/105 contrôles PC réussis.** La visite demande d'observer l'UPS, de suivre le relais vers le groupe, puis de lire l'incident et de préparer son rapport pour l'équipe énergie. Batterie limitée et refroidissement sont reliés dans un modèle explicitement fictif. [Preuves T18 et limites](docs/validation/facility-2026-10-22/README.md). [Commit d33b28c](https://github.com/axjuillard-droid/projet-vr-cloud/commit/d33b28c901d1b48e76435d1a35f5df80e7de6dc5) poussé sur `main`, SHA distant confirmé.
+**État au 22 octobre 2026 : Réseau et Stockage interactifs livrés, 152/152 contrôles PC réussis.** Une liaison indisponible déclenche un basculement illustré ; le stockage distingue réplique, panne, suppression logique et restauration d'un point conservé. Les six étapes demandent maintenant leur observation ou manipulation ; le simple clic de console ne les termine plus. [Preuves T21 et limites](docs/validation/data-service-2026-10-22/README.md).
+
+Le local électrique conserve l'observation UPS/groupe/transfert ; la supervision demande lecture d'incident puis préparation du rapport. [Preuves T18](docs/validation/facility-2026-10-22/README.md).
 
 Le voyage réseau 3D conserve ses six étapes sur 7,50 s : box, fibre et campus avant l'arrivée dans la cour. Narration/progression observées dans la fenêtre réelle du player ; aucun stockage annoncé avant la visite. [Preuves T17](docs/validation/network-3d-2026-10-22/README.md).
 
@@ -12,7 +14,7 @@ P1 conserve l'inspection CPU/RAM/NVMe et la remise en place du serveur, puis le 
 
 P0 conserve l'allée de 2,20 m, les baies regroupées, le sas transparent et le local électrique accessible. Les groupes électrogènes qui affleuraient le mur ouest sont déplacés hors du bâtiment : [sept comparaisons avant/après](docs/validation/west-wall-2026-10-21/README.md), [jalon P0](docs/validation/p0-2026-10-21/README.md). Jalons P0/T20/P1 publiés sur `main` : [commit cddd29a](https://github.com/axjuillard-droid/projet-vr-cloud/commit/cddd29a4dc8ec27334db5424fc0f21de027e914f), push confirmé.
 
-**Travail restant identifié par l’audit :** Réseau et Stockage conservent leurs interactions de prototype. Voix finale, rythme de lecture, validation pédagogique, performances et confort matériel restent à valider. [Audit critique](docs/AUDIT_GLOBAL_2026-10-21.md), [état de reprise](docs/STATE.md).
+**Travail restant identifié par l’audit :** les six activités ont maintenant leurs interactions guidées, mais le rendu, le rythme, la compréhension et le confort demandent une revue humaine du parcours complet. Voix finale, performances et validation Quest restent à réaliser. [Audit critique](docs/AUDIT_GLOBAL_2026-10-21.md), [état de reprise](docs/STATE.md).
 
 Les corrections disponibles :
 
@@ -22,11 +24,17 @@ Les corrections disponibles :
 - Sas et raccords d'entrée à Z=−4..0 m : chambre cylindrique nominale de 1,8 m, portes transparentes interverrouillées et progression du scan illustratif de 2 s dans le monde. Aucun dispositif biométrique réel.
 - Salle blanche Z=0..40 m, sol continu et **32 baies au total**, dont Baie_01 à Z=14 m. Deux rangées denses entre Z=9,5 et 23,9 m autour d'une allée de 2,20 m, toit/impostes/niches de confinement raccordés et portes automatiques. Infrastructures schématiques ; aucune certification Tier ni performance thermique revendiquée.
 - Local TGBT/UPS en aile attenante, porte franchissable à Z=30 m, vitrage d'observation et équipements tournés vers la circulation.
-- Six bornes à gauche, Z=8/14/20/26/32/38 m. Les objectifs et textes apparaissent sur leurs écrans 3D ; HUD massif du data center supprimé, descentes PDU gênantes retirées. Baie interactive, diagnostic d’air, secours électrique et supervision intégrés ; Réseau et Stockage encore à approfondir.
+- Six bornes à gauche, Z=8/14/20/26/32/38 m. Les objectifs et textes apparaissent sur leurs écrans 3D ; HUD massif du data center supprimé, descentes PDU gênantes retirées. Maquettes de chemins réseau et récupération du stockage, baie interactive, diagnostic d’air, secours électrique et supervision intégrés.
 
 | Baie ouverte, serveur extrait — player | Fuite corrigée — player |
 |---|---|
 | ![Inspection CPU RAM NVMe](docs/validation/p1-2026-10-21/player/demo-server-extracted.png) | ![Température et auxiliaires fictifs après correction](docs/validation/p1-2026-10-21/player/demo-cooling-recovered.png) |
+
+| Chemin réseau B après perte de A — player | Photo v1 restaurée sur B — player |
+|---|---|
+| ![Routage sur le chemin de secours illustré](docs/validation/data-service-2026-10-22/pc/demo-network-alternate.png) | ![Photo relue après restauration du point C](docs/validation/data-service-2026-10-22/pc/demo-storage-restored.png) |
+
+Maquettes de principe hors ligne. Les délais sont fictifs ; une réponse réseau ne prouve pas une écriture. La suppression propagée est une option du scénario, pas une règle universelle de réplication. Aucune donnée personnelle stockée ou effacée.
 
 | Source groupe établie — player | Rapport préparé — player |
 |---|---|
@@ -38,16 +46,16 @@ Captures réelles du player Direct3D11, poses de visée contrôlées par le prob
 
 | Vérification | Résultat |
 |---|---|
-| Build Windows, 22/10 à 12 h 38 min 58 s Paris | Réussi, 50,84 s, 147 058 323 octets pour le build, 0 erreur / 0 avertissement BuildPipeline |
-| Démo complète dans le player | **105/105 contrôles réussis**, Direct3D11, entrées synthétiques |
+| Build Windows, 22/10 à 17 h 20 min 02 s Paris | Réussi, 58,76 s, 147 095 349 octets pour le build, 0 erreur / 0 avertissement BuildPipeline |
+| Démo complète dans le player | **152/152 contrôles réussis**, Direct3D11, entrées synthétiques |
 | Transition et navigation | Six étapes 3D en 7,50 s, caméra et signaux déplacés ; apparition −28 m, sas/scan, arrivée Z≈39 m en 24,75 s |
 | Bifurcation électrique | Entrée par la porte à Z≈30, trajet clavier vers le pupitre puis UPS à X≈−21 et retour ; poses de visée contrôlées ensuite |
-| Six bornes et conclusion | Six activations de console, baie/thermique, UPS/groupe/transfert et lecture/rapport requis ; refus, reprise, synthèse, retour Chambre et reset R vérifiés |
+| Six bornes et conclusion | Six activations de console, chemins réseau, réplique/restauration, baie/thermique, UPS/groupe/transfert et lecture/rapport requis ; refus, reprise, synthèse, retour Chambre et reset R vérifiés |
 | Petits déplacements | 100 commandes de 0,5 mm produisent 5 cm ; seuil CharacterController corrigé |
 | Audit des scènes P0 à 22 h 05 | DataCenter : 577 MeshRenderers actifs, 0 matériau manquant / 0 shader non supporté ; Chambre : 0 matériau manquant. Compteur antérieur aux deux nouvelles dalles T20 |
 | MCP Unity | HTTP/SSE connecté et utilisé, Chambre restituée propre, décor de film au repos inactif et narration raccordée ; console sans erreur retournée |
 | Confort VR par API sans casque | 8/8 contrôles de logique ; aucune validation du rendu optique, des manettes ou du confort matériel |
-| Conditions de l'essai T18 | Probe automatisé dans le vrai player ; épuisement par pas API de 200 s, visées contrôlées ; pas d'essai humain de confort ou de benchmark |
+| Conditions de l'essai T21 | Probe automatisé dans le vrai player ; épuisement par pas API de 200 s, visées contrôlées ; pas d'essai humain de confort ou de benchmark |
 | Android / Quest | APK antérieur inchangé ; ces corrections restent à compiler et tester dans le casque |
 
 Le premier échec de visée P0 et sa correction sont conservés dans [les résultats P0](docs/validation/p0-2026-10-21/README.md), avec captures et journaux anonymisés. [État de reprise](docs/STATE.md), [backlog](docs/BACKLOG.md). Réduction de résolution des ombres signalée dans le journal ; aucun benchmark PC/Quest ni confort humain validé. Les cinq meshes de rangées ne représentent pas le nombre total de draw calls.
@@ -87,7 +95,7 @@ Pour travailler dans Play sur PC, sélectionner Windows et la qualité PC. Atten
 
 Pour tester le livrable construit localement, lancer **`ConnectionTest/Builds/Windows/CloudVR-PC.exe`**. Conserver tout le dossier Windows avec l’exécutable, ses DLL et `CloudVR-PC_Data`.
 
-Le dossier Windows livré contient P0, le correctif du mur, P1, T17 et T18, et passe les 105 contrôles automatisés. Le lanceur `.exe` peut garder sa date du 20/10 à 14 h 58 : le contenu reconstruit est notamment dans `CloudVR-PC_Data/data.unity3d` (22/10, voir le manifeste T18) et les DLL. [Empreintes des fichiers livrés](docs/validation/facility-2026-10-22/delivery-manifest.json). Un essai libre reste utile pour apprécier le confort, la lisibilité et le rendu.
+Le dossier Windows livré contient P0, le correctif du mur, P1, T17, T18 et T21, et passe les 152 contrôles automatisés. Le lanceur `.exe` peut garder sa date du 20/10 à 14 h 58 : le contenu reconstruit est notamment dans `CloudVR-PC_Data/data.unity3d` (22/10, voir le manifeste T21) et les DLL. [Empreintes des fichiers livrés](docs/validation/data-service-2026-10-22/delivery-manifest.json). Un essai libre reste utile pour apprécier le confort, la lisibilité et le rendu.
 
 Les exécutables et APK sont des sorties locales ignorées par Git : **ce dépôt fournit les sources et les procédures de compilation**, pas un téléchargement de ces builds.
 
@@ -113,7 +121,7 @@ powershell -ExecutionPolicy Bypass -File tools/Build-DemoCopy.ps1 -Complete
 
 `-Resume` réutilise une copie déjà créée ; sur une installation neuve, omettre cette option au premier lancement. Le builder maître est exécuté avant compilation ; `-Complete` vérifie le rapport avant de copier le player et les scènes générées.
 
-La commande de validation actuelle est `./tools/Test-PCBuild.ps1 -Graphics -Demo -TimeoutSeconds 120`. Elle vérifie la transition complète, une marche continue à travers le sas, l'accès électrique et les bornes. **Dernier résultat : 68/68 contrôles réussis.**
+La commande de validation actuelle est `./tools/Test-PCBuild.ps1 -Graphics -Demo -TimeoutSeconds 180`. Elle vérifie la transition complète, une marche continue à travers le sas, les six activités, leurs cas négatifs et le retour/reset. **Dernier résultat : 152/152 contrôles réussis.**
 
 La branche confort est contrôlée séparément par `./tools/Test-NetworkComfort.ps1` : huit contrôles par API dans le player sans casque. Cela ne remplace pas un essai Quest. Les scénarios historiques Photo/Journey ciblent l’ancien parcours et ne remplacent pas cette validation.
 

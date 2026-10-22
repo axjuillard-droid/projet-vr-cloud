@@ -52,15 +52,11 @@ public static class DemoTourBuilder
             else if(i==4) for(int row=0;row<2;row++) Box(go.transform,"Batterie",new Vector3((row-.5f)*.3f,.68f,-.33f),new Vector3(.22f,.38f,.06f),cold);
             else Box(go.transform,"Signal",new Vector3(0,.72f,-.33f),new Vector3(.58f,.22f,.04f),cyan);
         }
-        var flow=new GameObject("Flux_Illustratif",typeof(LineRenderer)); flow.transform.SetParent(tour.transform,false);
-        var line=flow.GetComponent<LineRenderer>(); line.sharedMaterial=cyan; line.positionCount=4; line.startWidth=line.endWidth=.025f;
-        tour.flowRoot=flow.transform;
-        var packet=GameObject.CreatePrimitive(PrimitiveType.Sphere); packet.name="Requête_illustrée"; packet.transform.SetParent(flow.transform,false); packet.transform.localScale=Vector3.one*.13f;
-        UnityEngine.Object.DestroyImmediate(packet.GetComponent<Collider>()); packet.GetComponent<Renderer>().sharedMaterial=cyan; tour.packet=packet.transform; flow.SetActive(false);
         tour.thermal=new Renderer[3];
         for(int i=0;i<3;i++) tour.thermal[i]=Box(tour.transform,"Repère_thermique",new Vector3(2.8f,2.23f,14+i*6),new Vector3(1.1f,.035f,.95f),cold).GetComponent<Renderer>();
         P1LearningBuilder.Build(tour);
         FacilityOperationsBuilder.Build(tour);
+        DataServiceBuilder.Build(tour);
         ValidateStationAccess(tour);
         // Ancien panneau remplacé par l'objectif et les bornes : garder l'allée lisible.
         foreach(var name in new[]{"Guide_Visite","Guide_Visite_Support"}) { var go=GameObject.Find(name); if(go!=null) go.SetActive(false); }
