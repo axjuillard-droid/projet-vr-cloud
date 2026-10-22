@@ -1,6 +1,6 @@
 # T18 — Local électrique et supervision, 22 octobre 2026
 
-Version Windows finale compilée à **12 h 38 min 58 s Paris**, **105/105 contrôles** Direct3D11 terminés à **12 h 42 min 29 s**, exitCode=0. Résultat BuildPipeline : 50,84 s, 147 058 323 octets au total, 0 erreur / 0 avertissement. Le lanceur peut conserver sa date ancienne ; [manifeste SHA-256 des fichiers livrés](delivery-manifest.json).
+Version Windows finale compilée à **12 h 38 min 58 s Paris**, **105/105 contrôles** Direct3D11 terminés à **12 h 42 min 29 s**, exitCode=0. Résultat BuildPipeline : 50,84 s, 147 058 323 octets au total, 0 erreur / 0 avertissement. Le lanceur peut conserver sa date ancienne ; [manifeste SHA-256 des fichiers livrés](delivery-manifest.json). Sources et preuves publiées : [d33b28c](https://github.com/axjuillard-droid/projet-vr-cloud/commit/d33b28c901d1b48e76435d1a35f5df80e7de6dc5), SHA distant confirmé sur origin/main ; builds exclus du dépôt.
 
 ## Expérience disponible
 

@@ -2,7 +2,7 @@
 
 **Du clic sur « envoyer une photo » aux équipements physiques du cloud.** Projet universitaire ESILV année 5, Unity 6000.0.58f2 / URP / C# / OpenXR.
 
-**État au 22 octobre 2026 : local électrique et supervision livrés, 105/105 contrôles PC réussis.** La visite demande d'observer l'UPS, de suivre le relais vers le groupe, puis de lire l'incident et de préparer son rapport pour l'équipe énergie. Batterie limitée et refroidissement sont reliés dans un modèle explicitement fictif. [Preuves T18 et limites](docs/validation/facility-2026-10-22/README.md).
+**État au 22 octobre 2026 : local électrique et supervision livrés, 105/105 contrôles PC réussis.** La visite demande d'observer l'UPS, de suivre le relais vers le groupe, puis de lire l'incident et de préparer son rapport pour l'équipe énergie. Batterie limitée et refroidissement sont reliés dans un modèle explicitement fictif. [Preuves T18 et limites](docs/validation/facility-2026-10-22/README.md). [Commit d33b28c](https://github.com/axjuillard-droid/projet-vr-cloud/commit/d33b28c901d1b48e76435d1a35f5df80e7de6dc5) poussé sur `main`, SHA distant confirmé.
 
 Le voyage réseau 3D conserve ses six étapes sur 7,50 s : box, fibre et campus avant l'arrivée dans la cour. Narration/progression observées dans la fenêtre réelle du player ; aucun stockage annoncé avant la visite. [Preuves T17](docs/validation/network-3d-2026-10-22/README.md).
 

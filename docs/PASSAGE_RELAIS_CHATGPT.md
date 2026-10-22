@@ -9,9 +9,9 @@
 
 ## État courant — T18 livré le 22/10 à 12 h 38 min 58 s Paris
 
-Local TGBT/UPS : réserve fictive limitée, observation de l'UPS original, groupe stable puis transfert différé. Supervision : chronologie, mauvaise équipe refusée, lecture préalable puis rapport préparé sans envoi. Secours réels normalement automatiques, ici découpés pour observation. Énergie/température de scénario ; PUE annuel/eau/carbone non calculés sans données. **105/105 contrôles player**, 64 contrôles pré-build et captures inspectées. [Preuves T18](validation/facility-2026-10-22/README.md).
+Local TGBT/UPS : réserve fictive limitée, observation de l'UPS original, groupe stable puis transfert différé. Supervision : chronologie, mauvaise équipe refusée, lecture préalable puis rapport préparé sans envoi. Secours réels normalement automatiques, ici découpés pour observation. Énergie/température de scénario ; PUE annuel/eau/carbone non calculés sans données. **105/105 contrôles player**, 64 contrôles pré-build et captures inspectées. [Preuves T18](validation/facility-2026-10-22/README.md). **Commit `d33b28c` poussé sur origin/main et SHA distant confirmé**, 54 objets LFS / 20 Mo.
 
-Premier échec P0 de circulation conservé/corrigé sans affaiblir le test ; premier player 105/105 conservé, cadrage de capture revu puis nouvelle compilation/régression. MCP HTTP/SSE vérifié. Vingt matériaux préexistants préservés par SHA-256 et exclus du commit, ne pas les réinitialiser. Réseau/Stockage restent à approfondir ; voix/pédagogie/performance et casque non validés. Publication à confirmer dans STATE.
+Premier échec P0 de circulation conservé/corrigé sans affaiblir le test ; premier player 105/105 conservé, cadrage de capture revu puis nouvelle compilation/régression. MCP HTTP/SSE vérifié, Chambre propre hors Play, console sans erreur retournée. Vingt matériaux préexistants préservés par SHA-256 et exclus du commit, ne pas les réinitialiser. Réseau/Stockage restent à approfondir ; voix/pédagogie/performance et casque non validés. Voir STATE pour les empreintes et la publication confirmée.
 
 ## Historique — T17 livré le 22/10 à 11 h 55 Paris
 
