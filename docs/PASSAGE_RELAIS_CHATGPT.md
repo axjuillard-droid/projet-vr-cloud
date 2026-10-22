@@ -7,11 +7,11 @@
 
 ---
 
-## État courant — Correctifs T22 livrés, revue Overlay suspendue
+## État courant — T22 livré et revue visuelle PC ciblée confirmée
 
 Build Windows 18 h 06 min 59 s Paris, **193/193 contrôles fonctionnels PC**, 88 pré-build. Aide sur les vraies cibles/prérequis/portées/obstacles, petits boutons agrandis et pause temps/audio avec gardes envoi/retour/rejeu. Les six activités sont conservées. [Preuves T22](validation/ergonomics-2026-10-22/README.md), [revue critique](REVUE_ERGONOMIE_2026-10-22.md).
 
-**Ne pas revendiquer la composition Overlay complète validée** : capture utilisateur reçue, aide chambre visible ; pause et aides de salle blanche encore à revue humaine. Historique : capture nulle en batch puis PNG noirs hors batch en fenêtre masquée, vérification suspendue pour revue humaine après deux tentatives selon AGENTS. Opt-in de capture non relancé. Référence du probe pendant le film corrigée pour inclure le viseur inactif. T22 reste en cours sur cette revue humaine. Aucun casque/benchmark.
+Cinq captures utilisateur supplémentaires du 22/10 confirment visuellement l’aide de la borne 01, le prérequis sur LIEN A et SERVICE avant activation, l’action sur LIEN A après activation, et « EN PAUSE • Échap pour reprendre ». Avec la capture chambre, la demande de revue des aides/pause PC est satisfaite sur ces vues. Aucune déduction sur la reprise, le gel temporel, les autres modules, le confort ou la performance à partir d’images fixes ; ces limites restent distinctes des 193 contrôles fonctionnels. Les deux échecs automatisés restent conservés, aucune nouvelle capture complète tentée. T22 terminé pour ce lot ; T23 prêt sur éclairage/aliasing. Aucun casque/benchmark.
 
 MCP débloqué par Reload sur scène propre, Chambre propre hors Play restituée. Vingt matériaux initiaux préservés par SHA-256 et exclus du commit, ne pas les réinitialiser. Publication des correctifs confirmée sur origin/main : `b071f2e`, 69 objets LFS / 24 Mo ; détails dans STATE.
 

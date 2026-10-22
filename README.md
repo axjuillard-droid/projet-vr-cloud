@@ -2,7 +2,7 @@
 
 **Du clic sur « envoyer une photo » aux équipements physiques du cloud.** Projet universitaire ESILV année 5, Unity 6000.0.58f2 / URP / C# / OpenXR.
 
-**État au 22 octobre 2026 : aides et pause PC implémentées, 193/193 contrôles fonctionnels réussis.** Le viseur nomme l'objet réellement visé, les petits boutons sont agrandis et Échap suspend temps/audio hors envoi/film. **L’aide de la chambre est visible sur une capture utilisateur ; pause et aides de salle blanche encore à vérifier visuellement.** Deux captures automatisées non probantes sont conservées, vérification automatisée suspendue selon la règle du projet. [Revue critique](docs/REVUE_ERGONOMIE_2026-10-22.md), [preuves T22 et limites](docs/validation/ergonomics-2026-10-22/README.md).
+**État au 22 octobre 2026 : aides et pause PC implémentées, 193/193 contrôles fonctionnels réussis.** Le viseur nomme l'objet réellement visé, les petits boutons sont agrandis et Échap suspend temps/audio hors envoi/film. **Les captures utilisateur confirment l’aide dans la chambre, sur la borne 01 et LIEN A, le prérequis réseau et le message de pause.** Cette revue ciblée ne valide pas toutes les vues ni le confort VR. Les deux captures automatisées non probantes restent conservées. [Revue critique](docs/REVUE_ERGONOMIE_2026-10-22.md), [preuves T22 et limites](docs/validation/ergonomics-2026-10-22/README.md).
 
 Réseau/Stockage conservent basculement, copies différées, panne et restauration : [preuves T21](docs/validation/data-service-2026-10-22/README.md). Les six activités restent des démonstrations pédagogiques hors ligne. Correctifs T22 publiés sur `origin/main` : `b071f2e`.
 
@@ -97,7 +97,7 @@ Pour travailler dans Play sur PC, sélectionner Windows et la qualité PC. Atten
 
 Pour tester le livrable construit localement, lancer **`ConnectionTest/Builds/Windows/CloudVR-PC.exe`**. Conserver tout le dossier Windows avec l’exécutable, ses DLL et `CloudVR-PC_Data`.
 
-Le dossier Windows livré contient P0, le correctif du mur, P1, T17, T18, T21 et les correctifs T22, et passe les 193 contrôles fonctionnels automatisés. L'aide et le message de pause demandent encore une revue visuelle humaine. Le lanceur `.exe` peut garder sa date du 20/10 à 14 h 58 : le contenu reconstruit est notamment dans `CloudVR-PC_Data/data.unity3d` (22/10, voir le manifeste T22) et les DLL. [Empreintes des fichiers livrés](docs/validation/ergonomics-2026-10-22/delivery-manifest.json). Un essai libre reste utile pour apprécier le confort, la lisibilité et le rendu.
+Le dossier Windows livré contient P0, le correctif du mur, P1, T17, T18, T21 et les correctifs T22, et passe les 193 contrôles fonctionnels automatisés. L'aide et le message de pause ont été observés sur les captures utilisateur de la chambre et du début du module Réseau. Le lanceur `.exe` peut garder sa date du 20/10 à 14 h 58 : le contenu reconstruit est notamment dans `CloudVR-PC_Data/data.unity3d` (22/10, voir le manifeste T22) et les DLL. [Empreintes des fichiers livrés](docs/validation/ergonomics-2026-10-22/delivery-manifest.json). Un essai libre reste utile pour apprécier le confort, la lisibilité et le rendu.
 
 Les exécutables et APK sont des sorties locales ignorées par Git : **ce dépôt fournit les sources et les procédures de compilation**, pas un téléchargement de ces builds.
 
