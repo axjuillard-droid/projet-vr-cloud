@@ -1,0 +1,9 @@
+{
+  "utc": "2026-10-22T10:00:12.1091961Z",
+  "scenario": "network-comfort-api-no-headset",
+  "timedOut": false,
+  "exitCode": 0,
+  "passed": true,
+  "report": "<PROJECT>/tmp/unity/network-comfort-20261022-115957/network-comfort-result.json",
+  "log": "<PROJECT>/tmp/unity/network-comfort-20261022-115957/Player.log"
+}

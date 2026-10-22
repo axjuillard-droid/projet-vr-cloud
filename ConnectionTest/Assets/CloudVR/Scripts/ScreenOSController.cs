@@ -4,8 +4,8 @@ using UnityEngine.UI;
 
 /// <summary>
 /// Gère l'affichage moderne du système d'exploitation sur l'écran du PC :
-/// barre de progression fluide, étapes techniques détaillées (chiffrement, TLS, paquets, stockage).
-/// Compatible avec PhotoSender et tous les tests automatisés (DemoSmoke, JourneySmoke).
+/// Préparation illustrative de la demande, avant le voyage réseau et la visite du stockage.
+/// Aucun chiffrement ou transfert réseau réel n'est effectué.
 /// </summary>
 public class ScreenOSController : MonoBehaviour
 {
@@ -137,13 +137,13 @@ public class ScreenOSController : MonoBehaviour
             if (sendingStatusText != null)
             {
                 if (t < 0.25f)
-                    sendingStatusText.text = "Chiffrement AES-256...";
+                    sendingStatusText.text = "Préparation de la photo d'exemple...";
                 else if (t < 0.55f)
-                    sendingStatusText.text = "Handshake TLS 1.3...";
+                    sendingStatusText.text = "Préparation de la demande illustrative...";
                 else if (t < 0.85f)
-                    sendingStatusText.text = "Routage paquets IP...";
+                    sendingStatusText.text = "Départ vers le réseau local...";
                 else
-                    sendingStatusText.text = "Arrivée switch frontal DC...";
+                    sendingStatusText.text = "Voyage réseau à suivre...";
             }
             yield return null;
         }
@@ -155,7 +155,7 @@ public class ScreenOSController : MonoBehaviour
             progressBarFill.rectTransform.sizeDelta = new Vector2(maxWidth, 0);
         }
         if (progressPercentText != null) progressPercentText.text = "100 %";
-        if (sendingStatusText != null) sendingStatusText.text = "✓ Paquets délivrés au Data Center !";
+        if (sendingStatusText != null) sendingStatusText.text = "Demande préparée • voyage réseau à suivre";
     }
 
     private void OnSendCompleted()
@@ -170,7 +170,7 @@ public class ScreenOSController : MonoBehaviour
                 if (status != null)
                 {
                     var txt = status.GetComponent<Text>();
-                    if (txt != null) txt.text = "✓ Fichier persisté au Data Center\nConnexion en cours...";
+                    if (txt != null) txt.text = "Demande préparée\nStockage à découvrir pendant la visite";
                 }
             }
         }

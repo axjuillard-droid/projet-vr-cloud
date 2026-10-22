@@ -6,6 +6,8 @@ Vérification de session du 21/10/2026, reprise P0 : outils MCP Unity natifs dis
 
 Vérification P1 du 21/10 à 23 h 19 : build Windows et **64/64 contrôles** Direct3D11, 20 contrôles P1 + 14 P0 pré-build, captures inspectées. MCP utilisé pour diagnostiquer le rayon qui touchait la capsule du visiteur ; dialogues Unity débloqués par computer-use. Les timeouts ne prouvent pas l'absence de mutation. Deux diagnostics composites finaux ont échoué ; audit additionnel arrêté, Chambre restituée hors Play et console sans erreur retournée. XRI raccordé, aucun test casque, prise libre ou benchmark. [Preuves P1](validation/p1-2026-10-21/README.md).
 
+Vérification T17 du 22/10 : outils Unity natifs absents du catalogue, mais MCP HTTP/SSE local initialisé et utilisé, ressources et schémas relus. Build PC réussi, 68/68 contrôles et 8/8 contrôles de logique confort par API sans casque. Interface réellement observée par computer-use. `Camera.Render` omet l’Overlay : ses PNG seuls ne valident pas la composition UI. Chambre restituée propre et console sans erreur retournée. [Preuves T17](validation/network-3d-2026-10-22/README.md). Aucun test matériel Quest.
+
 ## Ce que Codex peut prendre en charge
 
 | Domaine | Ce que je peux faire et comment | Niveau constaté / conditions |

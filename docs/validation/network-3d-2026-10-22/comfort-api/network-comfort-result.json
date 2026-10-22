@@ -1,0 +1,14 @@
+{
+  "passed": true,
+  "error": "",
+  "checks": [
+    "Aucun casque actif : essai de logique par API uniquement",
+    "Branche VR : écran de cinéma choisi sans déplacement imposé",
+    "Film 3D rendu dans une texture sur écran du monde",
+    "Transform du casque inchangé pendant le vol virtuel",
+    "Orientation simulée conservée et écran ancré dans le monde",
+    "Arrivée DataCenter en mode VR conservé",
+    "Film complet et caméra de film réellement déplacée",
+    "Caméra de film et écran détruits après chargement"
+  ]
+}

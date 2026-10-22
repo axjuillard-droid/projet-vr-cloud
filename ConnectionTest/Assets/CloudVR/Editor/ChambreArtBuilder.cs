@@ -317,7 +317,9 @@ public static class ChambreArtBuilder
         var canvas = hud.GetComponent<Canvas>(); canvas.renderMode = RenderMode.ScreenSpaceOverlay; canvas.sortingOrder = 1000;
         var scaler = hud.GetComponent<CanvasScaler>(); scaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
         scaler.referenceResolution = new Vector2(1280, 720);
-        var panel = DemoTour.Panel(hud.transform, "Narration", new Vector2(.10f,.10f), new Vector2(.90f,.38f));
+        ride.fade=DemoTour.Panel(hud.transform,"Fondu",Vector2.zero,Vector2.one).GetComponent<Image>();
+        ride.fade.color=Color.clear;
+        var panel = DemoTour.Panel(hud.transform, "Narration", new Vector2(.08f,.04f), new Vector2(.92f,.28f));
         ride.hudTitle = DemoTour.Label(panel, "Titre", 30, new Vector2(.04f,.60f), new Vector2(.96f,.95f), Color.cyan);
         ride.hudSubtitle = DemoTour.Label(panel, "Sous_titres", 22, new Vector2(.04f,.28f), new Vector2(.96f,.60f), Color.white);
         ride.hudProgress = DemoTour.Label(panel, "Étape", 18, new Vector2(.04f,.05f), new Vector2(.96f,.25f), Color.white);
@@ -325,6 +327,8 @@ public static class ChambreArtBuilder
         ride.progressBar.color = Color.cyan;
         ride.progressBar.rectTransform.pivot = new Vector2(0, .5f);
         ride.hudPanel = hud; hud.SetActive(false);
+        foreach(var item in hud.GetComponentsInChildren<Transform>(true))item.gameObject.layer=NetworkRideVisuals.Layer;
+        NetworkRideBuilder.Build(ride);
         // Enlever uniquement les anciennes routes de chargement ; garder les autres observateurs.
         for (int i = sender.onSendCompleted.GetPersistentEventCount() - 1; i >= 0; i--)
             if (sender.onSendCompleted.GetPersistentTarget(i) is StepTransition ||

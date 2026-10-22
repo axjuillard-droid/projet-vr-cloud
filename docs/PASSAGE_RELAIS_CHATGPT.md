@@ -7,7 +7,13 @@
 
 ---
 
-## État courant — P1 livré le 21/10 à 23 h 15 Paris
+## État courant — T17 livré le 22/10 à 11 h 55 Paris
+
+Voyage 3D de 7,50 s réutilisant les FBX fibre/campus et le son existants, statut de stockage prématuré retiré. **68/68 contrôles PC**, 14 P0 + 20 P1 + 11 P2 pré-build, 8/8 contrôles de logique confort par API sans casque. Narration observée dans la fenêtre native. Les captures `Camera.Render` omettent les Canvas Overlay : ne pas en déduire une absence d'interface. [Preuves T17 et limites](validation/network-3d-2026-10-22/README.md).
+
+MCP HTTP/SSE utilisé après activation utilisateur, outils natifs absents du catalogue courant. Chambre propre restituée, console sans erreur retournée. Vingt matériaux modifiés dès le départ préservés/exclus du commit T17 ; ne pas les réinitialiser. VR sur écran fixe : logique testée, rendu/tracking/Quest et confort non validés. **Prochaine tâche prête : T18**, local TGBT et supervision. Publication T17 en préparation ; STATE fait foi.
+
+## Historique — P1 livré le 21/10 à 23 h 15 Paris
 
 **T16 terminé** : Baie_01 ouvre sa porte, extrait son serveur, demande l'inspection CPU/RAM/NVMe puis la remise en place. La borne 04 demande de réparer une fuite de confinement, avec mauvaises options et retour thermique progressif ; refroidissement toujours actif. Modèle fictif, ratio de puissance sous hypothèse de régime constant. **64/64 contrôles player DX11**, 20 P1 + 14 P0 pré-build, BuildPipeline 0 erreur/avertissement. Captures et limites : [preuves P1](validation/p1-2026-10-21/README.md).
 

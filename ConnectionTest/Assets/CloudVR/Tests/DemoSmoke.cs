@@ -89,19 +89,39 @@ public class DemoSmoke : MonoBehaviour
         yield return new WaitForSecondsRealtime(.2f); Button(true); yield return new WaitForSecondsRealtime(.2f); Button(false);
         Check(sender.State==PhotoSender.SendState.Sending,"Clic synthétique sur écran déclenche l'envoi");
         float until=Time.realtimeSinceStartup+20;
-        bool capturedTransition=false;
+        bool capturedTransition=false,duplicateChecked=false,earlyStatusChecked=false;
+        var stageCaptured=new bool[7];var cameraSamples=new List<Vector3>();var packetSamples=new List<Vector3>();
         while(SceneManager.GetActiveScene().name!="DataCenter" && Time.realtimeSinceStartup<until)
         {
             var ride=FindFirstObjectByType<NetworkTransitionV2>();
-            if(!capturedTransition && ride!=null && ride.CurrentStep==3)
+            if(ride!=null&&ride.IsRunning&&!earlyStatusChecked)
             {
-                yield return new WaitForEndOfFrame(); Capture("demo-network-transition.png"); capturedTransition=true;
+                bool premature=false;
+                foreach(var text in FindObjectsByType<UnityEngine.UI.Text>(FindObjectsInactive.Include,FindObjectsSortMode.None))if(text.text.Contains("Fichier persisté"))premature=true;
+                Check(!premature&&!sender.confirmationIndicator.activeInHierarchy,"Départ réseau : aucun stockage annoncé et ancienne confirmation masquée");earlyStatusChecked=true;
+            }
+            if(ride!=null&&ride.IsRunning&&ride.CurrentStep>=2&&!duplicateChecked)
+            {
+                ride.StartNetworkRide();sender.Send();
+                Check(NetworkTransitionV2.Starts==1&&!ride.stepTransition.IsTriggered,"Double déclenchement ignoré et aucun chargement avant la fin du trajet");duplicateChecked=true;
+            }
+            if(ride!=null&&(ride.CurrentStep==2||ride.CurrentStep==3||ride.CurrentStep==4||ride.CurrentStep==6)&&!stageCaptured[ride.CurrentStep])
+            {
+                int stage=ride.CurrentStep;stageCaptured[stage]=true;
+                yield return new WaitForSecondsRealtime(.35f);
+                cameraSamples.Add(Camera.main.transform.position);packetSamples.Add(ride.visuals.packets[0].position);
+                yield return new WaitForEndOfFrame();Capture("demo-network-stage-"+stage+".png");
+                if(stage==3){Capture("demo-network-transition.png");capturedTransition=true;}
             }
             yield return null;
         }
         yield return new WaitForSecondsRealtime(.8f);
-        Check(capturedTransition && NetworkTransitionV2.CompletedStages==6 && NetworkTransitionV2.CompletedDuration>=10.7f,
-            "Transition complète : six étapes visibles, durée réelle >= 10,7 s, aucun bypass smoke");
+        Check(capturedTransition&&stageCaptured[6]&&NetworkTransitionV2.CompletedStages==6&&NetworkTransitionV2.CompletedDuration>=7.4f&&NetworkTransitionV2.CompletedDuration<8.5f,
+            "Transition 3D complète : six étapes et arrivée campus, durée réelle 7,5 s environ, aucun bypass smoke");
+        Check(cameraSamples.Count==4&&Vector3.Distance(cameraSamples[0],cameraSamples[2])>20&&NetworkTransitionV2.TravelDistance>50,
+            "La caméra parcourt réellement le décor 3D sur PC, au-delà de 50 unités fictives");
+        Check(Vector3.Distance(packetSamples[0],packetSamples[1])>1&&!NetworkTransitionV2.UsedComfortScreen,
+            "Signaux animés dans le tunnel, vue PC immersive distincte du mode confort VR");
         var tour=FindFirstObjectByType<DemoTour>();
         Check(tour!=null && tour.Step==0 && tour.stations.Length==6,"Six bornes initialisées sans étape sautée");
         Check(FindObjectsByType<Camera>(FindObjectsSortMode.None).Length==1,"Une seule caméra active");
