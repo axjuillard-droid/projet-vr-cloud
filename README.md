@@ -2,7 +2,7 @@
 
 **Du clic sur « envoyer une photo » aux équipements physiques du cloud.** Projet universitaire ESILV année 5, Unity 6000.0.58f2 / URP / C# / OpenXR.
 
-**État au 22 octobre 2026 : Réseau et Stockage interactifs livrés, 152/152 contrôles PC réussis.** Une liaison indisponible déclenche un basculement illustré ; le stockage distingue réplique, panne, suppression logique et restauration d'un point conservé. Les six étapes demandent maintenant leur observation ou manipulation ; le simple clic de console ne les termine plus. [Preuves T21 et limites](docs/validation/data-service-2026-10-22/README.md).
+**État au 22 octobre 2026 : Réseau et Stockage interactifs livrés, 152/152 contrôles PC réussis.** Une liaison indisponible déclenche un basculement illustré ; le stockage distingue réplique, panne, suppression logique et restauration d'un point conservé. Les six étapes demandent maintenant leur observation ou manipulation ; le simple clic de console ne les termine plus. [Preuves T21 et limites](docs/validation/data-service-2026-10-22/README.md). [Commit f91e21e](https://github.com/axjuillard-droid/projet-vr-cloud/commit/f91e21eced5a6cea594cc47b395892ec0452afe6) poussé sur `main`, SHA distant confirmé.
 
 Le local électrique conserve l'observation UPS/groupe/transfert ; la supervision demande lecture d'incident puis préparation du rapport. [Preuves T18](docs/validation/facility-2026-10-22/README.md).
 

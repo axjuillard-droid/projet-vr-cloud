@@ -11,7 +11,7 @@
 
 Réseau : perte de A, adaptation illustrée sur B, lecture du service puis remise en état. Stockage : réplique B et point C avant incident, panne de A, lecture B, suppression logique propagée dans ce scénario, restauration C → B et relecture. Ancien flux à validation automatique retiré. **152/152 contrôles PC**, 88 pré-build et captures inspectées ; [preuves et limites](validation/data-service-2026-10-22/README.md). Aucun TCP/S3 réel, aucune donnée personnelle, aucun essai casque ni benchmark.
 
-MCP HTTP/SSE reconnecté, Chambre propre hors Play, console sans erreur retournée. Premier essai volontairement arrêté car lancé avant confirmation de livraison ; seul le second valide ce build. Vingt matériaux initiaux préservés par SHA-256 et exclus du commit, ne pas les réinitialiser. Les six activités sont implémentées ; prochaine tâche : revue humaine d'ergonomie et de rendu, puis voix/validation pédagogique et mesures matérielles. Publication à confirmer dans STATE.
+MCP HTTP/SSE reconnecté, Chambre propre hors Play, console sans erreur retournée. Premier essai volontairement arrêté car lancé avant confirmation de livraison ; seul le second valide ce build. Vingt matériaux initiaux préservés par SHA-256 et exclus du commit, ne pas les réinitialiser. Les six activités sont implémentées ; prochaine tâche : revue humaine d'ergonomie et de rendu, puis voix/validation pédagogique et mesures matérielles. **Publication T21 confirmée sur origin/main : `f91e21e`**, 49 objets LFS / 18 Mo, SHA distant vérifié ; détails dans STATE.
 
 ## Historique — T18 livré le 22/10 à 12 h 38 min 58 s Paris
 

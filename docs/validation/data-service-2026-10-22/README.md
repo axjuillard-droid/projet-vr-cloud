@@ -1,6 +1,6 @@
 # T21 — Réseau et stockage interactifs, 22 octobre 2026
 
-Build Windows final **17 h 20 min 02 s Paris**, Succeeded en 58,76 s, 147 095 349 octets au total, 0 erreur / 0 avertissement BuildPipeline. **152/152 contrôles player Direct3D11** terminés à 17 h 23 min 42 s, exitCode=0. [Build](build-result.json), [résultat player](pc/demo-smoke-result.json), [lancement](pc/launch-result.json), [journal anonymisé](pc/Player.log), [manifeste de livraison SHA-256](delivery-manifest.json).
+Build Windows final **17 h 20 min 02 s Paris**, Succeeded en 58,76 s, 147 095 349 octets au total, 0 erreur / 0 avertissement BuildPipeline. **152/152 contrôles player Direct3D11** terminés à 17 h 23 min 42 s, exitCode=0. [Build](build-result.json), [résultat player](pc/demo-smoke-result.json), [lancement](pc/launch-result.json), [journal anonymisé](pc/Player.log), [manifeste de livraison SHA-256](delivery-manifest.json). Sources et preuves publiées : [f91e21e](https://github.com/axjuillard-droid/projet-vr-cloud/commit/f91e21eced5a6cea594cc47b395892ec0452afe6), SHA distant confirmé sur origin/main ; builds exclus du dépôt.
 
 ## Expérience et sources
 
