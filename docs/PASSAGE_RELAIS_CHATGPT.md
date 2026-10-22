@@ -11,9 +11,9 @@
 
 Build Windows 18 h 06 min 59 s Paris, **193/193 contrôles fonctionnels PC**, 88 pré-build. Aide sur les vraies cibles/prérequis/portées/obstacles, petits boutons agrandis et pause temps/audio avec gardes envoi/retour/rejeu. Les six activités sont conservées. [Preuves T22](validation/ergonomics-2026-10-22/README.md), [revue critique](REVUE_ERGONOMIE_2026-10-22.md).
 
-**Ne pas revendiquer la composition Overlay validée** : capture nulle en batch puis PNG noirs hors batch en fenêtre masquée, vérification suspendue pour revue humaine après deux tentatives selon AGENTS. Opt-in de capture non relancé. Référence du probe pendant le film corrigée pour inclure le viseur inactif. T22 reste en cours sur cette revue humaine. Aucun casque/benchmark.
+**Ne pas revendiquer la composition Overlay complète validée** : capture utilisateur reçue, aide chambre visible ; pause et aides de salle blanche encore à revue humaine. Historique : capture nulle en batch puis PNG noirs hors batch en fenêtre masquée, vérification suspendue pour revue humaine après deux tentatives selon AGENTS. Opt-in de capture non relancé. Référence du probe pendant le film corrigée pour inclure le viseur inactif. T22 reste en cours sur cette revue humaine. Aucun casque/benchmark.
 
-MCP débloqué par Reload sur scène propre, Chambre propre hors Play restituée. Vingt matériaux initiaux préservés par SHA-256 et exclus du commit, ne pas les réinitialiser. Publication des correctifs à confirmer dans STATE.
+MCP débloqué par Reload sur scène propre, Chambre propre hors Play restituée. Vingt matériaux initiaux préservés par SHA-256 et exclus du commit, ne pas les réinitialiser. Publication des correctifs confirmée sur origin/main : `b071f2e`, 69 objets LFS / 24 Mo ; détails dans STATE.
 
 ## Historique — T21 livré le 22/10 à 17 h 20 min 02 s Paris
 

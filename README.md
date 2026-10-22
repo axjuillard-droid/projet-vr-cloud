@@ -2,9 +2,9 @@
 
 **Du clic sur « envoyer une photo » aux équipements physiques du cloud.** Projet universitaire ESILV année 5, Unity 6000.0.58f2 / URP / C# / OpenXR.
 
-**État au 22 octobre 2026 : aides et pause PC implémentées, 193/193 contrôles fonctionnels réussis.** Le viseur nomme l'objet réellement visé, les petits boutons sont agrandis et Échap suspend temps/audio hors envoi/film. **Composition visuelle du nouvel Overlay encore à vérifier humainement** : deux captures non probantes conservées, vérification suspendue selon la règle du projet. [Revue critique](docs/REVUE_ERGONOMIE_2026-10-22.md), [preuves T22 et limites](docs/validation/ergonomics-2026-10-22/README.md).
+**État au 22 octobre 2026 : aides et pause PC implémentées, 193/193 contrôles fonctionnels réussis.** Le viseur nomme l'objet réellement visé, les petits boutons sont agrandis et Échap suspend temps/audio hors envoi/film. **L’aide de la chambre est visible sur une capture utilisateur ; pause et aides de salle blanche encore à vérifier visuellement.** Deux captures automatisées non probantes sont conservées, vérification automatisée suspendue selon la règle du projet. [Revue critique](docs/REVUE_ERGONOMIE_2026-10-22.md), [preuves T22 et limites](docs/validation/ergonomics-2026-10-22/README.md).
 
-Réseau/Stockage conservent basculement, copies différées, panne et restauration : [preuves T21](docs/validation/data-service-2026-10-22/README.md). Les six activités restent des démonstrations pédagogiques hors ligne.
+Réseau/Stockage conservent basculement, copies différées, panne et restauration : [preuves T21](docs/validation/data-service-2026-10-22/README.md). Les six activités restent des démonstrations pédagogiques hors ligne. Correctifs T22 publiés sur `origin/main` : `b071f2e`.
 
 Le local électrique conserve l'observation UPS/groupe/transfert ; la supervision demande lecture d'incident puis préparation du rapport. [Preuves T18](docs/validation/facility-2026-10-22/README.md).
 

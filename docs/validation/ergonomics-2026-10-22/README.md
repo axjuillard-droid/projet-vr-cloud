@@ -14,7 +14,7 @@ Viseur PC coloré et libellé de l'objet réellement atteint, prérequis/distanc
 
 L'API ScreenCapture.CaptureScreenshotAsTexture existe dans Unity 6000.0.58f2, vérifiée par réflexion ; cela ne validait pas son contexte. [Premier essai batch](first-pc-capture-failed/demo-smoke-result.json) : deux contrôles réussis puis texture nulle. [Second essai hors batch en fenêtre masquée](second-pc-black-frame/demo-smoke-result.json) : neuf contrôles réussis, deux PNG entièrement noirs, puis erreur du probe cherchant par défaut le viseur que le film avait désactivé. Les deux essais et journaux sont conservés. Le contrôle du viseur inclut maintenant les objets inactifs et passe dans le run final.
 
-**La composition visuelle du nouvel Overlay n'est pas validée.** Après deux captures non probantes, cette vérification est suspendue pour revue humaine selon [AGENTS](../../../AGENTS.md). La capture est laissée en opt-in `--cloudvr-capture-interface` et n'a pas été relancée. Le run fonctionnel final n'exécute pas cette capture. Le runner -Graphics n'utilise plus -batchmode ; le headless conserve -batchmode/-nographics. L'origine du backbuffer noir en fenêtre masquée n'est pas établie.
+**La composition visuelle complète du nouvel Overlay n'est pas validée.** Une [capture utilisateur de la chambre](user-room-cue.png), reçue après les essais, montre le viseur coloré et le libellé « Clic • Envoyer la photo d’exemple ». Cela confirme leur présence dans cette vue ; pause et aides de salle blanche restent à vérifier. Après deux captures non probantes, cette vérification est suspendue pour revue humaine selon [AGENTS](../../../AGENTS.md). La capture est laissée en opt-in `--cloudvr-capture-interface` et n'a pas été relancée. Le run fonctionnel final n'exécute pas cette capture. Le runner -Graphics n'utilise plus -batchmode ; le headless conserve -batchmode/-nographics. L'origine du backbuffer noir en fenêtre masquée n'est pas établie.
 
 Les captures Camera.Render du run final vérifient les panneaux et leur texte dans le monde ; elles omettent toujours l'Overlay. Chambre observée dans la fenêtre native, mais clic gêné par une alerte Windows ; aucune validation de clic humain en pause attribuée à cet essai. Images d'autres applications écartées. [Revue et défauts restants](../../REVUE_ERGONOMIE_2026-10-22.md).
 
@@ -27,3 +27,7 @@ MCP bloqué par dialogue Reload de Chambre puis débloqué via computer-use sur 
 | Maquette réseau, panneaux dans le monde | Maquette stockage, boutons agrandis |
 |---|---|
 | ![Réseau après basculement](pc/demo-network-alternate.png) | ![Stockage après restauration](pc/demo-storage-restored.png) |
+
+## Publication
+
+**Publication T22 confirmée : `b071f2e` sur origin/main**, SHA distant `b071f2e248e936b2112a538a7377a6cb43a97336`, push ordinaire depuis `19cd743`, 69 objets LFS / 24 Mo. Diff, vingt JSON, 72 liens locaux, GUID unique et Git LFS fsck vérifiés ; treize sources C# identiques à la copie compilée. Builds/tmp/sessions et vingt matériaux initiaux exclus. Un commit documentaire suivant consigne cette confirmation et la capture utilisateur.
