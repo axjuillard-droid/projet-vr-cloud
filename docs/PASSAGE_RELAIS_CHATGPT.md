@@ -11,7 +11,7 @@
 
 Voyage 3D de 7,50 s réutilisant les FBX fibre/campus et le son existants, statut de stockage prématuré retiré. **68/68 contrôles PC**, 14 P0 + 20 P1 + 11 P2 pré-build, 8/8 contrôles de logique confort par API sans casque. Narration observée dans la fenêtre native. Les captures `Camera.Render` omettent les Canvas Overlay : ne pas en déduire une absence d'interface. [Preuves T17 et limites](validation/network-3d-2026-10-22/README.md).
 
-MCP HTTP/SSE utilisé après activation utilisateur, outils natifs absents du catalogue courant. Chambre propre restituée, console sans erreur retournée. Vingt matériaux modifiés dès le départ préservés/exclus du commit T17 ; ne pas les réinitialiser. VR sur écran fixe : logique testée, rendu/tracking/Quest et confort non validés. **Prochaine tâche prête : T18**, local TGBT et supervision. Publication T17 en préparation ; STATE fait foi.
+MCP HTTP/SSE utilisé après activation utilisateur, outils natifs absents du catalogue courant. Chambre propre restituée, console sans erreur retournée. Vingt matériaux modifiés dès le départ préservés/exclus du commit T17 ; ne pas les réinitialiser. VR sur écran fixe : logique testée, rendu/tracking/Quest et confort non validés. **Prochaine tâche prête : T18**, local TGBT et supervision. **Publication T17 confirmée : `a6ce9f6` sur origin/main**, 30 objets LFS / 11 Mo ; vingt matériaux initiaux restent hors commit. STATE et les preuves T17 consignent les validations.
 
 ## Historique — P1 livré le 21/10 à 23 h 15 Paris
 

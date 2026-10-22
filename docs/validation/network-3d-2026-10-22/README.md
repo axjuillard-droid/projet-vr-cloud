@@ -38,4 +38,4 @@ Vingt matériaux déjà modifiés au départ sont conservés à l'identique et e
 
 Les [sources et choix de réutilisation](../../RESOURCES.md) indiquent notamment pourquoi Cinemachine n'a pas été ajouté. [RFC 9293](https://www.rfc-editor.org/rfc/rfc9293.html) documente le transport TCP ; ce trajet ne représente pas une transaction réellement observée, et une arrivée/acquittement réseau ne démontre pas une persistance applicative. Voix finale et rythme de lecture restent à valider. Les quatre autres activités conservent leurs mécaniques de prototype ; prochaine tâche T18.
 
-Publication Git en préparation ; STATE fait foi pour la confirmation distante.
+**Publication confirmée : commit `a6ce9f6` poussé sur origin/main**, SHA distant vérifié ; 30 objets LFS / 11 Mo. Diff, douze JSON, liens, anonymisation et Git LFS fsck contrôlés. [Confirmation](git-publication.json). Vingt matériaux préexistants restent non commités à l’identique. Un commit documentaire suivant consigne ce résultat sans modifier le build testé.

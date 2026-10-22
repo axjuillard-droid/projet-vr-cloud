@@ -2,7 +2,7 @@
 
 **Du clic sur « envoyer une photo » aux équipements physiques du cloud.** Projet universitaire ESILV année 5, Unity 6000.0.58f2 / URP / C# / OpenXR.
 
-**État au 22 octobre 2026 : voyage réseau 3D livré à 11 h 55, 68/68 contrôles PC réussis.** Le clic photo lance six étapes sur 7,50 s : approche de la box, trajet dans la fibre avec signaux animés, puis campus avant l'arrivée dans la cour. Narration/progression vérifiées dans la fenêtre réelle du player. L'écran n'annonce plus de stockage avant la visite. [Preuves et capture native](docs/validation/network-3d-2026-10-22/README.md).
+**État au 22 octobre 2026 : voyage réseau 3D livré à 11 h 55, 68/68 contrôles PC réussis.** Le clic photo lance six étapes sur 7,50 s : approche de la box, trajet dans la fibre avec signaux animés, puis campus avant l'arrivée dans la cour. Narration/progression vérifiées dans la fenêtre réelle du player. L'écran n'annonce plus de stockage avant la visite. [Preuves et capture native](docs/validation/network-3d-2026-10-22/README.md). [Commit T17 a6ce9f6](https://github.com/axjuillard-droid/projet-vr-cloud/commit/a6ce9f6f84027643154454a9e9dd9d5aa2783015) poussé sur `main`.
 
 P1 conserve l'inspection CPU/RAM/NVMe et la remise en place du serveur, puis le diagnostic de fuite d'air et le retour thermique progressif. [Preuves P1](docs/validation/p1-2026-10-21/README.md). En VR, le film est présenté sur un écran fixe ; huit contrôles de logique par API sans casque sont réussis, **rendu et confort casque non validés**.
 
