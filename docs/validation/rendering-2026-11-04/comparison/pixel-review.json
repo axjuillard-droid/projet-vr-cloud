@@ -1,0 +1,135 @@
+{
+  "criterion": "All RGB channels >= 250 in fixed pixel ROI, no physical luminance/comfort/performance claim; white LED strips are included.",
+  "rows": [
+    {
+      "view": "ceiling",
+      "variant": "before",
+      "roiPixels": [
+        0,
+        0,
+        1280,
+        420
+      ],
+      "nearlyWhitePixels": 28567,
+      "roiArea": 537600,
+      "fraction": 0.053138020833333334
+    },
+    {
+      "view": "ceiling",
+      "variant": "roughness",
+      "roiPixels": [
+        0,
+        0,
+        1280,
+        420
+      ],
+      "nearlyWhitePixels": 28443,
+      "roiArea": 537600,
+      "fraction": 0.05290736607142857
+    },
+    {
+      "view": "ceiling",
+      "variant": "downlights",
+      "roiPixels": [
+        0,
+        0,
+        1280,
+        420
+      ],
+      "nearlyWhitePixels": 18524,
+      "roiArea": 537600,
+      "fraction": 0.03445684523809524
+    },
+    {
+      "view": "ceiling",
+      "variant": "final1x",
+      "roiPixels": [
+        0,
+        0,
+        1280,
+        420
+      ],
+      "nearlyWhitePixels": 18524,
+      "roiArea": 537600,
+      "fraction": 0.03445684523809524
+    },
+    {
+      "view": "ceiling",
+      "variant": "final4x",
+      "roiPixels": [
+        0,
+        0,
+        1280,
+        420
+      ],
+      "nearlyWhitePixels": 15816,
+      "roiArea": 537600,
+      "fraction": 0.029419642857142856
+    },
+    {
+      "view": "floor",
+      "variant": "before",
+      "roiPixels": [
+        320,
+        200,
+        960,
+        720
+      ],
+      "nearlyWhitePixels": 1742,
+      "roiArea": 332800,
+      "fraction": 0.005234375
+    },
+    {
+      "view": "floor",
+      "variant": "roughness",
+      "roiPixels": [
+        320,
+        200,
+        960,
+        720
+      ],
+      "nearlyWhitePixels": 0,
+      "roiArea": 332800,
+      "fraction": 0.0
+    },
+    {
+      "view": "floor",
+      "variant": "downlights",
+      "roiPixels": [
+        320,
+        200,
+        960,
+        720
+      ],
+      "nearlyWhitePixels": 0,
+      "roiArea": 332800,
+      "fraction": 0.0
+    },
+    {
+      "view": "floor",
+      "variant": "final1x",
+      "roiPixels": [
+        320,
+        200,
+        960,
+        720
+      ],
+      "nearlyWhitePixels": 0,
+      "roiArea": 332800,
+      "fraction": 0.0
+    },
+    {
+      "view": "floor",
+      "variant": "final4x",
+      "roiPixels": [
+        320,
+        200,
+        960,
+        720
+      ],
+      "nearlyWhitePixels": 0,
+      "roiArea": 332800,
+      "fraction": 0.0
+    }
+  ]
+}

@@ -129,6 +129,7 @@ public partial class DemoSmoke : MonoBehaviour
         var tour=FindFirstObjectByType<DemoTour>();
         Check(tour!=null && tour.Step==0 && tour.stations.Length==6,"Six bornes initialisées sans étape sautée");
         Check(FindObjectsByType<Camera>(FindObjectsSortMode.None).Length==1,"Une seule caméra active");
+        InspectHallRendering();
         yield return new WaitForEndOfFrame(); Capture("demo-arrival.png");
         controller=Camera.main.GetComponentInParent<PCPlayerController>();
         _result.arrivalPosition=controller.transform.position;
@@ -321,12 +322,39 @@ public partial class DemoSmoke : MonoBehaviour
         bool reached=P1LearningModule.TryPick(ray,controller.transform,out var hit)&&hit.collider.GetComponentInParent<P1ActionTarget>()==target;
         Check(reached,"Raycast physique atteint "+action+" ; contact="+(hit.collider!=null?hit.collider.name:"aucun")+" ; oeil="+camera.transform.position+" ; cible="+target.transform.position);
     }
+    void InspectHallRendering()
+    {
+        var pipeline=UnityEngine.Rendering.GraphicsSettings.currentRenderPipeline as UnityEngine.Rendering.Universal.UniversalRenderPipelineAsset;
+        Check(pipeline!=null&&pipeline.msaaSampleCount==4&&Camera.main.allowMSAA,"Pipeline PC MSAA 4x et caméra compatibles");
+        int lights=0;bool down=true,legacy=false;
+        foreach(var light in FindObjectsByType<Light>(FindObjectsSortMode.None))
+        {
+            if(light.name=="Eclairage_Allee"||light.name=="Eclairage_Lateral")legacy=true;
+            if(light.name!="Eclairage_WhiteSpace")continue;
+            lights++;down&=light.type==LightType.Spot&&Vector3.Dot(light.transform.forward,Vector3.down)>.99f;
+        }
+        Check(lights==5&&down&&!legacy,"Cinq lumières de salle orientées vers le bas, anciens appoints retirés");
+        var floor=GameObject.Find("WhiteSpace_Dallage").GetComponent<Renderer>().sharedMaterial;
+        Check(floor.GetFloat("_Metallic")==0&&floor.GetFloat("_Smoothness")<=.3f,"Revêtement de sol satiné sans composante métallique");
+        // Poses de revue après chargement ; aucun déplacement humain déduit.
+        var camera=Camera.main;var position=camera.transform.position;var rotation=camera.transform.rotation;
+        try
+        {
+            camera.transform.position=new Vector3(0,1.68f,8);
+            camera.transform.rotation=Quaternion.Euler(-28,0,0);Capture("demo-lighting-ceiling.png");
+            camera.transform.rotation=Quaternion.Euler(34,0,0);Capture("demo-lighting-floor.png");
+            camera.transform.rotation=Quaternion.identity;Capture("demo-lighting-distance.png");
+        }
+        finally{camera.transform.SetPositionAndRotation(position,rotation);}
+    }
     void Capture(string file)
     {
         if(SystemInfo.graphicsDeviceType==UnityEngine.Rendering.GraphicsDeviceType.Null) return;
         Canvas.ForceUpdateCanvases();
         var camera=Camera.main;
-        var target=RenderTexture.GetTemporary(1280,720,24);
+        var pipeline=UnityEngine.Rendering.GraphicsSettings.currentRenderPipeline as UnityEngine.Rendering.Universal.UniversalRenderPipelineAsset;
+        int samples=camera.allowMSAA&&pipeline!=null?pipeline.msaaSampleCount:1;
+        var target=RenderTexture.GetTemporary(1280,720,24,RenderTextureFormat.Default,RenderTextureReadWrite.Default,samples);
         var previous=camera.targetTexture; var active=RenderTexture.active;
         var tex=new Texture2D(1280,720,TextureFormat.RGB24,false);
         try

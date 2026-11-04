@@ -1,6 +1,6 @@
 # Builds du prototype
 
-Dernier build PC, T22 du 22/10/2026 à 18 h 06 min 59 s Paris : aides/pause, 88 pré-build et 193/193 contrôles fonctionnels Direct3D11, exitCode=0. Commande : `./tools/Test-PCBuild.ps1 -Graphics -Demo -TimeoutSeconds 180`. -Graphics utilise désormais une fenêtre sans -batchmode ; fenêtre masquée et backbuffer noir ne valident pas la composition Overlay. Capture complète opt-in suspendue après deux échecs ; captures utilisateur reçues ensuite confirmant visuellement les aides chambre/borne 01/LIEN A, le prérequis réseau et le message de pause. [Preuves et limites](validation/ergonomics-2026-10-22/README.md). Aucun nouvel APK/essai Quest ; résultats du 05/10 ci-dessous historiques.
+Dernier build PC, T23 du 04/11/2026 à 10 h 26 min 56 s Paris : halos corrigés et MSAA PC 4x, 88 pré-build et 196/196 contrôles Direct3D11, exitCode=0 à 10 h 30 min 09 s. Commande : `./tools/Test-PCBuild.ps1 -Graphics -Demo -TimeoutSeconds 180`. [Preuves et limites](validation/rendering-2026-11-04/README.md). Profil Mobile et APK inchangés ; aucune mesure de cadence ou validation casque.
 
 Les sorties locales de build dans `ConnectionTest/Builds/` sont ignorées par Git. Garder l'exécutable Windows et tout son dossier de données ensemble. Le projet comporte désormais Chambre et DataCenter, reliées après l'envoi illustratif. L'ancien APK livré contient seulement Chambre ; les nouveaux exports doivent inclure les deux scènes.
 

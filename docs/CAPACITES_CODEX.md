@@ -14,6 +14,8 @@ Vérification T21 du 22/10 : MCP HTTP/SSE reconnecté après renouvellement de s
 
 Vérification T22 du 22/10 : chambre observée par computer-use, dialogue Reload identifié/résolu, MCP puis compilation utilisés. 88 pré-build et 193/193 contrôles fonctionnels PC réussis. **Capture complète non validée** : API présente par réflexion mais texture nulle en batch, puis PNG noirs hors batch masqué ; arrêt après deux essais, revue humaine requise. Camera.Render conserve ses limites Overlay. Référence du probe au viseur inactif corrigée. Chambre propre et console sans erreur retournée ; vingt matériaux initiaux préservés. [Preuves T22](validation/ergonomics-2026-10-22/README.md). Captures utilisateur reçues ensuite : aides chambre/borne 01/LIEN A, prérequis réseau et message de pause observés ; pas de conclusion sur toutes les vues, le gel ou la reprise depuis des images fixes. Aucun casque/benchmark ni confort humain validés.
 
+Vérification du 04/11 : outils Unity MCP natifs présents et réellement utilisés (ressources, CodeDom, réflexion, scènes, import, console). Vingt captures comparatives hors Play, compilation éditeur sans erreur, build Windows et 196/196 contrôles PC réussis. L’appel auto initial et une réponse longue sans succès sont distingués des opérations effectivement terminées. Chambre propre hors Play et console zéro erreur restituées ; vingt matériaux initiaux préservés. [Preuves T23](validation/rendering-2026-11-04/README.md). Aucun nouveau test casque ou benchmark.
+
 ## Ce que Codex peut prendre en charge
 
 | Domaine | Ce que je peux faire et comment | Niveau constaté / conditions |

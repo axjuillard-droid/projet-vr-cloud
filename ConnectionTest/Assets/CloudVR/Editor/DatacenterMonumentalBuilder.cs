@@ -62,6 +62,13 @@ public static class DatacenterMonumentalBuilder
 
     public static void DecorateDataCenter(Transform dcRoot)
     {
+        // Ces appoints de l'ancienne pièce éclairaient le plafond sans luminaire.
+        foreach (var name in new[] { "Eclairage_Allee", "Eclairage_Lateral" })
+        {
+            var legacyLight = GameObject.Find(name);
+            if (legacyLight != null && legacyLight.scene == dcRoot.gameObject.scene && legacyLight.GetComponent<Light>() != null)
+                UnityEngine.Object.DestroyImmediate(legacyLight);
+        }
         // Retirer aussi le décor fusionné et les équipements de l'ancienne salle 10 x 12 m.
         foreach (var name in new[] { "Mur_Entree", "Mur_Fond", "Mur_Gauche", "Mur_Droit", "Sol", "Plafond",
             "Architecture_Originale", "Chemin_Visiteur", "Sas_Securite_TierIV", "Baie_Secondaire_-1", "Baie_Secondaire_1",
@@ -99,9 +106,10 @@ public static class DatacenterMonumentalBuilder
         var matPipe       = GetOrCreateMaterial("Campus_Pipe",       new Color(0.60f, 0.62f, 0.65f), 0.75f, 0.75f);
 
         // Matériaux Salle Blanche
-        var matFloorTile  = GetOrCreateMaterial("WS_FloorTile",      new Color(0.60f, 0.62f, 0.64f), 0.4f, 0.75f);
-        var matFloorPerf  = GetOrCreateMaterial("WS_FloorPerf",      new Color(0.25f, 0.28f, 0.32f), 0.5f, 0.65f);
-        var matCeiling    = GetOrCreateMaterial("WS_Ceiling",        new Color(0.85f, 0.86f, 0.88f), 0f, 0.3f);
+        // Revêtement satiné : éviter les reflets ponctuels d'un métal poli.
+        var matFloorTile  = GetOrCreateMaterial("WS_FloorTile",      new Color(0.60f, 0.62f, 0.64f), 0f, 0.3f);
+        var matFloorPerf  = GetOrCreateMaterial("WS_FloorPerf",      new Color(0.25f, 0.28f, 0.32f), 0f, 0.3f);
+        var matCeiling    = GetOrCreateMaterial("WS_Ceiling",        new Color(0.85f, 0.86f, 0.88f), 0f, 0.15f);
         var matRackBody   = GetOrCreateMaterial("WS_RackBody",       new Color(0.10f, 0.11f, 0.13f), 0.6f, 0.7f);
         var matRackDoor   = GetOrCreateMaterial("WS_RackDoor",       new Color(0.08f, 0.09f, 0.11f), 0.7f, 0.85f);
         var matRackLedG   = GetOrCreateMaterial("WS_RackLED_G",      new Color(0.12f, 0.95f, 0.35f), 0f, 0.8f, 3.0f, new Color(0.12f, 0.95f, 0.35f));
@@ -295,7 +303,9 @@ public static class DatacenterMonumentalBuilder
                 var light = new GameObject("Eclairage_WhiteSpace").AddComponent<Light>();
                 light.transform.SetParent(archRoot, false);
                 light.transform.localPosition = new Vector3(0, 3.8f, z);
-                light.type = LightType.Point; light.range = 12; light.intensity = 2.5f;
+                light.type = LightType.Spot; light.range = 12; light.intensity = 2.5f;
+                light.spotAngle = 110; light.innerSpotAngle = 80;
+                light.transform.localRotation = Quaternion.Euler(90, 0, 0);
                 light.color = new Color(.80f, .90f, 1f); light.shadows = LightShadows.None;
             }
         }

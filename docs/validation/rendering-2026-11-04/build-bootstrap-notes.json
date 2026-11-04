@@ -1,0 +1,11 @@
+{
+  "scope": "Isolated copy package-cache diagnostics before BuildPipeline; summary reported separately.",
+  "diagnostics": [
+    "A meta data file (.meta) exists but its asset 'Packages/com.unity.render-pipelines.universal/Editor/Converter/converter_widget.uss' can't be found. When moving or deleting files outside of Unity, please ensure that the corresponding .meta file is moved or deleted along with it.",
+    "Couldn't delete Packages/com.unity.render-pipelines.universal/Editor/Converter/converter_widget.uss.meta because it's in an immutable folder.",
+    "A meta data file (.meta) exists but its asset 'Packages/com.unity.shadergraph/Editor/Importers/_.sgsubgraphdb' can't be found. When moving or deleting files outside of Unity, please ensure that the corresponding .meta file is moved or deleted along with it.",
+    "Couldn't delete Packages/com.unity.shadergraph/Editor/Importers/_.sgsubgraphdb.meta because it's in an immutable folder.",
+    "A meta data file (.meta) exists but its asset 'Packages/com.unity.shadergraph/Editor/Resources/Styles/MaterialGraph.uss' can't be found. When moving or deleting files outside of Unity, please ensure that the corresponding .meta file is moved or deleted along with it.",
+    "Couldn't delete Packages/com.unity.shadergraph/Editor/Resources/Styles/MaterialGraph.uss.meta because it's in an immutable folder."
+  ]
+}

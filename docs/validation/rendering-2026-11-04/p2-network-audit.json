@@ -1,0 +1,16 @@
+{
+  "passed": true,
+  "checks": [
+    "Transition reliée au décor 3D et au fondu",
+    "Narration visible dans le masque de rendu du voyage",
+    "Six étapes totalisant 7,5 secondes narratives",
+    "Décor de film inactif au repos",
+    "Seize signaux animés référencés",
+    "Tunnel réutilisé et campus présents",
+    "Axe importé de la fibre corrigé vers Z",
+    "Tous les matériaux du film présents et supportés",
+    "Une seule route persistante PhotoSender vers la transition",
+    "Ancien trajet sans bypass smoke retiré de la scène",
+    "Chargement DataCenter centralisé après la cinématique"
+  ]
+}
