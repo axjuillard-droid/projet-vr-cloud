@@ -11,7 +11,7 @@
 
 Build 15 h 10 min 51 s Paris, 88 pré-build et 196/196 contrôles fonctionnels PC, fin 15 h 20 min 56 s. Probe Windows Development opt-in et `tools/Test-PCPerformance.ps1` ; `-Visible` ouvre le jeu, `-TimeoutSeconds 180`. Série visible autorisée par l’utilisateur et terminée à 15 h 17 min 27 s. **Iris Xe/i7-1165G7, 1280×720 D3D11 : médianes 1x 46,09 ms/frame, GPU 43,93 ms ; 4x 54,11 ms/frame, GPU 51,00 ms.** Série masquée sans rendu/GPU exclue ; ne jamais citer ses 0,25 ms comme performance graphique.
 
-[Mesures et limites](MESURES_PC_2026-11-04.md), [preuves/CSV/séquences](validation/performance-2026-11-04/README.md). Un ABBA, deux fenêtres de 8 s par mode, applications de fond non contrôlées. Aucun résultat Release ou Quest. Le profil produit reste 4x ; T25 prêt pour profilage GPU par passe et correctif ciblé. Vingt matériaux et QualitySettings initiaux préservés/exclus, Chambre propre hors Play et console zéro erreur restituées. Publication à confirmer dans STATE.
+[Mesures et limites](MESURES_PC_2026-11-04.md), [preuves/CSV/séquences](validation/performance-2026-11-04/README.md). Un ABBA, deux fenêtres de 8 s par mode, applications de fond non contrôlées. Aucun résultat Release ou Quest. Le profil produit reste 4x ; T25 prêt pour profilage GPU par passe et correctif ciblé. Vingt matériaux et QualitySettings initiaux préservés/exclus, Chambre propre hors Play et console zéro erreur restituées. Publication confirmée origin/main : `496ffd2` (90 objets LFS / 55 Mo), détails dans STATE.
 
 ## Historique — T23 rendu PC livré, 4 novembre 2026
 

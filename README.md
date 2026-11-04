@@ -2,7 +2,7 @@
 
 **Du clic sur « envoyer une photo » aux équipements physiques du cloud.** Projet universitaire ESILV année 5, Unity 6000.0.58f2 / URP / C# / OpenXR.
 
-**État au 4 novembre 2026 : premiers temps GPU mesurés sur PC, 196/196 contrôles fonctionnels conservés.** Dans le player visible de développement sur Intel Iris Xe, 1280×720, les médianes observées sont **46,09 ms/frame en MSAA 1x** et **54,11 ms en 4x**. La fluidité reste insuffisante dans ce scénario ; les halos T23 sont corrigés mais une optimisation GPU ciblée reste nécessaire. Profil produit 4x conservé. [Mesures et limites](docs/MESURES_PC_2026-11-04.md), [preuves T24](docs/validation/performance-2026-11-04/README.md).
+**État au 4 novembre 2026 : premiers temps GPU mesurés sur PC, 196/196 contrôles fonctionnels conservés.** Dans le player visible de développement sur Intel Iris Xe, 1280×720, les médianes observées sont **46,09 ms/frame en MSAA 1x** et **54,11 ms en 4x**. La fluidité reste insuffisante dans ce scénario ; les halos T23 sont corrigés mais une optimisation GPU ciblée reste nécessaire. Profil produit 4x conservé. [Mesures et limites](docs/MESURES_PC_2026-11-04.md), [preuves T24](docs/validation/performance-2026-11-04/README.md). Sources et preuves publiées sur `origin/main` : `496ffd2`.
 
 Le test masqué ne fournissait aucun temps GPU/rendu et a été exclu de la comparaison. Les données visibles proviennent d’une série ABBA, deux fenêtres de 8 s par mode ; aucune extrapolation à Release ou Quest. [Diagnostic visuel T23](docs/DIAGNOSTIC_RENDU_2026-11-04.md).
 
