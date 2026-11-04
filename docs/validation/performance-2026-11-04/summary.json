@@ -1,0 +1,37 @@
+{
+  "scope": "Visible Development Player only; one ABBA series, two windows per mode, fixed 1280x720; no inference to release, other hardware or Quest. Hidden run has no rendering/GPU samples and is excluded.",
+  "modes": {
+    "1": {
+      "frame": {
+        "count": 344,
+        "medianMs": 46.08779999999868,
+        "p95Ms": 51.906000000000674,
+        "meanMs": 46.726403488372085
+      },
+      "gpu": {
+        "count": 334,
+        "medianMs": 43.926015,
+        "p95Ms": 50.291719,
+        "meanMs": 44.79983156586826
+      }
+    },
+    "4": {
+      "frame": {
+        "count": 295,
+        "medianMs": 54.10739999999947,
+        "p95Ms": 59.78969999999961,
+        "meanMs": 54.383028813559314
+      },
+      "gpu": {
+        "count": 285,
+        "medianMs": 50.997396,
+        "p95Ms": 58.32849,
+        "meanMs": 52.29959319649123
+      }
+    }
+  },
+  "frameMedianDeltaMs": 8.019600000000793,
+  "frameMedianDeltaPercent": 17.40070040227788,
+  "gpuMedianDeltaMs": 7.071381000000002,
+  "gpuMedianDeltaPercent": 16.0983895306688
+}

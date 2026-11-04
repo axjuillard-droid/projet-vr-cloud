@@ -1,6 +1,6 @@
 # Builds du prototype
 
-Dernier build PC, T23 du 04/11/2026 à 10 h 26 min 56 s Paris : halos corrigés et MSAA PC 4x, 88 pré-build et 196/196 contrôles Direct3D11, exitCode=0 à 10 h 30 min 09 s. Commande : `./tools/Test-PCBuild.ps1 -Graphics -Demo -TimeoutSeconds 180`. [Preuves et limites](validation/rendering-2026-11-04/README.md). Profil Mobile et APK inchangés ; aucune mesure de cadence ou validation casque.
+Dernier build PC, T24 du 04/11/2026 à 15 h 10 min 51 s Paris : probe de mesure opt-in ajouté, 88 pré-build et 196/196 contrôles fonctionnels Direct3D11, exitCode=0 à 15 h 20 min 56 s. Mesure visible : `./tools/Test-PCPerformance.ps1 -Visible -TimeoutSeconds 180`. [Mesures et limites](MESURES_PC_2026-11-04.md), [preuves](validation/performance-2026-11-04/README.md). Aucun APK/essai Quest ni mesure Release.
 
 Les sorties locales de build dans `ConnectionTest/Builds/` sont ignorées par Git. Garder l'exécutable Windows et tout son dossier de données ensemble. Le projet comporte désormais Chambre et DataCenter, reliées après l'envoi illustratif. L'ancien APK livré contient seulement Chambre ; les nouveaux exports doivent inclure les deux scènes.
 

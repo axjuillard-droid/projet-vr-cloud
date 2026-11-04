@@ -1,0 +1,16 @@
+{
+  "format": "APNG lossless RGB, original 1280x720, no resizing",
+  "framesPerMode": 25,
+  "cameraPosition": [
+    0,
+    1.68,
+    8
+  ],
+  "fieldOfView": 75,
+  "pitch": -8,
+  "yawStart": -3,
+  "yawEnd": 3,
+  "yawStep": 0.25,
+  "previewDurationMsPerFrame": 100,
+  "note": "Preview playback speed imposed for review; not the measured game frame rate. Camera.Render captures after timing phases, Overlay omitted."
+}

@@ -2,7 +2,11 @@
 
 **Du clic sur « envoyer une photo » aux équipements physiques du cloud.** Projet universitaire ESILV année 5, Unity 6000.0.58f2 / URP / C# / OpenXR.
 
-**État au 4 novembre 2026 : halos de salle blanche corrigés, contours PC améliorés par MSAA 4x, 196/196 contrôles fonctionnels réussis.** Sol satiné, éclairage descendant et deux anciens appoints retirés. Comparaisons aux mêmes angles et captures du player inspectées ; stabilité en mouvement, coût GPU et confort VR restent à mesurer. [Diagnostic rendu](docs/DIAGNOSTIC_RENDU_2026-11-04.md), [preuves T23](docs/validation/rendering-2026-11-04/README.md). Correctif publié sur `origin/main` : `ec8982c`.
+**État au 4 novembre 2026 : premiers temps GPU mesurés sur PC, 196/196 contrôles fonctionnels conservés.** Dans le player visible de développement sur Intel Iris Xe, 1280×720, les médianes observées sont **46,09 ms/frame en MSAA 1x** et **54,11 ms en 4x**. La fluidité reste insuffisante dans ce scénario ; les halos T23 sont corrigés mais une optimisation GPU ciblée reste nécessaire. Profil produit 4x conservé. [Mesures et limites](docs/MESURES_PC_2026-11-04.md), [preuves T24](docs/validation/performance-2026-11-04/README.md).
+
+Le test masqué ne fournissait aucun temps GPU/rendu et a été exclu de la comparaison. Les données visibles proviennent d’une série ABBA, deux fenêtres de 8 s par mode ; aucune extrapolation à Release ou Quest. [Diagnostic visuel T23](docs/DIAGNOSTIC_RENDU_2026-11-04.md).
+
+Le résumé se recalcule sans dépendance Python supplémentaire : `python tools/Summarize-PCPerformance.py <dossier-du-run>`. Le script vérifie ordre ABBA, focus, rendu/GPU présents, effectifs, timestamps et statistiques des CSV ; il refuse la collecte masquée inutilisable. Les deux APNG sont vérifiés pixel par pixel contre leurs 50 PNG source.
 
 Aides et pause PC T22 observées sur captures utilisateur : chambre, borne 01, prérequis réseau, action LIEN A et message de pause. [Preuves T22](docs/validation/ergonomics-2026-10-22/README.md).
 
@@ -54,7 +58,7 @@ Captures réelles du player Direct3D11, poses de visée contrôlées par le prob
 
 | Vérification | Résultat |
 |---|---|
-| Build Windows, 04/11 à 10 h 26 min 56 s Paris | Réussi, 93,78 s, 147 112 656 octets pour le build, 0 erreur / 0 avertissement BuildPipeline |
+| Build Windows, 04/11 à 15 h 10 min 51 s Paris | Réussi, 61,96 s, 147 126 950 octets, 0 erreur / 0 avertissement BuildPipeline |
 | Démo complète dans le player | **196/196 contrôles fonctionnels réussis**, Direct3D11, entrées synthétiques |
 | Transition et navigation | Six étapes 3D en 7,50 s, caméra et signaux déplacés ; apparition −28 m, sas/scan, arrivée Z≈39 m en 24,75 s |
 | Bifurcation électrique | Entrée par la porte à Z≈30, trajet clavier vers le pupitre puis UPS à X≈−21 et retour ; poses de visée contrôlées ensuite |
@@ -63,7 +67,7 @@ Captures réelles du player Direct3D11, poses de visée contrôlées par le prob
 | Audit des scènes P0 à 22 h 05 | DataCenter : 577 MeshRenderers actifs, 0 matériau manquant / 0 shader non supporté ; Chambre : 0 matériau manquant. Compteur antérieur aux deux nouvelles dalles T20 |
 | MCP Unity | HTTP/SSE connecté et utilisé, Chambre restituée propre, décor de film au repos inactif et narration raccordée ; console sans erreur retournée |
 | Confort VR par API sans casque | 8/8 contrôles de logique ; aucune validation du rendu optique, des manettes ou du confort matériel |
-| Conditions de l'essai T23 | Probe automatisé dans le vrai player ; épuisement par pas API de 200 s, visées contrôlées ; pas d'essai humain de confort ou de benchmark |
+| Conditions de l'essai fonctionnel T24 | Probe automatisé dans le vrai player ; épuisement par pas API de 200 s, visées contrôlées ; pas d'essai humain de confort ou de benchmark |
 | Android / Quest | APK antérieur inchangé ; ces corrections restent à compiler et tester dans le casque |
 
 Le premier échec de visée P0 et sa correction sont conservés dans [les résultats P0](docs/validation/p0-2026-10-21/README.md), avec captures et journaux anonymisés. [État de reprise](docs/STATE.md), [backlog](docs/BACKLOG.md). Réduction de résolution des ombres signalée dans le journal ; aucun benchmark PC/Quest ni confort humain validé. Les cinq meshes de rangées ne représentent pas le nombre total de draw calls.
@@ -103,7 +107,7 @@ Pour travailler dans Play sur PC, sélectionner Windows et la qualité PC. Atten
 
 Pour tester le livrable construit localement, lancer **`ConnectionTest/Builds/Windows/CloudVR-PC.exe`**. Conserver tout le dossier Windows avec l’exécutable, ses DLL et `CloudVR-PC_Data`.
 
-Le dossier Windows livré contient P0, le correctif du mur, P1, T17, T18, T21 et les correctifs T22/T23, et passe les 196 contrôles fonctionnels automatisés. L'aide et le message de pause ont été observés sur les captures utilisateur de la chambre et du début du module Réseau. Le lanceur `.exe` peut garder sa date du 20/10 à 14 h 58 : le contenu reconstruit est notamment dans `CloudVR-PC_Data/data.unity3d` (04/11, voir le manifeste T23) et les DLL. [Empreintes des fichiers livrés](docs/validation/rendering-2026-11-04/delivery-manifest.json). Un essai libre reste utile pour apprécier le confort, la lisibilité et le rendu.
+Le dossier Windows livré contient P0, le correctif du mur, P1, T17, T18, T21 et les correctifs T22/T23 et le probe T24 opt-in, et passe les 196 contrôles fonctionnels automatisés. L'aide et le message de pause ont été observés sur les captures utilisateur de la chambre et du début du module Réseau. Le lanceur `.exe` peut garder sa date du 20/10 à 14 h 58 : le contenu reconstruit est notamment dans `CloudVR-PC_Data/data.unity3d` (04/11, voir le manifeste T24) et les DLL. [Empreintes des fichiers livrés](docs/validation/performance-2026-11-04/delivery-manifest.json). Un essai libre reste utile pour apprécier le confort, la lisibilité et le rendu.
 
 Les exécutables et APK sont des sorties locales ignorées par Git : **ce dépôt fournit les sources et les procédures de compilation**, pas un téléchargement de ces builds.
 
@@ -129,7 +133,7 @@ powershell -ExecutionPolicy Bypass -File tools/Build-DemoCopy.ps1 -Complete
 
 `-Resume` réutilise une copie déjà créée ; sur une installation neuve, omettre cette option au premier lancement. Le builder maître est exécuté avant compilation ; `-Complete` vérifie le rapport avant de copier le player et les scènes générées.
 
-La commande de validation actuelle est `./tools/Test-PCBuild.ps1 -Graphics -Demo -TimeoutSeconds 180`. Elle vérifie la transition complète, une marche continue à travers le sas, les six activités, leurs cas négatifs et le retour/reset. **Dernier résultat : 196/196 contrôles fonctionnels réussis.**
+La commande de validation actuelle est `./tools/Test-PCBuild.ps1 -Graphics -Demo -TimeoutSeconds 180`. Elle vérifie la transition complète, une marche continue à travers le sas, les six activités, leurs cas négatifs et le retour/reset. **Dernier résultat : 196/196 contrôles fonctionnels réussis.** Pour la mesure : `./tools/Test-PCPerformance.ps1 -Visible -TimeoutSeconds 180` ouvre une fenêtre de test environ une minute et enregistre CSV/JSON ainsi que les séquences après chronométrage. Le mode masqué n’est pas un substitut valide si les compteurs GPU/rendu sont absents.
 
 La branche confort est contrôlée séparément par `./tools/Test-NetworkComfort.ps1` : huit contrôles par API dans le player sans casque. Cela ne remplace pas un essai Quest. Les scénarios historiques Photo/Journey ciblent l’ancien parcours et ne remplacent pas cette validation.
 

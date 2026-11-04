@@ -16,6 +16,8 @@ Vérification T22 du 22/10 : chambre observée par computer-use, dialogue Reload
 
 Vérification du 04/11 : outils Unity MCP natifs présents et réellement utilisés (ressources, CodeDom, réflexion, scènes, import, console). Vingt captures comparatives hors Play, compilation éditeur sans erreur, build Windows et 196/196 contrôles PC réussis. L’appel auto initial et une réponse longue sans succès sont distingués des opérations effectivement terminées. Chambre propre hors Play et console zéro erreur restituées ; vingt matériaux initiaux préservés. [Preuves T23](validation/rendering-2026-11-04/README.md). Aucun nouveau test casque ou benchmark.
 
+Vérification T24 du 04/11 : Unity MCP natif/reflection/import/console utilisés ; compilation terminée sans erreur, build et 196/196 contrôles fonctionnels PC réussis. Mesure par FrameTimingManager dans le player, distincte du profiler éditeur : la fenêtre masquée n’a produit aucun temps GPU/rendu, série exclue. Après autorisation humaine, fenêtre visible : CPU/GPU/résolution identifiés, ABBA 1x/4x, CSV et 50 captures hors mesures. [Mesures T24](MESURES_PC_2026-11-04.md). Un seul PC, applications de fond non contrôlées, aucun casque/Release. Chambre propre hors Play et console zéro erreur restituées ; 21 fichiers initiaux préservés.
+
 ## Ce que Codex peut prendre en charge
 
 | Domaine | Ce que je peux faire et comment | Niveau constaté / conditions |
