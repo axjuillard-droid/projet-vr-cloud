@@ -2,7 +2,7 @@
 
 **Du clic sur « envoyer une photo » aux équipements physiques du cloud.** Projet universitaire ESILV année 5, Unity 6000.0.58f2 / URP / C# / OpenXR.
 
-**État au 4 novembre 2026 : halos de salle blanche corrigés, contours PC améliorés par MSAA 4x, 196/196 contrôles fonctionnels réussis.** Sol satiné, éclairage descendant et deux anciens appoints retirés. Comparaisons aux mêmes angles et captures du player inspectées ; stabilité en mouvement, coût GPU et confort VR restent à mesurer. [Diagnostic rendu](docs/DIAGNOSTIC_RENDU_2026-11-04.md), [preuves T23](docs/validation/rendering-2026-11-04/README.md).
+**État au 4 novembre 2026 : halos de salle blanche corrigés, contours PC améliorés par MSAA 4x, 196/196 contrôles fonctionnels réussis.** Sol satiné, éclairage descendant et deux anciens appoints retirés. Comparaisons aux mêmes angles et captures du player inspectées ; stabilité en mouvement, coût GPU et confort VR restent à mesurer. [Diagnostic rendu](docs/DIAGNOSTIC_RENDU_2026-11-04.md), [preuves T23](docs/validation/rendering-2026-11-04/README.md). Correctif publié sur `origin/main` : `ec8982c`.
 
 Aides et pause PC T22 observées sur captures utilisateur : chambre, borne 01, prérequis réseau, action LIEN A et message de pause. [Preuves T22](docs/validation/ergonomics-2026-10-22/README.md).
 

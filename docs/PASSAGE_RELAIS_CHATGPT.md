@@ -11,7 +11,7 @@
 
 Build 10 h 26 min 56 s Paris, 88 pré-build et **196/196 contrôles PC**, fin 10 h 30 min 09 s. Sol satiné, cinq spots descendants, deux appoints de la pièce primitive retirés, MSAA PC 4x ; profil Mobile inchangé. [Diagnostic](DIAGNOSTIC_RENDU_2026-11-04.md), [preuves](validation/rendering-2026-11-04/README.md). Comparaisons statiques et trois vues player inspectées ; aucun benchmark, stabilité universelle en mouvement ou essai Quest déduit. T24 prêt sur mesures PC/mouvement.
 
-Premier test volontairement arrêté avant confirmation de livraison, distinct du second run réussi. Vingt matériaux préexistants préservés et exclus ; trois matériaux de sol/plafond T23 distincts modifiés. Chambre propre hors Play restituée, console sans erreur retournée. Publication à confirmer dans STATE.
+Premier test volontairement arrêté avant confirmation de livraison, distinct du second run réussi. Vingt matériaux préexistants préservés et exclus ; trois matériaux de sol/plafond T23 distincts modifiés. Chambre propre hors Play restituée, console sans erreur retournée. Publication confirmée origin/main : `ec8982c` (73 objets LFS / 26 Mo). QualitySettings modifié localement après build, préservé et exclu ; détails dans STATE.
 
 ## Historique — T22 livré et revue visuelle PC ciblée confirmée
 
