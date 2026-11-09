@@ -1,5 +1,14 @@
 # Proposition de refonte de la visite CloudVR
 
+## Nouvelle orientation — deux parcours
+
+1. **Suivre la photo.** Suivre la même miniature de la chambre à l’entrée réseau, à un serveur de calcul (par exemple pour générer une miniature), puis au stockage et à la relecture. La baie école se manipule au niveau des équipements. La visite principale montre un service qui fonctionne. Les démonstrations de panne et de restauration peuvent devenir des variantes.
+2. **Exploiter le site.** Monter vers une salle de supervision vitrée en surplomb. Autoriser la montée en charge par secteurs. Voir les rangées s’activer, identifier le facteur limitant et comparer des scénarios de refroidissement à charge identique. Le tableau partagé affiche puissance électrique utilisée et disponible, température d’entrée du secteur le plus chaud et eau consommée sur site. Une vue détaillée distingue l’eau indirecte associée à l’électricité. L’échelle passe d’une baie repère à une rangée puis à la salle ou au campus, avec recalcul des marges à chaque niveau.
+
+L’éveil des rangées indique une capacité de calcul engagée dans le scénario, avec des états lisibles en plus de la couleur. La puissance demandée peut dépasser le budget électrique ou la capacité d’évacuation de chaleur. Les commandes illustrent l’admission de charge et le choix d’un mode d’exploitation sur des équipements prévus à cet effet. Comparer un rejet sec et un rejet évaporatif : un circuit fermé peut lui aussi rejeter la chaleur par évaporation. Les arbitrages dépendent notamment de la météo et du matériel. Le facteur de 4,52 L/kWh est une moyenne estimée de l’eau indirecte des data centers américains en 2023, page 57 du [rapport LBNL](https://eta-publications.lbl.gov/sites/default/files/2024-12/lbnl-2024-united-states-data-center-energy-usage-report.pdf). Le garder comme référence contextualisée. Voir aussi le [guide DOE sur les systèmes de refroidissement](https://www.energy.gov/sites/default/files/2024-07/best-practice-guide-data-center-design.pdf).
+
+Critère du premier prototype proposé : depuis le balcon, le joueur demande un secteur supplémentaire, voit pourquoi il est bloqué, agit sur la contrainte pertinente et observe la réponse des rangées. Comparer ensuite les modes sec et évaporatif à charge égale. Aucun objectif de durée. La proposition en trois actes ci-dessous est conservée comme historique de conception.
+
 ## Diagnostic du build T25
 
 - Réseau. Le joueur coupe A, observe le basculement automatique vers B, lit la réponse de SERVICE puis rétablit A. La réponse vérifie l’accessibilité du service dans la maquette. La cinématique et cette activité ne transmettent aucun état de la photo jusqu’au stockage, qui initialise sa propre « photo v1 sur A ». Cette rupture explique le faible enjeu de l’exercice.
