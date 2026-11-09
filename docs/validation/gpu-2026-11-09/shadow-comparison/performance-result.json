@@ -1,0 +1,216 @@
+{
+  "passed": true,
+  "frameTimingEnabled": true,
+  "gpuAvailable": true,
+  "developmentBuild": true,
+  "utc": "2026-11-09T15:52:32.5428758Z",
+  "error": "",
+  "unity": "6000.0.58f2",
+  "graphics": "Direct3D11",
+  "gpu": "Intel(R) Iris(R) Xe Graphics",
+  "cpu": "11th Gen Intel(R) Core(TM) i7-1165G7 @ 2.80GHz",
+  "os": "Windows 11  (10.0.26300) 64bit",
+  "protocol": "PC MSAA 4x throughout; ABBA four/two/two/four cascades, same resolution, distance, pose and yaw as T24. 6 s initial warm-up, then 2 s warm-up + 8 s moving per phase. Captures after timing.",
+  "width": 1280,
+  "height": 720,
+  "gpuMemoryMB": 8037,
+  "systemMemoryMB": 16075,
+  "cpuThreads": 8,
+  "vSync": 0,
+  "targetFrameRate": -1,
+  "phases": [
+    {
+      "mode": "four-cascades",
+      "order": 0,
+      "msaa": 4,
+      "frames": 761,
+      "timingSamples": 756,
+      "gpuSamples": 543,
+      "focusedFrames": 761,
+      "seconds": 8.000514900000002,
+      "focusedThroughout": true,
+      "scaleUnchanged": true,
+      "observedFrame": {
+        "count": 761,
+        "medianMs": 9.924600000001504,
+        "p95Ms": 15.964000000000311,
+        "meanMs": 10.513095926412605
+      },
+      "cpuFrame": {
+        "count": 756,
+        "medianMs": 10.0144,
+        "p95Ms": 15.8762,
+        "meanMs": 10.527589285714297
+      },
+      "cpuMain": {
+        "count": 756,
+        "medianMs": 8.1155,
+        "p95Ms": 14.1511,
+        "meanMs": 9.133260317460323
+      },
+      "cpuRender": {
+        "count": 756,
+        "medianMs": 4.5484,
+        "p95Ms": 6.0319,
+        "meanMs": 4.743643518518522
+      },
+      "presentWait": {
+        "count": 756,
+        "medianMs": 0.9653,
+        "p95Ms": 4.0366,
+        "meanMs": 1.3625599206349213
+      },
+      "gpu": {
+        "count": 543,
+        "medianMs": 7.921458,
+        "p95Ms": 12.010416,
+        "meanMs": 8.238759502762433
+      }
+    },
+    {
+      "mode": "two-cascades",
+      "order": 1,
+      "msaa": 4,
+      "frames": 908,
+      "timingSamples": 903,
+      "gpuSamples": 791,
+      "focusedFrames": 908,
+      "seconds": 8.0100236,
+      "focusedThroughout": true,
+      "scaleUnchanged": true,
+      "observedFrame": {
+        "count": 908,
+        "medianMs": 8.412200000000425,
+        "p95Ms": 11.618999999999602,
+        "meanMs": 8.821605176211465
+      },
+      "cpuFrame": {
+        "count": 903,
+        "medianMs": 8.4231,
+        "p95Ms": 11.5638,
+        "meanMs": 8.813183831672204
+      },
+      "cpuMain": {
+        "count": 903,
+        "medianMs": 7.6092,
+        "p95Ms": 9.91,
+        "meanMs": 7.952396124031007
+      },
+      "cpuRender": {
+        "count": 903,
+        "medianMs": 3.8808,
+        "p95Ms": 5.3192,
+        "meanMs": 4.009775304540427
+      },
+      "presentWait": {
+        "count": 903,
+        "medianMs": 0.5394,
+        "p95Ms": 2.8742,
+        "meanMs": 0.8338808416389807
+      },
+      "gpu": {
+        "count": 791,
+        "medianMs": 7.728906,
+        "p95Ms": 9.355677,
+        "meanMs": 7.762568604298351
+      }
+    },
+    {
+      "mode": "two-cascades",
+      "order": 2,
+      "msaa": 4,
+      "frames": 888,
+      "timingSamples": 883,
+      "gpuSamples": 722,
+      "focusedFrames": 888,
+      "seconds": 8.008639300000002,
+      "focusedThroughout": true,
+      "scaleUnchanged": true,
+      "observedFrame": {
+        "count": 888,
+        "medianMs": 8.720400000001405,
+        "p95Ms": 12.945999999999458,
+        "meanMs": 9.018730968468475
+      },
+      "cpuFrame": {
+        "count": 883,
+        "medianMs": 8.7431,
+        "p95Ms": 12.8473,
+        "meanMs": 9.018990486976215
+      },
+      "cpuMain": {
+        "count": 883,
+        "medianMs": 7.6848,
+        "p95Ms": 11.3579,
+        "meanMs": 7.975616647791634
+      },
+      "cpuRender": {
+        "count": 883,
+        "medianMs": 4.0627,
+        "p95Ms": 5.418,
+        "meanMs": 4.240262740656852
+      },
+      "presentWait": {
+        "count": 883,
+        "medianMs": 0.7656,
+        "p95Ms": 3.023,
+        "meanMs": 1.0150476783691966
+      },
+      "gpu": {
+        "count": 722,
+        "medianMs": 7.9249220000000005,
+        "p95Ms": 9.416615,
+        "meanMs": 7.957486024930747
+      }
+    },
+    {
+      "mode": "four-cascades",
+      "order": 3,
+      "msaa": 4,
+      "frames": 914,
+      "timingSamples": 909,
+      "gpuSamples": 778,
+      "focusedFrames": 914,
+      "seconds": 8.009680699999997,
+      "focusedThroughout": true,
+      "scaleUnchanged": true,
+      "observedFrame": {
+        "count": 914,
+        "medianMs": 8.677000000002266,
+        "p95Ms": 11.126900000000717,
+        "meanMs": 8.763319256017507
+      },
+      "cpuFrame": {
+        "count": 909,
+        "medianMs": 8.6519,
+        "p95Ms": 11.0521,
+        "meanMs": 8.763457205720576
+      },
+      "cpuMain": {
+        "count": 909,
+        "medianMs": 7.6651,
+        "p95Ms": 8.9071,
+        "meanMs": 7.705844554455442
+      },
+      "cpuRender": {
+        "count": 909,
+        "medianMs": 4.0505,
+        "p95Ms": 5.5997,
+        "meanMs": 4.218819141914197
+      },
+      "presentWait": {
+        "count": 909,
+        "medianMs": 0.8274,
+        "p95Ms": 2.95,
+        "meanMs": 1.031237843784378
+      },
+      "gpu": {
+        "count": 778,
+        "medianMs": 7.947656,
+        "p95Ms": 9.497605,
+        "meanMs": 8.019285763496159
+      }
+    }
+  ],
+  "sweepFrames": 0
+}

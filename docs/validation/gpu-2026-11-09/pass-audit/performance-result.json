@@ -1,0 +1,408 @@
+{
+  "passed": true,
+  "frameTimingEnabled": true,
+  "gpuAvailable": true,
+  "developmentBuild": true,
+  "utc": "2026-11-09T15:48:10.9394909Z",
+  "error": "",
+  "unity": "6000.0.58f2",
+  "graphics": "Direct3D11",
+  "gpu": "Intel(R) Iris(R) Xe Graphics",
+  "cpu": "11th Gen Intel(R) Core(TM) i7-1165G7 @ 2.80GHz",
+  "os": "Windows 11  (10.0.26300) 64bit",
+  "protocol": "PC 4x throughout, isolated interventions bracketed by reference; 2 s warm-up + 8 s moving per phase; same pose and yaw sweep as T24. Deltas include interactions between URP passes, not isolated GPU marker timings.",
+  "width": 1280,
+  "height": 720,
+  "gpuMemoryMB": 8037,
+  "systemMemoryMB": 16075,
+  "cpuThreads": 8,
+  "vSync": 0,
+  "targetFrameRate": -1,
+  "phases": [
+    {
+      "mode": "reference",
+      "order": 0,
+      "msaa": 4,
+      "frames": 672,
+      "timingSamples": 667,
+      "gpuSamples": 541,
+      "focusedFrames": 672,
+      "seconds": 8.0081083,
+      "focusedThroughout": true,
+      "scaleUnchanged": true,
+      "observedFrame": {
+        "count": 672,
+        "medianMs": 11.41229999999993,
+        "p95Ms": 18.027000000000015,
+        "meanMs": 11.916739136904761
+      },
+      "cpuFrame": {
+        "count": 667,
+        "medianMs": 11.3839,
+        "p95Ms": 17.935,
+        "meanMs": 11.93513808095952
+      },
+      "cpuMain": {
+        "count": 667,
+        "medianMs": 8.5734,
+        "p95Ms": 17.3124,
+        "meanMs": 10.373186656671667
+      },
+      "cpuRender": {
+        "count": 667,
+        "medianMs": 4.826,
+        "p95Ms": 6.9902,
+        "meanMs": 4.9357658170914505
+      },
+      "presentWait": {
+        "count": 667,
+        "medianMs": 1.4463,
+        "p95Ms": 4.5045,
+        "meanMs": 1.5284532233883064
+      },
+      "gpu": {
+        "count": 541,
+        "medianMs": 8.880469,
+        "p95Ms": 15.408698,
+        "meanMs": 9.407369181146029
+      }
+    },
+    {
+      "mode": "ao-half",
+      "order": 1,
+      "msaa": 4,
+      "frames": 735,
+      "timingSamples": 730,
+      "gpuSamples": 723,
+      "focusedFrames": 735,
+      "seconds": 8.005248400000006,
+      "focusedThroughout": true,
+      "scaleUnchanged": true,
+      "observedFrame": {
+        "count": 735,
+        "medianMs": 10.371400000000364,
+        "p95Ms": 13.69760000000042,
+        "meanMs": 10.891484489795944
+      },
+      "cpuFrame": {
+        "count": 730,
+        "medianMs": 10.3762,
+        "p95Ms": 13.7437,
+        "meanMs": 10.893805068493153
+      },
+      "cpuMain": {
+        "count": 730,
+        "medianMs": 6.6495,
+        "p95Ms": 7.7012,
+        "meanMs": 6.934091780821916
+      },
+      "cpuRender": {
+        "count": 730,
+        "medianMs": 5.2504,
+        "p95Ms": 7.0233,
+        "meanMs": 5.375710547945203
+      },
+      "presentWait": {
+        "count": 730,
+        "medianMs": 3.7618,
+        "p95Ms": 6.3968,
+        "meanMs": 3.9290378082191757
+      },
+      "gpu": {
+        "count": 723,
+        "medianMs": 8.559167,
+        "p95Ms": 10.229063,
+        "meanMs": 8.670249182572611
+      }
+    },
+    {
+      "mode": "no-ao",
+      "order": 2,
+      "msaa": 4,
+      "frames": 848,
+      "timingSamples": 843,
+      "gpuSamples": 764,
+      "focusedFrames": 848,
+      "seconds": 8.005498099999993,
+      "focusedThroughout": true,
+      "scaleUnchanged": true,
+      "observedFrame": {
+        "count": 848,
+        "medianMs": 9.094350000001583,
+        "p95Ms": 13.388100000000236,
+        "meanMs": 9.440439622641508
+      },
+      "cpuFrame": {
+        "count": 843,
+        "medianMs": 9.1301,
+        "p95Ms": 13.3363,
+        "meanMs": 9.43703119810203
+      },
+      "cpuMain": {
+        "count": 843,
+        "medianMs": 5.848,
+        "p95Ms": 11.9161,
+        "meanMs": 6.58487081850533
+      },
+      "cpuRender": {
+        "count": 843,
+        "medianMs": 4.4002,
+        "p95Ms": 5.7435,
+        "meanMs": 4.505855990510085
+      },
+      "presentWait": {
+        "count": 843,
+        "medianMs": 2.8454,
+        "p95Ms": 5.2301,
+        "meanMs": 2.8226111506524294
+      },
+      "gpu": {
+        "count": 764,
+        "medianMs": 6.860469,
+        "p95Ms": 8.284791,
+        "meanMs": 6.972023560209433
+      }
+    },
+    {
+      "mode": "no-shadows",
+      "order": 3,
+      "msaa": 4,
+      "frames": 940,
+      "timingSamples": 935,
+      "gpuSamples": 680,
+      "focusedFrames": 940,
+      "seconds": 8.000888200000006,
+      "focusedThroughout": true,
+      "scaleUnchanged": true,
+      "observedFrame": {
+        "count": 940,
+        "medianMs": 7.166550000000882,
+        "p95Ms": 13.65889999999581,
+        "meanMs": 8.51157734042554
+      },
+      "cpuFrame": {
+        "count": 935,
+        "medianMs": 7.1624,
+        "p95Ms": 13.6361,
+        "meanMs": 8.513638181818186
+      },
+      "cpuMain": {
+        "count": 935,
+        "medianMs": 5.9333,
+        "p95Ms": 11.8674,
+        "meanMs": 7.0663403208556215
+      },
+      "cpuRender": {
+        "count": 935,
+        "medianMs": 3.4622,
+        "p95Ms": 4.6758,
+        "meanMs": 3.592662887700533
+      },
+      "presentWait": {
+        "count": 935,
+        "medianMs": 1.4405,
+        "p95Ms": 3.6059,
+        "meanMs": 1.417529732620321
+      },
+      "gpu": {
+        "count": 680,
+        "medianMs": 5.451745,
+        "p95Ms": 11.730573,
+        "meanMs": 6.091103117647058
+      }
+    },
+    {
+      "mode": "no-copies",
+      "order": 4,
+      "msaa": 4,
+      "frames": 793,
+      "timingSamples": 788,
+      "gpuSamples": 585,
+      "focusedFrames": 793,
+      "seconds": 8.008392700000002,
+      "focusedThroughout": true,
+      "scaleUnchanged": true,
+      "observedFrame": {
+        "count": 793,
+        "medianMs": 9.363199999995686,
+        "p95Ms": 15.704299999995897,
+        "meanMs": 10.09884854981085
+      },
+      "cpuFrame": {
+        "count": 788,
+        "medianMs": 9.28585,
+        "p95Ms": 15.4967,
+        "meanMs": 10.102027791878179
+      },
+      "cpuMain": {
+        "count": 788,
+        "medianMs": 7.1785,
+        "p95Ms": 13.8988,
+        "meanMs": 8.62822068527919
+      },
+      "cpuRender": {
+        "count": 788,
+        "medianMs": 4.35015,
+        "p95Ms": 5.8676,
+        "meanMs": 4.516858375634518
+      },
+      "presentWait": {
+        "count": 788,
+        "medianMs": 1.4305500000000002,
+        "p95Ms": 3.9798,
+        "meanMs": 1.4439088832487303
+      },
+      "gpu": {
+        "count": 585,
+        "medianMs": 7.875052,
+        "p95Ms": 12.446146,
+        "meanMs": 8.162046140170936
+      }
+    },
+    {
+      "mode": "no-glass",
+      "order": 5,
+      "msaa": 4,
+      "frames": 936,
+      "timingSamples": 931,
+      "gpuSamples": 741,
+      "focusedFrames": 936,
+      "seconds": 8.0054157,
+      "focusedThroughout": true,
+      "scaleUnchanged": true,
+      "observedFrame": {
+        "count": 936,
+        "medianMs": 8.350100000008354,
+        "p95Ms": 10.895800000000122,
+        "meanMs": 8.552788141025646
+      },
+      "cpuFrame": {
+        "count": 931,
+        "medianMs": 8.3233,
+        "p95Ms": 10.8526,
+        "meanMs": 8.556226423200862
+      },
+      "cpuMain": {
+        "count": 931,
+        "medianMs": 6.6587,
+        "p95Ms": 8.5121,
+        "meanMs": 6.868061117078411
+      },
+      "cpuRender": {
+        "count": 931,
+        "medianMs": 3.8344,
+        "p95Ms": 5.1858,
+        "meanMs": 3.9662117078410284
+      },
+      "presentWait": {
+        "count": 931,
+        "medianMs": 1.5162,
+        "p95Ms": 3.5569,
+        "meanMs": 1.6619114930182592
+      },
+      "gpu": {
+        "count": 741,
+        "medianMs": 7.570104,
+        "p95Ms": 8.873073,
+        "meanMs": 4763.121542186235
+      }
+    },
+    {
+      "mode": "short-frustum",
+      "order": 6,
+      "msaa": 4,
+      "frames": 871,
+      "timingSamples": 866,
+      "gpuSamples": 680,
+      "focusedFrames": 871,
+      "seconds": 8.012647600000008,
+      "focusedThroughout": true,
+      "scaleUnchanged": true,
+      "observedFrame": {
+        "count": 871,
+        "medianMs": 8.691200000001231,
+        "p95Ms": 12.883199999990325,
+        "meanMs": 9.199356371986205
+      },
+      "cpuFrame": {
+        "count": 866,
+        "medianMs": 8.7238,
+        "p95Ms": 12.8911,
+        "meanMs": 9.189450115473445
+      },
+      "cpuMain": {
+        "count": 866,
+        "medianMs": 7.2397,
+        "p95Ms": 11.8779,
+        "meanMs": 8.134865357967666
+      },
+      "cpuRender": {
+        "count": 866,
+        "medianMs": 3.9509,
+        "p95Ms": 5.3599,
+        "meanMs": 4.1506232101616645
+      },
+      "presentWait": {
+        "count": 866,
+        "medianMs": 0.8655999999999999,
+        "p95Ms": 2.9061,
+        "meanMs": 1.0246560046189384
+      },
+      "gpu": {
+        "count": 680,
+        "medianMs": 7.418281,
+        "p95Ms": 11.108698,
+        "meanMs": 7.817908242647057
+      }
+    },
+    {
+      "mode": "reference",
+      "order": 7,
+      "msaa": 4,
+      "frames": 856,
+      "timingSamples": 851,
+      "gpuSamples": 619,
+      "focusedFrames": 856,
+      "seconds": 8.004529699999992,
+      "focusedThroughout": true,
+      "scaleUnchanged": true,
+      "observedFrame": {
+        "count": 856,
+        "medianMs": 8.951400000000831,
+        "p95Ms": 12.873000000013235,
+        "meanMs": 9.351074299065402
+      },
+      "cpuFrame": {
+        "count": 851,
+        "medianMs": 8.9328,
+        "p95Ms": 12.8643,
+        "meanMs": 9.3433052878966
+      },
+      "cpuMain": {
+        "count": 851,
+        "medianMs": 7.1759,
+        "p95Ms": 11.3369,
+        "meanMs": 7.795373090481791
+      },
+      "cpuRender": {
+        "count": 851,
+        "medianMs": 4.2503,
+        "p95Ms": 5.627,
+        "meanMs": 4.421711163337251
+      },
+      "presentWait": {
+        "count": 851,
+        "medianMs": 1.4612,
+        "p95Ms": 3.7081,
+        "meanMs": 1.5205653349001182
+      },
+      "gpu": {
+        "count": 619,
+        "medianMs": 7.961979,
+        "p95Ms": 9.907032,
+        "meanMs": 8.003864092084001
+      }
+    }
+  ],
+  "sweepFrames": 0
+}

@@ -1,6 +1,14 @@
 # État de reprise
 
-Mis à jour le 4 novembre 2026.
+Mis à jour le 9 novembre 2026.
+
+## T25 — Diagnostic GPU à MSAA 4x, 09/11
+- Terminé sur PC Development. Le connecteur Unity natif et le port MCP local étaient indisponibles. Le build et les tests ont été réalisés depuis la ligne de commande Unity 6000.0.58f2.
+- Probe T24 étendu : référence aux deux extrémités, demi-résolution SSAO, retrait diagnostique du SSAO, des ombres, des copies caméra, des vitres, et distance de vue réduite. MSAA 4x, poses et résolution T24 conservés. Écarts par intervention, non additionnables. Critère : gain supérieur à la dérive des références et rendu inspecté avant de retenir un réglage.
+- Le premier batch a échoué sur les métadonnées manquantes du cache de la copie (XR : 0 meta contre 1 208 dans l’original). Copie du cache intact vers le répertoire temporaire, second batch réussi, aucune modification des packages sources.
+- Audit visible validé : références 8,88/7,96 ms GPU. Couper les ombres donne 5,45 ms GPU et éclaircit le hall. Deux cascades testées en ABBA (−0,14 ms GPU, fenêtres qui se recouvrent), retour à quatre. SSAO inactif en ABBA : −1,75 ms GPU (−21,6 %) et −1,11 ms entre images (−12,3 %), deux fenêtres plus rapides que les deux références. Le profil PC livré garde le MSAA 4x et les ombres directionnelles. Les ombres de contact sont atténuées. [Audit et lisibilité](OPTIMISATION_GPU_2026-11-09.md).
+- Build réussi à 17 h 07 min 36 s Paris (512,36 s, 146 548 603 octets, 0 erreur et 0 avertissement BuildPipeline, 88/88 contrôles pré-build). Le probe et le renderer correspondent à la copie compilée. Unity y a recalculé quatre champs internes de filtrage SSAO du pipeline. Copie isolée validée à 17 h 09 min 27 s avec 196/196 contrôles PC (D3D11, code 0). Empreintes des 21 fichiers initiaux conservées.
+- Livraison `-Complete -PlayerOnly` et contrôle des empreintes du lanceur, des données et de l’assembly. **196/196 depuis le dossier Windows à 17 h 11 min 48 s, code 0**. Le lanceur date du 20/10 à 14 h 58, `data.unity3d` du 09/11 à 17 h 07. Scènes sources préservées. Preuves horodatées, journaux anonymisés et captures publiables. Périmètre Iris Xe à 1280×720 pour la mesure et Windows Development pour les tests. T26 reprend la lisibilité à distance et la borne qui masque le tableau. [Preuves](validation/gpu-2026-11-09/README.md).
 
 ## T24 — Mesures du player et séquences de revue livrées, 04/11
 - Nouveau probe Windows de développement opt-in `--cloudvr-performance` et runner `tools/Test-PCPerformance.ps1`. FrameTimingManager existant réutilisé ; GPU/CPU, résolution, timestamps, focus et données brutes enregistrés. Aucun package, modification du parcours normal ou réglage graphique produit ajouté. Profil MSAA cloné puis restauré ; Frame Timing Stats déjà actif dans le Development Player, ProjectSettings conservés.

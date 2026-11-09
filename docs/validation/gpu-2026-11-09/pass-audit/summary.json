@@ -1,0 +1,115 @@
+{
+  "scope": "Visible Development Player, fixed MSAA 4x and 1280x720. Reference at both ends; deltas are whole-frame interventions, not additive pass timings.",
+  "modes": {
+    "reference": {
+      "frame": {
+        "count": 1528,
+        "medianMs": 9.61745000000036,
+        "p95Ms": 16.987600000000214,
+        "meanMs": 10.479429515706803
+      },
+      "gpu": {
+        "count": 1160,
+        "medianMs": 8.1704165,
+        "p95Ms": 12.89849,
+        "meanMs": 8.658429827586207
+      }
+    },
+    "ao-half": {
+      "frame": {
+        "count": 735,
+        "medianMs": 10.371400000000364,
+        "p95Ms": 13.69760000000042,
+        "meanMs": 10.891484489795927
+      },
+      "gpu": {
+        "count": 723,
+        "medianMs": 8.559167,
+        "p95Ms": 10.229063,
+        "meanMs": 8.670249182572615
+      },
+      "frameMedianDeltaMs": 0.7539500000000032,
+      "gpuMedianDeltaMs": 0.38875050000000044
+    },
+    "no-ao": {
+      "frame": {
+        "count": 848,
+        "medianMs": 9.094350000001583,
+        "p95Ms": 13.388100000000236,
+        "meanMs": 9.440439622641504
+      },
+      "gpu": {
+        "count": 764,
+        "medianMs": 6.860469,
+        "p95Ms": 8.284791,
+        "meanMs": 6.972023560209424
+      },
+      "frameMedianDeltaMs": -0.5230999999987773,
+      "gpuMedianDeltaMs": -1.3099474999999998
+    },
+    "no-shadows": {
+      "frame": {
+        "count": 940,
+        "medianMs": 7.166550000000882,
+        "p95Ms": 13.65889999999581,
+        "meanMs": 8.511577340425537
+      },
+      "gpu": {
+        "count": 680,
+        "medianMs": 5.451745,
+        "p95Ms": 11.730573,
+        "meanMs": 6.091103117647059
+      },
+      "frameMedianDeltaMs": -2.4508999999994785,
+      "gpuMedianDeltaMs": -2.7186715
+    },
+    "no-copies": {
+      "frame": {
+        "count": 793,
+        "medianMs": 9.363199999995686,
+        "p95Ms": 15.704299999995897,
+        "meanMs": 10.098848549810851
+      },
+      "gpu": {
+        "count": 585,
+        "medianMs": 7.875052,
+        "p95Ms": 12.446146,
+        "meanMs": 8.16204614017094
+      },
+      "frameMedianDeltaMs": -0.25425000000467435,
+      "gpuMedianDeltaMs": -0.2953644999999998
+    },
+    "no-glass": {
+      "frame": {
+        "count": 936,
+        "medianMs": 8.350100000008354,
+        "p95Ms": 10.895800000000122,
+        "meanMs": 8.552788141025642
+      },
+      "gpu": {
+        "count": 741,
+        "medianMs": 7.570104,
+        "p95Ms": 8.873073,
+        "meanMs": 4763.121542186234
+      },
+      "frameMedianDeltaMs": -1.2673499999920068,
+      "gpuMedianDeltaMs": -0.6003125000000002
+    },
+    "short-frustum": {
+      "frame": {
+        "count": 871,
+        "medianMs": 8.691200000001231,
+        "p95Ms": 12.883199999990325,
+        "meanMs": 9.19935637198622
+      },
+      "gpu": {
+        "count": 680,
+        "medianMs": 7.418281,
+        "p95Ms": 11.108698,
+        "meanMs": 7.817908242647059
+      },
+      "frameMedianDeltaMs": -0.9262499999991292,
+      "gpuMedianDeltaMs": -0.7521354999999996
+    }
+  }
+}

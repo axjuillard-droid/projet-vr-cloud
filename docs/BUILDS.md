@@ -1,8 +1,10 @@
 # Builds du prototype
 
-Dernier build PC, T24 du 04/11/2026 à 15 h 10 min 51 s Paris : probe de mesure opt-in ajouté, 88 pré-build et 196/196 contrôles fonctionnels Direct3D11, exitCode=0 à 15 h 20 min 56 s. Mesure visible : `./tools/Test-PCPerformance.ps1 -Visible -TimeoutSeconds 180`. [Mesures et limites](MESURES_PC_2026-11-04.md), [preuves](validation/performance-2026-11-04/README.md). Aucun APK/essai Quest ni mesure Release.
+Dernier build PC, T25 du 09/11/2026 à 17 h 07 min 36 s Paris. SSAO désactivé sur le profil PC avec MSAA 4x et quatre cascades. BuildPipeline indique 0 erreur, 0 avertissement et les 88 contrôles pré-build réussissent. Le player passe 196/196 contrôles Direct3D11 dans la copie isolée à 17 h 09 min 27 s, puis dans le dossier Windows livré à 17 h 11 min 48 s. Ce jalon couvre Windows Development. [Mesures et limites](OPTIMISATION_GPU_2026-11-09.md), [preuves](validation/gpu-2026-11-09/README.md).
 
 Les sorties locales de build dans `ConnectionTest/Builds/` sont ignorées par Git. Garder l'exécutable Windows et tout son dossier de données ensemble. Le projet comporte désormais Chambre et DataCenter, reliées après l'envoi illustratif. L'ancien APK livré contient seulement Chambre ; les nouveaux exports doivent inclure les deux scènes.
+
+Pour un réglage de rendu sans modification de scène à livrer, `-Complete -PlayerOnly` vérifie le batch et copie uniquement le player et ses fichiers. Avant livraison, `tools/Test-PCBuild.ps1 -Graphics -Demo -PlayerPath <exécutable-de-la-copie> -TimeoutSeconds 180` permet de valider la copie isolée.
 
 ## Windows
 

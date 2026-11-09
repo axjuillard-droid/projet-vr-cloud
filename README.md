@@ -2,11 +2,11 @@
 
 **Du clic sur « envoyer une photo » aux équipements physiques du cloud.** Projet universitaire ESILV année 5, Unity 6000.0.58f2 / URP / C# / OpenXR.
 
-**État au 4 novembre 2026 : premiers temps GPU mesurés sur PC, 196/196 contrôles fonctionnels conservés.** Dans le player visible de développement sur Intel Iris Xe, 1280×720, les médianes observées sont **46,09 ms/frame en MSAA 1x** et **54,11 ms en 4x**. La fluidité reste insuffisante dans ce scénario ; les halos T23 sont corrigés mais une optimisation GPU ciblée reste nécessaire. Profil produit 4x conservé. [Mesures et limites](docs/MESURES_PC_2026-11-04.md), [preuves T24](docs/validation/performance-2026-11-04/README.md). Sources et preuves publiées sur `origin/main` : `496ffd2`.
+**État au 9 novembre 2026.** Le profil PC garde le MSAA 4x et les quatre cascades d’ombres, avec le SSAO désactivé. Sur Iris Xe, une comparaison dans le même player de développement à 1280×720 donne **−1,75 ms GPU (−21,6 %)** et **−1,11 ms entre images (−12,3 %)** en médiane. Les ombres de contact sont plus discrètes. Les deux références du 9 novembre étaient déjà plus rapides que celles du 4 novembre, qui restent documentées séparément. [Mesures T25 et captures avant/après](docs/OPTIMISATION_GPU_2026-11-09.md), [référence T24](docs/MESURES_PC_2026-11-04.md).
 
-Le test masqué ne fournissait aucun temps GPU/rendu et a été exclu de la comparaison. Les données visibles proviennent d’une série ABBA, deux fenêtres de 8 s par mode ; aucune extrapolation à Release ou Quest. [Diagnostic visuel T23](docs/DIAGNOSTIC_RENDU_2026-11-04.md).
+La mesure du SSAO repose sur une série visible ABBA et deux fenêtres de 8 s par mode. Elle s’applique au PC et à la configuration mesurés. Le test masqué de T24 ne fournissait aucun temps GPU ni temps de rendu exploitable. [Diagnostic visuel T23](docs/DIAGNOSTIC_RENDU_2026-11-04.md).
 
-Le résumé se recalcule sans dépendance Python supplémentaire : `python tools/Summarize-PCPerformance.py <dossier-du-run>`. Le script vérifie ordre ABBA, focus, rendu/GPU présents, effectifs, timestamps et statistiques des CSV ; il refuse la collecte masquée inutilisable. Les deux APNG sont vérifiés pixel par pixel contre leurs 50 PNG source.
+Le résumé se recalcule sans dépendance Python supplémentaire avec `python tools/Summarize-PCPerformance.py <dossier-du-run>`. Le script vérifie l’ordre des phases, le focus, les effectifs, les timestamps et les statistiques de rendu des CSV. [Preuves T25](docs/validation/gpu-2026-11-09/README.md).
 
 Aides et pause PC T22 observées sur captures utilisateur : chambre, borne 01, prérequis réseau, action LIEN A et message de pause. [Preuves T22](docs/validation/ergonomics-2026-10-22/README.md).
 
@@ -107,7 +107,7 @@ Pour travailler dans Play sur PC, sélectionner Windows et la qualité PC. Atten
 
 Pour tester le livrable construit localement, lancer **`ConnectionTest/Builds/Windows/CloudVR-PC.exe`**. Conserver tout le dossier Windows avec l’exécutable, ses DLL et `CloudVR-PC_Data`.
 
-Le dossier Windows livré contient P0, le correctif du mur, P1, T17, T18, T21 et les correctifs T22/T23 et le probe T24 opt-in, et passe les 196 contrôles fonctionnels automatisés. L'aide et le message de pause ont été observés sur les captures utilisateur de la chambre et du début du module Réseau. Le lanceur `.exe` peut garder sa date du 20/10 à 14 h 58 : le contenu reconstruit est notamment dans `CloudVR-PC_Data/data.unity3d` (04/11, voir le manifeste T24) et les DLL. [Empreintes des fichiers livrés](docs/validation/performance-2026-11-04/delivery-manifest.json). Un essai libre reste utile pour apprécier le confort, la lisibilité et le rendu.
+Le dossier Windows livré contient le réglage T25, le parcours photo et ses six activités, ainsi que le probe de mesure opt-in. L’aide et le message de pause ont été observés dans les captures utilisateur de la chambre et du module Réseau. Le lanceur `.exe` porte toujours la date du 20 octobre à 14 h 58. `CloudVR-PC_Data/data.unity3d` est daté du 9 novembre à 17 h 07, et ses DLL de jeu ont été mises à jour. [Empreintes des fichiers livrés](docs/validation/gpu-2026-11-09/delivery-manifest.json).
 
 Les exécutables et APK sont des sorties locales ignorées par Git : **ce dépôt fournit les sources et les procédures de compilation**, pas un téléchargement de ces builds.
 
@@ -131,9 +131,9 @@ powershell -ExecutionPolicy Bypass -File tools/Build-DemoCopy.ps1 -Resume -Wait
 powershell -ExecutionPolicy Bypass -File tools/Build-DemoCopy.ps1 -Complete
 ```
 
-`-Resume` réutilise une copie déjà créée ; sur une installation neuve, omettre cette option au premier lancement. Le builder maître est exécuté avant compilation ; `-Complete` vérifie le rapport avant de copier le player et les scènes générées.
+`-Resume` réutilise une copie déjà créée. Pour une installation neuve, omettre cette option au premier lancement. Le builder maître est exécuté avant compilation. `-Complete` vérifie le rapport avant de copier le player et les scènes générées. Avec `-PlayerOnly`, il copie uniquement le player et ses données.
 
-La commande de validation actuelle est `./tools/Test-PCBuild.ps1 -Graphics -Demo -TimeoutSeconds 180`. Elle vérifie la transition complète, une marche continue à travers le sas, les six activités, leurs cas négatifs et le retour/reset. **Dernier résultat : 196/196 contrôles fonctionnels réussis.** Pour la mesure : `./tools/Test-PCPerformance.ps1 -Visible -TimeoutSeconds 180` ouvre une fenêtre de test environ une minute et enregistre CSV/JSON ainsi que les séquences après chronométrage. Le mode masqué n’est pas un substitut valide si les compteurs GPU/rendu sont absents.
+La commande `./tools/Test-PCBuild.ps1 -Graphics -Demo -TimeoutSeconds 180` vérifie la transition, la traversée du sas, les six activités, leurs cas négatifs et le retour/reset. **196/196 contrôles réussis depuis le dossier Windows le 9 novembre à 17 h 11.** Pour mesurer le rendu, `./tools/Test-PCPerformance.ps1 -Visible -TimeoutSeconds 180` ouvre une fenêtre de test et enregistre les CSV, les rapports JSON et les captures. [Rapport du player livré](docs/validation/gpu-2026-11-09/pc/demo-smoke-result.json).
 
 La branche confort est contrôlée séparément par `./tools/Test-NetworkComfort.ps1` : huit contrôles par API dans le player sans casque. Cela ne remplace pas un essai Quest. Les scénarios historiques Photo/Journey ciblent l’ancien parcours et ne remplacent pas cette validation.
 

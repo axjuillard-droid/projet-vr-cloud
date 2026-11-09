@@ -1,7 +1,7 @@
-param([switch]$Graphics, [switch]$Journey, [switch]$Demo, [ValidateRange(15,180)][int]$TimeoutSeconds = 45)
+param([switch]$Graphics, [switch]$Journey, [switch]$Demo, [ValidateRange(15,180)][int]$TimeoutSeconds = 45, [string]$PlayerPath)
 $ErrorActionPreference = 'Stop'
 $projectRoot = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..'))
-$exePath = Join-Path $projectRoot 'ConnectionTest/Builds/Windows/CloudVR-PC.exe'
+$exePath = if ($PlayerPath) { (Resolve-Path -LiteralPath $PlayerPath).Path } else { Join-Path $projectRoot 'ConnectionTest/Builds/Windows/CloudVR-PC.exe' }
 if (!(Test-Path -LiteralPath $exePath)) { throw "Build PC absent : $exePath" }
 $runFolder = Join-Path $projectRoot ('tmp/unity/pc-player-' + (Get-Date -Format 'yyyyMMdd-HHmmss') + '-' + [Guid]::NewGuid().ToString('N').Substring(0, 6))
 New-Item -ItemType Directory -Path $runFolder -Force | Out-Null

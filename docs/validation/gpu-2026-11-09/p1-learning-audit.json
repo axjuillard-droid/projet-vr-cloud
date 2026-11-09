@@ -1,0 +1,27 @@
+{
+  "passed": true,
+  "closedTrayFront": -0.3940001428127289,
+  "doorFront": -0.5199999809265137,
+  "checks": [
+    "Module physique relié à la visite et au confinement",
+    "Huit cibles distinctes : porte, tiroir, trois composants, deux choix et fermeture",
+    "Entrée PC / XRI : Door",
+    "Entrée PC / XRI : Drawer",
+    "Entrée PC / XRI : Cpu",
+    "Entrée PC / XRI : Ram",
+    "Entrée PC / XRI : Storage",
+    "Entrée PC / XRI : ResetAlarm",
+    "Entrée PC / XRI : BoostFans",
+    "Entrée PC / XRI : SealContainment",
+    "Anciennes façades pleines retirées de la seule Baie_01",
+    "Tiroir fermé contenu derrière la porte",
+    "Visée libre Door : Cible_Door",
+    "Visée libre Drawer : Cible_Drawer",
+    "Visée libre Cpu : Cible_Cpu",
+    "Visée libre Ram : Cible_Ram",
+    "Visée libre Storage : Cible_Storage",
+    "Visée libre ResetAlarm : Cible_ResetAlarm",
+    "Visée libre BoostFans : Cible_BoostFans",
+    "Visée libre SealContainment : Cible_SealContainment"
+  ]
+}

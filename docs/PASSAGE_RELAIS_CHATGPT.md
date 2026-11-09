@@ -7,7 +7,11 @@
 
 ---
 
-## État courant — T24 mesures PC livrées, 4 novembre 2026
+## État courant — T25 audit GPU PC, 9 novembre 2026
+
+Profil PC avec SSAO désactivé, MSAA 4x et quatre cascades. Gain médian mesuré sur une seule série ABBA à 1280×720 sur Iris Xe : 1,75 ms GPU (21,6 %) et 1,11 ms entre images (12,3 %). Les ombres de contact sont atténuées. Deux cascades écartées après une comparaison séparée. La différence entre les références du 4 et du 9 novembre ne mesure aucun gain T25. T26 porte sur la lisibilité du tableau de supervision et la borne qui masque ses premières lignes. [Rapport T25](OPTIMISATION_GPU_2026-11-09.md), [preuves](validation/gpu-2026-11-09/README.md), [état et validation du build](STATE.md).
+
+## Historique — T24 mesures PC livrées, 4 novembre 2026
 
 Build 15 h 10 min 51 s Paris, 88 pré-build et 196/196 contrôles fonctionnels PC, fin 15 h 20 min 56 s. Probe Windows Development opt-in et `tools/Test-PCPerformance.ps1` ; `-Visible` ouvre le jeu, `-TimeoutSeconds 180`. Série visible autorisée par l’utilisateur et terminée à 15 h 17 min 27 s. **Iris Xe/i7-1165G7, 1280×720 D3D11 : médianes 1x 46,09 ms/frame, GPU 43,93 ms ; 4x 54,11 ms/frame, GPU 51,00 ms.** Série masquée sans rendu/GPU exclue ; ne jamais citer ses 0,25 ms comme performance graphique.
 

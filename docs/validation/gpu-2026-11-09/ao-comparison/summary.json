@@ -1,0 +1,37 @@
+{
+  "scope": "Visible Development Player, 1280x720, MSAA 4x; ABBA SSAO on/off/off/on.",
+  "modes": {
+    "ao-on": {
+      "frame": {
+        "count": 1667,
+        "medianMs": 8.992900000002635,
+        "p95Ms": 14.355200000000679,
+        "meanMs": 9.607288122375525
+      },
+      "gpu": {
+        "count": 1238,
+        "medianMs": 8.103932,
+        "p95Ms": 10.184636,
+        "meanMs": 8.144397549273021
+      }
+    },
+    "ao-off": {
+      "frame": {
+        "count": 1988,
+        "medianMs": 7.885799999998611,
+        "p95Ms": 10.49170000000288,
+        "meanMs": 8.055823993963783
+      },
+      "gpu": {
+        "count": 1914,
+        "medianMs": 6.3566925,
+        "p95Ms": 7.550208,
+        "meanMs": 6.444053359979101
+      }
+    }
+  },
+  "frameMedianDeltaMs": -1.1071000000040243,
+  "frameMedianDeltaPercent": -12.310822982616287,
+  "gpuMedianDeltaMs": -1.7472395,
+  "gpuMedianDeltaPercent": -21.560391918392206
+}

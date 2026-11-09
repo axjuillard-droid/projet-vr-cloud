@@ -1,5 +1,6 @@
-param([switch]$Resume,[switch]$Complete,[switch]$Wait)
+param([switch]$Resume,[switch]$Complete,[switch]$Wait,[switch]$PlayerOnly)
 $ErrorActionPreference='Stop'
+if ($PlayerOnly -and !$Complete) { throw 'PlayerOnly accompagne Complete.' }
 $projectRoot=[IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..'))
 $sourceProject=Join-Path $projectRoot 'ConnectionTest'
 $metadata=Join-Path $projectRoot 'tmp/unity/demo-copy-last.json'
@@ -54,6 +55,11 @@ if ($Complete) {
         $target=Join-Path $destination $_.FullName.Substring($generatedBuild.Length).TrimStart('\','/')
         New-Item -ItemType Directory -Force -Path (Split-Path $target) | Out-Null
         Copy-ChangedFile $_.FullName $target
+    }
+    # Pour un réglage de rendu ou un probe : livrer le player validé sans réécrire les assets du projet.
+    if ($PlayerOnly) {
+        $report | ConvertTo-Json -Compress
+        return
     }
     foreach ($name in @('Chambre.unity','DataCenter.unity')) {
         $generatedScene=Join-Path $stage ('Assets/Scenes/'+$name)

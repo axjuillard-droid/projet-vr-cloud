@@ -1,0 +1,37 @@
+{
+  "scope": "Visible Development Player, 1280x720, MSAA 4x; ABBA four/two/two/four cascades, fixed shadow distance and resolution.",
+  "modes": {
+    "four-cascades": {
+      "frame": {
+        "count": 1675,
+        "medianMs": 8.941199999998872,
+        "p95Ms": 14.827000000000368,
+        "meanMs": 9.558292417910451
+      },
+      "gpu": {
+        "count": 1321,
+        "medianMs": 7.941354,
+        "p95Ms": 10.04875,
+        "meanMs": 8.109500934140803
+      }
+    },
+    "two-cascades": {
+      "frame": {
+        "count": 1796,
+        "medianMs": 8.593000000001183,
+        "p95Ms": 12.199400000000082,
+        "meanMs": 8.919070489977733
+      },
+      "gpu": {
+        "count": 1513,
+        "medianMs": 7.799063,
+        "p95Ms": 9.387084,
+        "meanMs": 7.855582733641771
+      }
+    }
+  },
+  "frameMedianDeltaMs": -0.34819999999768925,
+  "frameMedianDeltaPercent": -3.8943318569960805,
+  "gpuMedianDeltaMs": -0.14229099999999928,
+  "gpuMedianDeltaPercent": -1.791772536522096
+}

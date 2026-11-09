@@ -1,0 +1,10 @@
+{
+  "utc": "2026-11-09T15:58:01.8913416Z",
+  "timedOut": false,
+  "exitCode": 0,
+  "passed": true,
+  "gpuMeasured": true,
+  "renderingMeasured": true,
+  "report": "<PROJECT>/tmp/unity/pc-performance-20261109-165710-c1db0d/performance-result.json",
+  "window": "Normal, windowed requested 1280x720; background applications not controlled"
+}

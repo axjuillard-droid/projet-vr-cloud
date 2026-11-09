@@ -1,4 +1,4 @@
-"""Recalculer les mesures ABBA du player visible depuis les CSV, avec la bibliothèque standard."""
+"""Recalculer les mesures ABBA ou l'audit du rendu depuis les CSV du player visible."""
 import argparse
 import csv
 import json
@@ -25,9 +25,17 @@ def summarize(folder):
         raise ValueError("Collecte sans GPU exploitable : aucune comparaison graphique produite.")
     if (report["width"], report["height"]) != (1280, 720):
         raise ValueError("Le protocole attend une résolution de 1280×720.")
-    if [phase["msaa"] for phase in report["phases"]] != [1, 4, 4, 1]:
+    order = [phase["msaa"] for phase in report["phases"]]
+    modes = [phase.get("mode") for phase in report["phases"]]
+    audit = modes == ["reference", "ao-half", "no-ao", "no-shadows", "no-copies", "no-glass", "short-frustum", "reference"]
+    shadows = modes == ["four-cascades", "two-cascades", "two-cascades", "four-cascades"]
+    ao = modes == ["ao-on", "ao-off", "ao-off", "ao-on"]
+    explicit_modes = audit or shadows or ao
+    if explicit_modes and order != [4] * len(modes):
+        raise ValueError("Ce protocole exige du MSAA 4x dans toutes les phases.")
+    if not explicit_modes and order != [1, 4, 4, 1]:
         raise ValueError("Ordre ABBA inattendu.")
-    groups = {1: {"frame": [], "gpu": []}, 4: {"frame": [], "gpu": []}}
+    groups = {}
     for phase in report["phases"]:
         if phase["focusedFrames"] != phase["frames"] or not phase["scaleUnchanged"] or phase["cpuRender"]["count"] == 0:
             raise ValueError("Phase sans rendu, non focalisée ou perturbée par une pause.")
@@ -45,15 +53,31 @@ def summarize(folder):
             for field in ["medianMs", "p95Ms", "meanMs"]:
                 if abs(calculated[field] - phase[key][field]) > .001:
                     raise ValueError("Statistiques du rapport non reproduites par les CSV.")
-        groups[phase["msaa"]]["frame"].extend(frames)
-        groups[phase["msaa"]]["gpu"].extend(gpu)
+        group = groups.setdefault(phase["mode"] if explicit_modes else phase["msaa"], {"frame": [], "gpu": []})
+        group["frame"].extend(frames)
+        group["gpu"].extend(gpu)
     result = {
         "scope": "Visible Development Player only; one ABBA series, two windows per mode, fixed 1280x720; no inference to release, other hardware or Quest. Hidden run has no rendering/GPU samples and is excluded.",
         "modes": {str(mode): {key: distribution(values) for key, values in metrics.items()} for mode, metrics in groups.items()},
     }
+    if audit:
+        result["scope"] = "Visible Development Player, fixed MSAA 4x and 1280x720. Reference at both ends; deltas are whole-frame interventions, not additive pass timings."
+        reference = result["modes"]["reference"]
+        for name, variant in result["modes"].items():
+            if name != "reference":
+                variant["frameMedianDeltaMs"] = variant["frame"]["medianMs"] - reference["frame"]["medianMs"]
+                variant["gpuMedianDeltaMs"] = variant["gpu"]["medianMs"] - reference["gpu"]["medianMs"]
+        return result
+    before_mode, after_mode = "1", "4"
+    if ao:
+        before_mode, after_mode = "ao-on", "ao-off"
+        result["scope"] = "Visible Development Player, 1280x720, MSAA 4x; ABBA SSAO on/off/off/on."
+    if shadows:
+        before_mode, after_mode = "four-cascades", "two-cascades"
+        result["scope"] = "Visible Development Player, 1280x720, MSAA 4x; ABBA four/two/two/four cascades, fixed shadow distance and resolution."
     for key in ["frame", "gpu"]:
-        before = result["modes"]["1"][key]["medianMs"]
-        after = result["modes"]["4"][key]["medianMs"]
+        before = result["modes"][before_mode][key]["medianMs"]
+        after = result["modes"][after_mode][key]["medianMs"]
         result[key + "MedianDeltaMs"] = after - before
         result[key + "MedianDeltaPercent"] = (after / before - 1) * 100
     return result
