@@ -1,5 +1,13 @@
 # Ressources évaluées
 
+## Refonte de la visite — mécaniques de jeu
+
+- [Data Center, Waseku](https://store.steampowered.com/app/4170200?l=english). Le jeu rend visibles le câblage, le trafic et les conséquences d’une panne. Adapter l’interaction port à port à une seule demande et à une carte courte. Référence commerciale, aucun contenu importé.
+- [Mini Metro, Dinosaur Polo Club](https://dinopoloclub.com/games/mini-metro/). Le joueur dessine et redessine des lignes sous contrainte. Retenir la lecture immédiate du trajet et du point de blocage, avec des repères et une interface propres à CloudVR.
+- [Oxygen Not Included, Klei](https://www.klei.com/games/oxygen-not-included). Le jeu rend la température et les flux pertinents pour les décisions du joueur. Adapter le principe avec deux mesures lisibles et une comparaison avant/après. Le modèle thermique de CloudVR reste simplifié.
+
+Les jeux ont été étudiés via leurs pages officielles. La proposition adapte les principes d’interaction en C# avec les composants existants. Aucun achat, code, asset, son ou interface tiers à redistribuer. [Proposition de refonte](PROPOSITION_REFONTE_VISITE.md).
+
 ## T16 — P1 Maintenance et diagnostic d'air, 21 octobre 2026
 
 Réutilisation du serveur 2U et de la porte originaux (`generate_server_blade.py`), audio procédural, uGUI, Input System et XRI 3.0.11 installés. `XRSimpleInteractable.selectEntered` vérifié dans le package local ; pas de framework supplémentaire ni de code tiers copié. Le décor de Baie_01 fusionne des façades pleines et ne peut exposer le tiroir : cadre ouvert original construit dans cette seule baie, modèles détaillés existants conservés. Pas de nouveau téléchargement ; licences existantes conservées.

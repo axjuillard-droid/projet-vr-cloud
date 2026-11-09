@@ -2,6 +2,10 @@
 
 Mis à jour le 9 novembre 2026.
 
+## Proposition de refonte de la visite
+
+- Retours de jeu : objectif réseau dissocié de la photo, stockage trop procédural, consignes dépendantes de l’orientation et coordonnées Unity affichées. Refonte proposée autour d’une lecture vérifiable de la même photo dans la chambre. Repères fixes, baie de formation facultative et incident thermique conservé. Le livrable de cette étape est une proposition de design. [Refonte](PROPOSITION_REFONTE_VISITE.md).
+
 ## T25 — Diagnostic GPU à MSAA 4x, 09/11
 - Terminé sur PC Development. Le connecteur Unity natif et le port MCP local étaient indisponibles. Le build et les tests ont été réalisés depuis la ligne de commande Unity 6000.0.58f2.
 - Probe T24 étendu : référence aux deux extrémités, demi-résolution SSAO, retrait diagnostique du SSAO, des ombres, des copies caméra, des vitres, et distance de vue réduite. MSAA 4x, poses et résolution T24 conservés. Écarts par intervention, non additionnables. Critère : gain supérieur à la dérive des références et rendu inspecté avant de retenir un réglage.
