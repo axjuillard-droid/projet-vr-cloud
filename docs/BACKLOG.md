@@ -4,6 +4,7 @@ Statuts : à faire, en cours, bloqué, terminé. Une tâche n’est prête que s
 
 | ID | Tâche | Statut | Critère de fin |
 |---|---|---|---|
+| T29 | Préparer l’espace V2 et archiver le build Windows livré | à faire | Archive du dossier Windows vérifiée et exécutable lancé depuis l’archive. Sources de référence repérées, copie de travail V2 isolée et sortie de build distincte. Prérequis aux chantiers V2. [Plan V2](PLAN_REFONTE_CLOUDVR.md). |
 | T28 | Prototyper la salle de supervision en surplomb | à faire | Montrer la montée en charge des rangées, rendre la contrainte électrique ou thermique explicite, puis comparer le rejet sec et évaporatif à charge égale. [Refonte](PROPOSITION_REFONTE_VISITE.md). |
 | T27 | Prototyper le parcours Photo | à faire | Suivre la même photo du réseau à la baie de calcul, puis au stockage et à la relecture. Distinguer reçu, enregistré et lisible. Vérifier que le joueur identifie le rôle de chaque équipement. [Refonte](PROPOSITION_REFONTE_VISITE.md). |
 | T26 | Guider vers les cibles et rendre la supervision lisible | à faire | Remplacer les directions relatives et les coordonnées visibles par des repères fixes, signaler la prochaine cible et dégager le tableau de la borne. Comparer aux vues T25, puis vérifier les cibles depuis plusieurs orientations dans le player. |
