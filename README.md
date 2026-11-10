@@ -242,4 +242,6 @@ L’ouverture V2 ajoute un bureau habillé, un trajet fibre de cinq secondes, un
 
 [Parcours Eau](docs/validation/v2-water-2026-11-10/README.md).
 
-Le hall V2 utilise des baies détaillées et le belvédère dispose d’un cadre panoramique. [Captures du hall](docs/validation/v2-hall-2026-11-10/README.md) et [récapitulatif des activités](docs/RECAP_ACTIVITES_V2.md).
+Le hall V2 se prolonge sous le belvédère, avec 66 baies au total. Les rangées latérales proches du balcon s’éclairent aussi lors de la montée en charge. [Captures du hall](docs/validation/v2-hall-2026-11-10/README.md) et [récapitulatif des activités](docs/RECAP_ACTIVITES_V2.md).
+
+[Comparaison du panorama](docs/validation/v2-panorama-2026-11-10/README.md).

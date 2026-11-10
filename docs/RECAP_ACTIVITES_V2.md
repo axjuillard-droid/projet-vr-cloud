@@ -16,7 +16,7 @@
 
 ## Reste à produire ou valider
 
-- Finition visuelle et sonore des séquences. Priorité aux plans à hauteur des équipements et au panorama. Restent notamment la façade, la rampe et le paysage extérieur, la qualité de la rivière et des panaches, les animations de détail et le mixage.
+- Finition visuelle et sonore des séquences. Le panorama s’étend maintenant sous le balcon. Priorité aux plans à hauteur des équipements et à la finition extérieure. Restent notamment la façade, la rampe et le paysage extérieur, la qualité de la rivière et des panaches, les animations de détail et le mixage.
 - Revue humaine sans guidage oral. Observer la découverte des cibles, la lisibilité à distance, les hésitations et le confort de la transition. Compléter par les mesures de fluidité et une revue de l’aliasing en mouvement.
 - Portage du parcours courant et validation Quest sur casque. Vérifier les prises, la locomotion, le confort et les performances. Les essais automatiques Windows couvrent le PC.
 - Modules V2 facultatifs envisagés : basculement A/B, panne et récupération d’un fichier, chaîne UPS–groupe. Le refus du port B dans la visite guidée et le choix de stockage couvrent des objectifs distincts.

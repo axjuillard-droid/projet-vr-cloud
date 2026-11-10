@@ -10,10 +10,8 @@ public static partial class PhotoV2BlockoutBuilder
         var root = new GameObject($"Indicateurs rangée {row + 1}");
         var cyan = AssetDatabase.LoadAssetAtPath<Material>(Folder + "/V2 Cyan.mat");
         float x = (row - 2.5f)*2.6f;
-        for (int bay=0; bay<7; bay++)
+        foreach (float z in RackPositions(row))
         {
-            if (row==2 && bay==1) continue;
-            float z = 23+bay*1.95f;
             var strip = Box("État calcul",new(x,2.121f,z),new(.49f,.032f,.61f),cyan);
             strip.transform.SetParent(root.transform,true);
             strip.GetComponent<Collider>().enabled = false;

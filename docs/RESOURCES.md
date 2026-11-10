@@ -257,3 +257,7 @@ Réutilisation de l’état des rangées, de la passerelle, des matériaux V2 et
 ## V2 — Première passe du hall et du belvédère, 10 novembre 2026
 
 Réutilisation du FBX ServerRack_Detailed, des matériaux Rack et du regroupement statique Unity sur les rangées de décor. Les collisions restent simples. Les éléments de finition du hall et du belvédère utilisent les primitives et matériaux V2. Aucun achat, téléchargement ni package ajouté.
+
+## V2 — Extension du panorama, 10 novembre 2026
+
+Réutilisation du FBX de baie et de ses matériaux, des matériaux du hall, des indicateurs de rangée et du regroupement statique existants. Une liste de positions commune aligne les baies et leurs voyants. Aucun achat, média tiers ou package ajouté.

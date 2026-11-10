@@ -2,6 +2,10 @@
 
 Mis à jour le 10 novembre 2026.
 
+## V2 — Panorama étendu, 10 novembre 2026
+
+- 24 baies ajoutées de part et d’autre de la montée, 66 au total. Les chemins de câbles, l’éclairage et les voyants prolongent les rangées vers le belvédère. BuildPipeline 0 erreur/0 avertissement. Les deux choix Photo passent en D3D11 jusqu’à la rivière. Le journal signale JobTempAlloc à la fermeture, déjà présent dans le build précédent. Les captures ne mesurent pas la cadence. Le retour utilisateur sur l’échelle, le guidage et le rendu en mouvement est le prochain point. [Comparaison](validation/v2-panorama-2026-11-10/README.md).
+
 ## V2 — Première passe de finition du hall, 10 novembre 2026
 
 - 41 baies de décor détaillées, cheminements techniques, éclairage et cadre du belvédère. Les dimensions et la rampe sont celles du prototype. BuildPipeline 0 erreur/0 avertissement, parcours complet validé automatiquement en D3D11. Restent la revue de rendu en mouvement, la finition du panorama et de l’extérieur, les mesures de fluidité et la validation Quest. [Vues](validation/v2-hall-2026-11-10/README.md) et [récapitulatif](RECAP_ACTIVITES_V2.md).
