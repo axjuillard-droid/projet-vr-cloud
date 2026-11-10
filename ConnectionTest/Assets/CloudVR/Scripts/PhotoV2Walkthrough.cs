@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 public sealed class PhotoV2Walkthrough : MonoBehaviour
 {
@@ -13,6 +14,9 @@ public sealed class PhotoV2Walkthrough : MonoBehaviour
     public GameObject badgeReader;
     public GameObject badgeApproved;
     public PhotoV2PatchCord patchCord;
+    public ServerBladeInteraction schoolRack;
+    public RawImage previewDisplay;
+    public Text previewLabel;
     public NetworkRideVisuals film;
     public Vector3 arrival;
 
@@ -21,6 +25,10 @@ public sealed class PhotoV2Walkthrough : MonoBehaviour
     public string PhotoStatus => SignalInTransit ? "En transit" : Status[_step];
     const int NetworkStep = 3;
     const int ComputeStep = 4;
+    const int PreviewStep = 6;
+    bool _computeBusy;
+    Texture2D _preview;
+    public bool PreviewReady => _preview != null;
     const float TravelSeconds = 5f;
     AudioSource _sound;
     AudioClip _transit;
@@ -58,13 +66,7 @@ public sealed class PhotoV2Walkthrough : MonoBehaviour
         _sound.playOnAwake = false;
         _transit = ProceduralAudioService.CreateFiberTransitSound();
         _confirmation = ProceduralAudioService.CreateRfidAccessBeep();
-        _photo = new Texture2D(4, 3) { filterMode = FilterMode.Point };
-        for (int y = 0; y < 3; y++)
-            for (int x = 0; x < 4; x++)
-                _photo.SetPixel(x, y, y == 0 ? new Color(.16f, .40f, .23f)
-                    : y == 1 && x != 0 && x != 3 ? new Color(.40f, .49f, .57f)
-                    : new Color(.38f, .70f, .89f));
-        _photo.Apply();
+        _photo = CreateSamplePhoto();
         ShowGuide();
         Debug.Log("CLOUDVR_V2_READY");
     }
@@ -76,6 +78,7 @@ public sealed class PhotoV2Walkthrough : MonoBehaviour
         {
             if (_step == NetworkStep && patchCord) return patchCord.Instruction;
             if (SignalInTransit) return "Suivre le signal vers la baie école";
+            if (_computeBusy && _step == PreviewStep) return "Aperçu en cours de génération";
             return Instructions[_step];
         }
     }
@@ -98,7 +101,7 @@ public sealed class PhotoV2Walkthrough : MonoBehaviour
 
     public bool TryAdvance(Ray ray)
     {
-        if (IsTravelling || player.InputPaused || SignalInTransit || _step >= targets.Length || !Physics.Raycast(ray, out var hit, 3.1f))
+        if (IsTravelling || player.InputPaused || SignalInTransit || _computeBusy || _step >= targets.Length || !Physics.Raycast(ray, out var hit, 3.1f))
             return false;
         if (_step == NetworkStep && patchCord)
         {
@@ -108,6 +111,11 @@ public sealed class PhotoV2Walkthrough : MonoBehaviour
             return true;
         }
         if (hit.collider.gameObject != targets[_step]) return false;
+        if (schoolRack && _step >= ComputeStep && _step <= PreviewStep)
+        {
+            StartCoroutine(AdvanceCompute());
+            return true;
+        }
         if (targets[_step] == badgeReader)
         {
             // Présenter le badge depuis l’intérieur, après avoir dégagé la porte.
@@ -130,13 +138,65 @@ public sealed class PhotoV2Walkthrough : MonoBehaviour
         var barrier = barriers[_step];
         if (barrier) barrier.SetActive(false);
         var target = targets[_step];
-        if (target == badgeReader || (_step == NetworkStep && patchCord))
+        if (target == badgeReader || (_step == NetworkStep && patchCord) || (_step == PreviewStep && schoolRack))
             target.GetComponent<Collider>().enabled = false;
         else
             target.SetActive(false);
         _step++;
         ShowGuide();
         Debug.Log($"CLOUDVR_V2_STEP {_step}/{targets.Length}");
+    }
+
+    IEnumerator AdvanceCompute()
+    {
+        _computeBusy = true;
+        if (_step == PreviewStep)
+        {
+            previewLabel.text = "CALCUL EN COURS";
+            yield return new WaitForSeconds(.7f);
+            // Réduction par moyenne de blocs de 4 × 4 pixels de la même image.
+            _preview = new Texture2D(_photo.width / 4, _photo.height / 4);
+            for (int y = 0; y < _preview.height; y++)
+                for (int x = 0; x < _preview.width; x++)
+                {
+                    Color sum = Color.clear;
+                    for (int dy = 0; dy < 4; dy++)
+                        for (int dx = 0; dx < 4; dx++) sum += _photo.GetPixel(x * 4 + dx, y * 4 + dy);
+                    _preview.SetPixel(x, y, sum / 16);
+                }
+            _preview.Apply();
+            previewDisplay.texture = _preview;
+            previewDisplay.enabled = true;
+            previewLabel.text = "";
+            _sound.PlayOneShot(_confirmation,.18f);
+            Debug.Log("CLOUDVR_V2_PREVIEW_READY");
+        }
+        else
+        {
+            schoolRack.Interact();
+            while (schoolRack.IsAnimating) yield return null;
+        }
+        CompleteStep();
+        _computeBusy = false;
+    }
+
+    static Texture2D CreateSamplePhoto()
+    {
+        const int width = 96, height = 64;
+        var image = new Texture2D(width,height);
+        for (int y = 0; y < height; y++)
+            for (int x = 0; x < width; x++)
+            {
+                float u = x / (float)width;
+                float v = y / (float)height;
+                float ridge = .37f + .22f * Mathf.Sin(u * 3.14f) + .07f * Mathf.Sin(u * 15);
+                var sky = Color.Lerp(new Color(.86f,.72f,.53f),new Color(.16f,.38f,.62f),v);
+                var land = v < .27f + .06f * Mathf.Sin(u * 12) ? new Color(.16f,.33f,.30f) :
+                    Color.Lerp(new Color(.14f,.24f,.29f),new Color(.46f,.52f,.55f),v);
+                image.SetPixel(x,y,v > ridge ? sky : land);
+            }
+        image.Apply();
+        return image;
     }
 
     IEnumerator PlayTransit()
@@ -197,6 +257,7 @@ public sealed class PhotoV2Walkthrough : MonoBehaviour
     void OnDestroy()
     {
         if (_photo) Destroy(_photo);
+        if (_preview) Destroy(_preview);
         if (_transit) Destroy(_transit);
         if (_confirmation) Destroy(_confirmation);
     }

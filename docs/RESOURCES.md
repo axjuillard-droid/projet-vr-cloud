@@ -229,3 +229,7 @@ Réutilisation des FBX Desk_Setup, Bed_Student et Room_Decor, du tunnel fibre et
 ## V2 — Brassage et signal, 10 novembre 2026
 
 Réutilisation des matériaux d’ouverture, du bip existant et des raycasts PC. Le composant LineRenderer représente le cordon et le tracé pédagogique. Aucun package ni média tiers. [LineRenderer, Unity 6](https://docs.unity3d.com/ja/current/ScriptReference/LineRenderer.html).
+
+## V2 — Baie école, 10 novembre 2026
+
+Réutilisation du serveur et de la porte FBX existants, de ServerBladeInteraction et de ses sons procéduraux, et du Canvas world-space V2. Une image illustrative est générée localement et réduite pour l’aperçu. Aucun asset tiers ni package ajouté.

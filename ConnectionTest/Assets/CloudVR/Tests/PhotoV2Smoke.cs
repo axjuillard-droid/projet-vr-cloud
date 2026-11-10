@@ -34,6 +34,9 @@ public sealed class PhotoV2Smoke : MonoBehaviour
             yield break;
         }
 
+        var school = route.schoolRack;
+        var closedDoor = school.rackDoor.localRotation;
+        var insertedDrawer = school.serverBlade.localPosition;
         for (int i = 0; i < waypoints.Length; i++)
         {
             // Avance réelle par le CharacterController, sans téléportation.
@@ -105,6 +108,40 @@ public sealed class PhotoV2Smoke : MonoBehaviour
                     Fail("La transition n’a pas rejoint la cour.");
                     yield break;
                 }
+            }
+            if (i >= 4 && i <= 6)
+            {
+                if (route.Step != i || AimAt(target))
+                {
+                    Fail("Une seconde action ne doit pas avancer pendant le geste.");
+                    yield break;
+                }
+                float deadline = Time.realtimeSinceStartup + 3;
+                while (route.Step == i && Time.realtimeSinceStartup < deadline) yield return null;
+                bool physicalResult = i switch
+                {
+                    4 => school.CurrentState == ServerBladeInteraction.State.DoorOpened
+                        && Quaternion.Angle(closedDoor, school.rackDoor.localRotation) > 85,
+                    5 => school.CurrentState == ServerBladeInteraction.State.ServerExtracted
+                        && school.hardwareLabels.activeSelf
+                        && Vector3.Distance(insertedDrawer, school.serverBlade.localPosition) > .62f,
+                    _ => route.PreviewReady && route.previewDisplay.enabled
+                        && route.previewDisplay.texture.width == 24 && route.previewDisplay.texture.height == 16
+                        && route.PhotoStatus == "Reçue"
+                };
+                if (route.Step != i + 1 || !physicalResult)
+                {
+                    Fail("Le geste de la baie n’a pas produit le résultat attendu à l’étape " + (i + 1));
+                    yield break;
+                }
+                if (capture && i == 5)
+                {
+                    var tray = school.serverBlade.TransformPoint(new Vector3(0,.07f,.41f));
+                    route.view.transform.rotation = Quaternion.LookRotation(tray - route.view.transform.position);
+                    yield return Capture(route.view, i, "tiroir");
+                }
+                if (capture && i == 6) yield return Capture(route.view, i, "apercu");
+                if (i == 6) Debug.Log("CLOUDVR_V2_COMPUTE_PASS porte, tiroir, aperçu, double action refusée");
             }
             if (i == 2 && (!route.sasEntrance.activeSelf || route.barriers[2].activeSelf || !route.badgeApproved.activeSelf))
             {

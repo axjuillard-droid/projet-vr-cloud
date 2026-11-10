@@ -1,0 +1,16 @@
+{
+  "utc": "2026-11-10T11:30:12.5243048Z",
+  "graphics": "Direct3D11",
+  "buildErrors": 0,
+  "buildWarnings": 0,
+  "steps": 10,
+  "passed": true,
+  "doorOpened": true,
+  "drawerTravelConfiguredM": 0.64,
+  "drawerLabelsVisible": true,
+  "previewWidth": 24,
+  "previewHeight": 16,
+  "doubleActionRejected": true,
+  "storageSeparateFromPreview": true,
+  "exeSha256": "6d69e772c811261a2646fbf9354d032d990dbf87f983cfd31b2024b041619c4c"
+}

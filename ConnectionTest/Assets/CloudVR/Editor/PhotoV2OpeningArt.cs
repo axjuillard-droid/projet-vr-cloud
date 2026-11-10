@@ -192,7 +192,7 @@ public static partial class PhotoV2BlockoutBuilder
         light.range = range;
     }
 
-    static void Sign(string text, Vector3 position, float height, Color color, Transform parent = null)
+    static Text Sign(string text, Vector3 position, float height, Color color, Transform parent = null)
     {
         var panel = new GameObject(text, typeof(RectTransform), typeof(Canvas));
         panel.transform.position = position;
@@ -217,6 +217,7 @@ public static partial class PhotoV2BlockoutBuilder
         label.text = text;
         label.color = color;
         label.raycastTarget = false;
+        return label;
     }
 }
 #endif
