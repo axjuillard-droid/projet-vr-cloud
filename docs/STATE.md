@@ -4,6 +4,8 @@ Mis à jour le 10 novembre 2026.
 
 ## Proposition de refonte de la visite
 
+- Premier parcours Photo en volumes simples publié le 10 novembre sur `codex/cloudvr-v2` (`c2cf95c`). Le player Windows-V2 passe dix actions automatisées en D3D11 avec déplacement continu, sas et accès au balcon. Les séquences de référence visuellement finies restent à réaliser. [Preuve V2](https://github.com/axjuillard-droid/projet-vr-cloud/blob/c2cf95c/docs/validation/photo-v2-blockout-2026-11-10.json).
+
 - T29 validé le 10 novembre. Archive locale `ConnectionTest/Builds/Windows-V1-20261110` : 296 fichiers comparés par SHA-256, 196/196 contrôles dans son exécutable à 10 h 58 min 42 s Paris, D3D11, code 0. Le dossier Windows d’origine reste disponible. Copie de travail V2 séparée sur `codex/cloudvr-v2`, depuis `4a94e13`, avec une sortie Windows-V2 distincte. [Preuve de l’archive](validation/archive-v1-2026-11-10.json).
 
 - Plan V2 affiné en sept séquences Photo, puis trois enjeux jusqu’à l’extérieur. La production commence par l’archive Windows et la copie de travail, puis un parcours à l’échelle et deux séquences de référence finies. Les validations visuelles se font en mouvement dans le player. Le jalon couvre la conception. [Plan V2](PLAN_REFONTE_CLOUDVR.md).
