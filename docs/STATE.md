@@ -4,6 +4,8 @@ Mis à jour le 10 novembre 2026.
 
 ## Proposition de refonte de la visite
 
+- T29 validé le 10 novembre. Archive locale `ConnectionTest/Builds/Windows-V1-20261110` : 296 fichiers comparés par SHA-256, 196/196 contrôles dans son exécutable à 10 h 58 min 42 s Paris, D3D11, code 0. Le dossier Windows d’origine reste disponible. Copie de travail V2 séparée sur `codex/cloudvr-v2`, depuis `4a94e13`, avec une sortie Windows-V2 distincte. [Preuve de l’archive](validation/archive-v1-2026-11-10.json).
+
 - Plan V2 affiné en sept séquences Photo, puis trois enjeux jusqu’à l’extérieur. La production commence par l’archive Windows et la copie de travail, puis un parcours à l’échelle et deux séquences de référence finies. Les validations visuelles se font en mouvement dans le player. Le jalon couvre la conception. [Plan V2](PLAN_REFONTE_CLOUDVR.md).
 
 - Nouvelle orientation proposée après retour utilisateur : parcours Photo au niveau des équipements, puis parcours Enjeux depuis une salle de supervision en surplomb, avec montée en charge visible et arbitrages entre électricité, chaleur et eau. La qualité et la compréhension guident le périmètre, sans objectif de durée. [Conception](PROPOSITION_REFONTE_VISITE.md).

@@ -4,7 +4,7 @@ Statuts : à faire, en cours, bloqué, terminé. Une tâche n’est prête que s
 
 | ID | Tâche | Statut | Critère de fin |
 |---|---|---|---|
-| T29 | Préparer l’espace V2 et archiver le build Windows livré | à faire | Archive du dossier Windows vérifiée et exécutable lancé depuis l’archive. Sources de référence repérées, copie de travail V2 isolée et sortie de build distincte. Prérequis aux chantiers V2. [Plan V2](PLAN_REFONTE_CLOUDVR.md). |
+| T29 | Préparer l’espace V2 et archiver le build Windows livré | terminé | 296 fichiers vérifiés par SHA-256. 196/196 depuis le dossier d’archive le 10 novembre à 10 h 58 Paris. Copie V2 isolée sur `codex/cloudvr-v2`, avec destination Windows-V2. [Preuve](validation/archive-v1-2026-11-10.json). |
 | T28 | Prototyper la salle de supervision en surplomb | à faire | Montrer la montée en charge des rangées, rendre la contrainte électrique ou thermique explicite, puis comparer le rejet sec et évaporatif à charge égale. [Refonte](PROPOSITION_REFONTE_VISITE.md). |
 | T27 | Prototyper le parcours Photo en sept séquences | à faire | Après T29, valider le trajet en volumes simples et deux séquences de référence finies. Vérifier en player que la photo et les cibles restent lisibles jusqu’au balcon. [Plan V2](PLAN_REFONTE_CLOUDVR.md). |
 | T26 | Guider vers les cibles et rendre la supervision lisible | à faire | Remplacer les directions relatives et les coordonnées visibles par des repères fixes, signaler la prochaine cible et dégager le tableau de la borne. Comparer aux vues T25, puis vérifier les cibles depuis plusieurs orientations dans le player. |

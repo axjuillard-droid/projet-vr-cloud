@@ -1,0 +1,14 @@
+{
+  "utc": "2026-11-10T09:58:42.2039763Z",
+  "source": "ConnectionTest/Builds/Windows",
+  "archive": "ConnectionTest/Builds/Windows-V1-20261110",
+  "matchingFiles": 296,
+  "hashAlgorithm": "SHA256",
+  "functionalChecks": 196,
+  "graphics": "Direct3D11",
+  "exitCode": 0,
+  "passed": true,
+  "v2Branch": "codex/cloudvr-v2",
+  "v2Base": "4a94e13",
+  "v2BuildDestination": "ConnectionTest/Builds/Windows-V2"
+}
