@@ -28,8 +28,16 @@ public sealed class PhotoV2Energy : MonoBehaviour
 
     public bool TrySelect(Collider target)
     {
-        if (!isActiveAndEnabled || target != control || Changing) return false;
-        RequestedRows = ActiveRows == rowLights.Length ? BaseRows : ActiveRows + 2;
+        if (target != control) return false;
+        return RequestRows(ActiveRows == rowLights.Length ? BaseRows : ActiveRows + 2);
+    }
+
+    public bool TryRequestComparisonLoad(bool higher) => RequestRows(higher ? BaseRows + 2 : BaseRows);
+
+    bool RequestRows(int rows)
+    {
+        if (!isActiveAndEnabled || Changing || rows == ActiveRows) return false;
+        RequestedRows = rows;
         StartCoroutine(ChangeDemand());
         return true;
     }

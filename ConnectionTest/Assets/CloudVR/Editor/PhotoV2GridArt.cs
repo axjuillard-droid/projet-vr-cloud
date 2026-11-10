@@ -90,7 +90,7 @@ public static partial class PhotoV2BlockoutBuilder
         grid.plumes = new ParticleSystem[2];
         for(int i=0;i<2;i++)
         {
-            Vector3 pos = new Vector3(-13.8f+i*13.5f,0,119.0f+i*9.2f);
+            Vector3 pos = i == 0 ? new Vector3(-33f,0,132f) : new Vector3(-.3f,0,128.2f);
             var shell = new GameObject("Tour aéroréfrigérante · silhouette");
             shell.transform.position = pos;
             shell.AddComponent<MeshFilter>().sharedMesh = TowerMesh();

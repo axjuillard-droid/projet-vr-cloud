@@ -20,6 +20,7 @@ public sealed class PhotoV2Walkthrough : MonoBehaviour
     public PhotoV2Energy energy;
     public PhotoV2GridRoute grid;
     public PhotoV2Cooling cooling;
+    public PhotoV2Water water;
     public Text previewLabel;
     public NetworkRideVisuals film;
     public Vector3 arrival;
@@ -117,7 +118,9 @@ public sealed class PhotoV2Walkthrough : MonoBehaviour
             if (!energy) return false;
             if (energy.TrySelect(hit.collider)) return true;
             bool selected = grid && grid.TrySelect(hit.collider,energy);
-            if (!selected && !(AtCooling && cooling.TrySelect(hit.collider))) return false;
+            if (!selected && AtCooling) selected = cooling.TrySelect(hit.collider);
+            if (!selected && AtWater) selected = water.TrySelect(hit.collider);
+            if (!selected) return false;
             _sound.PlayOneShot(_confirmation,.18f);
             return true;
         }
@@ -329,9 +332,15 @@ public sealed class PhotoV2Walkthrough : MonoBehaviour
     }
 
     bool AtCooling => grid && grid.Stop == 3 && cooling;
+    bool AtWater => AtCooling && cooling.Observed && water;
 
     void DrawEnergy()
     {
+        if (AtWater)
+        {
+            DrawWater();
+            return;
+        }
         GUI.Box(new Rect(18,18,Mathf.Min(518,Screen.width - 36),133),GUIContent.none);
         GUI.Label(new Rect(30,26,425,27),AtCooling ? "CLOUDVR V2 · REFROIDISSEMENT" : "CLOUDVR V2 · ÉNERGIE",_heading);
         string action = player.InputPaused ? "Pause · Échap pour reprendre" :
@@ -349,6 +358,22 @@ public sealed class PhotoV2Walkthrough : MonoBehaviour
             GUI.Label(new Rect(30,124,482,24),"Sortie derrière le pupitre · VERS LE RÉSEAU",_small);
         if (!grid || grid.Stop == 0)
             GUI.Label(new Rect(30,100,482,24),energy.Reading + " · valeurs simulées",_small);
+        GUI.Label(new Rect(Screen.width*.5f - 5,Screen.height*.5f - 10,14,24),"+",_small);
+    }
+
+    void DrawWater()
+    {
+        float width = Mathf.Min(545,Screen.width-36);
+        GUI.Box(new Rect(18,18,width,154),GUIContent.none);
+        GUI.Label(new Rect(30,26,width-24,27),"CLOUDVR V2 · EAU",_heading);
+        GUI.Label(new Rect(30,52,width-24,55),player.InputPaused ? "Pause · Échap pour reprendre" : water.Instruction,_instruction);
+        if (water.Active)
+        {
+            string flow = water.Dry ? "Été sec" : "Débit normal";
+            GUI.Label(new Rect(30,107,width-24,24),$"{flow}  ·  {water.Withdrawn} / {water.RiverFlow} unités prélevées ({water.Share} %)",_small);
+            GUI.Label(new Rect(30,132,width-24,24),$"{water.Evaporated} évaporées  ·  {water.Returned} restituées  ·  valeurs fictives",_small);
+        }
+        else GUI.Label(new Rect(30,112,width-24,34),"Suivre l’option de refroidissement évaporatif.",_small);
         GUI.Label(new Rect(Screen.width*.5f - 5,Screen.height*.5f - 10,14,24),"+",_small);
     }
 

@@ -1,0 +1,22 @@
+{
+  "utc": "2026-11-10T14:07:27.7129541Z",
+  "graphics": "Direct3D11",
+  "buildErrors": 0,
+  "buildWarnings": 0,
+  "photoSteps": 10,
+  "gridPassed": true,
+  "coolingPassed": true,
+  "riverFlowUnits": [
+    100,
+    30,
+    30
+  ],
+  "withdrawalUnits": [
+    12,
+    12,
+    6
+  ],
+  "balanceVerified": true,
+  "waterPassed": true,
+  "exeSha256": "6d69e772c811261a2646fbf9354d032d990dbf87f983cfd31b2024b041619c4c"
+}

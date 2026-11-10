@@ -249,3 +249,7 @@ Réutilisation des matériaux V2, des cibles PC, du tracé LineRenderer et du Ca
 ## V2 — Refroidissement liquide, 10 novembre 2026
 
 Réutilisation des cibles, matériaux, LineRenderer et passerelle V2. La boucle dessinée s’inspire des schémas DOE de refroidissement liquide et de rejet sec. Les traces accélérées visualisent le sens du liquide et le transfert de chaleur. Aucun débit, dimensionnement ou temps de cycle industriel mesuré. Aucun asset tiers ni package. [DOE, refroidissement liquide](https://www.energy.gov/cmei/femp/cooling-water-efficiency-opportunities-federal-data-centers), [DOE, guide des systèmes de refroidissement](https://www.energy.gov/sites/default/files/2024-07/best-practice-guide-data-center-design.pdf).
+
+## V2 — Eau et débit de la rivière, 10 novembre 2026
+
+Réutilisation de l’état des rangées, de la passerelle, des matériaux V2 et du panache procédural. Géométrie de rivière générée dans le builder. Débits et bilan en unités fictives. Le scénario compare une option évaporative au contexte déjà présenté du rejet sec. Les poissons se resserrent dans le chenal lorsque le débit de référence diminue. Aucun calcul d’impact écologique ou prélèvement réel. [USGS, retrait et consommation d’eau](https://pubs.usgs.gov/chapter11/chapter11B.html), [DOE, refroidissement évaporatif](https://www.energy.gov/cmei/femp/cooling-water-efficiency-opportunities-federal-data-centers).

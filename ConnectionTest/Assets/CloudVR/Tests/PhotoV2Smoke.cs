@@ -257,7 +257,7 @@ public sealed class PhotoV2Smoke : MonoBehaviour
             }
             if (capture && i == 2)
             {
-                route.view.transform.rotation = Quaternion.LookRotation(new Vector3(-1,14,118) - route.view.transform.position);
+                route.view.transform.rotation = Quaternion.LookRotation(new Vector3(-11,13,126) - route.view.transform.position);
                 yield return Capture(route.view,13,"centrale");
             }
         }
@@ -285,7 +285,8 @@ public sealed class PhotoV2Smoke : MonoBehaviour
         for (int move=0; move<260 && controller.transform.position.z<96.1f; move++)
             controller.Move(new Vector3(0,-.05f,Mathf.Min(.08f,96.1f-controller.transform.position.z)));
         yield return null;
-        if (Mathf.Abs(controller.transform.position.z-96.1f) > .04f || AimAt(cooling.observation.gameObject))
+        if (Mathf.Abs(controller.transform.position.z-96.1f) > .04f || AimAt(cooling.observation.gameObject)
+            || AimAt(route.water.entry.gameObject))
         {
             Fail("L’échangeur doit être accessible et attendre le premier retour.");
             yield break;
@@ -311,6 +312,65 @@ public sealed class PhotoV2Smoke : MonoBehaviour
             yield return Capture(route.view,15,"conduites");
         }
         Debug.Log("CLOUDVR_V2_COOLING_PASS vanne, passage, transfert, retour et observation vérifiés");
+        var water = route.water;
+        if (!water.gate.activeSelf || !AimAt(water.entry.gameObject)
+            || !water.Active || water.gate.activeSelf || !water.workingFlows.activeSelf)
+        {
+            Fail("L’accès à la rivière doit s’ouvrir après l’observation du refroidissement.");
+            yield break;
+        }
+        for (int move=0; move<250 && controller.transform.position.z<108.28f; move++)
+            controller.Move(new Vector3(0,-.05f,Mathf.Min(.08f,108.28f-controller.transform.position.z)));
+        yield return null;
+        if (Mathf.Abs(controller.transform.position.z-108.28f) > .04f
+            || AimAt(water.weather.gameObject) || !AimAt(water.load.gameObject))
+        {
+            Fail("Le poste rivière doit être accessible et préparer la comparaison à quatre rangées.");
+            yield break;
+        }
+        float waterDeadline=Time.realtimeSinceStartup+4;
+        while (energy.Changing && Time.realtimeSinceStartup<waterDeadline) yield return null;
+        int normalDraw=water.Withdrawn, normalShare=water.Share;
+        if (energy.ActiveRows!=4 || normalDraw!=12 || water.RiverFlow!=100
+            || water.Returned+water.Evaporated!=water.Withdrawn)
+        {
+            Fail("Le bilan normal est incohérent.");
+            yield break;
+        }
+        if (capture)
+        {
+            route.view.transform.rotation=Quaternion.LookRotation(new Vector3(-14.2f,.9f,114.5f)-route.view.transform.position);
+            yield return Capture(route.view,16,"riviere-normale");
+        }
+        if (!AimAt(water.weather.gameObject))
+        {
+            Fail("Commande été sec inaccessible.");
+            yield break;
+        }
+        yield return new WaitForSecondsRealtime(1);
+        if (!water.Dry || water.RiverFlow!=30 || water.Withdrawn!=normalDraw
+            || water.Share<=normalShare || water.surface.localScale.x>.5f)
+        {
+            Fail("La comparaison météo doit garder le prélèvement et rétrécir la rivière.");
+            yield break;
+        }
+        if (capture) yield return Capture(route.view,17,"riviere-ete-sec");
+        float wideIntake=water.intake.widthMultiplier;
+        if (!AimAt(water.load.gameObject))
+        {
+            Fail("Commande de réduction inaccessible.");
+            yield break;
+        }
+        waterDeadline=Time.realtimeSinceStartup+4;
+        while (!water.Completed && Time.realtimeSinceStartup<waterDeadline) yield return null;
+        if (!water.Completed || energy.ActiveRows!=2 || water.Withdrawn!=6 || water.RiverFlow!=30
+            || water.Returned+water.Evaporated!=water.Withdrawn || water.intake.widthMultiplier>=wideIntake)
+        {
+            Fail("La réduction de charge doit baisser la demande d’eau à météo identique.");
+            yield break;
+        }
+        if (capture) yield return Capture(route.view,18,"riviere-charge-reduite");
+        Debug.Log("CLOUDVR_V2_WATER_PASS débit normal, été sec à demande constante, réduction et bilan vérifiés");
         Debug.Log("CLOUDVR_V2_SMOKE_PASS 10/10 actions en ordre, marche et montée, sas, cible distante refusée");
         Application.Quit(0);
     }

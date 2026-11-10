@@ -23,7 +23,6 @@ public static partial class PhotoV2BlockoutBuilder
             Box("Lisse de passerelle thermique",new(side*1.57f,4.42f,92.73f),new(.08f,.09f,12.55f),aluminum);
             Box("Protection basse thermique",new(side*1.57f,3.67f,92.73f),new(.08f,.53f,12.55f),graphite);
         }
-        Box("Limite du belvédère thermique",new(0,3.98f,98.97f),new(3.22f,1.15f,.16f),graphite);
         cooling.guide = GridGuide(87.1f,97.4f,cyan);
         cooling.observation = GridStop("ÉCHANGEUR · REJET À L’AIR",new(-1.06f,4.61f,97.5f),graphite,aluminum);
 

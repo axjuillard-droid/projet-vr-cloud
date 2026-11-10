@@ -2,6 +2,10 @@
 
 Mis à jour le 10 novembre 2026.
 
+## V2 — Parcours Eau et visite complète, 10 novembre 2026
+
+- À la rivière, la variante évaporative distingue prélèvement, évaporation et restitution. Le passage à l’été sec rétrécit le chenal à charge égale. La baisse de demande réduit le prélèvement à météo identique. La première revue des images a révélé une tour sur le lit de la rivière. Déplacement sur la rive et nouveau build vérifié. BuildPipeline 0 erreur/0 avertissement et parcours Photo, Énergie, Refroidissement et Eau vérifiés en D3D11. Les décors restent en finition et le Quest reste à tester. [Vues et preuves](validation/v2-water-2026-11-10/README.md).
+
 ## V2 — Boucle liquide et rejet sec, 10 novembre 2026
 
 - Vanne après le point de vue sur la centrale. Le tracé orange va des baies à l’échangeur, le tracé bleu repart vers les baies. Deux ventilateurs et des repères à l’air libre montrent le rejet de chaleur. BuildPipeline 0 erreur/0 avertissement. Le player D3D11 valide Photo, Énergie, la vanne, la marche jusqu’à l’échangeur, l’ordre transfert/retour et l’observation. Les flux sont des représentations accélérées. Le parcours Eau reste à faire. [Captures et résultat](validation/v2-cooling-2026-11-10/README.md).
