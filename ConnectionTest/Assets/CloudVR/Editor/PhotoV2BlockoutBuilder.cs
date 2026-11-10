@@ -69,7 +69,6 @@ public static partial class PhotoV2BlockoutBuilder
             new(3, .3f, Vector3.Distance(foot, landing) + .25f), _neutral);
         ramp.transform.rotation = Quaternion.Euler(-Mathf.Atan2(3.4f, 14) * Mathf.Rad2Deg, 0, 0);
         Box("Balcon", new(0, 3.25f, 58), new(7, .3f, 6), _neutral);
-        Box("Garde-corps arrière", new(0, 3.98f, 60.9f), new(7, 1.15f, .2f), _dark);
         Box("Garde-corps gauche", new(-3.45f, 3.98f, 58), new(.18f, 1.15f, 6), _dark);
         Box("Garde-corps droit", new(3.45f, 3.98f, 58), new(.18f, 1.15f, 6), _dark);
         Box("Garde-corps rampe gauche", new(-1.5f, 2.28f, 48), new(.12f, 1.1f, 14.4f), _dark)
@@ -121,6 +120,7 @@ public static partial class PhotoV2BlockoutBuilder
         InstallSchoolRack(route);
         InstallStorageAndBalcony(route);
         InstallEnergy(route, rowLights);
+        InstallGridRoute(route);
         route.barriers[2] = Gate("Porte intérieure", 16.85f, 3.5f);
         route.guides = new GameObject[route.targets.Length];
         float previous = 1;

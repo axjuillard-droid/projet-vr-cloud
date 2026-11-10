@@ -197,6 +197,14 @@ public sealed class PhotoV2Smoke : MonoBehaviour
             Fail("Le pupitre doit démarrer avec deux rangées actives.");
             yield break;
         }
+        var grid = route.grid;
+        var departureOrigin = new Vector3(0,5.05f,58.7f);
+        if (!grid.exitGate.activeSelf || grid.Stop != 0 ||
+            route.TryAdvance(new Ray(departureOrigin,grid.departure.transform.position - departureOrigin)))
+        {
+            Fail("La sortie réseau doit attendre une hausse de demande.");
+            yield break;
+        }
         for (int level = 0; level < 3; level++)
         {
             int expected = level == 2 ? 2 : 4 + 2*level;
@@ -223,6 +231,37 @@ public sealed class PhotoV2Smoke : MonoBehaviour
         }
         Debug.Log("CLOUDVR_V2_ENERGY_PASS 2 → 4 → 6 → 2, puissances et garde vérifiées");
 
+        var stops = new[] {grid.departure,grid.substation,grid.viewpoint};
+        var stopPositions = new[] {58.8f,68.6f,83.5f};
+        for (int i = 0; i < stops.Length; i++)
+        {
+            float z = stopPositions[i];
+            for (int move = 0; move < 260 && controller.transform.position.z < z - .02f; move++)
+                controller.Move(new Vector3(0,-.05f,Mathf.Min(.08f,z - controller.transform.position.z)));
+            yield return null;
+            if (Mathf.Abs(controller.transform.position.z - z) > .03f || !AimAt(stops[i].gameObject)
+                || grid.Stop != i + 1 || grid.exitGate.activeSelf || !grid.routeLine.enabled)
+            {
+                Fail("Arrêt du parcours extérieur inaccessible : " + (i + 1));
+                yield break;
+            }
+            if (capture && i == 1)
+            {
+                route.view.transform.rotation = Quaternion.LookRotation(new Vector3(6.5f,2.25f,73) - route.view.transform.position);
+                yield return Capture(route.view,12,"poste");
+            }
+            if (capture && i == 2)
+            {
+                route.view.transform.rotation = Quaternion.LookRotation(new Vector3(-1,14,118) - route.view.transform.position);
+                yield return Capture(route.view,13,"centrale");
+            }
+        }
+        if (Array.Exists(grid.plumes, plume => !plume.isPlaying || plume.particleCount == 0))
+        {
+            Fail("Les panaches doivent être présents au point de vue.");
+            yield break;
+        }
+        Debug.Log("CLOUDVR_V2_GRID_PASS sortie, poste, point de vue et panaches vérifiés");
         Debug.Log("CLOUDVR_V2_SMOKE_PASS 10/10 actions en ordre, marche et montée, sas, cible distante refusée");
         Application.Quit(0);
     }

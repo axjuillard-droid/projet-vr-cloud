@@ -241,3 +241,7 @@ Réutilisation des cibles PC, de la même texture Photo V2, des matériaux de la
 ## V2 — Poste Énergie, 10 novembre 2026
 
 Réutilisation des cibles PC, des matériaux de la salle et des Canvas world-space. Les indicateurs de rangée sont des meshes avec matériau émissif. La puissance affichée utilise un modèle de jeu illustratif. Aucun package ni média tiers ajouté.
+
+## V2 — Réseau électrique extérieur, 10 novembre 2026
+
+Réutilisation des matériaux V2, des cibles PC, du tracé LineRenderer et du Canvas world-space. Tours, poste et pylônes fictifs créés par le builder. Masque du panache généré dans Unity. Aucun asset tiers ni package supplémentaire. Le poste illustre l’adaptation de tension et la centrale représente une source du réseau. Les panaches illustrent le rejet de chaleur par les tours et restent indépendants du levier de demande. [EIA, transport électrique](https://www.eia.gov/energyexplained/electricity/delivery-to-consumers.php), [EDF, tours aéroréfrigérantes](https://www.edf.fr/la-centrale-nucleaire-de-golfech/les-actualites-de-la-centrale-nucleaire-de-golfech/au-sommet-des-tours-aerorefrigerantes).

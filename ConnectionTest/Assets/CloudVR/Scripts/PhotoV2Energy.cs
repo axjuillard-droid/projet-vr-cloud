@@ -17,6 +17,7 @@ public sealed class PhotoV2Energy : MonoBehaviour
     public int ActiveRows { get; private set; } = BaseRows;
     public int RequestedRows { get; private set; } = BaseRows;
     public bool Changing { get; private set; }
+    public bool HasRaisedDemand { get; private set; }
     public int PowerKw => SiteOverheadKw + RowPowerKw * ActiveRows;
     public string Reading => $"{PowerKw} / {LimitKw} kW  ·  {ActiveRows} / {rowLights.Length} rangées";
 
@@ -55,6 +56,7 @@ public sealed class PhotoV2Energy : MonoBehaviour
             yield return new WaitForSeconds(.32f);
         }
         Changing = false;
+        if (ActiveRows > BaseRows) HasRaisedDemand = true;
         Debug.Log($"CLOUDVR_V2_ENERGY {ActiveRows}/{rowLights.Length} rangées, {PowerKw} kW simulés");
     }
 

@@ -2,6 +2,10 @@
 
 Mis à jour le 10 novembre 2026.
 
+## V2 — Du poste à la centrale, 10 novembre 2026
+
+- Sortie après hausse de demande, passerelle, poste et point de vue sur une centrale fictive. Le tracé indique le sens d’alimentation vers le site et les deux panaches montrent le refroidissement des tours. BuildPipeline 0 erreur/0 avertissement. Le player Windows D3D11 valide les dix gestes Photo, les paliers de demande et les trois arrêts extérieurs à pied. Les décors sont à l’échelle de travail. [Captures et résultat](validation/v2-grid-2026-11-10/README.md).
+
 ## V2 — Demande électrique depuis le belvédère, 10 novembre 2026
 
 - La manette anime les voyants de 2, 4 puis 6 rangées et permet de revenir à 2. Le tableau suit la puissance illustrative de 48, 78 et 108 kW. Les captures ont guidé le recentrage du pupitre. BuildPipeline 0 erreur/0 avertissement, dix étapes Photo et séquence Énergie vérifiées dans Windows D3D11, avec états intermédiaires et refus d’un double clic. Le trajet jusqu’au poste et à la centrale reste à produire. [Preuves](validation/v2-energy-2026-11-10/README.md).

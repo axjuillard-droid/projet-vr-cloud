@@ -1,0 +1,13 @@
+{
+  "utc": "2026-11-10T13:36:25.5014135Z",
+  "graphics": "Direct3D11",
+  "buildErrors": 0,
+  "buildWarnings": 0,
+  "photoSteps": 10,
+  "gridStops": 3,
+  "departureBeforeDemandRejected": true,
+  "walkedToViewpoint": true,
+  "bothPlumesActive": true,
+  "passed": true,
+  "exeSha256": "6d69e772c811261a2646fbf9354d032d990dbf87f983cfd31b2024b041619c4c"
+}
