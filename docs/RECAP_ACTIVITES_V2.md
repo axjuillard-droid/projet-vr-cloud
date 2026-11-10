@@ -7,8 +7,8 @@
 | Envoi et trajet | Viser l’écran dans la chambre puis cliquer | La photo quitte la chambre dans une courte cinématique et le joueur reprend devant la façade. |
 | Sas | Ouvrir l’entrée, présenter le badge | La validation ouvre la seconde porte après fermeture de la première. |
 | Réseau | Prendre la fiche orange, la brancher sur A | Un signal rejoint la baie école. B est refusé sans retirer la fiche au joueur. |
-| Baie école | Ouvrir, extraire le serveur, lancer l’aperçu | Les composants apparaissent et l’aperçu est calculé à partir de la même image. |
-| Stockage | Prédire le lieu de conservation, puis ouvrir l’écran client | Les deux réponses expliquent le rôle des équipements. L’image affichée est celle du début. |
+| Baie école | Ouvrir depuis l’allée, extraire le serveur, lancer l’aperçu | Le CPU, la RAM et le NVMe sont repérés. Le serveur produit un aperçu et la miniature repart vers le stockage. |
+| Stockage | Suivre la photo, choisir la banque libre, puis ouvrir l’écran client | La banque occupée refuse l’écriture. La banque libre reçoit la photo, puis l’écran client relit l’image du début. |
 | Belvédère | Monter et rejoindre le repère | Le joueur retrouve la salle et accède à la commande de demande. |
 | Électricité | Monter la demande puis suivre le réseau extérieur | Les rangées s’éveillent par paliers. La passerelle mène au poste et au point de vue sur la centrale fictive. |
 | Refroidissement | Ouvrir la vanne puis rejoindre l’échangeur | Le liquide chaud arrive à l’échangeur. Le rejet sec transfère la chaleur à l’air et le liquide refroidi repart vers les baies. |

@@ -143,11 +143,11 @@ public static partial class PhotoV2BlockoutBuilder
         Sign("ARRIVÉE FIBRE", new(1.49f,.845f,20.067f), .037f, Color.white);
         patch.cord = PatchLine("Cordon souple", amber, .021f, 5);
         patch.signalTrace = PatchLine("Tracé pédagogique · réseau vers calcul", cyan, .031f, 5);
+        var input = route.computeInput.position;
         patch.signalTrace.SetPositions(new[]
         {
             new Vector3(1.20f,1.34f,19.992f), new Vector3(1.20f,3.32f,19.96f),
-            new Vector3(1.20f,3.32f,24.38f), new Vector3(-1.30f,3.32f,24.38f),
-            new Vector3(-1.30f,1.90f,24.38f)
+            new Vector3(1.20f,3.32f,input.z), new Vector3(input.x,3.32f,input.z), input
         });
         patch.signalTrace.enabled = false;
         patch.signal = Box("Impulsion réseau", patch.signalTrace.GetPosition(0), new(.11f,.11f,.11f), amber).transform;

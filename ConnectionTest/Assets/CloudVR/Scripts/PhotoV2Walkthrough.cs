@@ -15,6 +15,8 @@ public sealed class PhotoV2Walkthrough : MonoBehaviour
     public GameObject badgeApproved;
     public PhotoV2PatchCord patchCord;
     public ServerBladeInteraction schoolRack;
+    public Transform computeInput;
+    public Transform computeOutput;
     public RawImage previewDisplay;
     public PhotoV2Storage storage;
     public PhotoV2Energy energy;
@@ -53,14 +55,14 @@ public sealed class PhotoV2Walkthrough : MonoBehaviour
         "Ouvrir la baie école",
         "Extraire le tiroir",
         "Générer l’aperçu",
-        "Choisir où la photo sera conservée",
+        "Sélectionner la banque de stockage libre",
         "Ouvrir la photo sur l’écran client",
         "Monter au balcon"
     };
     static readonly string[] Status =
     {
         "Prête", "En attente", "En attente", "En attente", "Reçue",
-        "Reçue", "Reçue", "Reçue", "Enregistrée", "Lisible", "Lisible"
+        "Reçue", "Reçue", "Traitée", "Enregistrée", "Lisible", "Lisible"
     };
 
     int _step;
@@ -88,7 +90,9 @@ public sealed class PhotoV2Walkthrough : MonoBehaviour
             if (_step == NetworkStep && patchCord) return patchCord.Instruction;
             if (SignalInTransit) return "Suivre le signal vers la baie école";
             if (_computeBusy && _step == PreviewStep) return "Aperçu en cours de génération";
-            if (_saving) return "Suivre la photo vers la baie de stockage";
+            if (_saving) return "Écriture en cours dans la banque B";
+            if (_step == StorageStep && storage && !storage.ReadyToRoute)
+                return "Suivre la photo jusqu’à la baie de stockage";
             return Instructions[_step];
         }
     }
@@ -133,9 +137,14 @@ public sealed class PhotoV2Walkthrough : MonoBehaviour
         }
         if (_step == StorageStep && storage)
         {
-            bool predictsStorage = hit.collider.gameObject == targets[_step];
-            if (!predictsStorage && hit.collider.gameObject != storage.alternative) return false;
-            StartCoroutine(RecordPhoto(predictsStorage));
+            if (!storage.ReadyToRoute) return false;
+            if (hit.collider == storage.busyBank)
+            {
+                storage.ReportBusy();
+                return false;
+            }
+            if (hit.collider.gameObject != targets[_step]) return false;
+            StartCoroutine(RecordPhoto());
             return true;
         }
         if (hit.collider.gameObject != targets[_step]) return false;
@@ -178,11 +187,10 @@ public sealed class PhotoV2Walkthrough : MonoBehaviour
         Debug.Log($"CLOUDVR_V2_STEP {_step}/{targets.Length}");
     }
 
-    IEnumerator RecordPhoto(bool predictedStorage)
+    IEnumerator RecordPhoto()
     {
         _saving = true;
-        storage.alternative.GetComponent<Collider>().enabled = false;
-        yield return storage.Save(_photo, predictedStorage);
+        yield return storage.Save();
         _sound.PlayOneShot(_confirmation,.18f);
         CompleteStep();
         _saving = false;
@@ -210,6 +218,11 @@ public sealed class PhotoV2Walkthrough : MonoBehaviour
             previewDisplay.enabled = true;
             previewLabel.text = "";
             _sound.PlayOneShot(_confirmation,.18f);
+            if (storage)
+            {
+                var source = schoolRack.serverBlade.TransformPoint(new Vector3(0,.11f,.42f));
+                StartCoroutine(storage.Deliver(_photo, source));
+            }
             Debug.Log("CLOUDVR_V2_PREVIEW_READY");
         }
         else

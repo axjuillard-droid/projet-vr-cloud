@@ -11,43 +11,88 @@ public static partial class PhotoV2BlockoutBuilder
         var aluminum = AssetDatabase.LoadAssetAtPath<Material>(Folder + "/V2 Aluminium.mat");
         var cyan = AssetDatabase.LoadAssetAtPath<Material>(Folder + "/V2 Cyan.mat");
 
+        var amber = AssetDatabase.LoadAssetAtPath<Material>(Folder + "/V2 Ambre.mat");
         var storage = route.gameObject.AddComponent<PhotoV2Storage>();
         route.storage = storage;
-        Box("Pied du pupitre de stockage", new(1.70f,.51f,36.52f), new(.23f,1.02f,.28f), aluminum);
-        Box("Pupitre · choix du stockage", new(1.70f,1.34f,36.52f), new(1.16f,.66f,.20f), graphite);
-        Sign("02   /   STOCKAGE", new(1.70f,1.78f,36.397f), .074f, Color.white);
-        var choice = route.targets[7].transform;
-        choice.position = new Vector3(1.40f,1.33f,36.376f);
-        choice.localScale = new Vector3(.45f,.17f,.072f);
-        choice.GetComponent<MeshRenderer>().sharedMaterial = aluminum;
-        storage.alternative = Box("Choix · serveur de calcul", new(2.00f,1.33f,36.376f),
-            new(.45f,.17f,.072f), aluminum);
-        Sign("BAIE DE STOCKAGE", choice.position + Vector3.back*.038f, .039f, Color.white, choice);
-        Sign("SERVEUR DE CALCUL", storage.alternative.transform.position + Vector3.back*.038f,
-            .039f, Color.white, storage.alternative.transform);
-        storage.explanation = Sign("Où sera conservée la photo ?", new(1.70f,1.56f,36.411f), .054f, Color.white);
-        storage.explanation.fontSize = 65;
-        storage.explanation.horizontalOverflow = HorizontalWrapMode.Wrap;
-        storage.explanation.transform.parent.GetComponent<RectTransform>().sizeDelta = new Vector2(1640,300);
+        storage.view = route.view;
+        storage.writtenIndicator = cyan;
 
-        Box("Armoire de stockage", new(2.85f,1.11f,37.05f), new(.98f,2.22f,.9f), graphite);
-        for (int row=0; row<7; row++)
+        const float x = 1.48f, face = 36.13f;
+        var cabinet = new GameObject("Baie de stockage").transform;
+        cabinet.position = new Vector3(x,0,36.63f);
+        GameObject CabinetBox(string name, Vector3 position, Vector3 size, Material material)
         {
-            float y = .38f+row*.245f;
-            Box("Support de disques", new(2.85f,y,36.592f), new(.89f,.20f,.04f), aluminum);
+            var item = Box(name, position, size, material);
+            item.transform.SetParent(cabinet,true);
+            return item;
+        }
+        Vector3 CabinetPoint(Vector3 point) => cabinet.TransformPoint(point - cabinet.position);
+
+        CabinetBox("Armoire de stockage", new(x,1.16f,36.63f), new(1.12f,2.32f,.90f), graphite);
+        Sign("02 / STOCKAGE", new(x,2.26f,face), .090f, Color.white, cabinet);
+        storage.explanation = Sign("EN ATTENTE DE LA PHOTO", new(x,1.93f,face), .038f, Color.white, cabinet);
+        CabinetBox("Répartiteur de la baie", new(x,2.09f,face), new(.20f,.08f,.12f), aluminum);
+        var distributor = new Vector3(x,2.09f,face-.12f);
+
+        var busy = CabinetBox("Banque A · occupée", new(x,1.66f,face), new(.95f,.22f,.08f), graphite);
+        storage.busyBank = busy.GetComponent<Collider>();
+        Sign("A / OCCUPÉE", busy.transform.position + Vector3.back*.043f, .068f, Color.white, busy.transform);
+        CabinetBox("Voyant banque A", new(x-.42f,1.66f,face-.047f), new(.055f,.045f,.015f), amber)
+            .GetComponent<Collider>().enabled = false;
+        var available = route.targets[7].transform;
+        available.SetParent(cabinet,true);
+        available.name = "Banque B · disponible";
+        available.position = new Vector3(x,1.34f,face);
+        available.localScale = new Vector3(.95f,.22f,.08f);
+        available.GetComponent<MeshRenderer>().sharedMaterial = aluminum;
+        storage.bankIndicator = CabinetBox("Voyant banque B", new(x-.42f,1.34f,face-.047f), new(.055f,.045f,.015f), aluminum)
+            .GetComponent<Renderer>();
+        storage.bankIndicator.GetComponent<Collider>().enabled = false;
+        storage.bankLabel = Sign("B / LIBRE", available.position + Vector3.back*.043f, .068f, Color.white, available);
+
+        for (int row=0; row<3; row++)
+        {
+            float y = .40f+row*.245f;
+            CabinetBox("Support de disques", new(x,y,face+.03f), new(.94f,.20f,.04f), aluminum);
             for (int drive=0; drive<5; drive++)
             {
-                float x = 2.51f+drive*.17f;
-                Box("Tiroir de disque", new(x,y,36.562f), new(.12f,.12f,.041f), graphite);
-                Box("Voyant de disque", new(x-.036f,y-.026f,36.538f), new(.022f,.014f,.009f), cyan);
+                float driveX = x-.34f+drive*.17f;
+                CabinetBox("Tiroir de disque", new(driveX,y,face), new(.12f,.12f,.041f), graphite);
+                CabinetBox("Voyant de disque", new(driveX-.036f,y-.026f,face-.024f), new(.022f,.014f,.009f), cyan);
             }
         }
-        Sign("STOCKAGE", new(2.85f,2.14f,36.54f), .066f, Color.white);
-        storage.archiveSlot = new GameObject("Emplacement pédagogique de la photo").transform;
-        storage.archiveSlot.position = new Vector3(2.85f,1.61f,36.49f);
-        storage.packet = Box("Impulsion vers le stockage", new(1.70f,1.32f,36.24f), new(.09f,.09f,.09f), cyan).transform;
-        storage.packet.GetComponent<Collider>().enabled = false;
-        storage.packet.gameObject.SetActive(false);
+
+        cabinet.rotation = Quaternion.Euler(0,52,0);
+        var inlet = CabinetPoint(distributor);
+        var outlet = route.computeOutput.position;
+        storage.serverLink = PatchLine("Liaison locale du serveur", amber, .025f, 2);
+        storage.serverLink.SetPositions(new[] { outlet, outlet });
+        storage.serverLink.enabled = false;
+        var deliveryPath = new[]
+        {
+            outlet, new Vector3(outlet.x,2.83f,outlet.z), new Vector3(outlet.x,2.83f,35.38f),
+            new Vector3(inlet.x,2.83f,35.38f), new Vector3(inlet.x,2.83f,inlet.z), inlet
+        };
+        storage.delivery = PatchLine("Câble du serveur à la baie de stockage", aluminum, .038f, deliveryPath.Length);
+        storage.delivery.SetPositions(deliveryPath);
+        storage.deliverySignal = amber;
+        storage.branch = PatchLine("Écriture vers la banque B", amber, .024f, 4);
+        storage.branch.SetPositions(new[] { inlet, CabinetPoint(new Vector3(x+.47f,2.09f,distributor.z)),
+            CabinetPoint(new Vector3(x+.47f,1.34f,distributor.z)), CabinetPoint(new Vector3(x+.32f,1.34f,face-.048f)) });
+        storage.branch.enabled = false;
+
+        var packet = new GameObject("Miniature en transit", typeof(RectTransform), typeof(Canvas));
+        packet.GetComponent<Canvas>().renderMode = RenderMode.WorldSpace;
+        packet.transform.localScale = Vector3.one*.002f;
+        packet.GetComponent<RectTransform>().sizeDelta = new Vector2(130,86);
+        storage.packetCarrier = packet.transform;
+        storage.packet = new GameObject("Photo", typeof(RectTransform), typeof(RawImage)).GetComponent<RawImage>();
+        storage.packet.transform.SetParent(packet.transform, false);
+        storage.packet.rectTransform.sizeDelta = new Vector2(130,86);
+        // Garder la miniature devant la section du câble lorsque son support atteint le répartiteur.
+        storage.packet.rectTransform.localPosition = new Vector3(0,-10,-24);
+        storage.packet.raycastTarget = false;
+        storage.packet.enabled = false;
 
         var client = route.targets[8].transform;
         client.position = new Vector3(1.36f,1.41f,38.13f);
@@ -77,8 +122,8 @@ public static partial class PhotoV2BlockoutBuilder
         Sign("BELVÉDÈRE", balcony.position + Vector3.back*.038f, .066f, Color.white, balcony);
         for(int side=-1; side<=1; side+=2)
         {
-            float x = side*2.47f;
-            Box("Lisse du balcon", new(x,4.42f,55.08f), new(1.91f,.065f,.07f), aluminum);
+            float railingX = side*2.47f;
+            Box("Lisse du balcon", new(railingX,4.42f,55.08f), new(1.91f,.065f,.07f), aluminum);
             for(int post=0;post<3;post++)
                 Box("Montant du balcon", new(side*(1.56f+post*.87f),3.94f,55.08f),
                     new(.075f,1.10f,.075f), graphite);

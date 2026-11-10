@@ -2,6 +2,10 @@
 
 Mis à jour le 10 novembre 2026.
 
+## V2 — Baie école et écriture guidée, 10 novembre 2026
+
+- Baie orientée vers l’allée centrale. La miniature part du serveur, rejoint le répartiteur de stockage puis entre dans la banque libre sélectionnée. Le test Windows vérifie la continuité des raccords, les refus d’écriture et la relecture. BuildPipeline 0 erreur et 0 avertissement. Test D3D11 de bout en bout réussi jusqu’à la rivière et captures du tiroir, du répartiteur et de la relecture inspectées. Avertissement JobTempAlloc à la fermeture déjà observé. Casque non testé. [Preuves](validation/v2-storage-chain-2026-11-10/README.md).
+
 ## V2 — Fibre extérieure et brassage, 10 novembre 2026
 
 - Une seule arrivée du parvis au tiroir optique. Le signal traverse le cordon branché avant d’atteindre la baie école. BuildPipeline 0 erreur et 0 avertissement. Les deux variantes D3D11 passent jusqu’à la rivière, avec contrôle du branchement et capture du raccord de façade. Le journal signale JobTempAlloc à la fermeture, déjà observé. Raccord de caméra avec la cinématique et essai Quest à faire. [Preuves](validation/v2-fiber-2026-11-10/README.md).

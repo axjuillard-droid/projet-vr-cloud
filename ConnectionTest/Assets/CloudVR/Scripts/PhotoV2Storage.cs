@@ -4,35 +4,83 @@ using UnityEngine.UI;
 
 public sealed class PhotoV2Storage : MonoBehaviour
 {
-    public GameObject alternative;
-    public Transform packet;
-    public Transform archiveSlot;
+    public Collider busyBank;
+    public Renderer bankIndicator;
+    public Material writtenIndicator;
+    public Camera view;
+    public Transform packetCarrier;
+    public RawImage packet;
+    public LineRenderer serverLink;
+    public LineRenderer delivery;
+    public Material deliverySignal;
+    public LineRenderer branch;
     public Text explanation;
+    public Text bankLabel;
     public Text clientLabel;
     public RawImage clientImage;
 
+    Texture2D _inFlight;
     Texture2D _stored;
+    public bool ReadyToRoute { get; private set; }
     public bool Saved => _stored != null;
     public bool Readable => clientImage.enabled;
-    public bool PredictedStorage { get; private set; }
 
-    public IEnumerator Save(Texture2D photo, bool predictedStorage)
+    void LateUpdate()
     {
-        PredictedStorage = predictedStorage;
-        explanation.text = predictedStorage
-            ? "Oui. La photo rejoint la baie de stockage."
-            : "Le serveur a produit l’aperçu. Ici, la baie de stockage conserve la photo.";
-        var start = packet.position;
-        packet.gameObject.SetActive(true);
-        for (float elapsed = 0; elapsed < 1.15f; elapsed += Time.deltaTime)
-        {
-            packet.position = Vector3.Lerp(start, archiveSlot.position, Mathf.SmoothStep(0,1,elapsed / 1.15f));
-            yield return null;
-        }
-        packet.position = archiveSlot.position;
-        _stored = photo;
+        if (packet.enabled)
+            packetCarrier.rotation = Quaternion.LookRotation(packetCarrier.position - view.transform.position);
+    }
+
+    public IEnumerator Deliver(Texture2D photo, Vector3 from)
+    {
+        _inFlight = photo;
+        packet.texture = photo;
+        packetCarrier.position = from;
+        packet.enabled = true;
+        serverLink.SetPosition(0, from);
+        serverLink.enabled = true;
+        delivery.sharedMaterial = deliverySignal;
+        yield return Follow(serverLink, 1.8f);
+        yield return Follow(delivery, 3.7f);
+        ReadyToRoute = true;
+        explanation.text = "PHOTO REÇUE • SÉLECTIONNER UNE BANQUE LIBRE";
+    }
+
+    public void ReportBusy()
+    {
+        explanation.text = "BANQUE A OCCUPÉE • ESSAYER LA BANQUE B";
+    }
+
+    public IEnumerator Save()
+    {
+        ReadyToRoute = false;
+        explanation.text = "BANQUE B • ÉCRITURE EN COURS";
+        bankLabel.text = "B / ÉCRITURE";
+        branch.enabled = true;
+        yield return Follow(branch, 1.6f);
+        _stored = _inFlight;
+        packet.enabled = false;
+        bankIndicator.sharedMaterial = writtenIndicator;
+        bankLabel.text = "B / ENREGISTRÉE";
+        explanation.text = "BANQUE B • PHOTO ENREGISTRÉE";
         clientLabel.text = "OUVRIR LA PHOTO";
         Debug.Log("CLOUDVR_V2_PHOTO_SAVED");
+    }
+
+    IEnumerator Follow(LineRenderer path, float speed)
+    {
+        for (int i = 1; i < path.positionCount; i++)
+        {
+            var from = path.GetPosition(i - 1);
+            var to = path.GetPosition(i);
+            float duration = Vector3.Distance(from, to) / speed;
+            for (float time = 0; time < duration; time += Time.deltaTime)
+            {
+                packetCarrier.position = Vector3.Lerp(from, to, time / duration);
+                yield return null;
+            }
+            packetCarrier.position = to;
+        }
     }
 
     public bool Read()

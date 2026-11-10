@@ -23,10 +23,9 @@ public sealed class PhotoV2Smoke : MonoBehaviour
         }
 
         bool capture = Array.Exists(Environment.GetCommandLineArgs(), arg => arg == "--cloudvr-v2-capture");
-        bool alternate = Array.Exists(Environment.GetCommandLineArgs(), arg => arg == "--cloudvr-v2-storage-alternate");
         route.player.enabled = false;
         var controller = route.player.GetComponent<CharacterController>();
-        var waypoints = new[] { 1f, 10.8f, 14.1f, 18.6f, 23.5f, 23.5f, 23.5f, 35.5f, 36.9f, 57.4f };
+        var waypoints = new[] { 1f, 10.8f, 14.1f, 18.6f, 25.35f, 25.35f, 25.35f, 35.5f, 36.9f, 57.4f };
         bool AimAt(GameObject target) => route.TryAdvance(new Ray(route.view.transform.position,
             target.transform.position - route.view.transform.position));
         if (AimAt(route.targets[1]))
@@ -45,7 +44,7 @@ public sealed class PhotoV2Smoke : MonoBehaviour
             for (int move = 0; move < 400 && controller.transform.position.z < z - .02f; move++)
                 controller.Move(new Vector3(0, -.05f, Mathf.Min(.08f, z - controller.transform.position.z)));
             yield return null;
-            var target = i == 7 && alternate ? route.storage.alternative : route.targets[i];
+            var target = route.targets[i];
             route.view.transform.rotation = Quaternion.LookRotation(target.transform.position - route.view.transform.position);
             if (capture && (i == 0 || i == 1 || i == 2 || i == 3))
                 yield return Capture(route.view, i, "poste");
@@ -86,7 +85,8 @@ public sealed class PhotoV2Smoke : MonoBehaviour
                 var end = patch.signalTrace.GetPosition(patch.signalTrace.positionCount - 1);
                 if (!patch.CordSignalTraversed || !patch.signalTrace.enabled || !patch.SignalDelivered
                     || route.PhotoStatus != "Reçue"
-                    || Vector3.Distance(patch.signal.position, end) > .015f)
+                    || Vector3.Distance(patch.signal.position, end) > .015f
+                    || Vector3.Distance(end, route.computeInput.position) > .015f)
                 {
                     Fail("Le signal ne rejoint pas la baie école.");
                     yield break;
@@ -96,21 +96,48 @@ public sealed class PhotoV2Smoke : MonoBehaviour
             }
             else if (i == 7)
             {
-                if (AimAt(route.targets[8]) || !AimAt(target) || route.Step != 7
-                    || route.storage.Saved || route.PhotoStatus != "Reçue" || AimAt(target))
+                var storage = route.storage;
+                float deadline = Time.realtimeSinceStartup + 7;
+                while (!storage.ReadyToRoute && Time.realtimeSinceStartup < deadline) yield return null;
+                var arrival = storage.delivery.GetPosition(storage.delivery.positionCount - 1);
+                if (!storage.ReadyToRoute || !storage.packet.enabled
+                    || Vector3.Distance(arrival, storage.packetCarrier.position) > .015f
+                    || Vector3.Distance(arrival, storage.branch.GetPosition(0)) > .015f
+                    || Vector3.Distance(storage.delivery.GetPosition(0), route.computeOutput.position) > .015f
+                    || AimAt(route.targets[8]) || AimAt(storage.busyBank.gameObject)
+                    || !storage.explanation.text.Contains("OCCUPÉE") || storage.Saved || route.Step != 7)
                 {
-                    Fail("Le choix doit précéder la confirmation et la relecture.");
+                    Fail("La photo doit arriver au répartiteur et la banque occupée doit refuser l’écriture.");
                     yield break;
                 }
-                float deadline = Time.realtimeSinceStartup + 3;
+                if (capture)
+                {
+                    route.view.transform.rotation = Quaternion.LookRotation(
+                        arrival - route.view.transform.position);
+                    yield return Capture(route.view, i, "repartiteur");
+                }
+                if (!AimAt(target) || route.Step != 7 || storage.Saved || route.PhotoStatus != "Traitée"
+                    || AimAt(target) || AimAt(route.targets[8]))
+                {
+                    Fail("La banque libre doit démarrer une seule écriture et bloquer la relecture.");
+                    yield break;
+                }
+                deadline = Time.realtimeSinceStartup + 4;
                 while (route.Step == 7 && Time.realtimeSinceStartup < deadline) yield return null;
-                if (route.Step != 8 || !route.storage.Saved || route.storage.PredictedStorage == alternate
-                    || route.storage.Readable || route.PhotoStatus != "Enregistrée")
+                var slot = storage.branch.GetPosition(storage.branch.positionCount - 1);
+                if (route.Step != 8 || !storage.Saved || storage.Readable || storage.packet.enabled
+                    || !storage.branch.enabled || Vector3.Distance(slot, storage.packetCarrier.position) > .015f
+                    || route.PhotoStatus != "Enregistrée")
                 {
-                    Fail("Le choix de stockage n’a pas confirmé la sauvegarde simulée.");
+                    Fail("La photo doit entrer dans la banque libre avant d’être enregistrée.");
                     yield break;
                 }
-                if (capture) yield return Capture(route.view, i, "stockage");
+                if (capture)
+                {
+                    route.view.transform.rotation = Quaternion.LookRotation(
+                        target.transform.position - route.view.transform.position);
+                    yield return Capture(route.view, i, "stockage");
+                }
             }
             else if (!AimAt(target))
             {
@@ -159,10 +186,15 @@ public sealed class PhotoV2Smoke : MonoBehaviour
                         && Quaternion.Angle(closedDoor, school.rackDoor.localRotation) > 85,
                     5 => school.CurrentState == ServerBladeInteraction.State.ServerExtracted
                         && school.hardwareLabels.activeSelf
+                        && Vector3.Dot(school.transform.TransformDirection(Vector3.back),
+                            route.view.transform.position - school.transform.position) > 1f
                         && Vector3.Distance(insertedDrawer, school.serverBlade.localPosition) > .62f,
                     _ => route.PreviewReady && route.previewDisplay.enabled
                         && route.previewDisplay.texture.width == 24 && route.previewDisplay.texture.height == 16
-                        && route.PhotoStatus == "Reçue"
+                        && route.PhotoStatus == "Traitée"
+                        && route.storage.packet.enabled
+                        && route.storage.delivery.sharedMaterial == route.storage.deliverySignal
+                        && Vector3.Distance(route.storage.serverLink.GetPosition(1), route.computeOutput.position) < .015f
                 };
                 if (route.Step != i + 1 || !physicalResult)
                 {
@@ -186,7 +218,7 @@ public sealed class PhotoV2Smoke : MonoBehaviour
                     yield break;
                 }
                 if (capture) yield return Capture(route.view, i, "relecture");
-                Debug.Log("CLOUDVR_V2_STORAGE_PASS " + (alternate ? "calcul" : "stockage"));
+                Debug.Log("CLOUDVR_V2_STORAGE_PASS sortie serveur, banque occupée refusée, écriture et relecture de la même photo");
             }
             if (i == 9 && capture)
             {

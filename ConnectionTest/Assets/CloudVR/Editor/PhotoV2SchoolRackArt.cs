@@ -26,7 +26,13 @@ public static partial class PhotoV2BlockoutBuilder
         foreach (float y in new[] {.28f,.50f,.72f,.94f,1.62f,1.84f})
             Box("Obturateur", root.position+new Vector3(0,y,-.44f), new(.87f,.17f,.04f), graphite)
                 .transform.SetParent(root,true);
-        Sign("BAIE ÉCOLE 01", root.position + new Vector3(0,2.16f,-.508f), .078f, Color.white);
+        Sign("BAIE ÉCOLE 01", root.position + new Vector3(0,2.16f,-.508f), .078f, Color.white, root);
+        route.computeInput = Box("Port réseau du serveur", root.position + new Vector3(-.28f,1.96f,-.53f),
+            new(.13f,.075f,.08f), cyan).transform;
+        route.computeOutput = Box("Sortie du serveur vers le stockage", root.position + new Vector3(.28f,1.96f,-.53f),
+            new(.13f,.075f,.08f), AssetDatabase.LoadAssetAtPath<Material>(Folder + "/V2 Ambre.mat")).transform;
+        route.computeInput.SetParent(root,true);
+        route.computeOutput.SetParent(root,true);
 
         var rack = root.gameObject.AddComponent<ServerBladeInteraction>();
         route.schoolRack = rack;
@@ -55,20 +61,23 @@ public static partial class PhotoV2BlockoutBuilder
         var labels = new GameObject("Repères du serveur").transform;
         labels.SetParent(rack.serverBlade,false);
         rack.hardwareLabels = labels.gameObject;
-        MarkPart(labels, "CPU · traitement", new Vector3(.06f,.25f,.38f));
-        MarkPart(labels, "RAM · mémoire de travail", new Vector3(-.19f,.16f,.48f));
-        MarkPart(labels, "NVMe · stockage local", new Vector3(.05f,.14f,.78f));
+        MarkPart(labels, "CPU · traitement", new Vector3(.06f,.38f,.38f));
+        MarkPart(labels, "RAM · mémoire de travail", new Vector3(-.19f,.29f,.48f));
+        MarkPart(labels, "NVMe · stockage local", new Vector3(.05f,.20f,.78f));
         labels.gameObject.SetActive(false);
 
         var screen = route.targets[6].transform;
         screen.position = root.position + new Vector3(.69f,1.48f,-.52f);
         screen.localScale = new Vector3(.33f,.28f,.062f);
         screen.GetComponent<MeshRenderer>().sharedMaterial = graphite;
-        Box("Potence écran aperçu", root.position+new Vector3(.53f,1.36f,-.49f), new(.15f,.035f,.055f), aluminum);
+        screen.SetParent(root,true);
+        Box("Potence écran aperçu", root.position+new Vector3(.53f,1.36f,-.49f), new(.15f,.035f,.055f), aluminum)
+            .transform.SetParent(root,true);
         var panel = new GameObject("Écran aperçu", typeof(RectTransform), typeof(Canvas));
         var canvas = panel.GetComponent<Canvas>();
         canvas.renderMode = RenderMode.WorldSpace;
         panel.transform.position = screen.position + Vector3.back * .033f;
+        panel.transform.SetParent(root,true);
         panel.transform.localScale = Vector3.one * .0008f;
         panel.GetComponent<RectTransform>().sizeDelta = new Vector2(395,330);
         var image = new GameObject("Miniature", typeof(RectTransform), typeof(UnityEngine.UI.RawImage))
@@ -78,7 +87,10 @@ public static partial class PhotoV2BlockoutBuilder
         image.raycastTarget = false;
         image.enabled = false;
         route.previewDisplay = image;
-        route.previewLabel = Sign("GÉNÉRER L’APERÇU", screen.position + new Vector3(0,0,-.035f), .031f, Color.white);
+        route.previewLabel = Sign("GÉNÉRER L’APERÇU", screen.position + new Vector3(0,0,-.035f), .031f, Color.white, root);
+
+        // Orienter la face de service vers l’allée centrale après avoir assemblé la baie.
+        root.rotation = Quaternion.Euler(0,-90,0);
     }
 
     static Transform SchoolModel(string name, Transform parent)
@@ -102,7 +114,7 @@ public static partial class PhotoV2BlockoutBuilder
 
     static void MarkPart(Transform parent, string title, Vector3 localPosition)
     {
-        var label = Sign(title, parent.TransformPoint(localPosition), .026f, Color.white);
+        var label = Sign(title, parent.TransformPoint(localPosition), .035f, Color.white);
         label.transform.parent.SetParent(parent,true);
     }
 }
