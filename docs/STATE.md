@@ -2,6 +2,10 @@
 
 Mis à jour le 10 novembre 2026.
 
+## V2 — Stockage et belvédère, 10 novembre 2026
+
+- Le choix calcul ou stockage déclenche un retour spécifique puis l’enregistrement simulé. L’écran client affiche la même photo que dans la chambre et le belvédère conclut la marche. Deux parcours de 10 actions passent dans Windows D3D11, un par choix. BuildPipeline 0 erreur/0 avertissement. Les vues caméra ont permis de corriger le pied de l’écran qui masquait l’image. Le hall et le balcon restent en volumes de travail. [Captures et résultat](validation/v2-storage-2026-11-10/README.md).
+
 ## V2 — Baie école, 10 novembre 2026
 
 - Porte et serveur 2U du projet réutilisés. La porte pivote, le tiroir avance sur rails et le joueur génère l’aperçu de la même image au pupitre. Le statut reste « Reçue » avant stockage. BuildPipeline 0 erreur/0 avertissement et 10 actions vérifiées en D3D11, dont refus des actions répétées pendant le geste. Le stockage guidé et la finition du balcon restent à faire. [Preuves](validation/v2-school-rack-2026-11-10/README.md).

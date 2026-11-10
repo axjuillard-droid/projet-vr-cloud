@@ -23,9 +23,10 @@ public sealed class PhotoV2Smoke : MonoBehaviour
         }
 
         bool capture = Array.Exists(Environment.GetCommandLineArgs(), arg => arg == "--cloudvr-v2-capture");
+        bool alternate = Array.Exists(Environment.GetCommandLineArgs(), arg => arg == "--cloudvr-v2-storage-alternate");
         route.player.enabled = false;
         var controller = route.player.GetComponent<CharacterController>();
-        var waypoints = new[] { 1f, 10.8f, 14.1f, 18.6f, 23.5f, 23.5f, 23.5f, 35.2f, 36.9f, 57.4f };
+        var waypoints = new[] { 1f, 10.8f, 14.1f, 18.6f, 23.5f, 23.5f, 23.5f, 35.5f, 36.9f, 57.4f };
         bool AimAt(GameObject target) => route.TryAdvance(new Ray(route.view.transform.position,
             target.transform.position - route.view.transform.position));
         if (AimAt(route.targets[1]))
@@ -44,7 +45,7 @@ public sealed class PhotoV2Smoke : MonoBehaviour
             for (int move = 0; move < 400 && controller.transform.position.z < z - .02f; move++)
                 controller.Move(new Vector3(0, -.05f, Mathf.Min(.08f, z - controller.transform.position.z)));
             yield return null;
-            var target = route.targets[i];
+            var target = i == 7 && alternate ? route.storage.alternative : route.targets[i];
             route.view.transform.rotation = Quaternion.LookRotation(target.transform.position - route.view.transform.position);
             if (capture && (i == 0 || i == 1 || i == 2 || i == 3))
                 yield return Capture(route.view, i, "poste");
@@ -82,6 +83,24 @@ public sealed class PhotoV2Smoke : MonoBehaviour
                     yield break;
                 }
                 Debug.Log("CLOUDVR_V2_PATCH_PASS prise, port B refusé, port A connecté, signal arrivé");
+            }
+            else if (i == 7)
+            {
+                if (AimAt(route.targets[8]) || !AimAt(target) || route.Step != 7
+                    || route.storage.Saved || route.PhotoStatus != "Reçue" || AimAt(target))
+                {
+                    Fail("Le choix doit précéder la confirmation et la relecture.");
+                    yield break;
+                }
+                float deadline = Time.realtimeSinceStartup + 3;
+                while (route.Step == 7 && Time.realtimeSinceStartup < deadline) yield return null;
+                if (route.Step != 8 || !route.storage.Saved || route.storage.PredictedStorage == alternate
+                    || route.storage.Readable || route.PhotoStatus != "Enregistrée")
+                {
+                    Fail("Le choix de stockage n’a pas confirmé la sauvegarde simulée.");
+                    yield break;
+                }
+                if (capture) yield return Capture(route.view, i, "stockage");
             }
             else if (!AimAt(target))
             {
@@ -142,6 +161,22 @@ public sealed class PhotoV2Smoke : MonoBehaviour
                 }
                 if (capture && i == 6) yield return Capture(route.view, i, "apercu");
                 if (i == 6) Debug.Log("CLOUDVR_V2_COMPUTE_PASS porte, tiroir, aperçu, double action refusée");
+            }
+            if (i == 8)
+            {
+                if (!route.SamePhotoRead || route.Step != 9 || route.PhotoStatus != "Lisible")
+                {
+                    Fail("L’écran client doit afficher la même photo.");
+                    yield break;
+                }
+                if (capture) yield return Capture(route.view, i, "relecture");
+                Debug.Log("CLOUDVR_V2_STORAGE_PASS " + (alternate ? "calcul" : "stockage"));
+            }
+            if (i == 9 && capture)
+            {
+                var rack = route.schoolRack.transform.position + Vector3.up * 2;
+                route.view.transform.rotation = Quaternion.LookRotation(rack - route.view.transform.position);
+                yield return Capture(route.view, i, "balcon");
             }
             if (i == 2 && (!route.sasEntrance.activeSelf || route.barriers[2].activeSelf || !route.badgeApproved.activeSelf))
             {

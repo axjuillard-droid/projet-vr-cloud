@@ -224,10 +224,12 @@ Le premier prototype V2 est une scène indépendante. Il sert à tester l’ordr
 
 Dans Unity 6000.0.58f2, utiliser **CloudVR > V2 > Générer le parcours Photo**, puis Play sur `Assets/Scenes/CloudVRV2/PhotoBlockout.unity`. Le menu **Construire le player Windows** inclut cette seule scène et écrit le player de développement dans `ConnectionTest/Builds/Windows-V2`. Le test automatique opt-in se lance avec l’argument `--cloudvr-v2-smoke`. Il traverse les volumes au CharacterController et vérifie la visée et l’ordre d’activation.
 
-L’ouverture V2 ajoute un bureau habillé, un trajet fibre de cinq secondes, une façade signalée, un sas éclairé et un panneau de brassage. Le test contrôle aussi le refus du double envoi et la reprise devant la façade. Le lecteur est intégré au sas. En salle réseau, viser la fiche orange et sélectionner, puis viser le port A et sélectionner de nouveau. Le signal suit le tracé vers la baie école. Dans la baie école, sélectionner la poignée, puis la façade du tiroir, puis le pupitre d’aperçu. Le choix de stockage et le parcours Enjeux restent à produire. La miniature est illustrative, la montée utilise une rampe de travail et cette livraison cible le PC.
+L’ouverture V2 ajoute un bureau habillé, un trajet fibre de cinq secondes, une façade signalée, un sas éclairé et un panneau de brassage. Le test contrôle aussi le refus du double envoi et la reprise devant la façade. Le lecteur est intégré au sas. En salle réseau, viser la fiche orange et sélectionner, puis viser le port A et sélectionner de nouveau. Le signal suit le tracé vers la baie école. Dans la baie école, sélectionner la poignée, puis la façade du tiroir, puis le pupitre d’aperçu. Au stockage, sélectionner une hypothèse sur le pupitre, suivre l’impulsion vers les disques et ouvrir la photo sur l’écran client. Les deux choix donnent un retour et mènent au balcon. Le parcours Enjeux et la finition du panorama restent à produire. La miniature est illustrative, la montée utilise une rampe de travail et cette livraison cible le PC.
 
 [Captures de l’ouverture et résultat D3D11](docs/validation/v2-opening-2026-11-10/README.md).
 
 [Branchement et validation réseau V2](docs/validation/v2-patch-2026-11-10/README.md).
 
 [Baie école et aperçu](docs/validation/v2-school-rack-2026-11-10/README.md).
+
+[Stockage, relecture et belvédère](docs/validation/v2-storage-2026-11-10/README.md).

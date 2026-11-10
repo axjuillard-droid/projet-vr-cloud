@@ -233,3 +233,7 @@ Réutilisation des matériaux d’ouverture, du bip existant et des raycasts PC.
 ## V2 — Baie école, 10 novembre 2026
 
 Réutilisation du serveur et de la porte FBX existants, de ServerBladeInteraction et de ses sons procéduraux, et du Canvas world-space V2. Une image illustrative est générée localement et réduite pour l’aperçu. Aucun asset tiers ni package ajouté.
+
+## V2 — Stockage et relecture, 10 novembre 2026
+
+Réutilisation des cibles PC, de la même texture Photo V2, des matériaux de la baie et du Canvas world-space. Le transfert est représenté par une impulsion et la photo reste en mémoire dans le player pour la relecture. Aucun package ni média externe.

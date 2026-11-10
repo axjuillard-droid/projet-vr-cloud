@@ -16,6 +16,7 @@ public sealed class PhotoV2Walkthrough : MonoBehaviour
     public PhotoV2PatchCord patchCord;
     public ServerBladeInteraction schoolRack;
     public RawImage previewDisplay;
+    public PhotoV2Storage storage;
     public Text previewLabel;
     public NetworkRideVisuals film;
     public Vector3 arrival;
@@ -26,6 +27,10 @@ public sealed class PhotoV2Walkthrough : MonoBehaviour
     const int NetworkStep = 3;
     const int ComputeStep = 4;
     const int PreviewStep = 6;
+    const int StorageStep = 7;
+    const int ReadStep = 8;
+    bool _saving;
+    public bool SamePhotoRead => storage && storage.Shows(_photo);
     bool _computeBusy;
     Texture2D _preview;
     public bool PreviewReady => _preview != null;
@@ -44,7 +49,7 @@ public sealed class PhotoV2Walkthrough : MonoBehaviour
         "Ouvrir la baie école",
         "Extraire le tiroir",
         "Générer l’aperçu",
-        "Identifier le stockage de la photo",
+        "Choisir où la photo sera conservée",
         "Ouvrir la photo sur l’écran client",
         "Monter au balcon"
     };
@@ -79,6 +84,7 @@ public sealed class PhotoV2Walkthrough : MonoBehaviour
             if (_step == NetworkStep && patchCord) return patchCord.Instruction;
             if (SignalInTransit) return "Suivre le signal vers la baie école";
             if (_computeBusy && _step == PreviewStep) return "Aperçu en cours de génération";
+            if (_saving) return "Suivre la photo vers la baie de stockage";
             return Instructions[_step];
         }
     }
@@ -101,7 +107,7 @@ public sealed class PhotoV2Walkthrough : MonoBehaviour
 
     public bool TryAdvance(Ray ray)
     {
-        if (IsTravelling || player.InputPaused || SignalInTransit || _computeBusy || _step >= targets.Length || !Physics.Raycast(ray, out var hit, 3.1f))
+        if (IsTravelling || player.InputPaused || SignalInTransit || _computeBusy || _saving || _step >= targets.Length || !Physics.Raycast(ray, out var hit, 3.1f))
             return false;
         if (_step == NetworkStep && patchCord)
         {
@@ -110,7 +116,15 @@ public sealed class PhotoV2Walkthrough : MonoBehaviour
             if (patchCord.Connected) CompleteStep();
             return true;
         }
+        if (_step == StorageStep && storage)
+        {
+            bool predictsStorage = hit.collider.gameObject == targets[_step];
+            if (!predictsStorage && hit.collider.gameObject != storage.alternative) return false;
+            StartCoroutine(RecordPhoto(predictsStorage));
+            return true;
+        }
         if (hit.collider.gameObject != targets[_step]) return false;
+        if (_step == ReadStep && storage && !storage.Read()) return false;
         if (schoolRack && _step >= ComputeStep && _step <= PreviewStep)
         {
             StartCoroutine(AdvanceCompute());
@@ -138,13 +152,24 @@ public sealed class PhotoV2Walkthrough : MonoBehaviour
         var barrier = barriers[_step];
         if (barrier) barrier.SetActive(false);
         var target = targets[_step];
-        if (target == badgeReader || (_step == NetworkStep && patchCord) || (_step == PreviewStep && schoolRack))
+        if (target == badgeReader || (_step == NetworkStep && patchCord) || (_step == PreviewStep && schoolRack) || (_step == ReadStep && storage)
+            || (_step == StorageStep && storage) || _step == targets.Length - 1)
             target.GetComponent<Collider>().enabled = false;
         else
             target.SetActive(false);
         _step++;
         ShowGuide();
         Debug.Log($"CLOUDVR_V2_STEP {_step}/{targets.Length}");
+    }
+
+    IEnumerator RecordPhoto(bool predictedStorage)
+    {
+        _saving = true;
+        storage.alternative.GetComponent<Collider>().enabled = false;
+        yield return storage.Save(_photo, predictedStorage);
+        _sound.PlayOneShot(_confirmation,.18f);
+        CompleteStep();
+        _saving = false;
     }
 
     IEnumerator AdvanceCompute()
