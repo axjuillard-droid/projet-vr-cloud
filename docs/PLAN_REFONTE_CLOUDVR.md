@@ -10,14 +10,15 @@ Avant la première modification Unity, copier l’intégralité de `ConnectionTe
 
 | Séquence | Geste et résultat | Notion à retenir |
 |---|---|---|
-| Chambre | Cliquer sur l’écran. Une miniature identifiable reste visible et son envoi passe en cours. | Le PC est un client qui demande un service distant. |
-| Trajet et arrivée | Suivre une animation courte jusqu’à l’entrée du réseau du site. Retrouver le bâtiment à taille réelle. Franchir un sas au guidage visible. | Le trafic arrive par un réseau. Le sas contrôle les accès physiques. |
-| Entrée réseau | Suivre le signal du portique à la baie réseau. Activer un repère sur un port et suivre la demande jusqu’au serveur de l’application. | Les équipements réseau acheminent les données. Un serveur exécute le service. |
-| Baie école | Ouvrir la porte, extraire le tiroir de formation, puis lancer une génération de miniature sur un pupitre de démonstration. Comparer la photo à son aperçu. | Une baie contient des serveurs. Le calcul transforme des données, avec des rôles distincts pour le CPU, la mémoire et le stockage local. |
-| Stockage et vérification | Suivre la photo vers le stockage, voir la confirmation, puis ouvrir la même miniature sur un écran client. | Recevoir, enregistrer et relire sont des étapes distinctes. |
-| Passage au balcon | Suivre une enseigne fixe vers la passerelle. Retrouver la baie école, puis découvrir les rangées et l’étendue de la salle. | La visite change d’échelle et de point de vue. |
+| 1. Chambre | Cliquer sur Envoyer. La miniature entre dans l’écran et un son bref confirme le départ. | Le PC demande un service distant. |
+| 2. Trajet | Suivre la miniature dans une cinématique courte et retrouver la façade à taille réelle. Le contrôle revient face à l’entrée. | Le réseau achemine la demande. |
+| 3. Façade et sas | Présenter le badge de visiteur. Le sas valide l’accès physique et ouvre la seconde porte après fermeture de la première. | Le badge autorise une personne à entrer. La photo poursuit son trajet par le réseau. |
+| 4. Arrivée réseau | Brancher un cordon lumineux sur un panneau école. Le port s’allume et un signal mène vers le serveur de l’application. | Le réseau oriente la demande vers le bon service. |
+| 5. Allée et baie école | Ouvrir, extraire, puis lancer l’aperçu. Trois consignes successives accompagnent ces gestes. Une coupe animée montre CPU, RAM et NVMe. | Le serveur traite la donnée et produit un aperçu. |
+| 6. Stockage | Prédire où la photo sera conservée en visant un des deux équipements. Le signal révèle le stockage prévu dans ce scénario. Ouvrir la photo sur un écran client. | Réception, enregistrement et relecture sont distincts. |
+| 7. Balcon | Avancer vers la vitre. Retrouver la baie école grâce à son repère, puis découvrir les rangées. | Passer d’un serveur à une salle entière. |
 
-Une photo d’exemple, un identifiant de scénario et un état partagé suffisent au prototype. Les pannes réseau et la récupération d’un fichier peuvent revenir comme démonstrations facultatives. Des enseignes fixes et des repères sur les équipements remplacent les coordonnées et les indications dépendantes de l’orientation.
+Le trajet physique avance dans le même ordre que le trajet raconté. Un trait cyan indique seulement la prochaine cible. La miniature et son statut (« en attente », « reçue », « enregistrée », « lisible ») restent visibles avec une présentation adaptée au PC et au casque. Une ligne de consigne et un verbe à la fois. Les transitions répondent aux gestes, avec des animations courtes. La prédiction au stockage donne un retour immédiat quel que soit le choix. Les modules A/B et restauration restent facultatifs. Les durées proposées servent de repères de test. Aucun objectif global de durée. Une attente passive de plus de 20 à 25 secondes déclenche une revue de mise en scène.
 
 ## 2. Montrer les trois enjeux
 
@@ -28,6 +29,13 @@ Une photo d’exemple, un identifiant de scénario et un état partagé suffisen
 Les trois séquences partagent l’état du site. Une même demande alimente les représentations du calcul, de la chaleur à évacuer et de l’eau d’appoint. La découverte introduit les équipements. Chaque enjeu a ensuite un geste et une conséquence visible.
 
 ## 3. Ordre de production et validation
+
+**Valider le rendu en mouvement avant de produire tous les décors.** Construire d’abord un parcours gris complet à l’échelle du joueur. Vérifier les circulations, la taille des cibles, les positions d’arrêt et le passage du sas. Produire ensuite deux séquences de référence finies, de la chambre au port réseau et de la baie école au balcon. Elles fixent le niveau de qualité attendu pour l’ensemble.
+
+- **Image.** Chambre chaude, façade neutre, salle technique froide, balcon lumineux. Fixer les matériaux, contrastes et températures de lumière sur des captures prises dans le player. Contrôler notamment le crénelage, le scintillement des surfaces et la lisibilité des voyants en tournant la caméra.
+- **Décor.** Préparer une gamme cohérente de baies, portes, chemins de câbles et tuyaux. Concentrer les détails sur les objets manipulés et les premiers plans. Utiliser des variantes sobres pour les rangées visibles depuis le balcon et un plan extérieur lisible pour la centrale et la rivière.
+- **Son et guidage.** Ambiances différenciées, confirmations discrètes pour les gestes, sous-titres et pictogrammes. Les cibles se distinguent par leur silhouette ou leur libellé en plus de la couleur. Ajuster la signalétique à partir des hésitations observées.
+- **Architecture.** Définir un état de progression Photo et un état partagé pour les enjeux. Les commandes envoient des actions communes au PC et au casque. Les animations, les sons et les changements de lumière réagissent à ces états. Vérifier la reprise après pause, le reset et l’absence de double déclenchement. Pour le casque, prévoir une transition confortable sans déplacement forcé de la caméra.
 
 | Jalon | Livrable vérifiable |
 |---|---|

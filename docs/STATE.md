@@ -1,10 +1,10 @@
 # État de reprise
 
-Mis à jour le 9 novembre 2026.
+Mis à jour le 10 novembre 2026.
 
 ## Proposition de refonte de la visite
 
-- Plan V2 établi pour la découverte détaillée de la chambre au balcon et les trois enjeux à suivre jusqu’à l’extérieur. L’archive complète du build Windows et l’espace de travail isolé précèdent les modifications Unity. Le jalon couvre la conception. [Plan V2](PLAN_REFONTE_CLOUDVR.md).
+- Plan V2 affiné en sept séquences Photo, puis trois enjeux jusqu’à l’extérieur. La production commence par l’archive Windows et la copie de travail, puis un parcours à l’échelle et deux séquences de référence finies. Les validations visuelles se font en mouvement dans le player. Le jalon couvre la conception. [Plan V2](PLAN_REFONTE_CLOUDVR.md).
 
 - Nouvelle orientation proposée après retour utilisateur : parcours Photo au niveau des équipements, puis parcours Enjeux depuis une salle de supervision en surplomb, avec montée en charge visible et arbitrages entre électricité, chaleur et eau. La qualité et la compréhension guident le périmètre, sans objectif de durée. [Conception](PROPOSITION_REFONTE_VISITE.md).
 
