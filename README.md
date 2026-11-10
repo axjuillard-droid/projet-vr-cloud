@@ -217,3 +217,11 @@ Géométries de Chambre et DataCenter, baie et scripts propres sont créés pour
 Les Starter Assets XRI conservent leur [Unity Companion License et notice](ConnectionTest/Assets/Samples/XR%20Interaction%20Toolkit/3.0.11/Starter%20Assets/LICENSE.md). Les dépendances UPM gardent leurs licences respectives. Le MCP for Unity est référencé depuis son dépôt, sans copie de son cache.
 
 Aucune licence globale n’est encore attribuée au code propre ; ne pas en déduire une licence MIT pour tout le dépôt. Recherche, attributions et choix : [RESOURCES.md](docs/RESOURCES.md). Les ressources évaluées, dont les packs Kenney, ne sont pas toutes importées.
+
+## Prototype V2 — parcours Photo à l’échelle
+
+Le premier prototype V2 est une scène indépendante. Il sert à tester l’ordre des lieux, la portée des gestes, la circulation et le point de vue du balcon. Les dix actions représentent les sept séquences avec des cibles et des matériaux de travail. Les contrôles PC existants sont réutilisés.
+
+Dans Unity 6000.0.58f2, utiliser **CloudVR > V2 > Générer le parcours Photo**, puis Play sur `Assets/Scenes/CloudVRV2/PhotoBlockout.unity`. Le menu **Construire le player Windows** inclut cette seule scène et écrit le player de développement dans `ConnectionTest/Builds/Windows-V2`. Le test automatique opt-in se lance avec l’argument `--cloudvr-v2-smoke`. Il traverse les volumes au CharacterController et vérifie la visée et l’ordre d’activation.
+
+Les animations du trajet, du cordon, du tiroir et de l’aperçu, le choix de stockage, les deux séquences de référence avec leur rendu final et le parcours Enjeux restent à produire. La montée utilise une rampe de travail. La miniature est illustrative et la première livraison cible le PC.

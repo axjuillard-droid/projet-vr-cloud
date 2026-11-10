@@ -217,3 +217,7 @@ Réutiliser FrameTimingManager Unity 6, le profil URP cloné temporairement et l
 ## T25 — Comparaison des coûts de rendu, 9 novembre 2026
 
 Réutilisation de FrameTimingManager et du probe T24, réglages URP existants et données caméra. Aucun package ou profiler tiers ajouté. La [référence SSAO Unity 6](https://docs.unity3d.com/6000.0/Documentation/Manual/urp/ssao-renderer-feature-reference.html) documente l'effet de Downsample ; les [réglages URP de performance](https://docs.unity3d.com/6000.0/Documentation/Manual/urp/configure-for-better-performance.html) décrivent les copies de textures et les ombres. API vérifiée dans le package URP installé : le champ SSAO Downsample est interne et la réflexion ne sert qu'au probe opt-in. Les variations chronométrées englobent les interactions entre passes ; elles ne remplacent pas des marqueurs GPU par passe.
+
+## T27 — Matériaux et volumes de travail de la V2, 10 novembre 2026
+
+Réutilisation de `PCPlayerController`, d’Input System et du profil URP existant. La documentation Unity confirme que les primitives cubiques apportent un mesh et des collisions pour le placement. ProBuilder a été évalué comme outil de maquettage. Le builder C# et les primitives du moteur couvrent ce premier jalon sans nouveau package ni asset tiers à redistribuer. [Primitives Unity 6](https://docs.unity3d.com/es/current/ScriptReference/GameObject.CreatePrimitive.html), [ProBuilder pour Unity 6](https://docs.unity3d.com/cn/6000.0/Manual/com.unity.probuilder.html).

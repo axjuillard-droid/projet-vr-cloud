@@ -2,6 +2,10 @@
 
 Mis à jour le 10 novembre 2026.
 
+## V2 — Premier parcours Photo, 10 novembre 2026
+
+- Scène et build V2 indépendants. Dix gestes vérifiés en D3D11, avec déplacement continu, sas et accès au balcon. Le décor et les cibles sont provisoires. Le parcours Enjeux et le Quest restent à produire ou valider. [Preuve](validation/photo-v2-blockout-2026-11-10.json).
+
 ## Proposition de refonte de la visite
 
 - Plan V2 affiné en sept séquences Photo, puis trois enjeux jusqu’à l’extérieur. La production commence par l’archive Windows et la copie de travail, puis un parcours à l’échelle et deux séquences de référence finies. Les validations visuelles se font en mouvement dans le player. Le jalon couvre la conception. [Plan V2](PLAN_REFONTE_CLOUDVR.md).
