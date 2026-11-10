@@ -1,0 +1,14 @@
+{
+  "utc": "2026-11-10T11:15:06.1812471Z",
+  "graphics": "Direct3D11",
+  "buildErrors": 0,
+  "buildWarnings": 0,
+  "testPassed": true,
+  "steps": 10,
+  "transitStarts": 1,
+  "transitCompleted": true,
+  "duplicateSendRejected": true,
+  "arrivalChecked": true,
+  "photoReview": "Camera.Render 1280x720, sans HUD overlay",
+  "exeSha256": "6d69e772c811261a2646fbf9354d032d990dbf87f983cfd31b2024b041619c4c"
+}

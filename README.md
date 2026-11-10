@@ -224,4 +224,6 @@ Le premier prototype V2 est une scène indépendante. Il sert à tester l’ordr
 
 Dans Unity 6000.0.58f2, utiliser **CloudVR > V2 > Générer le parcours Photo**, puis Play sur `Assets/Scenes/CloudVRV2/PhotoBlockout.unity`. Le menu **Construire le player Windows** inclut cette seule scène et écrit le player de développement dans `ConnectionTest/Builds/Windows-V2`. Le test automatique opt-in se lance avec l’argument `--cloudvr-v2-smoke`. Il traverse les volumes au CharacterController et vérifie la visée et l’ordre d’activation.
 
-Les animations du trajet, du cordon, du tiroir et de l’aperçu, le choix de stockage, les deux séquences de référence avec leur rendu final et le parcours Enjeux restent à produire. La montée utilise une rampe de travail. La miniature est illustrative et la première livraison cible le PC.
+L’ouverture V2 ajoute un bureau habillé, un trajet fibre de cinq secondes, une façade signalée, un sas éclairé et un panneau de brassage. Le test contrôle aussi le refus du double envoi et la reprise devant la façade. Le branchement manipulable, le tiroir, l’aperçu, le choix de stockage et le parcours Enjeux restent à produire. La miniature est illustrative, la montée utilise une rampe de travail et cette livraison cible le PC.
+
+[Captures de l’ouverture et résultat D3D11](docs/validation/v2-opening-2026-11-10/README.md).

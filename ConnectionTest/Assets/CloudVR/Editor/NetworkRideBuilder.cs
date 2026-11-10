@@ -27,8 +27,13 @@ public static class NetworkRideBuilder
     }
     public static void Build(NetworkTransitionV2 ride)
     {
-        var world=new GameObject("P2_Voyage_Reseau_3D");world.transform.SetParent(ride.transform,false);world.transform.position=new Vector3(0,-120,0);
-        var visuals=world.AddComponent<NetworkRideVisuals>();ride.visuals=visuals;
+        ride.visuals = BuildVisuals(ride.transform);
+    }
+
+    public static NetworkRideVisuals BuildVisuals(Transform parent)
+    {
+        var world=new GameObject("P2_Voyage_Reseau_3D");world.transform.SetParent(parent,false);world.transform.position=new Vector3(0,-120,0);
+        var visuals=world.AddComponent<NetworkRideVisuals>();
         var prefab=AssetDatabase.LoadAssetAtPath<GameObject>("Assets/CloudVR/Models/Data_Fiber_Tunnel.fbx");
         var outer=Mat("Gaine",new Color(.035f,.055f,.085f));var ring=Mat("Anneaux",new Color(.20f,.29f,.38f));
         var cyan=Mat("Lumiere_Fibre",new Color(.08f,.75f,.85f));var amber=Mat("Signal",new Color(1,.46f,.12f));
@@ -57,6 +62,7 @@ public static class NetworkRideBuilder
         var light=lamp.AddComponent<Light>();light.type=LightType.Directional;light.intensity=1.2f;light.cullingMask=1<<NetworkRideVisuals.Layer;light.shadows=LightShadows.None;
         foreach(var t in world.GetComponentsInChildren<Transform>(true))t.gameObject.layer=NetworkRideVisuals.Layer;
         world.SetActive(false);
+        return visuals;
     }
 }
 #endif

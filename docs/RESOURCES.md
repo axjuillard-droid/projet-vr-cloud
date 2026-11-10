@@ -221,3 +221,7 @@ Réutilisation de FrameTimingManager et du probe T24, réglages URP existants et
 ## T27 — Matériaux et volumes de travail de la V2, 10 novembre 2026
 
 Réutilisation de `PCPlayerController`, d’Input System et du profil URP existant. La documentation Unity confirme que les primitives cubiques apportent un mesh et des collisions pour le placement. ProBuilder a été évalué comme outil de maquettage. Le builder C# et les primitives du moteur couvrent ce premier jalon sans nouveau package ni asset tiers à redistribuer. [Primitives Unity 6](https://docs.unity3d.com/es/current/ScriptReference/GameObject.CreatePrimitive.html), [ProBuilder pour Unity 6](https://docs.unity3d.com/cn/6000.0/Manual/com.unity.probuilder.html).
+
+## V2 — Ouverture Photo, 10 novembre 2026
+
+Réutilisation des FBX Desk_Setup, Bed_Student et Room_Decor, du tunnel fibre et des sons procéduraux du dépôt. Les ajouts de façade et du panneau de brassage utilisent des primitives URP et les libellés world-space utilisent uGUI. La documentation Unity sur les captures a servi au diagnostic de la collecte. Les vues retenues passent par Camera.Render. Aucun nouveau package ni média tiers. [ScreenCapture Unity 6](https://docs.unity3d.com/cn/6000.0/ScriptReference/ScreenCapture.CaptureScreenshotAsTexture.html).

@@ -7,7 +7,7 @@ using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.Rendering;
 
-public static class PhotoV2BlockoutBuilder
+public static partial class PhotoV2BlockoutBuilder
 {
     const string Folder = "Assets/Scenes/CloudVRV2";
     const string ScenePath = Folder + "/PhotoBlockout.unity";
@@ -31,14 +31,15 @@ public static class PhotoV2BlockoutBuilder
         RenderSettings.ambientLight = new Color(.49f, .56f, .64f);
         var light = new GameObject("Éclairage de travail").AddComponent<Light>();
         light.type = LightType.Directional;
-        light.intensity = 1.05f;
+        light.intensity = 1.15f;
+        light.shadows = LightShadows.Soft;
         light.transform.rotation = Quaternion.Euler(47, -28, 0);
 
-        Box("Sol chambre", new(0, -.15f, 2.5f), new(8, .3f, 5), _warm);
+        Box("Sol chambre", new(0, -.15f, 2.5f), new(8, .3f, 5), Palette("V2 Parquet", new(.22f,.13f,.08f)));
         Box("Sol cour et bâtiment", new(0, -.15f, 23.5f), new(20, .3f, 37), _neutral);
         WallPair("Chambre", 4, 0, 5, 3.1f, _warm);
         Box("Mur derrière le joueur", new(0, 1.55f, 0), new(8, 3.1f, .3f), _warm);
-        Box("Bureau", new(1.4f, .48f, 3.4f), new(1.4f, .96f, .85f), _warm);
+        DressOpening();
         Box("Façade gauche", new(-5.8f, 4, 13), new(8, 8, .55f), _neutral);
         Box("Façade droite", new(5.8f, 4, 13), new(8, 8, .55f), _neutral);
         Box("Linteau façade", new(0, 5.5f, 13), new(3.6f, 5, .55f), _neutral);
@@ -92,9 +93,11 @@ public static class PhotoV2BlockoutBuilder
         var route = new GameObject("Parcours Photo V2").AddComponent<PhotoV2Walkthrough>();
         route.view = camera;
         route.player = player;
+        route.film = NetworkRideBuilder.BuildVisuals(route.transform);
+        route.arrival = new Vector3(0, .035f, 7.3f);
         route.targets = new[]
         {
-            Target("Écran Envoyer", 1.4f, 1.43f, 3.15f),
+            Target("Écran Envoyer", 1.4f, 1.15f, 3.46f),
             Target("Seuil de la façade", 1.25f, 1.25f, 12.65f),
             Target("Lecteur de badge", 1.25f, 1.25f, 15.4f),
             Target("Panneau de brassage", 1.25f, 1.25f, 20.1f),
@@ -110,6 +113,7 @@ public static class PhotoV2BlockoutBuilder
         route.barriers[1] = Gate("Porte extérieure", 13, 3.5f);
         route.sasEntrance = route.barriers[1];
         route.badgeReader = route.targets[2];
+        DressOpeningTargets(route.targets);
         route.barriers[2] = Gate("Porte intérieure", 16.85f, 3.5f);
         route.guides = new GameObject[route.targets.Length];
         float previous = 1;
@@ -126,7 +130,7 @@ public static class PhotoV2BlockoutBuilder
                 UnityEngine.Object.DestroyImmediate(mark.GetComponent<Collider>());
             }
             guide.SetActive(i == 0);
-            previous = position.z;
+            previous = i == 0 ? route.arrival.z : position.z;
         }
         if (!EditorSceneManager.SaveScene(scene, ScenePath)) throw new InvalidOperationException("Scène V2 non enregistrée.");
         AssetDatabase.SaveAssets();

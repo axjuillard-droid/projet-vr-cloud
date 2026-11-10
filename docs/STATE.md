@@ -2,6 +2,11 @@
 
 Mis à jour le 10 novembre 2026.
 
+## V2 — Ouverture Photo, 10 novembre 2026
+
+- Chambre habillée, façade et sas éclairés, brassage représenté. Transition fibre de cinq secondes avec progression, sons procéduraux et reprise devant la façade. BuildPipeline 0 erreur et 0 avertissement. Dix actions passent dans le player D3D11, avec un seul départ, refus du double envoi et arrivée vérifiée.
+- Les premières captures plein écran masquées étaient uniformes. Les cinq vues hors écran suivantes montrent la scène sans interface plein écran. La revue a révélé des textes traversant les murs. Après remplacement par des Canvas world-space, le défaut ne se voit plus sur les vues contrôlées. Le cordon manipulable et la finition des postes restent à produire. [Validation et vues](validation/v2-opening-2026-11-10/README.md).
+
 ## V2 — Premier parcours Photo, 10 novembre 2026
 
 - Scène et build V2 indépendants. Dix gestes vérifiés en D3D11, avec déplacement continu, sas et accès au balcon. Le décor et les cibles sont provisoires. Le parcours Enjeux et le Quest restent à produire ou valider. [Preuve](validation/photo-v2-blockout-2026-11-10.json).
