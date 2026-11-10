@@ -7,6 +7,7 @@ public sealed class PhotoV2PatchCord : MonoBehaviour
     public Collider plug;
     public Collider portA;
     public Collider portB;
+    public LineRenderer ingress;
     public LineRenderer cord;
     public LineRenderer signalTrace;
     public Transform signal;
@@ -19,6 +20,7 @@ public sealed class PhotoV2PatchCord : MonoBehaviour
 
     public bool Held { get; private set; }
     public bool Connected { get; private set; }
+    public bool CordSignalTraversed { get; private set; }
     public bool SignalDelivered { get; private set; }
     public string Instruction => !Held ? "Prendre le cordon sur son support" :
         _wrongPort ? "Port B de réserve · brancher sur A" : "Brancher le cordon sur le port A";
@@ -86,21 +88,28 @@ public sealed class PhotoV2PatchCord : MonoBehaviour
 
     IEnumerator TraceSignal()
     {
-        signalTrace.enabled = true;
+        signal.position = _cordPoints[0];
         signal.gameObject.SetActive(true);
+        for (int i = 1; i < _cordPoints.Length; i++)
+            yield return TraceSegment(_cordPoints[i - 1], _cordPoints[i], .95f);
+
+        CordSignalTraversed = true;
+        signalTrace.enabled = true;
         for (int i = 1; i < signalTrace.positionCount; i++)
-        {
-            var start = signalTrace.GetPosition(i - 1);
-            var end = signalTrace.GetPosition(i);
-            float duration = Vector3.Distance(start, end) / 4.5f;
-            for (float time = 0; time < duration; time += Time.deltaTime)
-            {
-                signal.position = Vector3.Lerp(start, end, time / duration);
-                yield return null;
-            }
-            signal.position = end;
-        }
+            yield return TraceSegment(signalTrace.GetPosition(i - 1), signalTrace.GetPosition(i), 4.5f);
+
         SignalDelivered = true;
         Debug.Log("CLOUDVR_V2_NETWORK_SIGNAL_DELIVERED");
+    }
+
+    IEnumerator TraceSegment(Vector3 start, Vector3 end, float speed)
+    {
+        float duration = Vector3.Distance(start, end) / speed;
+        for (float time = 0; time < duration; time += Time.deltaTime)
+        {
+            signal.position = Vector3.Lerp(start, end, time / duration);
+            yield return null;
+        }
+        signal.position = end;
     }
 }

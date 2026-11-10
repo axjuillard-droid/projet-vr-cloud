@@ -74,17 +74,6 @@ public static partial class PhotoV2BlockoutBuilder
             for(int j=0; j<8; j++)
                 Box("Port", new(.86f+.11f*j,y,20.127f), new(.045f,.037f,.016f), j%3==0 ? cyan : ink);
         }
-        for (int lane=0; lane<2; lane++)
-        {
-            var cable = new GameObject(lane==0 ? "Fibre A" : "Fibre B").AddComponent<LineRenderer>();
-            cable.sharedMaterial = lane==0 ? cyan : amber;
-            cable.widthMultiplier = .035f;
-            cable.numCornerVertices = 3;
-            cable.positionCount = 4;
-            float x = 1.20f+lane*.16f;
-            cable.SetPositions(new[]{new Vector3(x,1.96f,20.103f),new Vector3(x,3.24f,20.11f),
-                new Vector3(x,3.24f,21.9f),new Vector3(x,3.24f,22.5f)});
-        }
         Sign("01   /   ARRIVÉE RÉSEAU", new(1.25f,2.68f,20.13f), .105f, Color.white);
     }
 
@@ -137,11 +126,26 @@ public static partial class PhotoV2BlockoutBuilder
         Sign("CORDON", new(.92f,.91f,19.89f), .041f, Color.white);
         patch.anchor = new GameObject("Ancrage du cordon").transform;
         patch.anchor.position = new Vector3(1.52f,.74f,20.087f);
+        var fiber = new[]
+        {
+            new Vector3(2.67f,.11f,9.25f), new Vector3(2.67f,.11f,12.38f),
+            new Vector3(2.67f,3.32f,12.38f), new Vector3(2.67f,3.32f,17.42f),
+            new Vector3(1.73f,3.32f,17.42f), new Vector3(1.73f,3.32f,20.07f),
+            new Vector3(1.73f,.74f,20.087f), patch.anchor.position
+        };
+        patch.ingress = PatchLine("Fibre du site · de l’extérieur au tiroir optique", cyan, .082f, fiber.Length);
+        patch.ingress.SetPositions(fiber);
+        Box("Regard de la fibre enterrée", new(2.67f,.055f,9.13f), new(.62f,.11f,.48f), aluminum);
+        Box("Gaine de remontée", new(2.67f,.09f,9.27f), new(.19f,.12f,.18f), graphite);
+        Box("Boîte d’entrée fibre", new(2.67f,1.46f,12.57f), new(.46f,.48f,.51f), graphite);
+        Sign("FIBRE DU SITE", new(2.67f,1.47f,12.304f), .043f, Color.white);
+        Box("Tiroir de terminaison optique", new(1.51f,.74f,20.112f), new(.40f,.10f,.035f), graphite);
+        Sign("ARRIVÉE FIBRE", new(1.49f,.845f,20.067f), .037f, Color.white);
         patch.cord = PatchLine("Cordon souple", amber, .021f, 5);
         patch.signalTrace = PatchLine("Tracé pédagogique · réseau vers calcul", cyan, .031f, 5);
         patch.signalTrace.SetPositions(new[]
         {
-            new Vector3(1.20f,1.38f,19.96f), new Vector3(1.20f,3.32f,19.96f),
+            new Vector3(1.20f,1.34f,19.992f), new Vector3(1.20f,3.32f,19.96f),
             new Vector3(1.20f,3.32f,24.38f), new Vector3(-1.30f,3.32f,24.38f),
             new Vector3(-1.30f,1.90f,24.38f)
         });

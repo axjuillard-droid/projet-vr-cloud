@@ -57,13 +57,21 @@ public sealed class PhotoV2Smoke : MonoBehaviour
             if (i == 3)
             {
                 var patch = route.patchCord;
+                if (!patch.ingress || !patch.ingress.useWorldSpace || patch.ingress.positionCount < 2
+                    || patch.ingress.GetPosition(0).z >= 12.5f
+                    || Vector3.Distance(patch.ingress.GetPosition(patch.ingress.positionCount - 1), patch.anchor.position) > .015f)
+                {
+                    Fail("La fibre doit arriver de l’extérieur et rejoindre l’ancrage du cordon.");
+                    yield break;
+                }
                 if (AimAt(target) || !AimAt(patch.plug.gameObject) || !patch.Held || route.Step != 3
                     || AimAt(patch.portB.gameObject) || !patch.Held || route.Step != 3 || !AimAt(target))
                 {
                     Fail("Le cordon doit être pris avant A et B doit être refusé sans perdre le cordon.");
                     yield break;
                 }
-                if (!patch.Connected || route.Step != 4 || !patch.signalTrace.enabled || route.PhotoStatus != "En transit")
+                if (!patch.Connected || route.Step != 4 || patch.CordSignalTraversed
+                    || patch.signalTrace.enabled || patch.SignalDelivered || route.PhotoStatus != "En transit")
                 {
                     Fail("La connexion n’a pas déclenché le signal.");
                     yield break;
@@ -76,12 +84,14 @@ public sealed class PhotoV2Smoke : MonoBehaviour
                 float deadline = Time.realtimeSinceStartup + 4;
                 while (!patch.SignalDelivered && Time.realtimeSinceStartup < deadline) yield return null;
                 var end = patch.signalTrace.GetPosition(patch.signalTrace.positionCount - 1);
-                if (!patch.SignalDelivered || route.PhotoStatus != "Reçue"
+                if (!patch.CordSignalTraversed || !patch.signalTrace.enabled || !patch.SignalDelivered
+                    || route.PhotoStatus != "Reçue"
                     || Vector3.Distance(patch.signal.position, end) > .015f)
                 {
                     Fail("Le signal ne rejoint pas la baie école.");
                     yield break;
                 }
+                Debug.Log("CLOUDVR_V2_FIBER_PASS arrivée extérieure, traversée du cordon avant calcul");
                 Debug.Log("CLOUDVR_V2_PATCH_PASS prise, port B refusé, port A connecté, signal arrivé");
             }
             else if (i == 7)
@@ -126,6 +136,12 @@ public sealed class PhotoV2Smoke : MonoBehaviour
                 {
                     Fail("La transition n’a pas rejoint la cour.");
                     yield break;
+                }
+                if (capture)
+                {
+                    route.view.transform.rotation = Quaternion.LookRotation(
+                        new Vector3(1.72f, 1.30f, 12.32f) - route.view.transform.position);
+                    yield return Capture(route.view, i, "arrivee-fibre");
                 }
             }
             if (i >= 4 && i <= 6)

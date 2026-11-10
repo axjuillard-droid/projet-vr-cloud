@@ -1,0 +1,37 @@
+{
+  "date": "2026-11-10",
+  "unity": "6000.0.58f2",
+  "build": "Windows x64 Development",
+  "buildPipeline": {
+    "erreurs": 0,
+    "avertissements": 0
+  },
+  "rendu": "Direct3D 11, 1280 × 720",
+  "variantes": {
+    "capture": {
+      "codeSortie": 0,
+      "verifications": [
+        "FIBER_PASS",
+        "PATCH_PASS",
+        "WATER_PASS",
+        "SMOKE_PASS"
+      ],
+      "jobTempAlloc": true
+    },
+    "storage-alternate": {
+      "codeSortie": 0,
+      "verifications": [
+        "FIBER_PASS",
+        "PATCH_PASS",
+        "WATER_PASS",
+        "SMOKE_PASS"
+      ],
+      "jobTempAlloc": false
+    }
+  },
+  "casqueTeste": false,
+  "captures": [
+    "arrivee-fibre.png",
+    "cordon-branche.png"
+  ]
+}

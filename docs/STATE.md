@@ -2,6 +2,11 @@
 
 Mis à jour le 10 novembre 2026.
 
+## V2 — Fibre extérieure et brassage, 10 novembre 2026
+
+- Une seule arrivée du parvis au tiroir optique. Le signal traverse le cordon branché avant d’atteindre la baie école. BuildPipeline 0 erreur et 0 avertissement. Les deux variantes D3D11 passent jusqu’à la rivière, avec contrôle du branchement et capture du raccord de façade. Le journal signale JobTempAlloc à la fermeture, déjà observé. Raccord de caméra avec la cinématique et essai Quest à faire. [Preuves](validation/v2-fiber-2026-11-10/README.md).
+- [Interactions suivantes](CHAINE_INTERACTIONS_V2.md) : baie école orientée vers l’allée et stockage manipulable, leviers d’alimentation et boucle thermique couplés à la charge, puis pompe et effets graduels sur la rivière.
+
 ## V2 — Panorama étendu, 10 novembre 2026
 
 - 24 baies ajoutées de part et d’autre de la montée, 66 au total. Les chemins de câbles, l’éclairage et les voyants prolongent les rangées vers le belvédère. BuildPipeline 0 erreur/0 avertissement. Les deux choix Photo passent en D3D11 jusqu’à la rivière. Le journal signale JobTempAlloc à la fermeture, déjà présent dans le build précédent. Les captures ne mesurent pas la cadence. Le retour utilisateur sur l’échelle, le guidage et le rendu en mouvement est le prochain point. [Comparaison](validation/v2-panorama-2026-11-10/README.md).
