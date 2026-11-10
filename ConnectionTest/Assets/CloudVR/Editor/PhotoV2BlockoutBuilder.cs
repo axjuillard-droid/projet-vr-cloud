@@ -51,14 +51,7 @@ public static partial class PhotoV2BlockoutBuilder
         WallPair("Réseau", 4, 17, 22, 4, _neutral);
         WallPair("Salle des baies", 9.8f, 22, 40, 6, _neutral);
         Box("Plafond de salle", new(0, 6, 31), new(20, .25f, 18), _neutral);
-        for (int row = 0; row < 6; row++)
-            for (int bay = 0; bay < 7; bay++)
-            {
-                float x = (row - 2.5f) * 2.6f;
-                if (row == 2 && bay == 1) continue;
-                Box($"Rangée {row + 1} · baie {bay + 1}", new(x, 1.05f, 23 + bay * 1.95f),
-                    new(.78f, 2.1f, 1.1f), _dark);
-            }
+        DressRackRows();
 
         var rowLights = new GameObject[6];
         for (int row=0; row<rowLights.Length; row++) rowLights[row] = CreateRowLights(row);
@@ -75,6 +68,7 @@ public static partial class PhotoV2BlockoutBuilder
             .transform.rotation = ramp.transform.rotation;
         Box("Garde-corps rampe droit", new(1.5f, 2.28f, 48), new(.12f, 1.1f, 14.4f), _dark)
             .transform.rotation = ramp.transform.rotation;
+        DressHallAndLookout();
         Box("Repère haut de la baie école", new(-1.3f, 2.25f, 25.05f), new(.78f, .21f, 1.1f), _signal);
 
         var rig = new GameObject("Joueur PC");

@@ -241,3 +241,5 @@ L’ouverture V2 ajoute un bureau habillé, un trajet fibre de cinq secondes, un
 [Boucle de refroidissement](docs/validation/v2-cooling-2026-11-10/README.md).
 
 [Parcours Eau](docs/validation/v2-water-2026-11-10/README.md).
+
+Le hall V2 utilise des baies détaillées et le belvédère dispose d’un cadre panoramique. [Captures du hall](docs/validation/v2-hall-2026-11-10/README.md) et [récapitulatif des activités](docs/RECAP_ACTIVITES_V2.md).

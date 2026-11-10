@@ -253,3 +253,7 @@ Réutilisation des cibles, matériaux, LineRenderer et passerelle V2. La boucle 
 ## V2 — Eau et débit de la rivière, 10 novembre 2026
 
 Réutilisation de l’état des rangées, de la passerelle, des matériaux V2 et du panache procédural. Géométrie de rivière générée dans le builder. Débits et bilan en unités fictives. Le scénario compare une option évaporative au contexte déjà présenté du rejet sec. Les poissons se resserrent dans le chenal lorsque le débit de référence diminue. Aucun calcul d’impact écologique ou prélèvement réel. [USGS, retrait et consommation d’eau](https://pubs.usgs.gov/chapter11/chapter11B.html), [DOE, refroidissement évaporatif](https://www.energy.gov/cmei/femp/cooling-water-efficiency-opportunities-federal-data-centers).
+
+## V2 — Première passe du hall et du belvédère, 10 novembre 2026
+
+Réutilisation du FBX ServerRack_Detailed, des matériaux Rack et du regroupement statique Unity sur les rangées de décor. Les collisions restent simples. Les éléments de finition du hall et du belvédère utilisent les primitives et matériaux V2. Aucun achat, téléchargement ni package ajouté.

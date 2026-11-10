@@ -1,0 +1,15 @@
+{
+  "utc": "2026-11-10T14:16:49.8774639Z",
+  "graphics": "Direct3D11",
+  "buildErrors": 0,
+  "buildWarnings": 0,
+  "photoSteps": 10,
+  "energyPassed": true,
+  "gridPassed": true,
+  "coolingPassed": true,
+  "waterPassed": true,
+  "decorativeRacks": 41,
+  "schoolRacks": 1,
+  "hallDimensionsChanged": false,
+  "exeSha256": "6d69e772c811261a2646fbf9354d032d990dbf87f983cfd31b2024b041619c4c"
+}

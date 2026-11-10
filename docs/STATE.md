@@ -2,6 +2,10 @@
 
 Mis à jour le 10 novembre 2026.
 
+## V2 — Première passe de finition du hall, 10 novembre 2026
+
+- 41 baies de décor détaillées, cheminements techniques, éclairage et cadre du belvédère. Les dimensions et la rampe sont celles du prototype. BuildPipeline 0 erreur/0 avertissement, parcours complet validé automatiquement en D3D11. Restent la revue de rendu en mouvement, la finition du panorama et de l’extérieur, les mesures de fluidité et la validation Quest. [Vues](validation/v2-hall-2026-11-10/README.md) et [récapitulatif](RECAP_ACTIVITES_V2.md).
+
 ## V2 — Parcours Eau et visite complète, 10 novembre 2026
 
 - À la rivière, la variante évaporative distingue prélèvement, évaporation et restitution. Le passage à l’été sec rétrécit le chenal à charge égale. La baisse de demande réduit le prélèvement à météo identique. La première revue des images a révélé une tour sur le lit de la rivière. Déplacement sur la rive et nouveau build vérifié. BuildPipeline 0 erreur/0 avertissement et parcours Photo, Énergie, Refroidissement et Eau vérifiés en D3D11. Les décors restent en finition et le Quest reste à tester. [Vues et preuves](validation/v2-water-2026-11-10/README.md).
