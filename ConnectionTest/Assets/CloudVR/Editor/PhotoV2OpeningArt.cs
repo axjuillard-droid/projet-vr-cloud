@@ -99,8 +99,67 @@ public static partial class PhotoV2BlockoutBuilder
         targets[0].GetComponent<MeshRenderer>().sharedMaterial = screen;
         Sign("ENVOYER LA PHOTO", monitor.position + new Vector3(0,0,-.049f), .057f, Color.white, monitor);
         Sign("OUVRIR", targets[1].transform.position + new Vector3(0,0,-.045f), .087f, Color.black, targets[1].transform);
-        Sign("BADGE", targets[2].transform.position + new Vector3(0,0,-.045f), .087f, Color.black, targets[2].transform);
-        Sign("PORT A", targets[3].transform.position + new Vector3(0,0,-.045f), .087f, Color.black, targets[3].transform);
+    }
+
+    static void InstallAccessAndPatch(PhotoV2Walkthrough route)
+    {
+        var graphite = AssetDatabase.LoadAssetAtPath<Material>(Folder + "/V2 Graphite.mat");
+        var aluminum = AssetDatabase.LoadAssetAtPath<Material>(Folder + "/V2 Aluminium.mat");
+        var cyan = AssetDatabase.LoadAssetAtPath<Material>(Folder + "/V2 Cyan.mat");
+        var amber = AssetDatabase.LoadAssetAtPath<Material>(Folder + "/V2 Ambre.mat");
+        var badge = route.badgeReader.transform;
+        badge.position = new Vector3(1.37f,1.24f,15.43f);
+        badge.localScale = new Vector3(.24f,.32f,.09f);
+        badge.GetComponent<MeshRenderer>().sharedMaterial = graphite;
+        Box("Support de lecteur relié à la paroi", new(1.53f,1.24f,15.55f), new(.30f,.38f,.15f), aluminum);
+        Box("Surface de lecture", new(1.37f,1.19f,15.381f), new(.13f,.15f,.009f), cyan)
+            .GetComponent<Collider>().enabled = false;
+        Sign("BADGE", new(1.37f,1.35f,15.377f), .039f, Color.white);
+        route.badgeApproved = Box("Accès validé", new(1.37f,1.29f,15.375f), new(.11f,.026f,.012f), cyan);
+        route.badgeApproved.GetComponent<Collider>().enabled = false;
+        route.badgeApproved.SetActive(false);
+
+        var patch = route.gameObject.AddComponent<PhotoV2PatchCord>();
+        route.patchCord = patch;
+        patch.view = route.view;
+        var socket = route.targets[3].transform;
+        socket.position = new Vector3(1.20f,1.34f,20.059f);
+        socket.localScale = new Vector3(.15f,.11f,.11f);
+        socket.GetComponent<MeshRenderer>().sharedMaterial = cyan;
+        patch.portA = socket.GetComponent<Collider>();
+        patch.portB = Box("Port B · réserve", new(1.43f,1.34f,20.059f), new(.15f,.11f,.11f), graphite)
+            .GetComponent<Collider>();
+        Sign("A", new(1.20f,1.46f,20.00f), .066f, Color.white);
+        Sign("B", new(1.43f,1.46f,20.00f), .066f, Color.white);
+        patch.plug = Box("Fiche du cordon", new(.92f,1.04f,19.973f), new(.075f,.063f,.13f), amber)
+            .GetComponent<Collider>();
+        Box("Berceau du cordon", new(.92f,.985f,19.99f), new(.19f,.055f,.19f), graphite);
+        Sign("CORDON", new(.92f,.91f,19.89f), .041f, Color.white);
+        patch.anchor = new GameObject("Ancrage du cordon").transform;
+        patch.anchor.position = new Vector3(1.52f,.74f,20.087f);
+        patch.cord = PatchLine("Cordon souple", amber, .021f, 5);
+        patch.signalTrace = PatchLine("Tracé pédagogique · réseau vers calcul", cyan, .031f, 5);
+        patch.signalTrace.SetPositions(new[]
+        {
+            new Vector3(1.20f,1.38f,19.96f), new Vector3(1.20f,3.32f,19.96f),
+            new Vector3(1.20f,3.32f,24.38f), new Vector3(-1.30f,3.32f,24.38f),
+            new Vector3(-1.30f,1.90f,24.38f)
+        });
+        patch.signalTrace.enabled = false;
+        patch.signal = Box("Impulsion réseau", patch.signalTrace.GetPosition(0), new(.11f,.11f,.11f), amber).transform;
+        patch.signal.GetComponent<Collider>().enabled = false;
+        patch.signal.gameObject.SetActive(false);
+    }
+
+    static LineRenderer PatchLine(string name, Material material, float width, int points)
+    {
+        var line = new GameObject(name).AddComponent<LineRenderer>();
+        line.sharedMaterial = material;
+        line.widthMultiplier = width;
+        line.numCornerVertices = 4;
+        line.numCapVertices = 3;
+        line.positionCount = points;
+        return line;
     }
 
     static void PlaceRoomModel(string name, Vector3 position)

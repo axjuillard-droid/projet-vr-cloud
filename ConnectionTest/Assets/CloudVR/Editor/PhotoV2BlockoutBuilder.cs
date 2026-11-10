@@ -114,6 +114,7 @@ public static partial class PhotoV2BlockoutBuilder
         route.sasEntrance = route.barriers[1];
         route.badgeReader = route.targets[2];
         DressOpeningTargets(route.targets);
+        InstallAccessAndPatch(route);
         route.barriers[2] = Gate("Porte intérieure", 16.85f, 3.5f);
         route.guides = new GameObject[route.targets.Length];
         float previous = 1;

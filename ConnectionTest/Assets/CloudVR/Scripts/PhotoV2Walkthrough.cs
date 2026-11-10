@@ -11,11 +11,16 @@ public sealed class PhotoV2Walkthrough : MonoBehaviour
     public GameObject[] guides;
     public GameObject sasEntrance;
     public GameObject badgeReader;
+    public GameObject badgeApproved;
+    public PhotoV2PatchCord patchCord;
     public NetworkRideVisuals film;
     public Vector3 arrival;
 
     public bool IsTravelling { get; private set; }
     public int Step => _step;
+    public string PhotoStatus => SignalInTransit ? "En transit" : Status[_step];
+    const int NetworkStep = 3;
+    const int ComputeStep = 4;
     const float TravelSeconds = 5f;
     AudioSource _sound;
     AudioClip _transit;
@@ -64,6 +69,17 @@ public sealed class PhotoV2Walkthrough : MonoBehaviour
         Debug.Log("CLOUDVR_V2_READY");
     }
 
+    bool SignalInTransit => _step == ComputeStep && patchCord && !patchCord.SignalDelivered;
+    string Instruction
+    {
+        get
+        {
+            if (_step == NetworkStep && patchCord) return patchCord.Instruction;
+            if (SignalInTransit) return "Suivre le signal vers la baie école";
+            return Instructions[_step];
+        }
+    }
+
     void Update()
     {
         if (IsTravelling) return;
@@ -82,13 +98,22 @@ public sealed class PhotoV2Walkthrough : MonoBehaviour
 
     public bool TryAdvance(Ray ray)
     {
-        if (IsTravelling || player.InputPaused || _step >= targets.Length || !Physics.Raycast(ray, out var hit, 3.1f)
-            || hit.collider.gameObject != targets[_step]) return false;
+        if (IsTravelling || player.InputPaused || SignalInTransit || _step >= targets.Length || !Physics.Raycast(ray, out var hit, 3.1f))
+            return false;
+        if (_step == NetworkStep && patchCord)
+        {
+            if (!patchCord.TrySelect(hit.collider)) return false;
+            _sound.PlayOneShot(_confirmation, .18f);
+            if (patchCord.Connected) CompleteStep();
+            return true;
+        }
+        if (hit.collider.gameObject != targets[_step]) return false;
         if (targets[_step] == badgeReader)
         {
             // Présenter le badge depuis l’intérieur, après avoir dégagé la porte.
             if (player.transform.position.z < sasEntrance.transform.position.z + .6f) return false;
             sasEntrance.SetActive(true);
+            badgeApproved.SetActive(true);
         }
         if (_step == 0)
         {
@@ -104,7 +129,11 @@ public sealed class PhotoV2Walkthrough : MonoBehaviour
     {
         var barrier = barriers[_step];
         if (barrier) barrier.SetActive(false);
-        targets[_step].SetActive(false);
+        var target = targets[_step];
+        if (target == badgeReader || (_step == NetworkStep && patchCord))
+            target.GetComponent<Collider>().enabled = false;
+        else
+            target.SetActive(false);
         _step++;
         ShowGuide();
         Debug.Log($"CLOUDVR_V2_STEP {_step}/{targets.Length}");
@@ -184,14 +213,14 @@ public sealed class PhotoV2Walkthrough : MonoBehaviour
             return;
         }
         string action = player.InputPaused ? "Pause · Échap pour reprendre" :
-            _step < Instructions.Length ? Instructions[_step] : "Retournez-vous pour retrouver la baie école.";
+            _step < Instructions.Length ? Instruction : "Retournez-vous pour retrouver la baie école.";
         GUI.Box(new Rect(18, 18, Mathf.Min(480, Screen.width - 36), 95), GUIContent.none);
         GUI.Label(new Rect(30, 26, 430, 28), "CLOUDVR V2 · PARCOURS PHOTO", _heading);
         GUI.Label(new Rect(30, 54, Mathf.Min(452, Screen.width - 60), 58), action, _instruction);
         GUI.Label(new Rect(Screen.width * .5f - 5, Screen.height * .5f - 10, 14, 24), "+", _small);
         GUI.Box(new Rect(18, Screen.height - 66, 217, 46), GUIContent.none);
         if (_photo) GUI.DrawTexture(new Rect(26, Screen.height - 59, 45, 32), _photo);
-        GUI.Label(new Rect(80, Screen.height - 58, 151, 34), $"Photo · {Status[_step]}", _small);
+        GUI.Label(new Rect(80, Screen.height - 58, 151, 34), $"Photo · {PhotoStatus}", _small);
         GUI.Label(new Rect(18, Screen.height - 20, 425, 20), "ZQSD / flèches · souris · clic ou E · Échap", _small);
     }
 

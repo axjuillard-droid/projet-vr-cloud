@@ -225,3 +225,7 @@ Réutilisation de `PCPlayerController`, d’Input System et du profil URP exista
 ## V2 — Ouverture Photo, 10 novembre 2026
 
 Réutilisation des FBX Desk_Setup, Bed_Student et Room_Decor, du tunnel fibre et des sons procéduraux du dépôt. Les ajouts de façade et du panneau de brassage utilisent des primitives URP et les libellés world-space utilisent uGUI. La documentation Unity sur les captures a servi au diagnostic de la collecte. Les vues retenues passent par Camera.Render. Aucun nouveau package ni média tiers. [ScreenCapture Unity 6](https://docs.unity3d.com/cn/6000.0/ScriptReference/ScreenCapture.CaptureScreenshotAsTexture.html).
+
+## V2 — Brassage et signal, 10 novembre 2026
+
+Réutilisation des matériaux d’ouverture, du bip existant et des raycasts PC. Le composant LineRenderer représente le cordon et le tracé pédagogique. Aucun package ni média tiers. [LineRenderer, Unity 6](https://docs.unity3d.com/ja/current/ScriptReference/LineRenderer.html).

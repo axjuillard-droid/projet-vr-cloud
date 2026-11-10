@@ -2,6 +2,10 @@
 
 Mis à jour le 10 novembre 2026.
 
+## V2 — Sas et brassage, 10 novembre 2026
+
+- Le lecteur reste en place avec un voyant de validation. Prendre la fiche sur son support, puis connecter A. Le port B est une réserve et son refus conserve la fiche en main. Le tracé va du panneau à la baie école. La photo passe de « En transit » à « Reçue » à l’arrivée du signal. BuildPipeline 0 erreur et 0 avertissement. Dix étapes et les gardes de brassage vérifiées dans le player D3D11. [Captures et résultat](validation/v2-patch-2026-11-10/README.md).
+
 ## V2 — Ouverture Photo, 10 novembre 2026
 
 - Chambre habillée, façade et sas éclairés, brassage représenté. Transition fibre de cinq secondes avec progression, sons procéduraux et reprise devant la façade. BuildPipeline 0 erreur et 0 avertissement. Dix actions passent dans le player D3D11, avec un seul départ, refus du double envoi et arrivée vérifiée.

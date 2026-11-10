@@ -1,0 +1,14 @@
+{
+  "utc": "2026-11-10T11:21:13.8987565Z",
+  "graphics": "Direct3D11",
+  "buildErrors": 0,
+  "buildWarnings": 0,
+  "steps": 10,
+  "passed": true,
+  "badgeIndicatorChecked": true,
+  "portARequiresCord": true,
+  "portBRefusedWhileHeld": true,
+  "signalReachedRack": true,
+  "statusInTransitThenReceived": true,
+  "exeSha256": "6d69e772c811261a2646fbf9354d032d990dbf87f983cfd31b2024b041619c4c"
+}

@@ -45,7 +45,42 @@ public sealed class PhotoV2Smoke : MonoBehaviour
             route.view.transform.rotation = Quaternion.LookRotation(target.transform.position - route.view.transform.position);
             if (capture && (i == 0 || i == 1 || i == 2 || i == 3))
                 yield return Capture(route.view, i, "poste");
-            if (Mathf.Abs(controller.transform.position.z - z) > .03f || !AimAt(target))
+            if (Mathf.Abs(controller.transform.position.z - z) > .03f)
+            {
+                Fail($"Poste {i + 1} inaccessible depuis {controller.transform.position}.");
+                yield break;
+            }
+            if (i == 3)
+            {
+                var patch = route.patchCord;
+                if (AimAt(target) || !AimAt(patch.plug.gameObject) || !patch.Held || route.Step != 3
+                    || AimAt(patch.portB.gameObject) || !patch.Held || route.Step != 3 || !AimAt(target))
+                {
+                    Fail("Le cordon doit être pris avant A et B doit être refusé sans perdre le cordon.");
+                    yield break;
+                }
+                if (!patch.Connected || route.Step != 4 || !patch.signalTrace.enabled || route.PhotoStatus != "En transit")
+                {
+                    Fail("La connexion n’a pas déclenché le signal.");
+                    yield break;
+                }
+                if (capture)
+                {
+                    yield return new WaitForSecondsRealtime(.8f);
+                    yield return Capture(route.view, i, "cordon");
+                }
+                float deadline = Time.realtimeSinceStartup + 4;
+                while (!patch.SignalDelivered && Time.realtimeSinceStartup < deadline) yield return null;
+                var end = patch.signalTrace.GetPosition(patch.signalTrace.positionCount - 1);
+                if (!patch.SignalDelivered || route.PhotoStatus != "Reçue"
+                    || Vector3.Distance(patch.signal.position, end) > .015f)
+                {
+                    Fail("Le signal ne rejoint pas la baie école.");
+                    yield break;
+                }
+                Debug.Log("CLOUDVR_V2_PATCH_PASS prise, port B refusé, port A connecté, signal arrivé");
+            }
+            else if (!AimAt(target))
             {
                 Fail($"Cible {i + 1} inaccessible depuis {controller.transform.position}.");
                 yield break;
@@ -71,7 +106,7 @@ public sealed class PhotoV2Smoke : MonoBehaviour
                     yield break;
                 }
             }
-            if (i == 2 && (!route.sasEntrance.activeSelf || route.barriers[2].activeSelf))
+            if (i == 2 && (!route.sasEntrance.activeSelf || route.barriers[2].activeSelf || !route.badgeApproved.activeSelf))
             {
                 Fail("Les portes du sas restent dans un état inattendu.");
                 yield break;
