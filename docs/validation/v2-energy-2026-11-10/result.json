@@ -1,0 +1,22 @@
+{
+  "utc": "2026-11-10T13:29:43.2241600Z",
+  "graphics": "Direct3D11",
+  "buildErrors": 0,
+  "buildWarnings": 0,
+  "photoSteps": 10,
+  "rowSequence": [
+    2,
+    4,
+    6,
+    2
+  ],
+  "illustrativePowerKw": [
+    48,
+    78,
+    108,
+    48
+  ],
+  "intermediateStatesVerified": true,
+  "repeatedClickRejected": true,
+  "exeSha256": "6d69e772c811261a2646fbf9354d032d990dbf87f983cfd31b2024b041619c4c"
+}

@@ -191,6 +191,38 @@ public sealed class PhotoV2Smoke : MonoBehaviour
             yield break;
         }
 
+        var energy = route.energy;
+        if (!energy.isActiveAndEnabled || energy.ActiveRows != 2 || energy.PowerKw != 48)
+        {
+            Fail("Le pupitre doit démarrer avec deux rangées actives.");
+            yield break;
+        }
+        for (int level = 0; level < 3; level++)
+        {
+            int expected = level == 2 ? 2 : 4 + 2*level;
+            if (!AimAt(energy.control.gameObject) || !energy.Changing || AimAt(energy.control.gameObject))
+            {
+                Fail("Un seul changement de demande doit être accepté à la fois.");
+                yield break;
+            }
+            float deadline = Time.realtimeSinceStartup + 4;
+            bool intermediate = false;
+            while (energy.Changing && Time.realtimeSinceStartup < deadline)
+            {
+                intermediate |= energy.ActiveRows == (level == 2 ? 5 : expected - 1);
+                yield return null;
+            }
+            int active = Array.FindAll(energy.rowLights, row => row.activeSelf).Length;
+            if (energy.Changing || !intermediate || active != expected || energy.ActiveRows != expected
+                || energy.PowerKw != 18 + expected*15)
+            {
+                Fail("La demande n’a pas changé l’état visible des rangées par étapes.");
+                yield break;
+            }
+            if (capture && level < 2) yield return Capture(route.view, 10 + level, "energie");
+        }
+        Debug.Log("CLOUDVR_V2_ENERGY_PASS 2 → 4 → 6 → 2, puissances et garde vérifiées");
+
         Debug.Log("CLOUDVR_V2_SMOKE_PASS 10/10 actions en ordre, marche et montée, sas, cible distante refusée");
         Application.Quit(0);
     }

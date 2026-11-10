@@ -237,3 +237,7 @@ Réutilisation du serveur et de la porte FBX existants, de ServerBladeInteractio
 ## V2 — Stockage et relecture, 10 novembre 2026
 
 Réutilisation des cibles PC, de la même texture Photo V2, des matériaux de la baie et du Canvas world-space. Le transfert est représenté par une impulsion et la photo reste en mémoire dans le player pour la relecture. Aucun package ni média externe.
+
+## V2 — Poste Énergie, 10 novembre 2026
+
+Réutilisation des cibles PC, des matériaux de la salle et des Canvas world-space. Les indicateurs de rangée sont des meshes avec matériau émissif. La puissance affichée utilise un modèle de jeu illustratif. Aucun package ni média tiers ajouté.

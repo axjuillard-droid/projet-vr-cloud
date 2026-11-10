@@ -17,6 +17,7 @@ public sealed class PhotoV2Walkthrough : MonoBehaviour
     public ServerBladeInteraction schoolRack;
     public RawImage previewDisplay;
     public PhotoV2Storage storage;
+    public PhotoV2Energy energy;
     public Text previewLabel;
     public NetworkRideVisuals film;
     public Vector3 arrival;
@@ -107,8 +108,9 @@ public sealed class PhotoV2Walkthrough : MonoBehaviour
 
     public bool TryAdvance(Ray ray)
     {
-        if (IsTravelling || player.InputPaused || SignalInTransit || _computeBusy || _saving || _step >= targets.Length || !Physics.Raycast(ray, out var hit, 3.1f))
+        if (IsTravelling || player.InputPaused || SignalInTransit || _computeBusy || _saving || !Physics.Raycast(ray, out var hit, 3.1f))
             return false;
+        if (_step == targets.Length) return energy && energy.TrySelect(hit.collider);
         if (_step == NetworkStep && patchCord)
         {
             if (!patchCord.TrySelect(hit.collider)) return false;
@@ -159,6 +161,7 @@ public sealed class PhotoV2Walkthrough : MonoBehaviour
             target.SetActive(false);
         _step++;
         ShowGuide();
+        if (_step == targets.Length && energy) energy.gameObject.SetActive(true);
         Debug.Log($"CLOUDVR_V2_STEP {_step}/{targets.Length}");
     }
 
@@ -298,6 +301,11 @@ public sealed class PhotoV2Walkthrough : MonoBehaviour
             DrawTransit();
             return;
         }
+        if (_step == targets.Length && energy)
+        {
+            DrawEnergy();
+            return;
+        }
         string action = player.InputPaused ? "Pause · Échap pour reprendre" :
             _step < Instructions.Length ? Instruction : "Retournez-vous pour retrouver la baie école.";
         GUI.Box(new Rect(18, 18, Mathf.Min(480, Screen.width - 36), 95), GUIContent.none);
@@ -308,6 +316,19 @@ public sealed class PhotoV2Walkthrough : MonoBehaviour
         if (_photo) GUI.DrawTexture(new Rect(26, Screen.height - 59, 45, 32), _photo);
         GUI.Label(new Rect(80, Screen.height - 58, 151, 34), $"Photo · {PhotoStatus}", _small);
         GUI.Label(new Rect(18, Screen.height - 20, 425, 20), "ZQSD / flèches · souris · clic ou E · Échap", _small);
+    }
+
+    void DrawEnergy()
+    {
+        GUI.Box(new Rect(18,18,Mathf.Min(472,Screen.width - 36),117),GUIContent.none);
+        GUI.Label(new Rect(30,26,425,27),"CLOUDVR V2 · ÉNERGIE",_heading);
+        string action = player.InputPaused ? "Pause · Échap pour reprendre" :
+            energy.Changing ? "Observer la réponse des rangées" :
+            energy.ActiveRows == energy.rowLights.Length ? "Ramener la demande au niveau initial" :
+            "Viser la manette face aux baies · clic ou E";
+        GUI.Label(new Rect(30,52,432,48),action,_instruction);
+        GUI.Label(new Rect(30,104,432,24),energy.Reading + " · valeurs simulées",_small);
+        GUI.Label(new Rect(Screen.width*.5f - 5,Screen.height*.5f - 10,14,24),"+",_small);
     }
 
     void DrawTransit()

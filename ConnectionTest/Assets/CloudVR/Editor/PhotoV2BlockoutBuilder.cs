@@ -60,6 +60,9 @@ public static partial class PhotoV2BlockoutBuilder
                     new(.78f, 2.1f, 1.1f), _dark);
             }
 
+        var rowLights = new GameObject[6];
+        for (int row=0; row<rowLights.Length; row++) rowLights[row] = CreateRowLights(row);
+
         // La rampe remplace provisoirement l'escalier ou l'ascenseur du balcon.
         Vector3 foot = new(0, 0, 41), landing = new(0, 3.4f, 55);
         var ramp = Box("Rampe provisoire", (foot + landing) * .5f - Vector3.up * .15f,
@@ -117,6 +120,7 @@ public static partial class PhotoV2BlockoutBuilder
         InstallAccessAndPatch(route);
         InstallSchoolRack(route);
         InstallStorageAndBalcony(route);
+        InstallEnergy(route, rowLights);
         route.barriers[2] = Gate("Porte intérieure", 16.85f, 3.5f);
         route.guides = new GameObject[route.targets.Length];
         float previous = 1;
