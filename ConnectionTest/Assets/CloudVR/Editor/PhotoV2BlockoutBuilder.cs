@@ -121,6 +121,7 @@ public static partial class PhotoV2BlockoutBuilder
         InstallStorageAndBalcony(route);
         InstallEnergy(route, rowLights);
         InstallGridRoute(route);
+        InstallCoolingRoute(route);
         route.barriers[2] = Gate("Porte intérieure", 16.85f, 3.5f);
         route.guides = new GameObject[route.targets.Length];
         float previous = 1;

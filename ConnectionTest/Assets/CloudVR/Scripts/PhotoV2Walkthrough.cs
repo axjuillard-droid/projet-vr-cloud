@@ -19,6 +19,7 @@ public sealed class PhotoV2Walkthrough : MonoBehaviour
     public PhotoV2Storage storage;
     public PhotoV2Energy energy;
     public PhotoV2GridRoute grid;
+    public PhotoV2Cooling cooling;
     public Text previewLabel;
     public NetworkRideVisuals film;
     public Vector3 arrival;
@@ -115,7 +116,8 @@ public sealed class PhotoV2Walkthrough : MonoBehaviour
         {
             if (!energy) return false;
             if (energy.TrySelect(hit.collider)) return true;
-            if (!grid || !grid.TrySelect(hit.collider, energy)) return false;
+            bool selected = grid && grid.TrySelect(hit.collider,energy);
+            if (!selected && !(AtCooling && cooling.TrySelect(hit.collider))) return false;
             _sound.PlayOneShot(_confirmation,.18f);
             return true;
         }
@@ -326,17 +328,22 @@ public sealed class PhotoV2Walkthrough : MonoBehaviour
         GUI.Label(new Rect(18, Screen.height - 20, 425, 20), "ZQSD / flèches · souris · clic ou E · Échap", _small);
     }
 
+    bool AtCooling => grid && grid.Stop == 3 && cooling;
+
     void DrawEnergy()
     {
         GUI.Box(new Rect(18,18,Mathf.Min(518,Screen.width - 36),133),GUIContent.none);
-        GUI.Label(new Rect(30,26,425,27),"CLOUDVR V2 · ÉNERGIE",_heading);
+        GUI.Label(new Rect(30,26,425,27),AtCooling ? "CLOUDVR V2 · REFROIDISSEMENT" : "CLOUDVR V2 · ÉNERGIE",_heading);
         string action = player.InputPaused ? "Pause · Échap pour reprendre" :
+            AtCooling ? cooling.Instruction :
             grid && grid.Stop > 0 ? grid.Instruction :
             energy.Changing ? "Observer la réponse des rangées" :
             energy.ActiveRows == energy.rowLights.Length ? "Ramener la demande au niveau initial" :
             "Viser la manette face aux baies · clic ou E";
         GUI.Label(new Rect(30,52,480,48),action,_instruction);
-        if (grid && grid.Stop > 0)
+        if (AtCooling)
+            GUI.Label(new Rect(30,106,482,33),cooling.Detail,_small);
+        else if (grid && grid.Stop > 0)
             GUI.Label(new Rect(30,106,482,33),grid.Detail,_small);
         else if (grid && energy.HasRaisedDemand && !energy.Changing)
             GUI.Label(new Rect(30,124,482,24),"Sortie derrière le pupitre · VERS LE RÉSEAU",_small);

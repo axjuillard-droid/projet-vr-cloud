@@ -2,6 +2,10 @@
 
 Mis à jour le 10 novembre 2026.
 
+## V2 — Boucle liquide et rejet sec, 10 novembre 2026
+
+- Vanne après le point de vue sur la centrale. Le tracé orange va des baies à l’échangeur, le tracé bleu repart vers les baies. Deux ventilateurs et des repères à l’air libre montrent le rejet de chaleur. BuildPipeline 0 erreur/0 avertissement. Le player D3D11 valide Photo, Énergie, la vanne, la marche jusqu’à l’échangeur, l’ordre transfert/retour et l’observation. Les flux sont des représentations accélérées. Le parcours Eau reste à faire. [Captures et résultat](validation/v2-cooling-2026-11-10/README.md).
+
 ## V2 — Du poste à la centrale, 10 novembre 2026
 
 - Sortie après hausse de demande, passerelle, poste et point de vue sur une centrale fictive. Le tracé indique le sens d’alimentation vers le site et les deux panaches montrent le refroidissement des tours. BuildPipeline 0 erreur/0 avertissement. Le player Windows D3D11 valide les dix gestes Photo, les paliers de demande et les trois arrêts extérieurs à pied. Les décors sont à l’échelle de travail. [Captures et résultat](validation/v2-grid-2026-11-10/README.md).

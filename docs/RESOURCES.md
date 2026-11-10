@@ -245,3 +245,7 @@ Réutilisation des cibles PC, des matériaux de la salle et des Canvas world-spa
 ## V2 — Réseau électrique extérieur, 10 novembre 2026
 
 Réutilisation des matériaux V2, des cibles PC, du tracé LineRenderer et du Canvas world-space. Tours, poste et pylônes fictifs créés par le builder. Masque du panache généré dans Unity. Aucun asset tiers ni package supplémentaire. Le poste illustre l’adaptation de tension et la centrale représente une source du réseau. Les panaches illustrent le rejet de chaleur par les tours et restent indépendants du levier de demande. [EIA, transport électrique](https://www.eia.gov/energyexplained/electricity/delivery-to-consumers.php), [EDF, tours aéroréfrigérantes](https://www.edf.fr/la-centrale-nucleaire-de-golfech/les-actualites-de-la-centrale-nucleaire-de-golfech/au-sommet-des-tours-aerorefrigerantes).
+
+## V2 — Refroidissement liquide, 10 novembre 2026
+
+Réutilisation des cibles, matériaux, LineRenderer et passerelle V2. La boucle dessinée s’inspire des schémas DOE de refroidissement liquide et de rejet sec. Les traces accélérées visualisent le sens du liquide et le transfert de chaleur. Aucun débit, dimensionnement ou temps de cycle industriel mesuré. Aucun asset tiers ni package. [DOE, refroidissement liquide](https://www.energy.gov/cmei/femp/cooling-water-efficiency-opportunities-federal-data-centers), [DOE, guide des systèmes de refroidissement](https://www.energy.gov/sites/default/files/2024-07/best-practice-guide-data-center-design.pdf).

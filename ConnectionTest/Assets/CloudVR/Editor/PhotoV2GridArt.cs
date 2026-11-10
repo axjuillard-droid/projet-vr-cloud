@@ -25,7 +25,6 @@ public static partial class PhotoV2BlockoutBuilder
             for(int j=0;j<8;j++)
                 Box("Montant de passerelle",new(side*1.57f,3.94f,61.25f+j*3.45f),new(.075f,1.10f,.075f),graphite);
         }
-        Box("Garde-corps de fin",new(0,3.98f,86.69f),new(3.22f,1.15f,.16f),graphite);
         grid.exitGate = Box("Porte du parcours extérieur",new(0,4.44f,60.91f),new(3.08f,2.08f,.15f),graphite);
         grid.departure = GridStop("VERS LE RÉSEAU",new(-1.04f,4.61f,60.65f),graphite,aluminum);
         grid.substation = GridStop("POSTE ÉLECTRIQUE",new(1.11f,4.62f,69.9f),graphite,aluminum);

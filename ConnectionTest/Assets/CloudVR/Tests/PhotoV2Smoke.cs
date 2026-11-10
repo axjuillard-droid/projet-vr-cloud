@@ -239,6 +239,11 @@ public sealed class PhotoV2Smoke : MonoBehaviour
             for (int move = 0; move < 260 && controller.transform.position.z < z - .02f; move++)
                 controller.Move(new Vector3(0,-.05f,Mathf.Min(.08f,z - controller.transform.position.z)));
             yield return null;
+            if (i == 2 && AimAt(route.cooling.valve.gameObject))
+            {
+                Fail("La vanne doit attendre le point de vue.");
+                yield break;
+            }
             if (Mathf.Abs(controller.transform.position.z - z) > .03f || !AimAt(stops[i].gameObject)
                 || grid.Stop != i + 1 || grid.exitGate.activeSelf || !grid.routeLine.enabled)
             {
@@ -262,6 +267,50 @@ public sealed class PhotoV2Smoke : MonoBehaviour
             yield break;
         }
         Debug.Log("CLOUDVR_V2_GRID_PASS sortie, poste, point de vue et panaches vérifiés");
+        var cooling = route.cooling;
+        var wheelClosed = cooling.wheel.localRotation;
+        if (!cooling.gate.activeSelf || !AimAt(cooling.valve.gameObject) || AimAt(cooling.valve.gameObject))
+        {
+            Fail("Ouverture de vanne absente ou répétée.");
+            yield break;
+        }
+        float valveDeadline = Time.realtimeSinceStartup + 3;
+        while (!cooling.Open && Time.realtimeSinceStartup < valveDeadline) yield return null;
+        if (!cooling.Open || cooling.gate.activeSelf || !cooling.hotPath.enabled || !cooling.coldPath.enabled
+            || Quaternion.Angle(wheelClosed,cooling.wheel.localRotation) < 110)
+        {
+            Fail("La vanne et les conduites ne reflètent pas l’ouverture.");
+            yield break;
+        }
+        for (int move=0; move<260 && controller.transform.position.z<96.1f; move++)
+            controller.Move(new Vector3(0,-.05f,Mathf.Min(.08f,96.1f-controller.transform.position.z)));
+        yield return null;
+        if (Mathf.Abs(controller.transform.position.z-96.1f) > .04f || AimAt(cooling.observation.gameObject))
+        {
+            Fail("L’échangeur doit être accessible et attendre le premier retour.");
+            yield break;
+        }
+        bool sawHeatBeforeReturn=false;
+        float loopDeadline=Time.realtimeSinceStartup+8;
+        while (!cooling.ReturnComplete && Time.realtimeSinceStartup<loopDeadline)
+        {
+            sawHeatBeforeReturn |= cooling.HeatReached && !cooling.ReturnComplete;
+            yield return null;
+        }
+        if (!sawHeatBeforeReturn || !cooling.ReturnComplete || !AimAt(cooling.observation.gameObject)
+            || !cooling.Observed || Array.Exists(cooling.airMarkers, air => !air.gameObject.activeSelf))
+        {
+            Fail("Le liquide doit revenir après le transfert de chaleur.");
+            yield break;
+        }
+        if (capture)
+        {
+            route.view.transform.rotation=Quaternion.LookRotation(new Vector3(-6.4f,3.1f,96.7f)-route.view.transform.position);
+            yield return Capture(route.view,14,"echangeur");
+            route.view.transform.rotation=Quaternion.LookRotation(new Vector3(-4.3f,4.4f,83)-route.view.transform.position);
+            yield return Capture(route.view,15,"conduites");
+        }
+        Debug.Log("CLOUDVR_V2_COOLING_PASS vanne, passage, transfert, retour et observation vérifiés");
         Debug.Log("CLOUDVR_V2_SMOKE_PASS 10/10 actions en ordre, marche et montée, sas, cible distante refusée");
         Application.Quit(0);
     }
