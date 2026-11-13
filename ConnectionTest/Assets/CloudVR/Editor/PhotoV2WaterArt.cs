@@ -36,6 +36,19 @@ public static partial class PhotoV2BlockoutBuilder
         water.weatherLabel = Sign("ÉTÉ SEC",weather+Vector3.back*.06f,.054f,Color.black);
         water.loadLabel = Sign("DEMANDE DE CALCUL",load+Vector3.back*.06f,.038f,Color.black);
 
+        for (int side=-1;side<=1;side+=2)
+        {
+            var position = new Vector3(side*.30f,4.50f,110.30f);
+            var control = Box(side > 0 ? "Augmenter le pompage" : "Réduire le pompage",
+                position,new(.31f,.25f,.10f),amber).GetComponent<Collider>();
+            Sign(side > 0 ? "+" : "−",position+Vector3.back*.054f,.15f,Color.black);
+            if (side > 0) water.increase = control;
+            else water.decrease = control;
+        }
+        Box("Pupitre de pompage",new(0,4.04f,110.40f),new(1.03f,1.27f,.15f),graphite);
+        Sign("POMPE D’APPOINT",new(0,4.84f,110.315f),.068f,Color.white);
+        water.pumpStatus = Sign("ARRÊT",new(0,4.66f,110.315f),.057f,Color.white);
+
         var river = new GameObject("Rivière · scénario fictif").transform;
         river.position=new Vector3(-15.5f,0,102);
         var bed = RiverSurface("Lit et berges",river,new Vector3(0,.037f,0),gravel);
@@ -54,14 +67,22 @@ public static partial class PhotoV2BlockoutBuilder
             stone.GetComponent<Collider>().enabled=false;
         }
         water.fish=new Transform[7];
+        water.fishBodies=new Renderer[water.fish.Length];
+        water.deadFishMaterial=Palette("V2 Ventre clair du poisson",new(.67f,.69f,.55f));
         for(int i=0;i<water.fish.Length;i++)
         {
             var fish=GameObject.CreatePrimitive(PrimitiveType.Sphere);
             fish.name="Poisson · présence illustrative";
             fish.transform.SetParent(river,false);
             fish.transform.localScale=new Vector3(.24f,.15f,.57f);
-            fish.GetComponent<Renderer>().sharedMaterial=fishMaterial;
+            water.fishBodies[i]=fish.GetComponent<Renderer>();
+            water.fishBodies[i].sharedMaterial=fishMaterial;
             fish.GetComponent<Collider>().enabled=false;
+            var tail = Box("Nageoire caudale",Vector3.zero,Vector3.one,fishMaterial);
+            tail.transform.SetParent(fish.transform,false);
+            tail.transform.localPosition = new Vector3(0,0,-.52f);
+            tail.transform.localScale = new Vector3(.38f,.83f,.31f);
+            tail.GetComponent<Collider>().enabled = false;
             water.fish[i]=fish.transform;
         }
         water.ripples=new Transform[24];
@@ -88,6 +109,20 @@ public static partial class PhotoV2BlockoutBuilder
         water.intake.transform.SetParent(water.workingFlows.transform,true);
         water.intake.SetPositions(new[]{new Vector3(-15.2f,.24f,106.8f),new Vector3(-10.1f,.65f,106.8f),
             new Vector3(-6.4f,1.14f,106.8f),new Vector3(-6.4f,1.14f,109.95f)});
+        var pump = new Vector3(-9.02f,.70f,106.8f);
+        Box("Socle de pompage",pump+Vector3.down*.37f,new(1.45f,.30f,1.20f),graphite);
+        GridCylinder("Corps de pompe d’appoint",pump,new(.55f,.33f,.55f),aluminum);
+        Sign("POMPE D’APPOINT",pump+new Vector3(0,.50f,-.56f),.083f,Color.white);
+        for (int i=1;i<water.intake.positionCount;i++)
+            CoolTube(water.intake.GetPosition(i-1)-Vector3.up*.18f,water.intake.GetPosition(i)-Vector3.up*.18f,.11f,aluminum);
+        water.intakeMarkers = new Transform[6];
+        for (int i=0;i<water.intakeMarkers.Length;i++)
+        {
+            var marker = Box("Flux vers la tour",water.intake.GetPosition(0),new(.17f,.17f,.17f),cyan);
+            marker.transform.SetParent(water.workingFlows.transform,true);
+            marker.GetComponent<Collider>().enabled = false;
+            water.intakeMarkers[i] = marker.transform;
+        }
         water.discharge=PatchLine("Restitution",aluminum,.08f,4);
         water.discharge.transform.SetParent(water.workingFlows.transform,true);
         water.discharge.SetPositions(new[]{new Vector3(-6.5f,.95f,112.46f),new Vector3(-6.5f,.47f,117.35f),

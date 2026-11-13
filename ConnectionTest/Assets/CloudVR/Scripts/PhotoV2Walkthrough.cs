@@ -378,14 +378,15 @@ public sealed class PhotoV2Walkthrough : MonoBehaviour
     void DrawWater()
     {
         float width = Mathf.Min(545,Screen.width-36);
-        GUI.Box(new Rect(18,18,width,154),GUIContent.none);
+        GUI.Box(new Rect(18,18,width,177),GUIContent.none);
         GUI.Label(new Rect(30,26,width-24,27),"CLOUDVR V2 · EAU",_heading);
         GUI.Label(new Rect(30,52,width-24,55),player.InputPaused ? "Pause · Échap pour reprendre" : water.Instruction,_instruction);
         if (water.Active)
         {
             string flow = water.Dry ? "Été sec" : "Débit normal";
-            GUI.Label(new Rect(30,107,width-24,24),$"{flow}  ·  {water.Withdrawn} / {water.RiverFlow} unités prélevées ({water.Share} %)",_small);
+            GUI.Label(new Rect(30,107,width-24,24),$"{flow} · Pompe {water.PumpMode} · {water.Withdrawn} / {water.RiverFlow} unités prélevées ({water.Share} %)",_small);
             GUI.Label(new Rect(30,132,width-24,24),$"{water.Evaporated} évaporées  ·  {water.Returned} restituées  ·  valeurs fictives",_small);
+            GUI.Label(new Rect(30,154,width-24,24),water.RiverStatus,_small);
         }
         else GUI.Label(new Rect(30,112,width-24,34),"Suivre l’option de refroidissement évaporatif.",_small);
         GUI.Label(new Rect(Screen.width*.5f - 5,Screen.height*.5f - 10,14,24),"+",_small);

@@ -1,5 +1,9 @@
 # Ressources évaluées
 
+## T33 — Pompe d’appoint et rivière V2
+
+Le pupitre, les conduites, la tour et les poissons existants sont complétés avec les composants Unity du projet. Le bilan simplifié s’appuie sur le [guide DOE sur l’eau d’appoint](https://www.energy.gov/cmei/femp/best-management-practice-10-cooling-tower-management). La réponse des poissons s’appuie sur la [description du manque d’oxygène par l’EPA](https://www.epa.gov/caddis/dissolved-oxygen). Le scénario emploie des unités et des durées fictives.
+
 ## T32 — Distribution et boucle de refroidissement V2
 
 Réutilisation du tableau de demande, des matériaux, des départs sous forme de lignes et de la vanne Unity du projet. Les comparaisons existantes d’Oxygen Not Included et du guide DOE/NREL servent au cadrage du retour visuel et du transfert thermique. Aucun contenu tiers importé. Les valeurs du jeu représentent un scénario accéléré. [Guide DOE/NREL](https://www.energy.gov/sites/default/files/2024-07/best-practice-guide-data-center-design.pdf).

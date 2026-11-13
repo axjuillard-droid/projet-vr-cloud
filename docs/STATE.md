@@ -2,6 +2,10 @@
 
 Mis à jour le 13 novembre 2026.
 
+## V2 — Pompe d’appoint et rivière, 13 novembre 2026
+
+- La pompe possède trois positions. Sa conduite rejoint la tour évaporative. En été sec, le prélèvement réduit la surface et provoque un stress progressif, puis une mortalité persistante. Réduire tôt le débit permet une récupération. BuildPipeline 0 erreur et 0 avertissement, parcours Windows D3D11 complet réussi, trois captures. Quest à tester. [Preuves](validation/v2-riviere-2026-11-13/README.md).
+
 ## V2 — Distribution électrique et refroidissement, 13 novembre 2026
 
 - Quatre leviers sur le belvédère alimentent chacun une rangée demandée. Départs repérés et arrivée du poste raccordée au tableau. La vanne ajoute 6 kW simulés et fait redescendre la température après le premier retour froid. BuildPipeline 0 erreur et 0 avertissement. Test D3D11 complet jusqu’à la rivière, trois captures inspectées. JobTempAlloc à la fermeture déjà observé. Essai Quest et pompe de rivière à traiter. [Preuves](validation/v2-distribution-2026-11-13/README.md).

@@ -1,0 +1,14 @@
+{
+  "date": "2026-11-13",
+  "unity": "6000.0.58f2",
+  "rendu": "Windows Direct3D 11",
+  "codeSortie": 0,
+  "verifications": [
+    "ENERGY_PASS",
+    "COOLING_PASS",
+    "WATER_PASS",
+    "SMOKE_PASS"
+  ],
+  "jobTempAlloc": true,
+  "casqueTeste": false
+}

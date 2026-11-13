@@ -12,7 +12,7 @@
 | Belvédère | Monter et rejoindre le repère | Le joueur retrouve la salle et accède à la commande de demande. |
 | Électricité | Monter la demande, puis abaisser les leviers signalés au tableau électrique | Chaque départ allume la rangée correspondante. Le parcours extérieur s’ouvre quand toutes les rangées demandées sont alimentées. |
 | Refroidissement | Renforcer le débit à la vanne et suivre la boucle jusqu’à l’échangeur | La température monte avec les rangées en service. Le retour refroidi la fait redescendre à charge constante, avec 6 kW auxiliaires simulés. |
-| Eau | Passer en été sec à charge égale puis réduire la charge | La rivière se rétrécit. Le tableau distingue prélèvement, évaporation et restitution. Les quantités sont des unités de scénario. |
+| Eau | Démarrer la pompe d’appoint, comparer les deux débits de rivière et ajuster la pompe ou la charge | La conduite alimente la tour évaporative. Le prélèvement excessif en été sec réduit le lit mouillé, stresse les poissons et peut entraîner des pertes persistantes. |
 
 ## Reste à produire ou valider
 
