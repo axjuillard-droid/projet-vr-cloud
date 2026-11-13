@@ -361,22 +361,42 @@ public sealed class PhotoV2Walkthrough : MonoBehaviour
         Vector3 point = target.bounds.center;
         Vector3 screen = view.WorldToScreenPoint(point);
         Vector3 offset = point - view.transform.position;
-        bool onScreen = screen.z > 0 && screen.x > 32 && screen.x < Screen.width - 32
-            && screen.y > 32 && screen.y < Screen.height - 32;
         float centerX = Screen.width * .5f;
         float centerY = Screen.height * .5f;
+        float y = Screen.height-screen.y;
+        float panelWidth = _step == targets.Length ? (AtWater ? 545 : 518) : 480;
+        float panelBottom = _step == targets.Length ? (AtWater ? 195 : 181) : 113;
+        bool inPanel = screen.x < panelWidth + 34 && y < panelBottom + 34;
+        bool onScreen = screen.z > 0 && screen.x > 32 && screen.x < Screen.width - 32
+            && y > 32 && y < Screen.height - 32 && !inPanel;
         if (!onScreen)
         {
-            bool right = Vector3.Dot(offset,view.transform.right) >= 0;
-            GUI.Box(new Rect(right ? Screen.width-68 : 16,centerY-16,52,32),GUIContent.none);
-            GUI.Label(new Rect(right ? Screen.width-68 : 16,centerY-16,52,32),right ? "▶" : "◀",_marker);
+            float horizontal = Vector3.Dot(offset,view.transform.right);
+            float vertical = Vector3.Dot(offset,view.transform.up);
+            bool sideways = screen.z <= 0 || Mathf.Abs(horizontal) > Mathf.Abs(vertical);
+            Rect arrow;
+            string symbol;
+            if (sideways)
+            {
+                bool right = horizontal >= 0;
+                arrow = new Rect(right ? Screen.width-68 : 16,centerY-16,52,32);
+                symbol = right ? "▶" : "◀";
+            }
+            else
+            {
+                bool up = vertical >= 0;
+                float safeX = Mathf.Clamp(screen.x,16,Screen.width-68);
+                arrow = new Rect(safeX,up ? (inPanel ? panelBottom+6 : 16) : Screen.height-54,52,32);
+                symbol = up ? "▲" : "▼";
+            }
+            GUI.Box(arrow,GUIContent.none);
+            GUI.Label(arrow,symbol,_marker);
             return;
         }
 
         // Respecter les obstacles et supprimer le repère si la cible est masquée.
         if (!Physics.Raycast(view.transform.position,offset.normalized,out var hit,offset.magnitude+.05f)
             || hit.collider != target) return;
-        float y = Screen.height-screen.y;
         bool aimed = Physics.Raycast(view.ViewportPointToRay(new Vector3(.5f,.5f)),out var centerHit,InteractionRange)
             && centerHit.collider == target;
         if (aimed)
@@ -384,7 +404,7 @@ public sealed class PhotoV2Walkthrough : MonoBehaviour
             GUI.Box(new Rect(centerX-54,centerY+22,108,32),GUIContent.none);
             GUI.Label(new Rect(centerX-54,centerY+22,108,32),"Clic ou E",_marker);
         }
-        else if (y > 205)
+        else
             GUI.Label(new Rect(screen.x-14,y-31,28,24),"▼",_marker);
     }
 

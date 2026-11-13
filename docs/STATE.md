@@ -4,7 +4,7 @@ Mis à jour le 13 novembre 2026.
 
 ## V2 — Guidage des deux parcours, 13 novembre 2026
 
-- Flèches vers la cible, indication de portée à la visée et consignes alignées sur les libellés des postes. BuildPipeline 0 erreur et 0 avertissement. Test D3D11 complet avec vérifications de la sélection des cibles. Revue visuelle en jeu et essai Quest à faire. [Résultats](validation/v2-guidage-2026-11-13/README.md).
+- Flèches vers la cible, indication de portée à la visée et consignes alignées sur les libellés des postes. BuildPipeline 0 erreur et 0 avertissement. Test D3D11 complet avec vérifications de la sélection des cibles. La revue de la chambre en fenêtre Windows a reproduit la disparition du repère près du bandeau. Après correction, la flèche reste visible au même angle. Les flèches verticales ont été ajoutées. Le test D3D11 complet passe après la correction. La lisibilité des autres postes en mouvement et l’essai Quest restent à évaluer. [Résultats](validation/v2-guidage-2026-11-13/README.md).
 
 ## V2 — Pompe d’appoint et rivière, 13 novembre 2026
 
