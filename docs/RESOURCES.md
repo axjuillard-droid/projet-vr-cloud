@@ -1,5 +1,9 @@
 # Ressources évaluées
 
+## T32 — Distribution et boucle de refroidissement V2
+
+Réutilisation du tableau de demande, des matériaux, des départs sous forme de lignes et de la vanne Unity du projet. Les comparaisons existantes d’Oxygen Not Included et du guide DOE/NREL servent au cadrage du retour visuel et du transfert thermique. Aucun contenu tiers importé. Les valeurs du jeu représentent un scénario accéléré. [Guide DOE/NREL](https://www.energy.gov/sites/default/files/2024-07/best-practice-guide-data-center-design.pdf).
+
 ## Refonte de la visite — mécaniques de jeu
 
 - [Data Center, Waseku](https://store.steampowered.com/app/4170200?l=english). Le jeu rend visibles le câblage, le trafic et les conséquences d’une panne. Adapter l’interaction port à port à une seule demande et à une carte courte. Référence commerciale, aucun contenu importé.

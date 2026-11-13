@@ -10,8 +10,8 @@
 | Baie école | Ouvrir depuis l’allée, extraire le serveur, lancer l’aperçu | Le CPU, la RAM et le NVMe sont repérés. Le serveur produit un aperçu et la miniature repart vers le stockage. |
 | Stockage | Suivre la photo, choisir la banque libre, puis ouvrir l’écran client | La banque occupée refuse l’écriture. La banque libre reçoit la photo, puis l’écran client relit l’image du début. |
 | Belvédère | Monter et rejoindre le repère | Le joueur retrouve la salle et accède à la commande de demande. |
-| Électricité | Monter la demande puis suivre le réseau extérieur | Les rangées s’éveillent par paliers. La passerelle mène au poste et au point de vue sur la centrale fictive. |
-| Refroidissement | Ouvrir la vanne puis rejoindre l’échangeur | Le liquide chaud arrive à l’échangeur. Le rejet sec transfère la chaleur à l’air et le liquide refroidi repart vers les baies. |
+| Électricité | Monter la demande, puis abaisser les leviers signalés au tableau électrique | Chaque départ allume la rangée correspondante. Le parcours extérieur s’ouvre quand toutes les rangées demandées sont alimentées. |
+| Refroidissement | Renforcer le débit à la vanne et suivre la boucle jusqu’à l’échangeur | La température monte avec les rangées en service. Le retour refroidi la fait redescendre à charge constante, avec 6 kW auxiliaires simulés. |
 | Eau | Passer en été sec à charge égale puis réduire la charge | La rivière se rétrécit. Le tableau distingue prélèvement, évaporation et restitution. Les quantités sont des unités de scénario. |
 
 ## Reste à produire ou valider

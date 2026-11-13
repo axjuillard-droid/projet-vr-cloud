@@ -1,6 +1,10 @@
 # État de reprise
 
-Mis à jour le 10 novembre 2026.
+Mis à jour le 13 novembre 2026.
+
+## V2 — Distribution électrique et refroidissement, 13 novembre 2026
+
+- Quatre leviers sur le belvédère alimentent chacun une rangée demandée. Départs repérés et arrivée du poste raccordée au tableau. La vanne ajoute 6 kW simulés et fait redescendre la température après le premier retour froid. BuildPipeline 0 erreur et 0 avertissement. Test D3D11 complet jusqu’à la rivière, trois captures inspectées. JobTempAlloc à la fermeture déjà observé. Essai Quest et pompe de rivière à traiter. [Preuves](validation/v2-distribution-2026-11-13/README.md).
 
 ## V2 — Baie école et écriture guidée, 10 novembre 2026
 

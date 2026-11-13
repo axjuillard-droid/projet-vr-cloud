@@ -1,0 +1,25 @@
+{
+  "date": "2026-11-13",
+  "unity": "6000.0.58f2",
+  "build": "Windows x64 Development",
+  "buildPipeline": {
+    "erreurs": 0,
+    "avertissements": 0
+  },
+  "rendu": "Direct3D 11, 1280 × 720",
+  "codeSortie": 0,
+  "verifications": [
+    "ENERGY_PASS",
+    "GRID_PASS",
+    "COOLING_PASS",
+    "WATER_PASS",
+    "SMOKE_PASS"
+  ],
+  "jobTempAlloc": true,
+  "casqueTeste": false,
+  "captures": [
+    "demande.png",
+    "tableau.png",
+    "echangeur.png"
+  ]
+}

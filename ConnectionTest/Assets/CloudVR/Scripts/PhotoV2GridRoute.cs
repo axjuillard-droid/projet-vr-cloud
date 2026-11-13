@@ -29,7 +29,7 @@ public sealed class PhotoV2GridRoute : MonoBehaviour
 
     public bool TrySelect(Collider target, PhotoV2Energy energy)
     {
-        if (Stop == 0 && target == departure && energy.HasRaisedDemand && !energy.Changing)
+        if (Stop == 0 && target == departure && energy.ReadyForGrid)
         {
             exitGate.SetActive(false);
             departure.enabled = false;

@@ -253,31 +253,59 @@ public sealed class PhotoV2Smoke : MonoBehaviour
             Fail("La sortie réseau doit attendre une hausse de demande.");
             yield break;
         }
-        for (int level = 0; level < 3; level++)
+        var initialTemperature = route.cooling.Temperature;
+        for (int level = 0; level < 2; level++)
         {
-            int expected = level == 2 ? 2 : 4 + 2*level;
-            if (!AimAt(energy.control.gameObject) || !energy.Changing || AimAt(energy.control.gameObject))
+            int previous = 2 + level*2;
+            int requested = previous + 2;
+            if (AimAt(energy.breakers[level*2].gameObject)
+                || !AimAt(energy.control.gameObject) || !energy.Changing || AimAt(energy.control.gameObject))
             {
-                Fail("Un seul changement de demande doit être accepté à la fois.");
+                Fail("Un départ sans demande doit être refusé. Un seul changement est permis à la fois.");
                 yield break;
             }
             float deadline = Time.realtimeSinceStartup + 4;
-            bool intermediate = false;
-            while (energy.Changing && Time.realtimeSinceStartup < deadline)
+            while (energy.Changing && Time.realtimeSinceStartup < deadline) yield return null;
+            if (energy.Changing || energy.RequestedRows != requested || energy.ActiveRows != previous
+                || energy.PowerKw != 18 + previous*15 || AimAt(energy.control.gameObject)
+                || route.TryAdvance(new Ray(departureOrigin,grid.departure.transform.position - departureOrigin)))
             {
-                intermediate |= energy.ActiveRows == (level == 2 ? 5 : expected - 1);
-                yield return null;
-            }
-            int active = Array.FindAll(energy.rowLights, row => row.activeSelf).Length;
-            if (energy.Changing || !intermediate || active != expected || energy.ActiveRows != expected
-                || energy.PowerKw != 18 + expected*15)
-            {
-                Fail("La demande n’a pas changé l’état visible des rangées par étapes.");
+                Fail("La demande seule ne doit ni alimenter les rangées ni ouvrir la sortie.");
                 yield break;
             }
-            if (capture && level < 2) yield return Capture(route.view, 10 + level, "energie");
+            var cabinet = energy.breakers[level*2].transform.position;
+            route.view.transform.rotation = Quaternion.LookRotation(cabinet + Vector3.right*.2f - route.view.transform.position);
+            if (capture && level == 0) yield return Capture(route.view,10,"demande");
+            // Actionner les deux départs dans l’ordre inverse pour vérifier leur correspondance avec les rangées.
+            for (int i = 1; i >= 0; i--)
+            {
+                int breaker = level*2 + i;
+                float raised = energy.breakers[breaker].transform.position.y;
+                if (!AimAt(energy.breakers[breaker].gameObject) || AimAt(energy.breakers[breaker].gameObject))
+                {
+                    Fail("Le levier demandé doit répondre une seule fois.");
+                    yield break;
+                }
+                deadline = Time.realtimeSinceStartup + 4;
+                while (energy.Changing && Time.realtimeSinceStartup < deadline) yield return null;
+                if (energy.Changing || !energy.rowLights[breaker+2].activeSelf
+                    || energy.feeders[breaker].sharedMaterial != energy.live
+                    || energy.breakers[breaker].transform.position.y >= raised - .10f
+                    || energy.ActiveRows != previous + (2-i)
+                    || (i == 1 && energy.rowLights[breaker+1].activeSelf))
+                {
+                    Fail("Le levier doit s’abaisser et alimenter uniquement son départ et sa rangée.");
+                    yield break;
+                }
+            }
+            if (!energy.ReadyForGrid || energy.PowerKw != 18 + requested*15 || energy.incoming.sharedMaterial != energy.live)
+            {
+                Fail("La distribution et la puissance doivent correspondre à la charge alimentée.");
+                yield break;
+            }
+            if (capture && level == 0) yield return Capture(route.view,11,"tableau-actif");
         }
-        Debug.Log("CLOUDVR_V2_ENERGY_PASS 2 → 4 → 6 → 2, puissances et garde vérifiées");
+        Debug.Log("CLOUDVR_V2_ENERGY_PASS demande sans effet sur les voyants, quatre départs indépendants, puissance vérifiée");
 
         var stops = new[] {grid.departure,grid.substation,grid.viewpoint};
         var stopPositions = new[] {58.8f,68.6f,83.5f};
@@ -317,7 +345,11 @@ public sealed class PhotoV2Smoke : MonoBehaviour
         Debug.Log("CLOUDVR_V2_GRID_PASS sortie, poste, point de vue et panaches vérifiés");
         var cooling = route.cooling;
         var wheelClosed = cooling.wheel.localRotation;
-        if (!cooling.gate.activeSelf || !AimAt(cooling.valve.gameObject) || AimAt(cooling.valve.gameObject))
+        float heatingDeadline = Time.realtimeSinceStartup + 7;
+        while (cooling.Temperature < initialTemperature + 7f && Time.realtimeSinceStartup < heatingDeadline) yield return null;
+        float hotTemperature = cooling.Temperature;
+        if (hotTemperature < initialTemperature + 7f || cooling.AuxiliaryKw != 0
+            || !cooling.gate.activeSelf || !AimAt(cooling.valve.gameObject) || AimAt(cooling.valve.gameObject))
         {
             Fail("Ouverture de vanne absente ou répétée.");
             yield break;
@@ -325,6 +357,7 @@ public sealed class PhotoV2Smoke : MonoBehaviour
         float valveDeadline = Time.realtimeSinceStartup + 3;
         while (!cooling.Open && Time.realtimeSinceStartup < valveDeadline) yield return null;
         if (!cooling.Open || cooling.gate.activeSelf || !cooling.hotPath.enabled || !cooling.coldPath.enabled
+            || energy.PowerKw != 114 || cooling.AuxiliaryKw != 6
             || Quaternion.Angle(wheelClosed,cooling.wheel.localRotation) < 110)
         {
             Fail("La vanne et les conduites ne reflètent pas l’ouverture.");
@@ -340,13 +373,14 @@ public sealed class PhotoV2Smoke : MonoBehaviour
             yield break;
         }
         bool sawHeatBeforeReturn=false;
-        float loopDeadline=Time.realtimeSinceStartup+8;
-        while (!cooling.ReturnComplete && Time.realtimeSinceStartup<loopDeadline)
+        float loopDeadline=Time.realtimeSinceStartup+13;
+        while (!cooling.Stabilized && Time.realtimeSinceStartup<loopDeadline)
         {
             sawHeatBeforeReturn |= cooling.HeatReached && !cooling.ReturnComplete;
             yield return null;
         }
-        if (!sawHeatBeforeReturn || !cooling.ReturnComplete || !AimAt(cooling.observation.gameObject)
+        if (!sawHeatBeforeReturn || !cooling.Stabilized || cooling.Temperature >= hotTemperature - 5f
+            || energy.ActiveRows != 6 || !AimAt(cooling.observation.gameObject)
             || !cooling.Observed || Array.Exists(cooling.airMarkers, air => !air.gameObject.activeSelf))
         {
             Fail("Le liquide doit revenir après le transfert de chaleur.");
@@ -359,7 +393,7 @@ public sealed class PhotoV2Smoke : MonoBehaviour
             route.view.transform.rotation=Quaternion.LookRotation(new Vector3(-4.3f,4.4f,83)-route.view.transform.position);
             yield return Capture(route.view,15,"conduites");
         }
-        Debug.Log("CLOUDVR_V2_COOLING_PASS vanne, passage, transfert, retour et observation vérifiés");
+        Debug.Log("CLOUDVR_V2_COOLING_PASS hausse à six rangées, renfort +6 kW, retour froid et baisse à charge constante");
         var water = route.water;
         if (!water.gate.activeSelf || !AimAt(water.entry.gameObject)
             || !water.Active || water.gate.activeSelf || !water.workingFlows.activeSelf)
@@ -371,12 +405,19 @@ public sealed class PhotoV2Smoke : MonoBehaviour
             controller.Move(new Vector3(0,-.05f,Mathf.Min(.08f,108.28f-controller.transform.position.z)));
         yield return null;
         if (Mathf.Abs(controller.transform.position.z-108.28f) > .04f
-            || AimAt(water.weather.gameObject) || !AimAt(water.load.gameObject))
+            || !AimAt(water.load.gameObject))
         {
             Fail("Le poste rivière doit être accessible et préparer la comparaison à quatre rangées.");
             yield break;
         }
         float waterDeadline=Time.realtimeSinceStartup+4;
+        while (energy.Changing && Time.realtimeSinceStartup<waterDeadline) yield return null;
+        if (energy.ActiveRows != 2 || AimAt(water.weather.gameObject) || !AimAt(water.load.gameObject))
+        {
+            Fail("La comparaison doit réduire la charge puis relancer les départs déjà autorisés.");
+            yield break;
+        }
+        waterDeadline=Time.realtimeSinceStartup+4;
         while (energy.Changing && Time.realtimeSinceStartup<waterDeadline) yield return null;
         int normalDraw=water.Withdrawn, normalShare=water.Share;
         if (energy.ActiveRows!=4 || normalDraw!=12 || water.RiverFlow!=100

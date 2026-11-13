@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 
 public sealed class PhotoV2Cooling : MonoBehaviour
 {
@@ -15,11 +16,18 @@ public sealed class PhotoV2Cooling : MonoBehaviour
     public Transform[] airMarkers;
     public Transform[] fans;
     public PhotoV2Energy energy;
+    public Text status;
+
+    public float Temperature { get; private set; } = 23f;
+    public int AuxiliaryKw => Open ? 6 : 0;
+    public bool Stabilized => ReturnComplete && Temperature <= 24f;
+    public string Reading => $"{Temperature:0.0} °C · débit {(Open ? "renforcé" : "normal")} · +{AuxiliaryKw} kW";
 
     float _distance;
     float _hotLength;
     float _coldLength;
     bool _turning;
+    int _lastDisplayed = -1;
     public bool Open { get; private set; }
     public bool HeatReached { get; private set; }
     public bool ReturnComplete { get; private set; }
@@ -27,7 +35,7 @@ public sealed class PhotoV2Cooling : MonoBehaviour
 
     public string Instruction => Observed ? "Le liquide refroidi repart vers les serveurs." :
         _turning ? "La vanne s’ouvre" :
-        Open ? "Suivre les conduites jusqu’à l’échangeur" : "Ouvrir la vanne de refroidissement";
+        Open ? "Suivre les conduites puis attendre la stabilisation" : "Tourner la vanne pour augmenter le débit";
     public string Detail => Observed ? "La chaleur passe à l’air extérieur. Le liquide recircule." :
         Open ? "Bleu : départ froid vers les baies. Orange : retour chaud." :
         "Boucle de démonstration du data center";
@@ -45,7 +53,7 @@ public sealed class PhotoV2Cooling : MonoBehaviour
             StartCoroutine(OpenValve());
             return true;
         }
-        if (target != observation || !ReturnComplete || Observed) return false;
+        if (target != observation || !Stabilized || Observed) return false;
         Observed = true;
         guide.SetActive(false);
         Debug.Log("CLOUDVR_V2_COOLING_OBSERVED");
@@ -67,14 +75,26 @@ public sealed class PhotoV2Cooling : MonoBehaviour
         hotPath.enabled = true;
         coldPath.enabled = true;
         Open = true;
+        _lastDisplayed = -1;
+        energy.Refresh();
         _turning = false;
         Debug.Log("CLOUDVR_V2_COOLING_OPEN");
     }
 
     void Update()
     {
+        if (!energy.isActiveAndEnabled) return;
+        float heat = (energy.ActiveRows - PhotoV2Energy.BaseRows) * 3f;
+        float target = 23f + Mathf.Max(0,heat - (ReturnComplete ? 12f : 0f));
+        Temperature = Mathf.MoveTowards(Temperature,target,Time.deltaTime * 2.6f);
+        int displayed = Mathf.RoundToInt(Temperature * 10f);
+        if (displayed != _lastDisplayed)
+        {
+            _lastDisplayed = displayed;
+            status.text = Reading;
+        }
         if (!Open) return;
-        _distance += (26f + energy.ActiveRows * 1.5f) * Time.deltaTime;
+        _distance += 31f * Time.deltaTime;
         MoveMarkers(hotPath,hotMarkers,_distance,_hotLength);
         if (_distance < _hotLength) return;
 

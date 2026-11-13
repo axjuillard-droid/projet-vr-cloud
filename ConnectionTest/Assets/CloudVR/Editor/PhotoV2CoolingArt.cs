@@ -9,6 +9,7 @@ public static partial class PhotoV2BlockoutBuilder
         var cooling = route.gameObject.AddComponent<PhotoV2Cooling>();
         route.cooling = cooling;
         cooling.energy = route.energy;
+        route.energy.cooling = cooling;
         var graphite = AssetDatabase.LoadAssetAtPath<Material>(Folder + "/V2 Graphite.mat");
         var aluminum = AssetDatabase.LoadAssetAtPath<Material>(Folder + "/V2 Aluminium.mat");
         var cyan = AssetDatabase.LoadAssetAtPath<Material>(Folder + "/V2 Cyan.mat");
@@ -52,12 +53,21 @@ public static partial class PhotoV2BlockoutBuilder
         valveHit.transform.position = cooling.wheel.position + Vector3.back*.03f;
         valveHit.size = new Vector3(.42f,.42f,.14f);
         cooling.valve = valveHit;
-        Sign("VANNE DE DÉMONSTRATION",new(-1.12f,4.94f,85.38f),.046f,Color.white);
+        Sign("VANNE · RENFORT DE DÉBIT",new(-1.12f,4.94f,85.38f),.046f,Color.white);
+        cooling.status = Sign("",new(-1.12f,5.12f,85.39f),.043f,Color.white);
 
-        var hot = new[]{new Vector3(-3.1f,2.6f,34.75f),new Vector3(-4.0f,4.56f,36),
+        var hot = new[]{new Vector3(-7.1f,2.6f,34.75f),new Vector3(-3.1f,2.6f,34.75f),new Vector3(-4.0f,4.56f,36),
             new Vector3(-4.0f,4.56f,84),new Vector3(-4.0f,4.56f,95.2f),new Vector3(-6.25f,2.13f,95.2f)};
         var cold = new[]{new Vector3(-6.25f,1.55f,96.2f),new Vector3(-4.62f,4.06f,96.2f),
-            new Vector3(-4.62f,4.06f,84),new Vector3(-4.62f,4.06f,36),new Vector3(-3.3f,2.6f,34.75f)};
+            new Vector3(-4.62f,4.06f,84),new Vector3(-4.62f,4.06f,36),new Vector3(-3.3f,2.6f,34.45f),new Vector3(-7.1f,2.6f,34.45f)};
+        CoolTube(hot[1],new Vector3(7.1f,2.6f,34.75f),.12f,copper);
+        CoolTube(cold[cold.Length-2],new Vector3(7.1f,2.6f,34.45f),.12f,steelBlue);
+        for (int row=0; row<6; row++)
+        {
+            float rowX = (row-2.5f)*2.6f;
+            CoolTube(new Vector3(rowX,2.6f,34.75f),new Vector3(rowX,2.14f,34.75f),.075f,copper);
+            CoolTube(new Vector3(rowX,2.6f,34.45f),new Vector3(rowX,2.14f,34.45f),.075f,steelBlue);
+        }
         cooling.hotPath = CoolPipe("Retour chaud",hot,copper,amber);
         cooling.coldPath = CoolPipe("Départ froid",cold,steelBlue,cyan);
         cooling.hotMarkers = CoolMarkers("Repères chauds",amber);

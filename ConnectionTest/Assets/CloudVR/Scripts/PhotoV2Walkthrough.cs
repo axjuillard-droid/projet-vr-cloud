@@ -120,7 +120,7 @@ public sealed class PhotoV2Walkthrough : MonoBehaviour
         if (_step == targets.Length)
         {
             if (!energy) return false;
-            if (energy.TrySelect(hit.collider)) return true;
+            if ((!grid || grid.Stop == 0) && energy.TrySelect(hit.collider)) return true;
             bool selected = grid && grid.TrySelect(hit.collider,energy);
             if (!selected && AtCooling) selected = cooling.TrySelect(hit.collider);
             if (!selected && AtWater) selected = water.TrySelect(hit.collider);
@@ -359,16 +359,17 @@ public sealed class PhotoV2Walkthrough : MonoBehaviour
         string action = player.InputPaused ? "Pause · Échap pour reprendre" :
             AtCooling ? cooling.Instruction :
             grid && grid.Stop > 0 ? grid.Instruction :
-            energy.Changing ? "Observer la réponse des rangées" :
-            energy.ActiveRows == energy.rowLights.Length ? "Ramener la demande au niveau initial" :
-            "Viser la manette face aux baies · clic ou E";
+            energy.Instruction;
         GUI.Label(new Rect(30,52,480,48),action,_instruction);
         if (AtCooling)
-            GUI.Label(new Rect(30,106,482,33),cooling.Detail,_small);
+        {
+            GUI.Label(new Rect(30,91,482,24),cooling.Reading + " · simulation",_small);
+            GUI.Label(new Rect(30,115,482,26),cooling.Detail,_small);
+        }
         else if (grid && grid.Stop > 0)
             GUI.Label(new Rect(30,106,482,33),grid.Detail,_small);
-        else if (grid && energy.HasRaisedDemand && !energy.Changing)
-            GUI.Label(new Rect(30,124,482,24),"Sortie derrière le pupitre · VERS LE RÉSEAU",_small);
+        else if (grid && energy.ReadyForGrid)
+            GUI.Label(new Rect(30,124,482,24),"Porte VERS LE RÉSEAU",_small);
         if (!grid || grid.Stop == 0)
             GUI.Label(new Rect(30,100,482,24),energy.Reading + " · valeurs simulées",_small);
         GUI.Label(new Rect(Screen.width*.5f - 5,Screen.height*.5f - 10,14,24),"+",_small);
