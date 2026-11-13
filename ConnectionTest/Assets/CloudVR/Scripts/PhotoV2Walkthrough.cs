@@ -30,6 +30,7 @@ public sealed class PhotoV2Walkthrough : MonoBehaviour
     public bool IsTravelling { get; private set; }
     public int Step => _step;
     public string PhotoStatus => SignalInTransit ? "En transit" : Status[_step];
+    const float InteractionRange = 3.1f;
     const int NetworkStep = 3;
     const int ComputeStep = 4;
     const int PreviewStep = 6;
@@ -49,15 +50,15 @@ public sealed class PhotoV2Walkthrough : MonoBehaviour
     static readonly string[] Instructions =
     {
         "Envoyer la photo",
-        "Rejoindre la façade",
-        "Présenter le badge",
+        "Ouvrir le sas à l’entrée du bâtiment",
+        "Entrer dans le sas et viser le lecteur de badge",
         "Connecter le port réseau",
         "Ouvrir la baie école",
         "Extraire le tiroir",
         "Générer l’aperçu",
         "Sélectionner la banque de stockage libre",
         "Ouvrir la photo sur l’écran client",
-        "Monter au balcon"
+        "Suivre la rampe et viser le repère BELVÉDÈRE"
     };
     static readonly string[] Status =
     {
@@ -70,6 +71,7 @@ public sealed class PhotoV2Walkthrough : MonoBehaviour
     GUIStyle _heading;
     GUIStyle _instruction;
     GUIStyle _small;
+    GUIStyle _marker;
 
     void Start()
     {
@@ -115,7 +117,7 @@ public sealed class PhotoV2Walkthrough : MonoBehaviour
 
     public bool TryAdvance(Ray ray)
     {
-        if (IsTravelling || player.InputPaused || SignalInTransit || _computeBusy || _saving || !Physics.Raycast(ray, out var hit, 3.1f))
+        if (IsTravelling || player.InputPaused || SignalInTransit || _computeBusy || _saving || !Physics.Raycast(ray, out var hit, InteractionRange))
             return false;
         if (_step == targets.Length)
         {
@@ -316,12 +318,84 @@ public sealed class PhotoV2Walkthrough : MonoBehaviour
         if (_confirmation) Destroy(_confirmation);
     }
 
+    public Collider GuideTarget
+    {
+        get
+        {
+            if (IsTravelling || player.InputPaused || SignalInTransit || _computeBusy || _saving) return null;
+            if (_step < targets.Length)
+            {
+                if (_step == NetworkStep && patchCord) return patchCord.Held ? patchCord.portA : patchCord.plug;
+                if (_step == StorageStep && storage && !storage.ReadyToRoute) return null;
+                return targets[_step].GetComponent<Collider>();
+            }
+
+            if (AtWater)
+            {
+                if (!water.Active) return water.entry;
+                if (energy.Changing) return null;
+                if (water.Stressed) return water.decrease;
+                if (water.PumpLevel == 0) return water.increase;
+                return water.Dry ? null : water.weather;
+            }
+            if (AtCooling)
+            {
+                if (!cooling.Open) return cooling.valve;
+                return cooling.Stabilized ? cooling.observation : null;
+            }
+            if (!grid || grid.Stop == 0)
+            {
+                if (!energy || energy.Changing) return null;
+                if (energy.ReadyForGrid && grid) return grid.departure;
+                return energy.RequestedRows > energy.ActiveRows ? energy.PendingBreaker : energy.control;
+            }
+            return grid.Stop == 1 ? grid.substation : grid.viewpoint;
+        }
+    }
+
+    void DrawGuide()
+    {
+        Collider target = GuideTarget;
+        if (!target || !target.enabled) return;
+
+        Vector3 point = target.bounds.center;
+        Vector3 screen = view.WorldToScreenPoint(point);
+        Vector3 offset = point - view.transform.position;
+        bool onScreen = screen.z > 0 && screen.x > 32 && screen.x < Screen.width - 32
+            && screen.y > 32 && screen.y < Screen.height - 32;
+        float centerX = Screen.width * .5f;
+        float centerY = Screen.height * .5f;
+        if (!onScreen)
+        {
+            bool right = Vector3.Dot(offset,view.transform.right) >= 0;
+            GUI.Box(new Rect(right ? Screen.width-68 : 16,centerY-16,52,32),GUIContent.none);
+            GUI.Label(new Rect(right ? Screen.width-68 : 16,centerY-16,52,32),right ? "▶" : "◀",_marker);
+            return;
+        }
+
+        // Respecter les obstacles et supprimer le repère si la cible est masquée.
+        if (!Physics.Raycast(view.transform.position,offset.normalized,out var hit,offset.magnitude+.05f)
+            || hit.collider != target) return;
+        float y = Screen.height-screen.y;
+        bool aimed = Physics.Raycast(view.ViewportPointToRay(new Vector3(.5f,.5f)),out var centerHit,InteractionRange)
+            && centerHit.collider == target;
+        if (aimed)
+        {
+            GUI.Box(new Rect(centerX-54,centerY+22,108,32),GUIContent.none);
+            GUI.Label(new Rect(centerX-54,centerY+22,108,32),"Clic ou E",_marker);
+        }
+        else if (y > 205)
+            GUI.Label(new Rect(screen.x-14,y-31,28,24),"▼",_marker);
+    }
+
     void OnGUI()
     {
         _heading ??= new GUIStyle(GUI.skin.label) { fontSize = 17, fontStyle = FontStyle.Bold };
         _heading.normal.textColor = new Color(.45f, .94f, 1f);
         _instruction ??= new GUIStyle(GUI.skin.label) { fontSize = 20, wordWrap = true };
-        _small ??= new GUIStyle(GUI.skin.label) { fontSize = 14 };
+        _small ??= new GUIStyle(GUI.skin.label) { fontSize = 15 };
+        _marker ??= new GUIStyle(_small) { alignment = TextAnchor.MiddleCenter, fontStyle = FontStyle.Bold };
+        _marker.normal.textColor = _heading.normal.textColor;
         if (IsTravelling)
         {
             DrawTransit();
@@ -330,6 +404,7 @@ public sealed class PhotoV2Walkthrough : MonoBehaviour
         if (_step == targets.Length && energy)
         {
             DrawEnergy();
+            DrawGuide();
             return;
         }
         string action = player.InputPaused ? "Pause · Échap pour reprendre" :
@@ -342,6 +417,7 @@ public sealed class PhotoV2Walkthrough : MonoBehaviour
         if (_photo) GUI.DrawTexture(new Rect(26, Screen.height - 59, 45, 32), _photo);
         GUI.Label(new Rect(80, Screen.height - 58, 151, 34), $"Photo · {PhotoStatus}", _small);
         GUI.Label(new Rect(18, Screen.height - 20, 425, 20), "ZQSD / flèches · souris · clic ou E · Échap", _small);
+        DrawGuide();
     }
 
     bool AtCooling => grid && grid.Stop == 3 && cooling;
@@ -354,22 +430,23 @@ public sealed class PhotoV2Walkthrough : MonoBehaviour
             DrawWater();
             return;
         }
-        GUI.Box(new Rect(18,18,Mathf.Min(518,Screen.width - 36),133),GUIContent.none);
+        GUI.Box(new Rect(18,18,Mathf.Min(518,Screen.width - 36),163),GUIContent.none);
         GUI.Label(new Rect(30,26,425,27),AtCooling ? "CLOUDVR V2 · REFROIDISSEMENT" : "CLOUDVR V2 · ÉNERGIE",_heading);
         string action = player.InputPaused ? "Pause · Échap pour reprendre" :
+            AtCooling && cooling.Stabilized && !cooling.Observed ? "Viser ÉCHANGEUR · REJET À L’AIR" :
             AtCooling ? cooling.Instruction :
             grid && grid.Stop > 0 ? grid.Instruction :
             energy.Instruction;
         GUI.Label(new Rect(30,52,480,48),action,_instruction);
         if (AtCooling)
         {
-            GUI.Label(new Rect(30,91,482,24),cooling.Reading + " · simulation",_small);
-            GUI.Label(new Rect(30,115,482,26),cooling.Detail,_small);
+            GUI.Label(new Rect(30,108,482,24),cooling.Reading + " · simulation",_small);
+            GUI.Label(new Rect(30,134,482,26),cooling.Detail,_small);
         }
         else if (grid && grid.Stop > 0)
             GUI.Label(new Rect(30,106,482,33),grid.Detail,_small);
         else if (grid && energy.ReadyForGrid)
-            GUI.Label(new Rect(30,124,482,24),"Porte VERS LE RÉSEAU",_small);
+            GUI.Label(new Rect(30,134,482,24),"Ou augmentez la demande au pupitre",_small);
         if (!grid || grid.Stop == 0)
             GUI.Label(new Rect(30,100,482,24),energy.Reading + " · valeurs simulées",_small);
         GUI.Label(new Rect(Screen.width*.5f - 5,Screen.height*.5f - 10,14,24),"+",_small);
@@ -388,7 +465,7 @@ public sealed class PhotoV2Walkthrough : MonoBehaviour
             GUI.Label(new Rect(30,132,width-24,24),$"{water.Evaporated} évaporées  ·  {water.Returned} restituées  ·  valeurs fictives",_small);
             GUI.Label(new Rect(30,154,width-24,24),water.RiverStatus,_small);
         }
-        else GUI.Label(new Rect(30,112,width-24,34),"Suivre l’option de refroidissement évaporatif.",_small);
+        else GUI.Label(new Rect(30,112,width-24,34),"Viser VERS LA RIVIÈRE sur la passerelle.",_small);
         GUI.Label(new Rect(Screen.width*.5f - 5,Screen.height*.5f - 10,14,24),"+",_small);
     }
 

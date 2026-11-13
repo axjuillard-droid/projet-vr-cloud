@@ -63,7 +63,8 @@ public sealed class PhotoV2Smoke : MonoBehaviour
                     Fail("La fibre doit arriver de l’extérieur et rejoindre l’ancrage du cordon.");
                     yield break;
                 }
-                if (AimAt(target) || !AimAt(patch.plug.gameObject) || !patch.Held || route.Step != 3
+                if (route.GuideTarget != patch.plug || AimAt(target) || !AimAt(patch.plug.gameObject)
+                    || route.GuideTarget != patch.portA || !patch.Held || route.Step != 3
                     || AimAt(patch.portB.gameObject) || !patch.Held || route.Step != 3 || !AimAt(target))
                 {
                     Fail("Le cordon doit être pris avant A et B doit être refusé sans perdre le cordon.");
@@ -267,7 +268,7 @@ public sealed class PhotoV2Smoke : MonoBehaviour
             float deadline = Time.realtimeSinceStartup + 4;
             while (energy.Changing && Time.realtimeSinceStartup < deadline) yield return null;
             if (energy.Changing || energy.RequestedRows != requested || energy.ActiveRows != previous
-                || energy.PowerKw != 18 + previous*15 || AimAt(energy.control.gameObject)
+                || energy.PowerKw != 18 + previous*15 || route.GuideTarget != energy.breakers[level*2] || AimAt(energy.control.gameObject)
                 || route.TryAdvance(new Ray(departureOrigin,grid.departure.transform.position - departureOrigin)))
             {
                 Fail("La demande seule ne doit ni alimenter les rangées ni ouvrir la sortie.");
@@ -298,7 +299,7 @@ public sealed class PhotoV2Smoke : MonoBehaviour
                     yield break;
                 }
             }
-            if (!energy.ReadyForGrid || energy.PowerKw != 18 + requested*15 || energy.incoming.sharedMaterial != energy.live)
+            if (!energy.ReadyForGrid || route.GuideTarget != grid.departure || energy.PowerKw != 18 + requested*15 || energy.incoming.sharedMaterial != energy.live)
             {
                 Fail("La distribution et la puissance doivent correspondre à la charge alimentée.");
                 yield break;
@@ -395,7 +396,8 @@ public sealed class PhotoV2Smoke : MonoBehaviour
         }
         Debug.Log("CLOUDVR_V2_COOLING_PASS hausse à six rangées, renfort +6 kW, retour froid et baisse à charge constante");
         var water = route.water;
-        if (!water.gate.activeSelf || !AimAt(water.entry.gameObject) || !water.Active
+        if (route.GuideTarget != water.entry || !water.gate.activeSelf || !AimAt(water.entry.gameObject) || !water.Active
+            || route.GuideTarget != water.increase
             || water.gate.activeSelf || water.workingFlows.activeSelf || water.Withdrawn != 0)
         {
             Fail("La pompe doit être arrêtée à l’arrivée.");
@@ -438,7 +440,7 @@ public sealed class PhotoV2Smoke : MonoBehaviour
         }
         yield return new WaitForSecondsRealtime(2.5f);
         float narrow = water.surface.localScale.x;
-        if (!water.Stressed || water.DeadFish != 0 || narrow >= .65f || !AimAt(water.decrease.gameObject))
+        if (!water.Stressed || route.GuideTarget != water.decrease || water.DeadFish != 0 || narrow >= .65f || !AimAt(water.decrease.gameObject))
         {
             Fail("Le débit fort doit réduire la largeur puis stresser les poissons avant la mortalité.");
             yield break;
@@ -471,6 +473,7 @@ public sealed class PhotoV2Smoke : MonoBehaviour
         }
         if (capture) yield return Capture(route.view,18,"pompe-arretee");
         Debug.Log("CLOUDVR_V2_WATER_PASS pompe, stress, récupération, mortalité persistante et bilan vérifiés");
+        Debug.Log("CLOUDVR_V2_GUIDANCE_PASS cordon, tableau électrique et pompe");
         Debug.Log("CLOUDVR_V2_SMOKE_PASS 10/10 actions en ordre, marche et montée, sas, cible distante refusée");
         Application.Quit(0);
     }

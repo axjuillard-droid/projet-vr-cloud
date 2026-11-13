@@ -32,8 +32,18 @@ public sealed class PhotoV2Energy : MonoBehaviour
     public string Reading => $"{ActiveRows} actives / {RequestedRows} demandées · {PowerKw} / {LimitKw} kW";
     public string Instruction => Changing ? "Observer les départs et les voyants des rangées" :
         ActiveRows < RequestedRows ? "Au tableau électrique, abaisser les leviers marqués DEMANDÉ" :
-        ActiveRows > BaseRows ? "Augmenter la demande ou ouvrir VERS LE RÉSEAU" :
+        ActiveRows > BaseRows ? "Ouvrir VERS LE RÉSEAU" :
         "Actionner la manette DEMANDE DE CALCUL";
+
+    public Collider PendingBreaker
+    {
+        get
+        {
+            for (int i = 0; i < breakers.Length && i + BaseRows < RequestedRows; i++)
+                if (!_authorized[i]) return breakers[i];
+            return null;
+        }
+    }
 
     void OnEnable() => Refresh();
 

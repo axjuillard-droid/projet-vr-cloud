@@ -236,6 +236,8 @@ L’ouverture V2 ajoute un bureau habillé, un trajet fibre de cinq secondes, un
 
 [Pompe d’appoint et rivière dans le build Windows V2](docs/validation/v2-riviere-2026-11-13/README.md).
 
+Les repères à l’écran indiquent la prochaine cible. Lorsque le viseur l’atteint à portée, le jeu affiche « Clic ou E ». [Validation du guidage V2](docs/validation/v2-guidage-2026-11-13/README.md).
+
 [Baie école et aperçu](docs/validation/v2-school-rack-2026-11-10/README.md).
 
 [Stockage, relecture et belvédère](docs/validation/v2-storage-2026-11-10/README.md).

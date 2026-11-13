@@ -1,0 +1,16 @@
+{
+  "date": "2026-11-13",
+  "plateforme": "Windows Direct3D 11",
+  "resolution": "1280 × 720",
+  "codeSortie": 0,
+  "controles": [
+    "fiche puis port A",
+    "départ électrique demandé",
+    "sortie réseau",
+    "accès rivière",
+    "démarrage et réduction de la pompe",
+    "parcours complet"
+  ],
+  "jobTempAlloc": false,
+  "revueVisuelleHUD": false
+}
