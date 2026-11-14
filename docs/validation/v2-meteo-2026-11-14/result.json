@@ -1,0 +1,18 @@
+{
+  "plateforme": "Windows Direct3D 11",
+  "buildPipeline": {
+    "erreurs": 0,
+    "avertissements": 0
+  },
+  "codeSortie": 0,
+  "verifications": [
+    "WEATHER_VALIDATED Froid",
+    "WEATHER_VALIDATED Tempéré",
+    "WEATHER_VALIDATED Canicule",
+    "WATER_PASS",
+    "GUIDANCE_PASS",
+    "SMOKE_PASS"
+  ],
+  "jobTempAlloc": false,
+  "casqueTeste": false
+}

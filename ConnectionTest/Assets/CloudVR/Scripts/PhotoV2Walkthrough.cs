@@ -351,14 +351,7 @@ public sealed class PhotoV2Walkthrough : MonoBehaviour
                 return targets[_step].GetComponent<Collider>();
             }
 
-            if (AtWater)
-            {
-                if (!water.Active) return water.entry;
-                if (energy.Changing) return null;
-                if (water.Stressed) return water.decrease;
-                if (water.PumpLevel == 0) return water.increase;
-                return water.Dry ? null : water.weather;
-            }
+            if (AtWater) return water.NextControl;
             if (AtCooling)
             {
                 if (!cooling.Open) return cooling.valve;
@@ -386,7 +379,7 @@ public sealed class PhotoV2Walkthrough : MonoBehaviour
         float centerY = Screen.height * .5f;
         float y = Screen.height-screen.y;
         float panelWidth = _step == targets.Length ? (AtWater ? 545 : 518) : 480;
-        float panelBottom = _step == targets.Length ? (AtWater ? 195 : 181) : 113;
+        float panelBottom = _step == targets.Length ? (AtWater ? 247 : 181) : 113;
         bool inPanel = screen.x < panelWidth + 34 && y < panelBottom + 34;
         bool onScreen = screen.z > 0 && screen.x > 32 && screen.x < Screen.width - 32
             && y > 32 && y < Screen.height - 32 && !inPanel;
@@ -496,15 +489,16 @@ public sealed class PhotoV2Walkthrough : MonoBehaviour
     void DrawWater()
     {
         float width = Mathf.Min(545,Screen.width-36);
-        GUI.Box(new Rect(18,18,width,177),GUIContent.none);
+        GUI.Box(new Rect(18,18,width,229),GUIContent.none);
         GUI.Label(new Rect(30,26,width-24,27),"CLOUDVR V2 · EAU",_heading);
         GUI.Label(new Rect(30,52,width-24,55),player.InputPaused ? "Pause · Échap pour reprendre" : water.Instruction,_instruction);
         if (water.Active)
         {
-            string flow = water.Dry ? "Été sec" : "Débit normal";
-            GUI.Label(new Rect(30,107,width-24,24),$"{flow} · Pompe {water.PumpMode} · {water.Withdrawn} / {water.RiverFlow} unités prélevées ({water.Share} %)",_small);
-            GUI.Label(new Rect(30,132,width-24,24),$"{water.Evaporated} évaporées  ·  {water.Returned} restituées  ·  valeurs fictives",_small);
-            GUI.Label(new Rect(30,154,width-24,24),water.RiverStatus,_small);
+            GUI.Label(new Rect(30,107,width-24,24),$"{water.WeatherName} · {water.ServedRows} / {water.TargetRows} rangées servies · {energy.ActiveRows} alimentées",_small);
+            GUI.Label(new Rect(30,132,width-24,24),$"Refroidissement · capacité {water.CoolingRows} rangées · pompe {water.PumpMode}",_small);
+            GUI.Label(new Rect(30,157,width-24,24),$"Rivière · {water.Withdrawn} / {water.RiverFlow} unités prélevées ({water.Share} %)",_small);
+            GUI.Label(new Rect(30,182,width-24,24),$"{water.Evaporated} évaporées · {water.Returned} restituées · valeurs fictives",_small);
+            GUI.Label(new Rect(30,207,width-24,24),water.RiverStatus,_small);
         }
         else GUI.Label(new Rect(30,112,width-24,34),"Viser VERS LA RIVIÈRE sur la passerelle.",_small);
         GUI.Label(new Rect(Screen.width*.5f - 5,Screen.height*.5f - 10,14,24),"+",_small);

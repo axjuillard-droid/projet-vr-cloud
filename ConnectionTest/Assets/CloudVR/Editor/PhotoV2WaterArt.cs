@@ -33,7 +33,8 @@ public static partial class PhotoV2BlockoutBuilder
         water.load = Box("Commande charge",load,new(.69f,.28f,.11f),amber).GetComponent<Collider>();
         Box("Pied météo",weather+new Vector3(0,-.59f,.10f),new(.14f,1.1f,.16f),graphite);
         Box("Pied charge",load+new Vector3(0,-.59f,.10f),new(.14f,1.1f,.16f),graphite);
-        water.weatherLabel = Sign("ÉTÉ SEC",weather+Vector3.back*.06f,.054f,Color.black);
+        water.weatherLabel = Sign("TEMPÉRÉ",weather+Vector3.back*.06f,.054f,Color.black);
+        Sign("MÉTÉO SUIVANTE",weather+new Vector3(0,.23f,-.01f),.051f,Color.white);
         water.loadLabel = Sign("DEMANDE DE CALCUL",load+Vector3.back*.06f,.038f,Color.black);
 
         for (int side=-1;side<=1;side+=2)
@@ -48,6 +49,18 @@ public static partial class PhotoV2BlockoutBuilder
         Box("Pupitre de pompage",new(0,4.04f,110.40f),new(1.03f,1.27f,.15f),graphite);
         Sign("POMPE D’APPOINT",new(0,4.84f,110.315f),.068f,Color.white);
         water.pumpStatus = Sign("ARRÊT",new(0,4.66f,110.315f),.057f,Color.white);
+
+        water.pumpHandle = new GameObject("Pivot de la manette de pompe").transform;
+        water.pumpHandle.position = new Vector3(0,4.44f,110.25f);
+        var pumpLever = Box("Manette de pompe",water.pumpHandle.position + Vector3.up*.065f,
+            new(.043f,.15f,.05f),aluminum);
+        pumpLever.transform.SetParent(water.pumpHandle,true);
+        pumpLever.GetComponent<Collider>().enabled = false;
+        var pumpGrip = Box("Poignée de pompe",water.pumpHandle.position + Vector3.up*.147f,
+            new(.10f,.06f,.07f),amber);
+        pumpGrip.transform.SetParent(water.pumpHandle,true);
+        pumpGrip.GetComponent<Collider>().enabled = false;
+        water.pumpHandle.localRotation = Quaternion.Euler(0,0,35f);
 
         var river = new GameObject("Rivière · scénario fictif").transform;
         river.position=new Vector3(-15.5f,0,102);

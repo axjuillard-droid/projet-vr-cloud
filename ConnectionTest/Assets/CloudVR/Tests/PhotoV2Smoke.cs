@@ -408,7 +408,7 @@ public sealed class PhotoV2Smoke : MonoBehaviour
         Debug.Log("CLOUDVR_V2_COOLING_PASS hausse à six rangées, renfort +6 kW, retour froid et baisse à charge constante");
         var water = route.water;
         if (route.GuideTarget != water.entry || !water.gate.activeSelf || !AimAt(water.entry.gameObject) || !water.Active
-            || route.GuideTarget != water.increase
+            || route.GuideTarget != water.load
             || water.gate.activeSelf || water.workingFlows.activeSelf || water.Withdrawn != 0)
         {
             Fail("La pompe doit être arrêtée à l’arrivée.");
@@ -417,59 +417,84 @@ public sealed class PhotoV2Smoke : MonoBehaviour
         for (int move=0; move<250 && controller.transform.position.z<108.28f; move++)
             controller.Move(new Vector3(0,-.05f,Mathf.Min(.08f,108.28f-controller.transform.position.z)));
         yield return null;
-        if (Mathf.Abs(controller.transform.position.z-108.28f) > .04f || !AimAt(water.load.gameObject))
+        if (Mathf.Abs(controller.transform.position.z-108.28f) > .04f)
         {
-            Fail("Le pupitre rivière doit permettre de réduire la charge.");
+            Fail("Le pupitre rivière doit être accessible.");
             yield break;
         }
-        float chargeDeadline = Time.realtimeSinceStartup + 4;
-        while (energy.Changing && Time.realtimeSinceStartup < chargeDeadline) yield return null;
-        if (energy.ActiveRows != 2 || !AimAt(water.load.gameObject))
+        if (energy.ActiveRows == 6)
         {
-            Fail("Le pupitre rivière doit permettre de relancer la charge.");
+            if (!AimAt(water.load.gameObject)) { Fail("La réduction de charge est inaccessible."); yield break; }
+            yield return new WaitForSecondsRealtime(2);
+        }
+        if (energy.ActiveRows == 2)
+        {
+            if (!AimAt(water.load.gameObject)) { Fail("La relance de charge est inaccessible."); yield break; }
+            yield return new WaitForSecondsRealtime(2);
+        }
+        yield return new WaitForSecondsRealtime(2.5f);
+        if (water.WeatherName != "Froid" || water.ServedRows != 4 || water.Withdrawn != 0
+            || !water.WeatherCompleted || route.GuideTarget != water.weather || !AimAt(water.weather.gameObject))
+        {
+            Fail("Par temps froid, le rejet sec doit couvrir les quatre rangées sans pompage.");
             yield break;
         }
-        chargeDeadline = Time.realtimeSinceStartup + 4;
-        while (energy.Changing && Time.realtimeSinceStartup < chargeDeadline) yield return null;
-        if (energy.ActiveRows != 4 || !AimAt(water.increase.gameObject)
-            || water.PumpLevel != 1 || water.Withdrawn != 4 || !water.workingFlows.activeSelf
-            || !AimAt(water.increase.gameObject) || AimAt(water.increase.gameObject)
-            || water.PumpLevel != 2 || water.Withdrawn != 12 || water.RiverFlow != 100
-            || water.Evaporated + water.Returned != water.Withdrawn)
+        if (water.WeatherName != "Tempéré" || water.RiverFlow != 65 || water.ServedRows != 3
+            || route.GuideTarget != water.increase || water.WeatherCompleted || !AimAt(water.increase.gameObject))
         {
-            Fail("La pompe doit passer par deux régimes et conserver le bilan d’eau.");
+            Fail("Par temps tempéré, le débit réduit doit combler le manque de capacité.");
             yield break;
         }
-        yield return new WaitForSecondsRealtime(.7f);
+        yield return new WaitForSecondsRealtime(2.5f);
+        if (!water.WeatherCompleted || water.ServedRows != 4 || water.Withdrawn != 4
+            || water.Evaporated + water.Returned != water.Withdrawn || !AimAt(water.weather.gameObject))
+        {
+            Fail("Le scénario tempéré doit se valider avec un bilan d’eau cohérent.");
+            yield break;
+        }
+        if (!water.Heatwave || water.ServedRows != 2 || water.RiverFlow != 30
+            || route.GuideTarget != water.load || water.WeatherCompleted || !AimAt(water.increase.gameObject))
+        {
+            Fail("La canicule doit exposer le manque de capacité ou le coût du pompage fort.");
+            yield break;
+        }
         var riverView = Quaternion.LookRotation(new Vector3(-12.9f,.6f,111.8f)-route.view.transform.position);
         route.view.transform.rotation = riverView;
-        if (capture) yield return Capture(route.view,16,"debit-normal");
-        if (!AimAt(water.weather.gameObject) || !water.Dry || water.RiverFlow != 30 || water.Withdrawn != 12)
-        {
-            Fail("L’été sec doit conserver le réglage initial de la pompe.");
-            yield break;
-        }
         yield return new WaitForSecondsRealtime(2.5f);
         float narrow = water.surface.localScale.x;
-        if (!water.Stressed || route.GuideTarget != water.decrease || water.DeadFish != 0 || narrow >= .65f || !AimAt(water.decrease.gameObject))
+        if (!water.RiverAtRisk || !water.Stressed || water.ServedRows != 4 || water.WeatherCompleted
+            || route.GuideTarget != water.decrease || water.DeadFish != 0 || narrow >= .65f)
         {
-            Fail("Le débit fort doit réduire la largeur puis stresser les poissons avant la mortalité.");
+            Fail("Le débit fort doit rétablir le service tout en exposant la rivière à un risque.");
             yield break;
         }
-        yield return new WaitForSecondsRealtime(2.5f);
-        if (water.Stressed || water.DeadFish != 0 || water.Withdrawn != 4 || water.surface.localScale.x <= narrow
-            || !AimAt(water.increase.gameObject))
+        if (capture) yield return Capture(route.view,17,"canicule-debit-fort");
+        if (!AimAt(water.decrease.gameObject) || !AimAt(water.load.gameObject))
         {
-            Fail("Réduire la pompe doit permettre une récupération sans mortalité.");
+            Fail("Réduire le débit et la charge doit être possible au pupitre rivière.");
             yield break;
         }
+        yield return new WaitForSecondsRealtime(4);
+        if (!water.MissionCompleted || water.Stressed || water.DeadFish != 0 || water.ServedRows != 2
+            || water.Withdrawn != 2 || water.surface.localScale.x <= narrow)
+        {
+            Fail("Deux rangées prioritaires doivent tenir sans perte en canicule.");
+            yield break;
+        }
+        if (capture) yield return Capture(route.view,18,"canicule-service-stable");
+        if (!AimAt(water.load.gameObject))
+        {
+            Fail("La comparaison doit rester disponible après la mission.");
+            yield break;
+        }
+        yield return new WaitForSecondsRealtime(2);
+        if (!AimAt(water.increase.gameObject)) { Fail("Le débit fort est inaccessible."); yield break; }
         yield return new WaitForSecondsRealtime(8.5f);
         if (water.DeadFish != 3 || Quaternion.Angle(water.fish[0].localRotation,Quaternion.Euler(0,0,90)) > 1f)
         {
             Fail("Le prélèvement excessif prolongé doit produire une mortalité visible.");
             yield break;
         }
-        if (capture) yield return Capture(route.view,17,"ete-sec");
         if (!AimAt(water.decrease.gameObject) || !AimAt(water.decrease.gameObject)
             || water.Withdrawn != 0 || water.workingFlows.activeSelf)
         {
@@ -479,11 +504,10 @@ public sealed class PhotoV2Smoke : MonoBehaviour
         yield return new WaitForSecondsRealtime(6);
         if (water.Stressed || water.DeadFish != 3 || water.surface.localScale.x <= narrow)
         {
-            Fail("L’arrêt doit rendre du débit sans effacer les pertes du scénario.");
+            Fail("L’arrêt doit rendre du débit sans effacer les pertes.");
             yield break;
         }
-        if (capture) yield return Capture(route.view,18,"pompe-arretee");
-        Debug.Log("CLOUDVR_V2_WATER_PASS pompe, stress, récupération, mortalité persistante et bilan vérifiés");
+        Debug.Log("CLOUDVR_V2_WATER_PASS trois météos, mission sans perte, surpompage et récupération vérifiés");
         Debug.Log("CLOUDVR_V2_GUIDANCE_PASS cordon, tableau électrique et pompe");
         Debug.Log("CLOUDVR_V2_SMOKE_PASS 10/10 actions en ordre, marche et montée, sas, cible distante refusée");
         Application.Quit(0);

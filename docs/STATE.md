@@ -2,6 +2,10 @@
 
 Mis à jour le 14 novembre 2026.
 
+## V2 — Mission météo et service, 14 novembre 2026
+
+- Le pupitre rivière relie trois météos, les rangées alimentées et la capacité de refroidissement. La mission demande quatre rangées par temps froid et tempéré, puis deux rangées prioritaires en canicule. La pompe affiche et anime son réglage. BuildPipeline 0 erreur et 0 avertissement. Test D3D11 complet avec mission sans perte, surpompage et récupération. Nouvel essai joueur et Quest à faire. [Validation](validation/v2-meteo-2026-11-14/README.md).
+
 ## V2 — Retours joueurs et baie école, 14 novembre 2026
 
 - Deux essais analysés. Chargement de la RAM suivi du calcul de l’aperçu par le CPU. L’original poursuit son trajet. BuildPipeline réussi et parcours D3D11 complet validé. Effet pédagogique à mesurer lors d’un nouvel essai. [Synthèse](RETOURS_JOUEURS_V2.md) · [Validation](validation/v2-retours-2026-11-14/README.md).

@@ -1,5 +1,9 @@
 # Ressources évaluées
 
+## T35 — Mission météo V2
+
+Réutilisation du pupitre, de la pompe et du bilan d’eau du projet. Le modèle de jeu exprime la capacité de rejet sec et l’appoint évaporatif en rangées servies. Il s’appuie sur les principes de refroidissement extérieur décrits dans le [guide DOE/NREL](https://www.energy.gov/sites/default/files/2024-07/best-practice-guide-data-center-design.pdf). Les chiffres et seuils du jeu sont fictifs.
+
 ## T33 — Pompe d’appoint et rivière V2
 
 Le pupitre, les conduites, la tour et les poissons existants sont complétés avec les composants Unity du projet. Le bilan simplifié s’appuie sur le [guide DOE sur l’eau d’appoint](https://www.energy.gov/cmei/femp/best-management-practice-10-cooling-tower-management). La réponse des poissons s’appuie sur la [description du manque d’oxygène par l’EPA](https://www.epa.gov/caddis/dissolved-oxygen). Le scénario emploie des unités et des durées fictives.
