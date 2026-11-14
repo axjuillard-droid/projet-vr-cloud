@@ -89,6 +89,8 @@ public static partial class PhotoV2BlockoutBuilder
         var route = new GameObject("Parcours Photo V2").AddComponent<PhotoV2Walkthrough>();
         route.view = camera;
         route.player = player;
+        player.siteMapEnabled = true;
+        player.sprintMultiplier = 1.65f;
         route.film = NetworkRideBuilder.BuildVisuals(route.transform);
         route.arrival = new Vector3(0, .035f, 7.3f);
         route.targets = new[]

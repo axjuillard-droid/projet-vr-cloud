@@ -257,3 +257,5 @@ Le hall V2 se prolonge sous le belvédère, avec 66 baies au total. Les rangées
 [Deux retours joueurs et changements à la baie école](docs/RETOURS_JOUEURS_V2.md).
 
 [Mission météo et refroidissement](docs/validation/v2-meteo-2026-11-14/README.md).
+
+**Navigation PC V2** — Maintiens **Maj** en avançant pour courir et **M** pour consulter le plan. Le plan montre ta position, ton orientation et la prochaine action disponible. [Validation Windows](docs/validation/v2-carte-2026-11-14/result.json).

@@ -2,6 +2,10 @@
 
 Mis à jour le 14 novembre 2026.
 
+## V2 — Carte et course PC, 14 novembre 2026
+
+- Maintenir M affiche le plan schématique du bâtiment ou du site extérieur. La position, l’orientation et la prochaine commande s’affichent. Maj accélère la marche en avant. Le test Windows envoie les touches et vérifie que la carte bloque la marche et les interactions. BuildPipeline réussi et parcours complet D3D11 validé. La capture en fenêtre masquée est noire. Lisibilité en jeu et Quest à vérifier. [Validation](validation/v2-carte-2026-11-14/result.json).
+
 ## V2 — Mission météo et service, 14 novembre 2026
 
 - Le pupitre rivière relie trois météos, les rangées alimentées et la capacité de refroidissement. La mission demande quatre rangées par temps froid et tempéré, puis deux rangées prioritaires en canicule. La pompe affiche et anime son réglage. BuildPipeline 0 erreur et 0 avertissement. Test D3D11 complet avec mission sans perte, surpompage et récupération. Nouvel essai joueur et Quest à faire. [Validation](validation/v2-meteo-2026-11-14/README.md).

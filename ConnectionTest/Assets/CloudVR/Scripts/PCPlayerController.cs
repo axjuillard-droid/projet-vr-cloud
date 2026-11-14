@@ -11,6 +11,9 @@ public class PCPlayerController : MonoBehaviour
 {
     [Header("Déplacement")]
     public float moveSpeed = 3f;
+    [Min(1f)] public float sprintMultiplier = 1f;
+    public bool siteMapEnabled;
+    public bool SiteMapOpen => siteMapEnabled && !InputPaused && Keyboard.current?.mKey.isPressed == true;
 
     [Header("Regard souris")]
     public float mouseSensitivity = 2f;
@@ -45,7 +48,7 @@ public class PCPlayerController : MonoBehaviour
 
     private void Update()
     {
-        if (InputPaused) return;
+        if (InputPaused || SiteMapOpen) return;
         if (Cursor.lockState == CursorLockMode.Locked) HandleLook();
         HandleMove();
     }
@@ -90,7 +93,9 @@ public class PCPlayerController : MonoBehaviour
             - (keyboard.sKey.isPressed || keyboard.downArrowKey.isPressed ? 1 : 0);
 
         Vector3 move = transform.right * h + transform.forward * v;
-        _cc.Move(Vector3.ClampMagnitude(move, 1f) * moveSpeed * Time.deltaTime);
+        bool sprint = v > 0 && (keyboard.leftShiftKey.isPressed || keyboard.rightShiftKey.isPressed);
+        float speed = moveSpeed * (sprint ? sprintMultiplier : 1f);
+        _cc.Move(Vector3.ClampMagnitude(move, 1f) * speed * Time.deltaTime);
 
         // Gravité simple
         if (!_cc.isGrounded)

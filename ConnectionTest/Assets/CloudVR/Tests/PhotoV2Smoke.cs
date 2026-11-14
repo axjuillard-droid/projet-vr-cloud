@@ -2,6 +2,8 @@ using System;
 using System.Collections;
 using System.IO;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.LowLevel;
 
 public sealed class PhotoV2Smoke : MonoBehaviour
 {
@@ -23,6 +25,45 @@ public sealed class PhotoV2Smoke : MonoBehaviour
         }
 
         bool capture = Array.Exists(Environment.GetCommandLineArgs(), arg => arg == "--cloudvr-v2-capture");
+        var previousBackground = InputSystem.settings.backgroundBehavior;
+        InputSystem.settings.backgroundBehavior = InputSettings.BackgroundBehavior.IgnoreFocus;
+        var keyboard = InputSystem.AddDevice<Keyboard>();
+        keyboard.MakeCurrent();
+        var origin = route.player.transform.position;
+        InputSystem.QueueStateEvent(keyboard,new KeyboardState(Key.W,Key.LeftShift));
+        yield return null;
+        yield return null;
+        float sprintStart = route.player.transform.position.z;
+        float sprintTime = Time.time;
+        yield return new WaitForSeconds(.16f);
+        float elapsed = Time.time-sprintTime;
+        float distance = route.player.transform.position.z-sprintStart;
+        InputSystem.QueueStateEvent(keyboard,new KeyboardState(Key.M,Key.W));
+        yield return null;
+        yield return null;
+        var mapPosition = route.player.transform.position;
+        yield return null;
+        if (distance <= elapsed*route.player.moveSpeed*1.15f || !route.player.SiteMapOpen
+            || Vector3.Distance(mapPosition,route.player.transform.position) > .001f
+            || !route.GuideTarget || route.TryAdvance(new Ray(route.view.transform.position,
+                route.targets[0].transform.position-route.view.transform.position)))
+        {
+            Fail($"Maj et M incorrectes · vitesse {distance/elapsed:0.00}, carte {route.player.SiteMapOpen}, déplacement {Vector3.Distance(mapPosition,route.player.transform.position):0.000}, cible {route.GuideTarget}");
+            yield break;
+        }
+        if (capture) yield return CaptureMap("19-plan-interieur.png");
+        InputSystem.QueueStateEvent(keyboard,new KeyboardState());
+        yield return null;
+        yield return null;
+        if (route.player.SiteMapOpen)
+        {
+            Fail("Relâcher M doit fermer la carte.");
+            yield break;
+        }
+        InputSystem.RemoveDevice(keyboard);
+        var rigController = route.player.GetComponent<CharacterController>();
+        rigController.Move(new Vector3(origin.x-route.player.transform.position.x,0,origin.z-route.player.transform.position.z));
+        Debug.Log("CLOUDVR_V2_MAP_PASS course avec Maj, carte intérieure et commandes suspendues");
         route.player.enabled = false;
         var controller = route.player.GetComponent<CharacterController>();
         var waypoints = new[] { 1f, 10.8f, 14.1f, 18.6f, 25.35f, 25.35f, 25.35f, 35.5f, 36.9f, 57.4f };
@@ -468,6 +509,16 @@ public sealed class PhotoV2Smoke : MonoBehaviour
             Fail("Le débit fort doit rétablir le service tout en exposant la rivière à un risque.");
             yield break;
         }
+        if (capture)
+        {
+            var mapKeyboard = InputSystem.AddDevice<Keyboard>();
+            mapKeyboard.MakeCurrent();
+            InputSystem.QueueStateEvent(mapKeyboard,new KeyboardState(Key.M));
+            yield return null;
+            yield return null;
+            yield return CaptureMap("20-plan-exterieur.png");
+            InputSystem.RemoveDevice(mapKeyboard);
+        }
         if (capture) yield return Capture(route.view,17,"canicule-debit-fort");
         if (!AimAt(water.decrease.gameObject) || !AimAt(water.load.gameObject))
         {
@@ -509,8 +560,20 @@ public sealed class PhotoV2Smoke : MonoBehaviour
         }
         Debug.Log("CLOUDVR_V2_WATER_PASS trois météos, mission sans perte, surpompage et récupération vérifiés");
         Debug.Log("CLOUDVR_V2_GUIDANCE_PASS cordon, tableau électrique et pompe");
+        InputSystem.settings.backgroundBehavior = previousBackground;
         Debug.Log("CLOUDVR_V2_SMOKE_PASS 10/10 actions en ordre, marche et montée, sas, cible distante refusée");
         Application.Quit(0);
+    }
+
+    static IEnumerator CaptureMap(string name)
+    {
+        yield return new WaitForEndOfFrame();
+        var image = ScreenCapture.CaptureScreenshotAsTexture();
+        if (!image) yield break;
+        var folder = Path.Combine(Directory.GetCurrentDirectory(),"V2Review");
+        Directory.CreateDirectory(folder);
+        File.WriteAllBytes(Path.Combine(folder,name),image.EncodeToPNG());
+        Destroy(image);
     }
 
     static IEnumerator Capture(Camera camera, int step, string view)

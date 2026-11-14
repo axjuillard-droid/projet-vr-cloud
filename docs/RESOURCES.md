@@ -1,5 +1,9 @@
 # Ressources évaluées
 
+## T35 — Carte et course PC
+
+Réutilisation du guidage actif, du HUD Unity et du contrôleur PC. Le parcours schématique reprend la lecture par stations étudiée dans Mini Metro. Le plan est dessiné à partir de repères du projet. Aucun contenu tiers importé.
+
 ## T35 — Mission météo V2
 
 Réutilisation du pupitre, de la pompe et du bilan d’eau du projet. Le modèle de jeu exprime la capacité de rejet sec et l’appoint évaporatif en rangées servies. Il s’appuie sur les principes de refroidissement extérieur décrits dans le [guide DOE/NREL](https://www.energy.gov/sites/default/files/2024-07/best-practice-guide-data-center-design.pdf). Les chiffres et seuils du jeu sont fictifs.

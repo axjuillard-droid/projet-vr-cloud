@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
-public sealed class PhotoV2Walkthrough : MonoBehaviour
+public sealed partial class PhotoV2Walkthrough : MonoBehaviour
 {
     public Camera view;
     public PCPlayerController player;
@@ -112,7 +112,7 @@ public sealed class PhotoV2Walkthrough : MonoBehaviour
         if (IsTravelling) return;
         var keyboard = Keyboard.current;
         if (keyboard?.escapeKey.wasPressedThisFrame == true) player.TogglePause();
-        if (player.InputPaused) return;
+        if (player.InputPaused || player.SiteMapOpen || keyboard?.mKey.wasReleasedThisFrame == true) return;
         if (Cursor.lockState != CursorLockMode.Locked)
         {
             if (Mouse.current?.leftButton.wasPressedThisFrame == true)
@@ -125,7 +125,7 @@ public sealed class PhotoV2Walkthrough : MonoBehaviour
 
     public bool TryAdvance(Ray ray)
     {
-        if (IsTravelling || player.InputPaused || SignalInTransit || _computeBusy || _saving || !Physics.Raycast(ray, out var hit, InteractionRange))
+        if (IsTravelling || player.InputPaused || player.SiteMapOpen || SignalInTransit || _computeBusy || _saving || !Physics.Raycast(ray, out var hit, InteractionRange))
             return false;
         if (_step == targets.Length)
         {
@@ -435,6 +435,12 @@ public sealed class PhotoV2Walkthrough : MonoBehaviour
             DrawTransit();
             return;
         }
+        if (player.SiteMapOpen)
+        {
+            DrawSiteMap();
+            return;
+        }
+        DrawMovementKeys();
         if (_step == targets.Length && energy)
         {
             DrawEnergy();
@@ -450,7 +456,6 @@ public sealed class PhotoV2Walkthrough : MonoBehaviour
         GUI.Box(new Rect(18, Screen.height - 66, 217, 46), GUIContent.none);
         if (_photo) GUI.DrawTexture(new Rect(26, Screen.height - 59, 45, 32), _photo);
         GUI.Label(new Rect(80, Screen.height - 58, 151, 34), $"Photo · {PhotoStatus}", _small);
-        GUI.Label(new Rect(18, Screen.height - 20, 425, 20), "ZQSD / flèches · souris · clic ou E · Échap", _small);
         DrawGuide();
     }
 
