@@ -95,22 +95,41 @@ public static partial class PhotoV2BlockoutBuilder
         storage.packet.enabled = false;
 
         var client = route.targets[8].transform;
-        client.position = new Vector3(1.36f,1.41f,38.13f);
-        client.localScale = new Vector3(.78f,.49f,.087f);
+        client.position = new Vector3(1.04f,1.46f,38.13f);
+        client.localScale = new Vector3(1.31f,.69f,.087f);
         client.GetComponent<MeshRenderer>().sharedMaterial = graphite;
-        Box("Pied écran client", new(1.36f,.605f,38.255f), new(.19f,1.21f,.16f), aluminum);
-        Box("Socle écran client", new(1.36f,.052f,38.17f), new(.58f,.10f,.44f), graphite);
-        storage.clientLabel = Sign("ÉCRAN CLIENT", client.position + Vector3.back*.048f, .058f, Color.white);
+        Box("Pied écran client", new(1.04f,.605f,38.255f), new(.19f,1.21f,.16f), aluminum);
+        Box("Socle écran client", new(1.04f,.052f,38.17f), new(.58f,.10f,.44f), graphite);
+        storage.clientLabel = Sign("ÉCRAN CLIENT", client.position + new Vector3(0,.25f,-.048f), .050f, Color.white);
         var screen = new GameObject("Relecture de la photo", typeof(RectTransform), typeof(Canvas));
         screen.GetComponent<Canvas>().renderMode = RenderMode.WorldSpace;
         screen.transform.position = client.position + Vector3.back*.047f;
         screen.transform.localScale = Vector3.one*.001f;
-        screen.GetComponent<RectTransform>().sizeDelta = new Vector2(760,460);
+        screen.GetComponent<RectTransform>().sizeDelta = new Vector2(1290,660);
         storage.clientImage = new GameObject("Photo lue", typeof(RectTransform), typeof(RawImage)).GetComponent<RawImage>();
         storage.clientImage.transform.SetParent(screen.transform,false);
-        storage.clientImage.rectTransform.sizeDelta = new Vector2(636,424);
+        storage.clientImage.rectTransform.sizeDelta = new Vector2(430,286);
+        storage.clientImage.rectTransform.anchoredPosition = new Vector2(-310,8);
         storage.clientImage.raycastTarget = false;
         storage.clientImage.enabled = false;
+
+        storage.clientPreview = new GameObject("Aperçu à comparer", typeof(RectTransform), typeof(RawImage))
+            .GetComponent<RawImage>();
+        storage.clientPreview.transform.SetParent(screen.transform,false);
+        storage.clientPreview.rectTransform.sizeDelta = new Vector2(208,138);
+        storage.clientPreview.rectTransform.anchoredPosition = new Vector2(310,8);
+        storage.clientPreview.raycastTarget = false;
+        storage.clientPreview.enabled = false;
+
+        storage.originalChoice = ReadChoice("96 × 64",client.position+new Vector3(-.31f,-.225f,-.06f),aluminum);
+        storage.previewChoice = ReadChoice("24 × 16",client.position+new Vector3(.31f,-.225f,-.06f),aluminum);
+        var slot = storage.branch.GetPosition(storage.branch.positionCount-1);
+        var screenPort = client.position + new Vector3(0,.34f,-.06f);
+        var returnPath = new[] { slot, new Vector3(slot.x,2.63f,slot.z),
+            new Vector3(screenPort.x,2.63f,slot.z), new Vector3(screenPort.x,2.63f,screenPort.z), screenPort };
+        storage.readPath = PatchLine("Retour de la banque vers l’écran client",cyan,.034f,returnPath.Length);
+        storage.readPath.SetPositions(returnPath);
+        storage.readPath.enabled = false;
 
         Sign("03   /   BELVÉDÈRE", new(0,2.80f,40.15f), .12f, Color.white);
         Box("Traverse signalétique", new(0,2.82f,40.21f), new(3.1f,.43f,.10f), graphite);
@@ -128,6 +147,14 @@ public static partial class PhotoV2BlockoutBuilder
                 Box("Montant du balcon", new(side*(1.56f+post*.87f),3.94f,55.08f),
                     new(.075f,1.10f,.075f), graphite);
         }
+    }
+
+    static Collider ReadChoice(string size, Vector3 position, Material material)
+    {
+        var button = Box("Vérifier le fichier "+size,position,new(.35f,.13f,.11f),material);
+        Sign(size,position+Vector3.back*.058f,.062f,Color.white,button.transform);
+        button.SetActive(false);
+        return button.GetComponent<Collider>();
     }
 }
 #endif

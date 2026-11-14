@@ -18,6 +18,11 @@ public sealed class PhotoV2Storage : MonoBehaviour
     public Text bankLabel;
     public Text clientLabel;
     public RawImage clientImage;
+    public RawImage clientPreview;
+    public Collider originalChoice;
+    public Collider previewChoice;
+    public LineRenderer readPath;
+    public bool Verified { get; private set; }
 
     Texture2D _inFlight;
     Texture2D _stored;
@@ -43,7 +48,7 @@ public sealed class PhotoV2Storage : MonoBehaviour
         yield return Follow(serverLink, 1.8f);
         yield return Follow(delivery, 3.7f);
         ReadyToRoute = true;
-        explanation.text = "PHOTO REÇUE • SÉLECTIONNER UNE BANQUE LIBRE";
+        explanation.text = "ORIGINAL REÇU • CHOISIR UNE BANQUE LIBRE";
     }
 
     public void ReportBusy()
@@ -63,7 +68,7 @@ public sealed class PhotoV2Storage : MonoBehaviour
         bankIndicator.sharedMaterial = writtenIndicator;
         bankLabel.text = "B / ENREGISTRÉE";
         explanation.text = "BANQUE B • PHOTO ENREGISTRÉE";
-        clientLabel.text = "OUVRIR LA PHOTO";
+        clientLabel.text = "RELIRE LA BANQUE B";
         Debug.Log("CLOUDVR_V2_PHOTO_SAVED");
     }
 
@@ -83,13 +88,33 @@ public sealed class PhotoV2Storage : MonoBehaviour
         }
     }
 
-    public bool Read()
+    public IEnumerator Read(Texture2D preview)
     {
-        if (!Saved) return false;
+        clientLabel.text = "LECTURE DE LA BANQUE B";
+        readPath.enabled = true;
+        packetCarrier.position = readPath.GetPosition(0);
+        packet.enabled = true;
+        yield return Follow(readPath, 3.2f);
+        packet.enabled = false;
         clientImage.texture = _stored;
         clientImage.enabled = true;
-        clientLabel.text = "";
+        clientPreview.texture = preview;
+        clientPreview.enabled = true;
+        originalChoice.gameObject.SetActive(true);
+        previewChoice.gameObject.SetActive(true);
+        clientLabel.text = "CHOISISSEZ LE FICHIER ORIGINAL";
         Debug.Log("CLOUDVR_V2_PHOTO_READ");
+    }
+
+    public bool ConfirmOriginal(Collider target)
+    {
+        if (target == previewChoice)
+            clientLabel.text = "24 × 16 · APERÇU DU CPU";
+        if (target != originalChoice) return false;
+        Verified = true;
+        clientLabel.text = "ORIGINAL VÉRIFIÉ · BANQUE B";
+        originalChoice.enabled = false;
+        previewChoice.enabled = false;
         return true;
     }
 

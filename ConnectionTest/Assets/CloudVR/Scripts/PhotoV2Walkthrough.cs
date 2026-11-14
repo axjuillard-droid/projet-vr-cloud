@@ -41,6 +41,7 @@ public sealed partial class PhotoV2Walkthrough : MonoBehaviour
     const int StorageStep = 7;
     const int ReadStep = 8;
     bool _saving;
+    bool _reading;
     public bool SamePhotoRead => storage && storage.Shows(_photo);
     bool _computeBusy;
     Texture2D _preview;
@@ -64,7 +65,7 @@ public sealed partial class PhotoV2Walkthrough : MonoBehaviour
         "Extraire le tiroir",
         "Créer l’aperçu",
         "Sélectionner la banque de stockage libre",
-        "Ouvrir la photo sur l’écran client",
+        "Relire la banque B sur l’écran client",
         "Suivre la rampe et viser le repère BELVÉDÈRE"
     };
     static readonly string[] Status =
@@ -108,6 +109,11 @@ public sealed partial class PhotoV2Walkthrough : MonoBehaviour
             if (_saving) return "Écriture en cours dans la banque B";
             if (_step == StorageStep && storage && !storage.ReadyToRoute)
                 return "Aperçu créé. Suivez l’original vers le stockage.";
+            if (_step == ReadStep && storage)
+            {
+                if (_reading) return "Suivez l’original de la banque vers l’écran";
+                if (storage.Readable) return "Comparez les tailles et confirmez le fichier original";
+            }
             return Instructions[_step];
         }
     }
@@ -130,7 +136,7 @@ public sealed partial class PhotoV2Walkthrough : MonoBehaviour
 
     public bool TryAdvance(Ray ray)
     {
-        if (IsTravelling || player.InputPaused || player.SiteMapOpen || SignalInTransit || _computeBusy || _saving || !Physics.Raycast(ray, out var hit, InteractionRange))
+        if (IsTravelling || player.InputPaused || player.SiteMapOpen || SignalInTransit || _computeBusy || _saving || _reading || !Physics.Raycast(ray, out var hit, InteractionRange))
             return false;
         if (_step == targets.Length)
         {
@@ -171,8 +177,20 @@ public sealed partial class PhotoV2Walkthrough : MonoBehaviour
             _sound.PlayOneShot(_confirmation,.18f);
             return true;
         }
+        if (_step == ReadStep && storage)
+        {
+            if (storage.Readable)
+            {
+                if (!storage.ConfirmOriginal(hit.collider)) return false;
+                _sound.PlayOneShot(_confirmation,.18f);
+                CompleteStep();
+                return true;
+            }
+            if (hit.collider.gameObject != targets[_step] || !storage.Saved) return false;
+            StartCoroutine(ReadStoredPhoto());
+            return true;
+        }
         if (hit.collider.gameObject != targets[_step]) return false;
-        if (_step == ReadStep && storage && !storage.Read()) return false;
         if (schoolRack && _step >= ComputeStep && _step <= PreviewStep)
         {
             StartCoroutine(AdvanceCompute());
@@ -218,6 +236,13 @@ public sealed partial class PhotoV2Walkthrough : MonoBehaviour
         _sound.PlayOneShot(_confirmation,.18f);
         CompleteStep();
         _saving = false;
+    }
+
+    IEnumerator ReadStoredPhoto()
+    {
+        _reading = true;
+        yield return storage.Read(_preview);
+        _reading = false;
     }
 
     IEnumerator AdvanceCompute()
@@ -385,12 +410,13 @@ public sealed partial class PhotoV2Walkthrough : MonoBehaviour
     {
         get
         {
-            if (IsTravelling || player.InputPaused || SignalInTransit || _computeBusy || _saving) return null;
+            if (IsTravelling || player.InputPaused || SignalInTransit || _computeBusy || _saving || _reading) return null;
             if (_step < targets.Length)
             {
                 if (_step == NetworkStep && patchCord) return patchCord.Held ? patchCord.portA : patchCord.plug;
                 if (_step == PreviewStep && ramControl && !_pixelsInMemory) return ramControl;
                 if (_step == StorageStep && storage && !storage.ReadyToRoute) return null;
+                if (_step == ReadStep && storage && storage.Readable) return null;
                 return targets[_step].GetComponent<Collider>();
             }
 

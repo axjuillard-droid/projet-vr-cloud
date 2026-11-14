@@ -1,5 +1,9 @@
 # Ressources évaluées
 
+## T35 — Vérification de la relecture
+
+Réutilisation de l’image originale, de l’aperçu CPU, du client Unity et de l’animation de suivi du câble. Le jeu compare les deux dimensions déjà produites dans la visite.
+
 ## T35 — Transition de la photo
 
 Réutilisation de la photo procédurale, du tunnel, du signal ambre, des points de la fibre de façade et de l’affichage Unity déjà employés dans le projet. Les trois plans sont assemblés avec les ressources existantes.

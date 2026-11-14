@@ -2,6 +2,10 @@
 
 Mis à jour le 14 novembre 2026.
 
+## V2 — Vérification à la relecture, 14 novembre 2026
+
+- Écran client rapproché du chemin. L’original repart de la banque vers l’écran et se compare à l’aperçu. Le joueur doit confirmer l’original. BuildPipeline 0 erreur et 0 avertissement. Test D3D11 complet et deux captures inspectées. Essai joueur et Quest à faire. [Validation](validation/v2-relecture-2026-11-14/README.md).
+
 ## V2 — Transition depuis l’écran, 14 novembre 2026
 
 - La même photo apparaît au poste, se resserre en signal puis rejoint la fibre visible en façade. La caméra revient face au sas. BuildPipeline 0 erreur et 0 avertissement. Test Windows D3D11 complet et captures des trois plans. Lisibilité du mouvement à vérifier auprès d’un joueur et Quest à tester. [Validation](validation/v2-transition-2026-11-14/README.md).

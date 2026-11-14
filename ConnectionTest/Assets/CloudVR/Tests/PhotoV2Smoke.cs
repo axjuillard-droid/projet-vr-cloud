@@ -300,13 +300,34 @@ public sealed class PhotoV2Smoke : MonoBehaviour
             }
             if (i == 8)
             {
-                if (!route.SamePhotoRead || route.Step != 9 || route.PhotoStatus != "Lisible")
+                var storage = route.storage;
+                if (storage.Readable || !storage.readPath.enabled || !storage.packet.enabled
+                    || route.Step != 8 || AimAt(target))
                 {
-                    Fail("L’écran client doit afficher la même photo.");
+                    Fail("La lecture doit suivre le câble et refuser une deuxième demande.");
                     yield break;
                 }
-                if (capture) yield return Capture(route.view, i, "relecture");
-                Debug.Log("CLOUDVR_V2_STORAGE_PASS sortie serveur, banque occupée refusée, écriture et relecture de la même photo");
+                float deadline = Time.realtimeSinceStartup + 5;
+                while (!storage.Readable && Time.realtimeSinceStartup < deadline) yield return null;
+                var readOrigin = storage.readPath.GetPosition(0);
+                var writeSlot = storage.branch.GetPosition(storage.branch.positionCount-1);
+                if (!route.SamePhotoRead || !storage.clientPreview.enabled
+                    || storage.clientPreview.texture != route.previewDisplay.texture
+                    || storage.packet.enabled || Vector3.Distance(readOrigin,writeSlot) > .015f
+                    || AimAt(storage.previewChoice.gameObject) || storage.Verified || route.Step != 8)
+                {
+                    Fail("Le client doit montrer l’original et refuser l’aperçu comme validation.");
+                    yield break;
+                }
+                if (capture) yield return Capture(route.view,i,"comparer");
+                if (!AimAt(storage.originalChoice.gameObject) || !storage.Verified
+                    || route.Step != 9 || route.PhotoStatus != "Lisible")
+                {
+                    Fail("Seule la validation de l’original doit ouvrir la suite.");
+                    yield break;
+                }
+                if (capture) yield return Capture(route.view,i,"original-verifie");
+                Debug.Log("CLOUDVR_V2_STORAGE_PASS trajet retour, aperçu refusé, original vérifié");
             }
             if (i == 9 && capture)
             {
