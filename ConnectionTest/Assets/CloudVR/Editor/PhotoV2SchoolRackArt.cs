@@ -63,7 +63,6 @@ public static partial class PhotoV2BlockoutBuilder
         rack.hardwareLabels = labels.gameObject;
         MarkPart(labels, "CPU · traitement", new Vector3(.06f,.38f,.38f));
         MarkPart(labels, "RAM · mémoire de travail", new Vector3(-.19f,.29f,.48f));
-        MarkPart(labels, "NVMe · stockage local", new Vector3(.05f,.20f,.78f));
         labels.gameObject.SetActive(false);
 
         var screen = route.targets[6].transform;
@@ -88,6 +87,14 @@ public static partial class PhotoV2BlockoutBuilder
         image.enabled = false;
         route.previewDisplay = image;
         route.previewLabel = Sign("GÉNÉRER L’APERÇU", screen.position + new Vector3(0,0,-.035f), .031f, Color.white, root);
+
+        var ram = Box("Charger la photo en RAM", root.position + new Vector3(.69f,1.78f,-.52f),
+            new(.35f,.21f,.062f), graphite);
+        ram.transform.SetParent(root,true);
+        route.ramControl = ram.GetComponent<Collider>();
+        route.ramLabel = Sign("RAM · CHARGER", ram.transform.position + Vector3.back*.034f, .034f, Color.white, root);
+        route.previewLabel.text = "CPU · EN ATTENTE";
+        MarkPart(labels, "NVMe · garde les fichiers locaux", new Vector3(.05f,.12f,.91f));
 
         // Orienter la face de service vers l’allée centrale après avoir assemblé la baie.
         root.rotation = Quaternion.Euler(0,-90,0);

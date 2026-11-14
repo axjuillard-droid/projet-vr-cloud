@@ -1,6 +1,10 @@
 # État de reprise
 
-Mis à jour le 13 novembre 2026.
+Mis à jour le 14 novembre 2026.
+
+## V2 — Retours joueurs et baie école, 14 novembre 2026
+
+- Deux essais analysés. Chargement de la RAM suivi du calcul de l’aperçu par le CPU. L’original poursuit son trajet. BuildPipeline réussi et parcours D3D11 complet validé. Effet pédagogique à mesurer lors d’un nouvel essai. [Synthèse](RETOURS_JOUEURS_V2.md) · [Validation](validation/v2-retours-2026-11-14/README.md).
 
 ## V2 — Guidage des deux parcours, 13 novembre 2026
 

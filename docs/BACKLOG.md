@@ -4,6 +4,7 @@ Statuts : à faire, en cours, bloqué, terminé. Une tâche n’est prête que s
 
 | ID | Tâche | Statut | Critère de fin |
 |---|---|---|---|
+| T35 | Prendre en compte les deux essais joueurs V2 | en cours | RAM et CPU validés sur PC. Transition, stockage, carte, déplacement et mission d’exploitation à traiter. [Synthèse](RETOURS_JOUEURS_V2.md). |
 | T30 | Relier la fibre extérieure au brassage et à la baie école | terminé | Une seule arrivée repérable depuis la cour. L’impulsion suit le cordon branché puis rejoint la baie. BuildPipeline 0 erreur et 0 avertissement, deux variantes D3D11 réussies. Raccord de cadrage cinématique et Quest à faire. [Preuves](validation/v2-fiber-2026-11-10/README.md). |
 | T31 | Amener la baie école dans l’allée et refaire le stockage | terminé | Tiroir depuis l’allée, câble continu jusqu’au répartiteur, banque occupée refusée, écriture sur B et relecture de la photo d’origine. Test D3D11 complet, quatre captures. [Preuves](validation/v2-storage-chain-2026-11-10/README.md). |
 | T32 | Faire alimenter et refroidir les rangées demandées | terminé | Quatre départs vérifiés séparément. La charge chauffe les baies, puis le renfort du débit et le retour froid réduisent la température à charge constante. Test PC complet. [Preuves](validation/v2-distribution-2026-11-13/README.md). |

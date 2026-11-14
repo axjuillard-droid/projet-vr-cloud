@@ -18,6 +18,9 @@ public sealed class PhotoV2Walkthrough : MonoBehaviour
     public Transform computeInput;
     public Transform computeOutput;
     public RawImage previewDisplay;
+    public Collider ramControl;
+    public Text ramLabel;
+    Texture2D _pixelsInMemory;
     public PhotoV2Storage storage;
     public PhotoV2Energy energy;
     public PhotoV2GridRoute grid;
@@ -55,7 +58,7 @@ public sealed class PhotoV2Walkthrough : MonoBehaviour
         "Connecter le port réseau",
         "Ouvrir la baie école",
         "Extraire le tiroir",
-        "Générer l’aperçu",
+        "Créer l’aperçu",
         "Sélectionner la banque de stockage libre",
         "Ouvrir la photo sur l’écran client",
         "Suivre la rampe et viser le repère BELVÉDÈRE"
@@ -91,10 +94,15 @@ public sealed class PhotoV2Walkthrough : MonoBehaviour
         {
             if (_step == NetworkStep && patchCord) return patchCord.Instruction;
             if (SignalInTransit) return "Suivre le signal vers la baie école";
-            if (_computeBusy && _step == PreviewStep) return "Aperçu en cours de génération";
+            if (_step == PreviewStep)
+            {
+                if (_computeBusy) return "Le CPU regroupe les pixels pour créer l’aperçu";
+                return _pixelsInMemory ? "RAM chargée · lancez le calcul sur le CPU" :
+                    "Chargez la photo en RAM, la mémoire de travail";
+            }
             if (_saving) return "Écriture en cours dans la banque B";
             if (_step == StorageStep && storage && !storage.ReadyToRoute)
-                return "Suivre la photo jusqu’à la baie de stockage";
+                return "Aperçu créé. Suivez l’original vers le stockage.";
             return Instructions[_step];
         }
     }
@@ -147,6 +155,15 @@ public sealed class PhotoV2Walkthrough : MonoBehaviour
             }
             if (hit.collider.gameObject != targets[_step]) return false;
             StartCoroutine(RecordPhoto());
+            return true;
+        }
+        if (_step == PreviewStep && ramControl && !_pixelsInMemory)
+        {
+            if (hit.collider != ramControl) return false;
+            _pixelsInMemory = _photo;
+            ramLabel.text = $"RAM · {_pixelsInMemory.width} × {_pixelsInMemory.height}";
+            previewLabel.text = "CPU · CRÉER L’APERÇU";
+            _sound.PlayOneShot(_confirmation,.18f);
             return true;
         }
         if (hit.collider.gameObject != targets[_step]) return false;
@@ -206,16 +223,19 @@ public sealed class PhotoV2Walkthrough : MonoBehaviour
             previewLabel.text = "CALCUL EN COURS";
             yield return new WaitForSeconds(.7f);
             // Réduction par moyenne de blocs de 4 × 4 pixels de la même image.
-            _preview = new Texture2D(_photo.width / 4, _photo.height / 4);
+            var sourcePixels = _pixelsInMemory ? _pixelsInMemory : _photo;
+            _preview = new Texture2D(sourcePixels.width / 4, sourcePixels.height / 4);
             for (int y = 0; y < _preview.height; y++)
                 for (int x = 0; x < _preview.width; x++)
                 {
                     Color sum = Color.clear;
                     for (int dy = 0; dy < 4; dy++)
-                        for (int dx = 0; dx < 4; dx++) sum += _photo.GetPixel(x * 4 + dx, y * 4 + dy);
+                        for (int dx = 0; dx < 4; dx++) sum += sourcePixels.GetPixel(x * 4 + dx, y * 4 + dy);
                     _preview.SetPixel(x, y, sum / 16);
                 }
             _preview.Apply();
+            _pixelsInMemory = null;
+            if (ramLabel) ramLabel.text = "RAM LIBÉRÉE";
             previewDisplay.texture = _preview;
             previewDisplay.enabled = true;
             previewLabel.text = "";
@@ -326,6 +346,7 @@ public sealed class PhotoV2Walkthrough : MonoBehaviour
             if (_step < targets.Length)
             {
                 if (_step == NetworkStep && patchCord) return patchCord.Held ? patchCord.portA : patchCord.plug;
+                if (_step == PreviewStep && ramControl && !_pixelsInMemory) return ramControl;
                 if (_step == StorageStep && storage && !storage.ReadyToRoute) return null;
                 return targets[_step].GetComponent<Collider>();
             }

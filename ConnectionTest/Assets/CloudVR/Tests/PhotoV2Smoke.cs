@@ -140,6 +140,16 @@ public sealed class PhotoV2Smoke : MonoBehaviour
                     yield return Capture(route.view, i, "stockage");
                 }
             }
+            else if (i == 6)
+            {
+                if (route.GuideTarget != route.ramControl || AimAt(target)
+                    || !AimAt(route.ramControl.gameObject) || AimAt(route.ramControl.gameObject)
+                    || route.GuideTarget.gameObject != target || route.PreviewReady || !AimAt(target))
+                {
+                    Fail("Le CPU doit attendre le chargement de la RAM.");
+                    yield break;
+                }
+            }
             else if (!AimAt(target))
             {
                 Fail($"Cible {i + 1} inaccessible depuis {controller.transform.position}.");
@@ -191,6 +201,7 @@ public sealed class PhotoV2Smoke : MonoBehaviour
                             route.view.transform.position - school.transform.position) > 1f
                         && Vector3.Distance(insertedDrawer, school.serverBlade.localPosition) > .62f,
                     _ => route.PreviewReady && route.previewDisplay.enabled
+                        && route.ramLabel.text == "RAM LIBÉRÉE"
                         && route.previewDisplay.texture.width == 24 && route.previewDisplay.texture.height == 16
                         && route.PhotoStatus == "Traitée"
                         && route.storage.packet.enabled
