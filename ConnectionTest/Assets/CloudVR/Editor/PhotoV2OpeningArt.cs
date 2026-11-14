@@ -77,8 +77,9 @@ public static partial class PhotoV2BlockoutBuilder
         Sign("01   /   ARRIVÉE RÉSEAU", new(1.25f,2.68f,20.13f), .105f, Color.white);
     }
 
-    static void DressOpeningTargets(GameObject[] targets)
+    static void DressOpeningTargets(PhotoV2Walkthrough route)
     {
+        var targets = route.targets;
         var screen = Palette("V2 Écran actif", new(.018f,.064f,.107f));
         screen.EnableKeyword("_EMISSION");
         screen.SetColor("_EmissionColor", new Color(.018f,.064f,.107f));
@@ -86,7 +87,16 @@ public static partial class PhotoV2BlockoutBuilder
         var monitor = targets[0].transform;
         monitor.localScale = new Vector3(.81f,.47f,.09f);
         targets[0].GetComponent<MeshRenderer>().sharedMaterial = screen;
-        Sign("ENVOYER LA PHOTO", monitor.position + new Vector3(0,0,-.049f), .057f, Color.white, monitor);
+        Sign("ENVOYER LA PHOTO", monitor.position + new Vector3(0,-.165f,-.049f), .048f, Color.white, monitor);
+        var surface = new GameObject("Photo à envoyer", typeof(RectTransform), typeof(Canvas));
+        surface.transform.position = monitor.position + new Vector3(0,.042f,-.051f);
+        surface.GetComponent<Canvas>().renderMode = RenderMode.WorldSpace;
+        surface.transform.localScale = Vector3.one * .001f;
+        var image = new GameObject("Photo originale",typeof(RectTransform),typeof(RawImage)).GetComponent<RawImage>();
+        image.transform.SetParent(surface.transform,false);
+        image.rectTransform.sizeDelta = new Vector2(420,280);
+        image.raycastTarget = false;
+        route.sendImage = image;
         Sign("OUVRIR", targets[1].transform.position + new Vector3(0,0,-.045f), .087f, Color.black, targets[1].transform);
     }
 

@@ -68,6 +68,12 @@ public class PCPlayerController : MonoBehaviour
     void OnDestroy(){ReleasePause();}
     void OnDisable(){if(!gameObject.activeInHierarchy)ReleasePause();}
 
+    public void ResetLook()
+    {
+        _xRotation = 0;
+        if (cameraTransform) cameraTransform.localRotation = Quaternion.identity;
+    }
+
     private void HandleLook()
     {
         Vector2 delta = Mouse.current != null ? Mouse.current.delta.ReadValue() : Vector2.zero;

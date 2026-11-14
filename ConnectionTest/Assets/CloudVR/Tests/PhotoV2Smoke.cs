@@ -203,19 +203,54 @@ public sealed class PhotoV2Smoke : MonoBehaviour
                     Fail("La transition doit bloquer un second envoi.");
                     yield break;
                 }
+                float deadline = Time.realtimeSinceStartup + 8;
+                float initialDistance = Vector3.Distance(route.view.transform.position,route.sendImage.transform.position);
+                while (!route.film.gameObject.activeSelf && Time.realtimeSinceStartup < deadline
+                    && Vector3.Distance(route.view.transform.position,route.sendImage.transform.position) > .60f)
+                    yield return null;
+                if (route.film.gameObject.activeSelf || !route.sendImage.texture
+                    || Vector3.Distance(route.view.transform.position,route.sendImage.transform.position) >= initialDistance*.5f)
+                {
+                    Fail("Le plan de départ doit approcher la photo affichée avant de passer dans la fibre.");
+                    yield break;
+                }
+                if (capture) yield return Capture(route.view,i,"depart-ecran");
+
+                while (!route.film.gameObject.activeSelf && Time.realtimeSinceStartup < deadline) yield return null;
+                if (!route.film.gameObject.activeSelf || route.sendImage.enabled
+                    || route.sendImage.rectTransform.sizeDelta.x > 70
+                    || route.view.cullingMask != (1 << NetworkRideVisuals.Layer))
+                {
+                    Fail("Le trajet doit passer dans la fibre entre les deux plans réels.");
+                    yield break;
+                }
                 if (capture)
                 {
-                    yield return new WaitForSecondsRealtime(2.2f);
-                    yield return Capture(route.view, i, "fibre");
+                    yield return new WaitForSecondsRealtime(.7f);
+                    yield return Capture(route.view,i,"fibre");
                 }
-                float deadline = Time.realtimeSinceStartup + 7;
+
+                var signal = route.patchCord.signal;
+                while (!signal.gameObject.activeSelf && Time.realtimeSinceStartup < deadline) yield return null;
+                float cut = Time.realtimeSinceStartup;
+                var entry = route.patchCord.ingress.GetPosition(0);
+                if (route.film.gameObject.activeSelf || !route.IsTravelling || !signal.gameObject.activeSelf
+                    || Vector3.Distance(signal.position,entry) > .75f)
+                {
+                    Fail("Le signal doit réapparaître au regard de la fibre dans la cour.");
+                    yield break;
+                }
+                while (Time.realtimeSinceStartup-cut < .53f) yield return null;
+                if (capture) yield return Capture(route.view,i,"signal-facade");
                 while (route.IsTravelling && Time.realtimeSinceStartup < deadline) yield return null;
                 if (route.IsTravelling || route.Step != 1 || route.film.gameObject.activeSelf
+                    || signal.gameObject.activeSelf || Quaternion.Angle(route.view.transform.localRotation,Quaternion.identity) > .1f
                     || Vector3.Distance(controller.transform.position, route.arrival) > .1f)
                 {
                     Fail("La transition n’a pas rejoint la cour.");
                     yield break;
                 }
+                Debug.Log("CLOUDVR_V2_TRANSIT_VISUAL_PASS écran, tunnel, fibre de façade et reprise caméra");
                 if (capture)
                 {
                     route.view.transform.rotation = Quaternion.LookRotation(

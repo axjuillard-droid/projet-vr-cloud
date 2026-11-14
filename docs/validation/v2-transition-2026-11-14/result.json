@@ -1,0 +1,15 @@
+{
+  "plateforme": "Windows Direct3D 11",
+  "buildPipeline": {
+    "erreurs": 0,
+    "avertissements": 0
+  },
+  "codeSortie": 0,
+  "verifications": [
+    "TRANSIT_VISUAL_PASS",
+    "WATER_PASS",
+    "SMOKE_PASS"
+  ],
+  "jobTempAlloc": false,
+  "casqueTeste": false
+}

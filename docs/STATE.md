@@ -2,6 +2,10 @@
 
 Mis à jour le 14 novembre 2026.
 
+## V2 — Transition depuis l’écran, 14 novembre 2026
+
+- La même photo apparaît au poste, se resserre en signal puis rejoint la fibre visible en façade. La caméra revient face au sas. BuildPipeline 0 erreur et 0 avertissement. Test Windows D3D11 complet et captures des trois plans. Lisibilité du mouvement à vérifier auprès d’un joueur et Quest à tester. [Validation](validation/v2-transition-2026-11-14/README.md).
+
 ## V2 — Carte et course PC, 14 novembre 2026
 
 - Maintenir M affiche le plan schématique du bâtiment ou du site extérieur. La position, l’orientation et la prochaine commande s’affichent. Maj accélère la marche en avant. Le test Windows envoie les touches et vérifie que la carte bloque la marche et les interactions. BuildPipeline réussi et parcours complet D3D11 validé. La capture en fenêtre masquée est noire. Lisibilité en jeu et Quest à vérifier. [Validation](validation/v2-carte-2026-11-14/result.json).

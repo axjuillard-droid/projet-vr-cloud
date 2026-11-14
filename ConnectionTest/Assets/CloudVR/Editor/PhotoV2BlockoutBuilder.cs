@@ -111,7 +111,7 @@ public static partial class PhotoV2BlockoutBuilder
         route.barriers[1] = Gate("Porte extérieure", 13, 3.5f);
         route.sasEntrance = route.barriers[1];
         route.badgeReader = route.targets[2];
-        DressOpeningTargets(route.targets);
+        DressOpeningTargets(route);
         InstallSchoolRack(route);
         InstallAccessAndPatch(route);
         InstallStorageAndBalcony(route);

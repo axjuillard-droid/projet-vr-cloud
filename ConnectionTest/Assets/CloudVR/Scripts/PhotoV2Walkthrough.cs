@@ -18,6 +18,7 @@ public sealed partial class PhotoV2Walkthrough : MonoBehaviour
     public Transform computeInput;
     public Transform computeOutput;
     public RawImage previewDisplay;
+    public RawImage sendImage;
     public Collider ramControl;
     public Text ramLabel;
     Texture2D _pixelsInMemory;
@@ -44,7 +45,10 @@ public sealed partial class PhotoV2Walkthrough : MonoBehaviour
     bool _computeBusy;
     Texture2D _preview;
     public bool PreviewReady => _preview != null;
-    const float TravelSeconds = 5f;
+    const float ScreenSeconds = 1.35f;
+    const float FibreSeconds = 2.75f;
+    const float ArrivalSeconds = 1.85f;
+    const float TravelSeconds = ScreenSeconds + FibreSeconds + ArrivalSeconds;
     AudioSource _sound;
     AudioClip _transit;
     AudioClip _confirmation;
@@ -83,6 +87,7 @@ public sealed partial class PhotoV2Walkthrough : MonoBehaviour
         _transit = ProceduralAudioService.CreateFiberTransitSound();
         _confirmation = ProceduralAudioService.CreateRfidAccessBeep();
         _photo = CreateSamplePhoto();
+        sendImage.texture = _photo;
         ShowGuide();
         Debug.Log("CLOUDVR_V2_READY");
     }
@@ -284,39 +289,77 @@ public sealed partial class PhotoV2Walkthrough : MonoBehaviour
         var originalMask = view.cullingMask;
         var originalBackground = view.backgroundColor;
         var localPosition = view.transform.localPosition;
-        var localRotation = view.transform.localRotation;
-        _sound.PlayOneShot(_transit, .26f);
-        _travelProgress = 0;
-        float started = Time.unscaledTime;
-        bool enteredFilm = false;
+        var cameraStart = view.transform.position;
+        var rotationStart = view.transform.rotation;
+        var photoSize = sendImage.rectTransform.sizeDelta;
+        var screenPoint = sendImage.transform.position;
+        var screenNear = screenPoint + Vector3.back*.38f;
+        var stopInCourtyard = arrival + localPosition;
+        var fibreEntry = patchCord.ingress.GetPosition(0);
+        var fibreFoot = patchCord.ingress.GetPosition(1);
+        var fibreTop = patchCord.ingress.GetPosition(2);
+        var arrivalStart = stopInCourtyard + new Vector3(.85f,.18f,.65f);
+        var arrivalLook = Quaternion.LookRotation(Vector3.Lerp(fibreFoot,fibreTop,.32f)-arrivalStart);
+        var signal = patchCord.signal;
+        var signalHome = signal.position;
 
-        while (_travelProgress < 1)
+        _sound.PlayOneShot(_transit, .26f);
+        float started = Time.unscaledTime;
+        while (Time.unscaledTime-started < ScreenSeconds)
         {
-            _travelProgress = Mathf.Clamp01((Time.unscaledTime - started) / TravelSeconds);
-            if (_travelProgress >= .1f)
-            {
-                if (!enteredFilm)
-                {
-                    film.gameObject.SetActive(true);
-                    view.cullingMask = 1 << NetworkRideVisuals.Layer;
-                    view.backgroundColor = new Color(.012f, .022f, .038f);
-                    enteredFilm = true;
-                }
-                float t = Mathf.InverseLerp(.1f, 1, _travelProgress);
-                view.transform.SetPositionAndRotation(film.transform.TransformPoint(new Vector3(0, 3.6f, 2 + t * 53)),
-                    film.transform.rotation);
-                film.Animate(Time.unscaledTime - started);
-            }
+            float elapsed = Time.unscaledTime-started;
+            _travelProgress = elapsed/TravelSeconds;
+            float t = Mathf.SmoothStep(0,1,elapsed/ScreenSeconds);
+            float convert = Mathf.SmoothStep(0,1,Mathf.InverseLerp(.84f,ScreenSeconds,elapsed));
+            sendImage.rectTransform.sizeDelta = Vector2.Lerp(photoSize,new Vector2(20,7),convert);
+            sendImage.color = Color.Lerp(Color.white,new Color(.27f,.87f,1f),convert);
+            view.transform.SetPositionAndRotation(Vector3.Lerp(cameraStart,screenNear,t),
+                Quaternion.Slerp(rotationStart,Quaternion.identity,t));
+            yield return null;
+        }
+
+        sendImage.enabled = false;
+        film.gameObject.SetActive(true);
+        view.cullingMask = 1 << NetworkRideVisuals.Layer;
+        view.backgroundColor = new Color(.012f,.022f,.038f);
+        started = Time.unscaledTime;
+        while (Time.unscaledTime-started < FibreSeconds)
+        {
+            float elapsed = Time.unscaledTime-started;
+            _travelProgress = (ScreenSeconds+elapsed)/TravelSeconds;
+            float t = elapsed/FibreSeconds;
+            view.transform.SetPositionAndRotation(film.transform.TransformPoint(new Vector3(0,3.6f,2+42*t)),
+                film.transform.rotation);
+            film.Animate(elapsed);
             yield return null;
         }
 
         film.gameObject.SetActive(false);
         view.cullingMask = originalMask;
         view.backgroundColor = originalBackground;
+        signal.position = fibreEntry;
+        signal.gameObject.SetActive(true);
+        started = Time.unscaledTime;
+        while (Time.unscaledTime-started < ArrivalSeconds)
+        {
+            float elapsed = Time.unscaledTime-started;
+            _travelProgress = (ScreenSeconds+FibreSeconds+elapsed)/TravelSeconds;
+            float t = elapsed/ArrivalSeconds;
+            signal.position = t < .4f ? Vector3.Lerp(fibreEntry,fibreFoot,t/.4f) :
+                Vector3.Lerp(fibreFoot,fibreTop,Mathf.InverseLerp(.4f,1,t));
+            float settle = Mathf.SmoothStep(0,1,Mathf.InverseLerp(.52f,1,t));
+            view.transform.SetPositionAndRotation(Vector3.Lerp(arrivalStart,stopInCourtyard,settle),
+                Quaternion.Slerp(arrivalLook,Quaternion.identity,settle));
+            yield return null;
+        }
+
+        signal.gameObject.SetActive(false);
+        signal.position = signalHome;
         var capsule = player.GetComponent<CharacterController>();
         capsule.enabled = false;
-        player.transform.SetPositionAndRotation(arrival, Quaternion.identity);
-        view.transform.SetLocalPositionAndRotation(localPosition, localRotation);
+        player.transform.SetPositionAndRotation(arrival,Quaternion.identity);
+        view.transform.localPosition = localPosition;
+        player.ResetLook();
         capsule.enabled = true;
         CompleteStep();
         player.enabled = wasEnabled;
@@ -511,21 +554,23 @@ public sealed partial class PhotoV2Walkthrough : MonoBehaviour
 
     void DrawTransit()
     {
-        float fade = _travelProgress < .1f ? Mathf.InverseLerp(.02f, .1f, _travelProgress) :
-            Mathf.Max(1 - Mathf.InverseLerp(.1f, .25f, _travelProgress), Mathf.InverseLerp(.88f, 1, _travelProgress));
+        float elapsed = _travelProgress * TravelSeconds;
+        float fade = Mathf.Max(
+            1 - Mathf.Clamp01(Mathf.Abs(elapsed-ScreenSeconds)/.17f),
+            1 - Mathf.Clamp01(Mathf.Abs(elapsed-ScreenSeconds-FibreSeconds)/.18f));
         var color = GUI.color;
-        GUI.color = new Color(.015f, .024f, .04f, fade);
-        GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), Texture2D.whiteTexture);
+        GUI.color = new Color(.015f,.024f,.04f,fade);
+        GUI.DrawTexture(new Rect(0,0,Screen.width,Screen.height),Texture2D.whiteTexture);
         GUI.color = color;
         float width = Mathf.Min(580, Screen.width - 48);
         var panel = new Rect((Screen.width - width) * .5f, Screen.height - 125, width, 98);
         GUI.Box(panel, GUIContent.none);
-        string title = _travelProgress < .30f ? "01 / DÉPART DU CLIENT" :
-            _travelProgress < .72f ? "02 / TRANSPORT SUR LE RÉSEAU" : "03 / APPROCHE DU SITE";
+        string title = elapsed < ScreenSeconds ? "01 / ENVOI DEPUIS LE POSTE" :
+            elapsed < ScreenSeconds + FibreSeconds ? "02 / SIGNAL DANS LA FIBRE" : "03 / ARRIVÉE AU DATA CENTER";
         float left = panel.x + 19;
         if (_photo) GUI.DrawTexture(new Rect(left, panel.y + 19, 52, 38), _photo);
         GUI.Label(new Rect(left + 65, panel.y + 14, width - 100, 29), title, _heading);
-        GUI.Label(new Rect(left + 65, panel.y + 42, width - 100, 25), "Photo en transit · parcours illustratif", _small);
+        GUI.Label(new Rect(left + 65, panel.y + 42, width - 100, 25), "Photo en transit · trajet illustratif", _small);
         GUI.color = new Color(.21f, .75f, .87f);
         GUI.DrawTexture(new Rect(left, panel.y + 77, (width - 38) * _travelProgress, 3), Texture2D.whiteTexture);
         GUI.color = color;

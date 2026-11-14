@@ -1,5 +1,9 @@
 # Ressources évaluées
 
+## T35 — Transition de la photo
+
+Réutilisation de la photo procédurale, du tunnel, du signal ambre, des points de la fibre de façade et de l’affichage Unity déjà employés dans le projet. Les trois plans sont assemblés avec les ressources existantes.
+
 ## T35 — Carte et course PC
 
 Réutilisation du guidage actif, du HUD Unity et du contrôleur PC. Le parcours schématique reprend la lecture par stations étudiée dans Mini Metro. Le plan est dessiné à partir de repères du projet. Aucun contenu tiers importé.
