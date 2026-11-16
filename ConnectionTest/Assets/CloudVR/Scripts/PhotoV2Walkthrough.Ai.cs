@@ -32,15 +32,6 @@ public sealed partial class PhotoV2Walkthrough
         new("Chine", "26 °C · 75 % HR", .09f, 530, 190, 18, 125)
     };
     static readonly string[] AiSiteNames = { "France", "États-Unis", "Chine" };
-    static readonly string[] AiRouteStops =
-    {
-        "PC · La question quitte le poste",
-        "WI-FI · La box reçoit la demande",
-        "FIBRE D’ACCÈS · Vers le fournisseur",
-        "FAI · Entrée dans le réseau de l’opérateur",
-        "TRANSPORT · Interconnexion des réseaux",
-        "DATA CENTER · Arrivée sur le tiroir optique"
-    };
 
     [Serializable] sealed class AiQuestion { public string question; }
     [Serializable] sealed class AiSource { public string title; public string url; }
@@ -76,6 +67,7 @@ public sealed partial class PhotoV2Walkthrough
         _aiMode = Array.Exists(Environment.GetCommandLineArgs(), arg => arg == "--cloudvr-ai");
         if (!_aiMode) return;
 
+        _aiLand = Resources.Load<Texture2D>("CloudVR/AiRouteLand");
         _aiHome = player.transform.position;
         _aiHomeRotation = player.transform.rotation;
         _aiMonitor = targets[0].GetComponentInChildren<Text>();
@@ -181,7 +173,12 @@ public sealed partial class PhotoV2Walkthrough
         _aiReturning = true;
         player.enabled = false;
         Debug.Log("CLOUDVR_AI_RETURN_START");
-        yield return new WaitForSecondsRealtime(2);
+        float started = Time.unscaledTime;
+        while (Time.unscaledTime - started < AiReturnSeconds)
+        {
+            _aiReturnProgress = (Time.unscaledTime - started) / AiReturnSeconds;
+            yield return null;
+        }
         var capsule = player.GetComponent<CharacterController>();
         capsule.enabled = false;
         player.transform.SetPositionAndRotation(_aiHome, _aiHomeRotation);
@@ -197,17 +194,17 @@ public sealed partial class PhotoV2Walkthrough
 
     void DrawAiTerminal()
     {
+        if (_aiReturning)
+        {
+            DrawAiRouteMap(_aiReturnProgress, true);
+            return;
+        }
         float width = Mathf.Min(690, Screen.width - 32);
         float height = Mathf.Min(_aiReturned ? 510 : 370, Screen.height - 24);
         var panel = new Rect((Screen.width - width) / 2, (Screen.height - height) / 2, width, height);
         GUI.Box(panel, GUIContent.none);
         GUILayout.BeginArea(new Rect(panel.x + 22, panel.y + 16, width - 44, height - 32));
-        if (_aiReturning)
-        {
-            GUILayout.Label("Retour de la réponse vers le PC", _heading);
-            GUILayout.Label("Data center → réseau de transport → fournisseur → fibre → box → PC", _instruction);
-        }
-        else if (_aiEntryOpen)
+        if (_aiEntryOpen)
         {
             GUILayout.Label("Poser une question", _heading);
             GUILayout.Label("Question sur le cloud, les réseaux, l’électricité ou le refroidissement", _instruction);

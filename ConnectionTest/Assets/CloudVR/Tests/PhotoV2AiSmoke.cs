@@ -38,7 +38,22 @@ public sealed class PhotoV2AiSmoke : MonoBehaviour
             && !route.SubmitAiQuestion("  ", 0) && !route.SubmitAiQuestion("test", 3)
             && route.SubmitAiQuestion("Pourquoi une tour de refroidissement a besoin d’eau d’appoint ?", 1)
             && !route.SubmitAiQuestion("deuxième envoi", 1) && !route.AiAnswerVisible, "Saisie et soumission unique")) yield break;
-        yield return WaitFor(() => !route.IsTravelling, 12);
+        var capturePath = Environment.GetEnvironmentVariable("CLOUDVR_ROUTING_CAPTURE");
+        bool captured = false;
+        int legs = 0;
+        float travelDeadline = Time.realtimeSinceStartup + 16;
+        while (route.IsTravelling && Time.realtimeSinceStartup < travelDeadline)
+        {
+            legs |= 1 << route.AiRouteLeg;
+            if (!captured && !string.IsNullOrEmpty(capturePath) && route.AiRouteLeg == 4
+                && route.AiTransportProgress >= .57f)
+            {
+                ScreenCapture.CaptureScreenshot(capturePath);
+                captured = true;
+            }
+            yield return null;
+        }
+        if (!Check(legs == 0b111111 && route.AiTransportMapLoaded, "Six étapes et fond géographique")) yield break;
         route.player.enabled = false;
         if (!Check(route.Step == 1 && route.water.AiRequiredLitres == 100 && !route.water.weather.enabled,
             "Site sélectionné et météo désactivée")) yield break;

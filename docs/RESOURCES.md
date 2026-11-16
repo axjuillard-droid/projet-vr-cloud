@@ -1,5 +1,9 @@
 # Ressources évaluées
 
+## Fond de carte du routage IA V2
+
+Réutiliser Natural Earth Land 1:110m (version 4.0.0, domaine public), sans frontières administratives. Générer `AiRouteLand.png` avec `tools/art/Build-AiRouteMap.py` à partir du ZIP officiel. Pillow et pyshp servent à la génération et restent hors du player. Le fond, le code Unity du tracé et les coordonnées des scénarios sont distribués dans le projet. Les tracés sont illustratifs. [Couche terrestre](https://www.naturalearthdata.com/downloads/110m-physical-vectors/110m-land/) · [Licence et attribution](https://www.naturalearthdata.com/about/terms-of-use/)
+
 ## Parcours IA V2
 
 Réutiliser la scène V2, ses commandes, l’interface IMGUI et UnityWebRequest fournis par Unity. Réutiliser le [RAG local de main](https://github.com/axjuillard-droid/projet-vr-cloud/tree/bc271c775f597d28e96e0588e8a97d9c8e174251/tools/cloudvr-rag) pour générer la réponse. L’intégration n’introduit aucun package ni fichier de modèle. La [configuration HTTP de Unity](https://docs.unity3d.com/6000.0/Documentation/ScriptReference/PlayerSettings-insecureHttpOption.html) est réglée pour le build de développement, puis restituée dans le projet. [Lancement et hypothèses](PARCOURS_IA_V2.md)

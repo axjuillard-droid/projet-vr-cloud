@@ -5,7 +5,8 @@ Statuts : à faire, en cours, bloqué, terminé. Une tâche n’est prête que s
 | ID | Tâche | Statut | Critère de fin |
 |---|---|---|---|
 | T39 | Intégrer le parcours IA et la réponse du RAG | terminé | Saisie, brassage, baie, charge, eau fixe, retour, réponse réelle et comparaison locale. Build Windows, 30 contrôles IA et Photo 10/10. [Preuves](PARCOURS_IA_V2.md). |
-| T40 | Éprouver la compréhension et enrichir les gestes IA | à faire | Faire essayer la saisie et le retour, puis traiter la carte géographique, la représentation des GPU et l’allocation entre clients. |
+| T40 | Éprouver la compréhension et enrichir les gestes IA | à faire | Vérifier la lisibilité des étapes de la carte pendant un essai humain. Représentation des GPU et allocation entre clients à traiter. |
+| T41 | Cartographier le trajet de la requête IA | terminé | Six étapes et carte chargée pendant le trajet États-Unis. Retour et vraie réponse vérifiés en D3D11. Trois tracés implémentés. [Preuves](validation/ia-routage-2026-11-16.json). |
 | T35 | Prendre en compte les deux essais joueurs V2 | en cours | RAM, CPU, mission météo, carte, course, transition et vérification du stockage validés sur PC. Essai de compréhension à refaire. [Synthèse](RETOURS_JOUEURS_V2.md). |
 | T30 | Relier la fibre extérieure au brassage et à la baie école | terminé | Une seule arrivée repérable depuis la cour. L’impulsion suit le cordon branché puis rejoint la baie. BuildPipeline 0 erreur et 0 avertissement, deux variantes D3D11 réussies. Raccord de cadrage cinématique et Quest à faire. [Preuves](validation/v2-fiber-2026-11-10/README.md). |
 | T31 | Amener la baie école dans l’allée et refaire le stockage | terminé | Tiroir depuis l’allée, câble continu jusqu’au répartiteur, banque occupée refusée, écriture sur B et relecture de la photo d’origine. Test D3D11 complet, quatre captures. [Preuves](validation/v2-storage-chain-2026-11-10/README.md). |

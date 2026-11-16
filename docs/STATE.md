@@ -2,6 +2,10 @@
 
 Mis à jour le 16 novembre 2026.
 
+## V2 — Carte du routage IA, 16 novembre
+
+- Le player relie le PC, le Wi-Fi et la box, la fibre d’accès, le FAI, le transport et la façade. Trois tracés géographiques illustratifs sont associés au choix du site. Le trajet est rejoué en sens inverse au retour. Build Windows 0 erreur et 0 avertissement BuildPipeline. 31 contrôles IA sur le trajet États-Unis avec réponse Ollama réelle et régression Photo 10/10 en D3D11. Capture en fenêtre masquée noire. Lisibilité et Quest à éprouver. [Preuves](validation/ia-routage-2026-11-16.json).
+
 ## V2 — Parcours IA relié au RAG local, 16 novembre
 
 - Le player Windows IA relie la saisie, trois sites simulés, la visite, l’appoint et le retour au PC. Génération locale Ollama en arrière-plan. Le coût, le carbone, le délai et l’eau sont calculés dans Unity. BuildPipeline 0 erreur et 0 avertissement. Les 30 contrôles IA avec une vraie réponse et le contrôle Photo 10/10 passent en Direct3D 11. L’interface de saisie et la lisibilité attendent un essai humain. Pas d’essai Quest. [Lancement et preuves](PARCOURS_IA_V2.md).

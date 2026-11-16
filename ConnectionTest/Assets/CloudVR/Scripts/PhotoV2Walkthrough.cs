@@ -327,6 +327,11 @@ public sealed partial class PhotoV2Walkthrough : MonoBehaviour
     IEnumerator PlayTransit()
     {
         IsTravelling = true;
+        _travelProgress = 0;
+        float accessSeconds = _aiMode ? AiAccessSeconds : ScreenSeconds;
+        float transportSeconds = _aiMode ? AiTransportSeconds : FibreSeconds;
+        float arrivalSeconds = _aiMode ? AiArrivalSeconds : ArrivalSeconds;
+        float totalSeconds = accessSeconds + transportSeconds + arrivalSeconds;
         Debug.Log("CLOUDVR_V2_TRANSIT_START");
         bool wasEnabled = player.enabled;
         player.enabled = false;
@@ -349,10 +354,10 @@ public sealed partial class PhotoV2Walkthrough : MonoBehaviour
 
         _sound.PlayOneShot(_transit, .26f);
         float started = Time.unscaledTime;
-        while (Time.unscaledTime-started < ScreenSeconds)
+        while (Time.unscaledTime-started < accessSeconds)
         {
             float elapsed = Time.unscaledTime-started;
-            _travelProgress = elapsed/TravelSeconds;
+            _travelProgress = elapsed/totalSeconds;
             float t = Mathf.SmoothStep(0,1,elapsed/ScreenSeconds);
             float convert = Mathf.SmoothStep(0,1,Mathf.InverseLerp(.84f,ScreenSeconds,elapsed));
             sendImage.rectTransform.sizeDelta = Vector2.Lerp(photoSize,new Vector2(20,7),convert);
@@ -367,11 +372,11 @@ public sealed partial class PhotoV2Walkthrough : MonoBehaviour
         view.cullingMask = 1 << NetworkRideVisuals.Layer;
         view.backgroundColor = new Color(.012f,.022f,.038f);
         started = Time.unscaledTime;
-        while (Time.unscaledTime-started < FibreSeconds)
+        while (Time.unscaledTime-started < transportSeconds)
         {
             float elapsed = Time.unscaledTime-started;
-            _travelProgress = (ScreenSeconds+elapsed)/TravelSeconds;
-            float t = elapsed/FibreSeconds;
+            _travelProgress = (accessSeconds+elapsed)/totalSeconds;
+            float t = elapsed/transportSeconds;
             view.transform.SetPositionAndRotation(film.transform.TransformPoint(new Vector3(0,3.6f,2+42*t)),
                 film.transform.rotation);
             film.Animate(elapsed);
@@ -384,11 +389,11 @@ public sealed partial class PhotoV2Walkthrough : MonoBehaviour
         signal.position = fibreEntry;
         signal.gameObject.SetActive(true);
         started = Time.unscaledTime;
-        while (Time.unscaledTime-started < ArrivalSeconds)
+        while (Time.unscaledTime-started < arrivalSeconds)
         {
             float elapsed = Time.unscaledTime-started;
-            _travelProgress = (ScreenSeconds+FibreSeconds+elapsed)/TravelSeconds;
-            float t = elapsed/ArrivalSeconds;
+            _travelProgress = (accessSeconds+transportSeconds+elapsed)/totalSeconds;
+            float t = elapsed/arrivalSeconds;
             signal.position = t < .4f ? Vector3.Lerp(fibreEntry,fibreFoot,t/.4f) :
                 Vector3.Lerp(fibreFoot,fibreTop,Mathf.InverseLerp(.4f,1,t));
             float settle = Mathf.SmoothStep(0,1,Mathf.InverseLerp(.52f,1,t));
@@ -522,7 +527,8 @@ public sealed partial class PhotoV2Walkthrough : MonoBehaviour
         _marker.normal.textColor = _heading.normal.textColor;
         if (IsTravelling)
         {
-            DrawTransit();
+            if (_aiMode) DrawAiTransit();
+            else DrawTransit();
             return;
         }
         if (AiModalOpen)
@@ -632,18 +638,9 @@ public sealed partial class PhotoV2Walkthrough : MonoBehaviour
         string title = elapsed < ScreenSeconds ? "01 / ENVOI DEPUIS LE POSTE" :
             elapsed < ScreenSeconds + FibreSeconds ? "02 / SIGNAL DANS LA FIBRE" : "03 / ARRIVÉE AU DATA CENTER";
         float left = panel.x + 19;
-        if (_aiMode)
-        {
-            int leg = Mathf.Clamp(Mathf.FloorToInt(_travelProgress * AiRouteStops.Length), 0, AiRouteStops.Length - 1);
-            GUI.Label(new Rect(left, panel.y + 14, width - 38, 29), AiRouteStops[leg], _heading);
-            GUI.Label(new Rect(left, panel.y + 42, width - 38, 25), SelectedAiSite.Name + " · trajet illustratif", _small);
-        }
-        else
-        {
-            if (_photo) GUI.DrawTexture(new Rect(left, panel.y + 19, 52, 38), _photo);
-            GUI.Label(new Rect(left + 65, panel.y + 14, width - 100, 29), title, _heading);
-            GUI.Label(new Rect(left + 65, panel.y + 42, width - 100, 25), "Photo en transit · trajet illustratif", _small);
-        }
+        if (_photo) GUI.DrawTexture(new Rect(left, panel.y + 19, 52, 38), _photo);
+        GUI.Label(new Rect(left + 65, panel.y + 14, width - 100, 29), title, _heading);
+        GUI.Label(new Rect(left + 65, panel.y + 42, width - 100, 25), "Photo en transit · trajet illustratif", _small);
         GUI.color = new Color(.21f, .75f, .87f);
         GUI.DrawTexture(new Rect(left, panel.y + 77, (width - 38) * _travelProgress, 3), Texture2D.whiteTexture);
         GUI.color = color;

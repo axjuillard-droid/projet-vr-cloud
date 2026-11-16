@@ -1,0 +1,27 @@
+{
+  "date": "2026-11-16",
+  "unity": "6000.0.58f2",
+  "build": {
+    "target": "Windows Development",
+    "errors": 0,
+    "warnings": 0
+  },
+  "ia": {
+    "direct3d": 11,
+    "checks": 31,
+    "site": "États-Unis",
+    "sixLegs": true,
+    "mapLoaded": true,
+    "realResponseAtPc": true,
+    "exitCode": 0
+  },
+  "photo": {
+    "direct3d": 11,
+    "actions": "10/10",
+    "exitCode": 0
+  },
+  "mapSource": "https://www.naturalearthdata.com/downloads/110m-physical-vectors/110m-land/",
+  "mapArchiveSha256": "1926c621afd6ac67c3f36639bb1236134a48d82226dc675d3e3df53d02d2a3de",
+  "mapPngSha256": "77fd1f31b0f93e90d303b5fd8f590bb49a16d09e21857ba88631fef70abf9797",
+  "limits": "Contrôle automatisé sur la route États-Unis. Capture noire en fenêtre masquée, non probante pour la lisibilité. Essai humain et Quest à faire."
+}
