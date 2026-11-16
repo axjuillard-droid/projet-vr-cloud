@@ -4,7 +4,7 @@ Mis à jour le 16 novembre 2026.
 
 ## Parcours IA
 
-- Le parcours IA est intégré à la branche V2 et publié au commit `29a6022`. Le RAG local répond à la question saisie. Les indicateurs du jeu sont calculés en C#. Build Windows, 30 contrôles IA avec réponse réelle, parcours IA sans service et régression Photo 10/10 validés en Direct3D 11. La lisibilité du terminal, la carte détaillée et le casque restent à éprouver. [Lancement et preuves V2](https://github.com/axjuillard-droid/projet-vr-cloud/blob/29a602246afd30f143dde995c7cd6a0d1b245386/docs/PARCOURS_IA_V2.md).
+- La carte du routage IA est publiée sur la branche V2 au commit `ec43fb5`. Six étapes et trois chemins illustratifs à l’aller et au retour. Le build Windows passe 31 contrôles IA avec une réponse Ollama sur le trajet États-Unis, et Photo 10/10 en Direct3D 11. Lisibilité en essai humain et Quest à éprouver. Le RAG génère la réponse et Unity calcule les indicateurs en C#. [Lancement et preuves V2](https://github.com/axjuillard-droid/projet-vr-cloud/blob/ec43fb5055f4d9ae774e26641e02e6404fa6714a/docs/PARCOURS_IA_V2.md).
 
 ## Recherche UX
 

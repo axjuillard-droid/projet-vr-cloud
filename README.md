@@ -2,7 +2,7 @@
 
 **Du clic sur « envoyer une photo » aux équipements physiques du cloud.** Projet universitaire ESILV année 5, Unity 6000.0.58f2 / URP / C# / OpenXR.
 
-**Parcours IA disponible dans la V2 Windows.** Le joueur saisit une question et reçoit la réponse d’Ollama au retour au PC. Unity calcule le bilan de trois sites simulés. [Service local](docs/PARCOURS_IA_RAG.md) · [Lancement et essais du player IA](https://github.com/axjuillard-droid/projet-vr-cloud/blob/29a602246afd30f143dde995c7cd6a0d1b245386/docs/PARCOURS_IA_V2.md)
+**Parcours IA disponible dans la V2 Windows.** Le joueur saisit une question, suit une carte jusqu’au site choisi et reçoit la réponse d’Ollama au retour au PC. Unity calcule le bilan de trois sites simulés. [Service local](docs/PARCOURS_IA_RAG.md) · [Lancement et essais du player IA](https://github.com/axjuillard-droid/projet-vr-cloud/blob/ec43fb5055f4d9ae774e26641e02e6404fa6714a/docs/PARCOURS_IA_V2.md)
 
 **Recherche UX, 16 novembre 2026.** Le dossier réunit la bibliographie scientifique « 5 + 5 », deux références sur les compromis eau-énergie, les applications au parcours V2 et un protocole de test de la compréhension. [Bibliothèque scientifique et recherche UX](docs/ux-research/README.md)
 
