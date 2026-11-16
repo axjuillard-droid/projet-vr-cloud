@@ -19,13 +19,14 @@ public sealed class PhotoV2Energy : MonoBehaviour
     public PhotoV2Cooling cooling;
 
     public const int BaseRows = 2;
-    const int SiteOverheadKw = 18;
-    const int RowPowerKw = 15;
+    internal const int SiteOverheadKw = 18;
+    internal const int RowPowerKw = 15;
     public const int LimitKw = 120;
     readonly bool[] _authorized = new bool[4];
 
     public int ActiveRows { get; private set; } = BaseRows;
     public int RequestedRows { get; private set; } = BaseRows;
+    internal int AiDemandLimit { get; set; }
     public bool Changing { get; private set; }
     public bool ReadyForGrid => !Changing && ActiveRows == RequestedRows && ActiveRows > BaseRows;
     public int PowerKw => SiteOverheadKw + RowPowerKw * ActiveRows + cooling.AuxiliaryKw;
@@ -52,7 +53,7 @@ public sealed class PhotoV2Energy : MonoBehaviour
         if (Changing) return false;
         if (target == control)
         {
-            if (RequestedRows != ActiveRows) return false;
+            if (RequestedRows != ActiveRows || (AiDemandLimit > 0 && RequestedRows >= AiDemandLimit)) return false;
             bool reset = RequestedRows == rowLights.Length;
             if (reset) System.Array.Clear(_authorized, 0, _authorized.Length);
             return RequestRows(reset ? BaseRows : RequestedRows + 2);

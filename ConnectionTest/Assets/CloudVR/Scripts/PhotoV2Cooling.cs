@@ -19,7 +19,8 @@ public sealed class PhotoV2Cooling : MonoBehaviour
     public Text status;
 
     public float Temperature { get; private set; } = 23f;
-    public int AuxiliaryKw => Open ? 6 : 0;
+    internal int AiAuxiliaryKw { get; set; } = 6;
+    public int AuxiliaryKw => Open ? AiAuxiliaryKw : 0;
     public bool Stabilized => ReturnComplete && Temperature <= 24f;
     public string Reading => $"{Temperature:0.0} °C · débit {(Open ? "renforcé" : "normal")} · +{AuxiliaryKw} kW";
 

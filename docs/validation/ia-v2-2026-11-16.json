@@ -1,0 +1,63 @@
+{
+  "date": "2026-11-16",
+  "unity": "6000.0.58f2",
+  "build": {
+    "platform": "Windows Development",
+    "errors": 0,
+    "warnings": 0,
+    "playerSha256": "6d69e772c811261a2646fbf9354d032d990dbf87f983cfd31b2024b041619c4c",
+    "assemblySha256": "838d476e3428207912899d4b1d7afbaa72b48ce217ebc6ac4b0c6f2741940779"
+  },
+  "controleIa": {
+    "graphics": "Direct3D 11",
+    "exitCode": 0,
+    "site": "États-Unis",
+    "model": "qwen3:1.7b",
+    "realReply": true,
+    "checks": [
+      "Scène",
+      "Saisie et soumission unique",
+      "Site sélectionné et météo désactivée",
+      "Seuil",
+      "Badge",
+      "Brassage",
+      "Signal reçu à la baie",
+      "Baie, étape 4 · Z=25,35 · visée Porte de la baie école",
+      "Progression de la baie, réponse masquée",
+      "Baie, étape 5 · Z=25,35 · visée Tiroir école",
+      "Progression de la baie, réponse masquée",
+      "Baie, étape 6 · Z=25,35 · visée Commande d’aperçu",
+      "Progression de la baie, réponse masquée",
+      "Belvédère et demande",
+      "Départ électrique",
+      "Départ électrique",
+      "Limite de la mission",
+      "Sortie",
+      "Poste",
+      "Centrale et vanne",
+      "Refroidissement du site et rivière",
+      "Retour refusé sans appoint",
+      "Augmentation de l’appoint",
+      "Augmentation de l’appoint",
+      "Augmentation de l’appoint",
+      "Augmentation de l’appoint",
+      "Augmentation de l’appoint",
+      "Excès refusé, correction possible",
+      "Appoint équilibré, réponse toujours masquée",
+      "Réponse décodée au PC de départ"
+    ]
+  },
+  "controlePhoto": {
+    "graphics": "Direct3D 11",
+    "exitCode": 0,
+    "milestone": "10/10 actions"
+  },
+  "controleSansService": {
+    "graphics": "Direct3D 11",
+    "exitCode": 0,
+    "retourPc": true,
+    "realReply": false
+  },
+  "premierEssai": "Le contrôle de visée a expiré à l’arrivée à la baie. Le contrôle final attend explicitement la réception du signal.",
+  "limites": "Entrées automatisées PC. Tests humains de la saisie et de l’interface et essais Quest à réaliser."
+}

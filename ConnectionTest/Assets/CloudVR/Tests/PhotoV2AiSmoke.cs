@@ -1,0 +1,124 @@
+using System;
+using System.Collections;
+using UnityEngine;
+
+public sealed class PhotoV2AiSmoke : MonoBehaviour
+{
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
+    static void StartWhenRequested()
+    {
+        if (Debug.isDebugBuild && Array.IndexOf(Environment.GetCommandLineArgs(), "--cloudvr-ai-smoke") >= 0)
+            new GameObject("Contrôle IA V2").AddComponent<PhotoV2AiSmoke>();
+    }
+
+    IEnumerator Start()
+    {
+        yield return null;
+        var route = FindFirstObjectByType<PhotoV2Walkthrough>();
+        if (!Check(route != null, "Scène")) yield break;
+        var controller = route.player.GetComponent<CharacterController>();
+        Vector3 home = controller.transform.position;
+        var targets = route.targets;
+
+        bool Aim(GameObject target)
+        {
+            Vector3 delta = target.transform.position - route.view.transform.position;
+            route.view.transform.rotation = Quaternion.LookRotation(delta);
+            return route.TryAdvance(new Ray(route.view.transform.position, delta));
+        }
+
+        IEnumerator Walk(float z)
+        {
+            for (int move = 0; move < 520 && controller.transform.position.z < z - .02f; move++)
+                controller.Move(new Vector3(0, -.05f, Mathf.Min(.08f, z-controller.transform.position.z)));
+            yield return null;
+        }
+
+        if (!Check(!route.SubmitAiQuestion("inaccessible", 0) && Aim(targets[0])
+            && !route.SubmitAiQuestion("  ", 0) && !route.SubmitAiQuestion("test", 3)
+            && route.SubmitAiQuestion("Pourquoi une tour de refroidissement a besoin d’eau d’appoint ?", 1)
+            && !route.SubmitAiQuestion("deuxième envoi", 1) && !route.AiAnswerVisible, "Saisie et soumission unique")) yield break;
+        yield return WaitFor(() => !route.IsTravelling, 12);
+        route.player.enabled = false;
+        if (!Check(route.Step == 1 && route.water.AiRequiredLitres == 100 && !route.water.weather.enabled,
+            "Site sélectionné et météo désactivée")) yield break;
+        yield return Walk(10.8f);
+        if (!Check(Aim(targets[1]), "Seuil")) yield break;
+        yield return Walk(14.1f);
+        if (!Check(Aim(targets[2]), "Badge")) yield break;
+        yield return Walk(18.6f);
+        if (!Check(Aim(route.patchCord.plug.gameObject) && !Aim(route.patchCord.portB.gameObject)
+            && Aim(targets[3]), "Brassage")) yield break;
+        yield return WaitFor(() => route.patchCord.SignalDelivered, 18);
+        if (!Check(route.patchCord.SignalDelivered, "Signal reçu à la baie")) yield break;
+        yield return Walk(25.35f);
+        for (int step = 4; step <= 6; step++)
+        {
+            var target = targets[step];
+            Vector3 origin = route.view.transform.position;
+            var ray = new Ray(origin, target.transform.position - origin);
+            string hit = Physics.Raycast(ray, out var obstacle, 3.1f) ? obstacle.collider.name : "aucune cible";
+            if (!Check(Aim(target), $"Baie, étape {step} · Z={controller.transform.position.z:0.00} · visée {hit}"))
+                yield break;
+            int previous = step;
+            yield return WaitFor(() => route.Step > previous, 5);
+            if (!Check(route.Step == (step == 6 ? 9 : step + 1) && !route.AiAnswerVisible,
+                "Progression de la baie, réponse masquée")) yield break;
+        }
+        yield return Walk(57.4f);
+        if (!Check(Aim(targets[9]) && Aim(route.energy.control.gameObject), "Belvédère et demande")) yield break;
+        yield return WaitFor(() => !route.energy.Changing, 5);
+        foreach (var breaker in new[] { route.energy.breakers[0], route.energy.breakers[1] })
+        {
+            if (!Check(Aim(breaker.gameObject), "Départ électrique")) yield break;
+            yield return WaitFor(() => !route.energy.Changing, 5);
+        }
+        if (!Check(route.energy.ActiveRows == 4 && !Aim(route.energy.control.gameObject), "Limite de la mission")) yield break;
+        yield return Walk(58.8f);
+        if (!Check(Aim(route.grid.departure.gameObject), "Sortie")) yield break;
+        yield return Walk(68.6f);
+        if (!Check(Aim(route.grid.substation.gameObject), "Poste")) yield break;
+        yield return Walk(83.5f);
+        if (!Check(Aim(route.grid.viewpoint.gameObject) && Aim(route.cooling.valve.gameObject), "Centrale et vanne")) yield break;
+        yield return WaitFor(() => route.cooling.Open, 5);
+        yield return Walk(96.1f);
+        yield return WaitFor(() => route.cooling.Stabilized, 16);
+        if (!Check(route.cooling.AuxiliaryKw == 15 && Aim(route.cooling.observation.gameObject)
+            && Aim(route.water.entry.gameObject), "Refroidissement du site et rivière")) yield break;
+        yield return Walk(108.5f);
+        if (!Check(!Aim(route.water.load.gameObject), "Retour refusé sans appoint")) yield break;
+        for (int step = 0; step < 5; step++)
+            if (!Check(Aim(route.water.increase.gameObject), "Augmentation de l’appoint")) yield break;
+        if (!Check(route.water.Withdrawn == 125 && !Aim(route.water.load.gameObject)
+            && Aim(route.water.decrease.gameObject), "Excès refusé, correction possible")) yield break;
+        yield return WaitFor(() => route.water.MissionCompleted, 6);
+        bool requireReply = Array.IndexOf(Environment.GetCommandLineArgs(), "--cloudvr-ai-offline") < 0;
+        yield return WaitFor(() => !route.AiRequestPending, 90);
+        if (!Check(route.water.Withdrawn == 100 && !route.AiAnswerVisible && route.AiHasReply == requireReply
+            && (!requireReply || route.AiReplyStatus == "ok") && Aim(route.water.load.gameObject),
+            "Appoint équilibré, réponse toujours masquée")) yield break;
+        yield return WaitFor(() => route.AiReturned, 6);
+        if (!Check(route.AiReturned && route.AiAnswerVisible == requireReply
+            && Vector3.Distance(home, controller.transform.position) < .1f, "Réponse décodée au PC de départ")) yield break;
+        Debug.Log($"CLOUDVR_AI_SMOKE_PASS réponse réelle : {requireReply}");
+        Application.Quit(0);
+    }
+
+    static bool Check(bool ok, string description)
+    {
+        if (ok)
+        {
+            Debug.Log("CLOUDVR_AI_CHECK " + description);
+            return true;
+        }
+        Debug.LogError("CLOUDVR_AI_FAIL " + description);
+        Application.Quit(1);
+        return false;
+    }
+
+    static IEnumerator WaitFor(Func<bool> condition, float seconds)
+    {
+        float deadline = Time.realtimeSinceStartup + seconds;
+        while (!condition() && Time.realtimeSinceStartup < deadline) yield return null;
+    }
+}

@@ -1,6 +1,10 @@
 # État de reprise
 
-Mis à jour le 14 novembre 2026.
+Mis à jour le 16 novembre 2026.
+
+## V2 — Parcours IA relié au RAG local, 16 novembre
+
+- Le player Windows IA relie la saisie, trois sites simulés, la visite, l’appoint et le retour au PC. Génération locale Ollama en arrière-plan. Le coût, le carbone, le délai et l’eau sont calculés dans Unity. BuildPipeline 0 erreur et 0 avertissement. Les 30 contrôles IA avec une vraie réponse et le contrôle Photo 10/10 passent en Direct3D 11. L’interface de saisie et la lisibilité attendent un essai humain. Pas d’essai Quest. [Lancement et preuves](PARCOURS_IA_V2.md).
 
 ## V2 — Vérification à la relecture, 14 novembre 2026
 

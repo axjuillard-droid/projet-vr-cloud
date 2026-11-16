@@ -145,11 +145,31 @@ public static partial class PhotoV2BlockoutBuilder
     public static void BuildWindows()
     {
         Generate();
-        Directory.CreateDirectory(Path.GetDirectoryName(Output));
+        BuildPlayerAt(Output);
+    }
+
+    [MenuItem("CloudVR/V2/Construire le player Windows IA")]
+    public static void BuildAiWindows()
+    {
+        var previous = PlayerSettings.insecureHttpOption;
+        try
+        {
+            PlayerSettings.insecureHttpOption = InsecureHttpOption.DevelopmentOnly;
+            BuildPlayerAt("Builds/Windows-IA/CloudVR-IA.exe");
+        }
+        finally
+        {
+            PlayerSettings.insecureHttpOption = previous;
+        }
+    }
+
+    static void BuildPlayerAt(string output)
+    {
+        Directory.CreateDirectory(Path.GetDirectoryName(output));
         var report = BuildPipeline.BuildPlayer(new BuildPlayerOptions
         {
             scenes = new[] { ScenePath },
-            locationPathName = Output,
+            locationPathName = output,
             target = BuildTarget.StandaloneWindows64,
             options = BuildOptions.Development
         });

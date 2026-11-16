@@ -89,6 +89,13 @@ public sealed partial class PhotoV2Walkthrough : MonoBehaviour
         _confirmation = ProceduralAudioService.CreateRfidAccessBeep();
         _photo = CreateSamplePhoto();
         sendImage.texture = _photo;
+        SetUpAiMode();
+        if (_aiMode)
+        {
+            sendImage.texture = Texture2D.whiteTexture;
+            sendImage.rectTransform.sizeDelta = new Vector2(80, 5);
+            sendImage.color = new Color(.27f,.87f,1);
+        }
         ShowGuide();
         Debug.Log("CLOUDVR_V2_READY");
     }
@@ -120,7 +127,7 @@ public sealed partial class PhotoV2Walkthrough : MonoBehaviour
 
     void Update()
     {
-        if (IsTravelling) return;
+        if (IsTravelling || AiModalOpen) return;
         var keyboard = Keyboard.current;
         if (keyboard?.escapeKey.wasPressedThisFrame == true) player.TogglePause();
         if (player.InputPaused || player.SiteMapOpen || keyboard?.mKey.wasReleasedThisFrame == true) return;
@@ -136,10 +143,21 @@ public sealed partial class PhotoV2Walkthrough : MonoBehaviour
 
     public bool TryAdvance(Ray ray)
     {
-        if (IsTravelling || player.InputPaused || player.SiteMapOpen || SignalInTransit || _computeBusy || _saving || _reading || !Physics.Raycast(ray, out var hit, InteractionRange))
+        if (IsTravelling || AiModalOpen || player.InputPaused || player.SiteMapOpen || SignalInTransit || _computeBusy || _saving || _reading || !Physics.Raycast(ray, out var hit, InteractionRange))
             return false;
+        if (_aiReturned)
+        {
+            if (hit.collider.gameObject != targets[0]) return false;
+            OpenAiTerminal();
+            return true;
+        }
         if (_step == targets.Length)
         {
+            if (_aiMode && AtWater && water.MissionCompleted && hit.collider == water.load)
+            {
+                StartCoroutine(ReturnAiToRoom());
+                return true;
+            }
             if (!energy) return false;
             if ((!grid || grid.Stop == 0) && energy.TrySelect(hit.collider)) return true;
             bool selected = grid && grid.TrySelect(hit.collider,energy);
@@ -168,7 +186,7 @@ public sealed partial class PhotoV2Walkthrough : MonoBehaviour
             StartCoroutine(RecordPhoto());
             return true;
         }
-        if (_step == PreviewStep && ramControl && !_pixelsInMemory)
+        if (!_aiMode && _step == PreviewStep && ramControl && !_pixelsInMemory)
         {
             if (hit.collider != ramControl) return false;
             _pixelsInMemory = _photo;
@@ -193,7 +211,7 @@ public sealed partial class PhotoV2Walkthrough : MonoBehaviour
         if (hit.collider.gameObject != targets[_step]) return false;
         if (schoolRack && _step >= ComputeStep && _step <= PreviewStep)
         {
-            StartCoroutine(AdvanceCompute());
+            StartCoroutine(_aiMode && _step == PreviewStep ? DemonstrateAiInference() : AdvanceCompute());
             return true;
         }
         if (targets[_step] == badgeReader)
@@ -205,7 +223,8 @@ public sealed partial class PhotoV2Walkthrough : MonoBehaviour
         }
         if (_step == 0)
         {
-            StartCoroutine(PlayTransit());
+            if (_aiMode) OpenAiTerminal();
+            else StartCoroutine(PlayTransit());
             return true;
         }
         _sound.PlayOneShot(_confirmation, .18f);
@@ -218,7 +237,7 @@ public sealed partial class PhotoV2Walkthrough : MonoBehaviour
         var barrier = barriers[_step];
         if (barrier) barrier.SetActive(false);
         var target = targets[_step];
-        if (target == badgeReader || (_step == NetworkStep && patchCord) || (_step == PreviewStep && schoolRack) || (_step == ReadStep && storage)
+        if ((_aiMode && _step == 0) || target == badgeReader || (_step == NetworkStep && patchCord) || (_step == PreviewStep && schoolRack) || (_step == ReadStep && storage)
             || (_step == StorageStep && storage) || _step == targets.Length - 1)
             target.GetComponent<Collider>().enabled = false;
         else
@@ -400,6 +419,7 @@ public sealed partial class PhotoV2Walkthrough : MonoBehaviour
 
     void OnDestroy()
     {
+        _aiRequest?.Abort();
         if (_photo) Destroy(_photo);
         if (_preview) Destroy(_preview);
         if (_transit) Destroy(_transit);
@@ -410,11 +430,12 @@ public sealed partial class PhotoV2Walkthrough : MonoBehaviour
     {
         get
         {
-            if (IsTravelling || player.InputPaused || SignalInTransit || _computeBusy || _saving || _reading) return null;
+            if (IsTravelling || AiModalOpen || player.InputPaused || SignalInTransit || _computeBusy || _saving || _reading) return null;
+            if (_aiReturned) return targets[0].GetComponent<Collider>();
             if (_step < targets.Length)
             {
                 if (_step == NetworkStep && patchCord) return patchCord.Held ? patchCord.portA : patchCord.plug;
-                if (_step == PreviewStep && ramControl && !_pixelsInMemory) return ramControl;
+                if (!_aiMode && _step == PreviewStep && ramControl && !_pixelsInMemory) return ramControl;
                 if (_step == StorageStep && storage && !storage.ReadyToRoute) return null;
                 if (_step == ReadStep && storage && storage.Readable) return null;
                 return targets[_step].GetComponent<Collider>();
@@ -504,27 +525,37 @@ public sealed partial class PhotoV2Walkthrough : MonoBehaviour
             DrawTransit();
             return;
         }
+        if (AiModalOpen)
+        {
+            DrawAiTerminal();
+            return;
+        }
         if (player.SiteMapOpen)
         {
             DrawSiteMap();
             return;
         }
         DrawMovementKeys();
-        if (_step == targets.Length && energy)
+        if (_aiMode) DrawAiLedger();
+        if (_step == targets.Length && energy && !_aiReturned)
         {
             DrawEnergy();
             DrawGuide();
             return;
         }
         string action = player.InputPaused ? "Pause · Échap pour reprendre" :
+            _aiMode ? AiInstruction() :
             _step < Instructions.Length ? Instruction : "Retournez-vous pour retrouver la baie école.";
         GUI.Box(new Rect(18, 18, Mathf.Min(480, Screen.width - 36), 95), GUIContent.none);
-        GUI.Label(new Rect(30, 26, 430, 28), "CLOUDVR V2 · PARCOURS PHOTO", _heading);
+        GUI.Label(new Rect(30, 26, 430, 28), _aiMode ? "CLOUDVR · PARCOURS IA" : "CLOUDVR V2 · PARCOURS PHOTO", _heading);
         GUI.Label(new Rect(30, 54, Mathf.Min(452, Screen.width - 60), 58), action, _instruction);
         GUI.Label(new Rect(Screen.width * .5f - 5, Screen.height * .5f - 10, 14, 24), "+", _small);
-        GUI.Box(new Rect(18, Screen.height - 66, 217, 46), GUIContent.none);
-        if (_photo) GUI.DrawTexture(new Rect(26, Screen.height - 59, 45, 32), _photo);
-        GUI.Label(new Rect(80, Screen.height - 58, 151, 34), $"Photo · {PhotoStatus}", _small);
+        if (!_aiMode)
+        {
+            GUI.Box(new Rect(18, Screen.height - 66, 217, 46), GUIContent.none);
+            if (_photo) GUI.DrawTexture(new Rect(26, Screen.height - 59, 45, 32), _photo);
+            GUI.Label(new Rect(80, Screen.height - 58, 151, 34), $"Photo · {PhotoStatus}", _small);
+        }
         DrawGuide();
     }
 
@@ -566,7 +597,14 @@ public sealed partial class PhotoV2Walkthrough : MonoBehaviour
         GUI.Box(new Rect(18,18,width,229),GUIContent.none);
         GUI.Label(new Rect(30,26,width-24,27),"CLOUDVR V2 · EAU",_heading);
         GUI.Label(new Rect(30,52,width-24,55),player.InputPaused ? "Pause · Échap pour reprendre" : water.Instruction,_instruction);
-        if (water.Active)
+        if (water.Active && _aiMode)
+        {
+            GUI.Label(new Rect(30,107,width-24,24), $"{SelectedAiSite.Name} · {SelectedAiSite.Climate} · climat fixe", _small);
+            GUI.Label(new Rect(30,132,width-24,24), $"Appoint : {water.Withdrawn} / {water.AiRequiredLitres} L simulés sur 1 h", _small);
+            GUI.Label(new Rect(30,157,width-24,24), $"{water.Evaporated} L évaporés · {water.Returned} L restitués", _small);
+            GUI.Label(new Rect(30,182,width-24,24), $"Rivière · {water.RiverFlow - water.Withdrawn} L restent disponibles", _small);
+        }
+        else if (water.Active)
         {
             GUI.Label(new Rect(30,107,width-24,24),$"{water.WeatherName} · {water.ServedRows} / {water.TargetRows} rangées servies · {energy.ActiveRows} alimentées",_small);
             GUI.Label(new Rect(30,132,width-24,24),$"Refroidissement · capacité {water.CoolingRows} rangées · pompe {water.PumpMode}",_small);
@@ -594,9 +632,18 @@ public sealed partial class PhotoV2Walkthrough : MonoBehaviour
         string title = elapsed < ScreenSeconds ? "01 / ENVOI DEPUIS LE POSTE" :
             elapsed < ScreenSeconds + FibreSeconds ? "02 / SIGNAL DANS LA FIBRE" : "03 / ARRIVÉE AU DATA CENTER";
         float left = panel.x + 19;
-        if (_photo) GUI.DrawTexture(new Rect(left, panel.y + 19, 52, 38), _photo);
-        GUI.Label(new Rect(left + 65, panel.y + 14, width - 100, 29), title, _heading);
-        GUI.Label(new Rect(left + 65, panel.y + 42, width - 100, 25), "Photo en transit · trajet illustratif", _small);
+        if (_aiMode)
+        {
+            int leg = Mathf.Clamp(Mathf.FloorToInt(_travelProgress * AiRouteStops.Length), 0, AiRouteStops.Length - 1);
+            GUI.Label(new Rect(left, panel.y + 14, width - 38, 29), AiRouteStops[leg], _heading);
+            GUI.Label(new Rect(left, panel.y + 42, width - 38, 25), SelectedAiSite.Name + " · trajet illustratif", _small);
+        }
+        else
+        {
+            if (_photo) GUI.DrawTexture(new Rect(left, panel.y + 19, 52, 38), _photo);
+            GUI.Label(new Rect(left + 65, panel.y + 14, width - 100, 29), title, _heading);
+            GUI.Label(new Rect(left + 65, panel.y + 42, width - 100, 25), "Photo en transit · trajet illustratif", _small);
+        }
         GUI.color = new Color(.21f, .75f, .87f);
         GUI.DrawTexture(new Rect(left, panel.y + 77, (width - 38) * _travelProgress, 3), Texture2D.whiteTexture);
         GUI.color = color;

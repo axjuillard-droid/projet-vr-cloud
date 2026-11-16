@@ -1,5 +1,9 @@
 # Ressources évaluées
 
+## Parcours IA V2
+
+Réutiliser la scène V2, ses commandes, l’interface IMGUI et UnityWebRequest fournis par Unity. Réutiliser le [RAG local de main](https://github.com/axjuillard-droid/projet-vr-cloud/tree/bc271c775f597d28e96e0588e8a97d9c8e174251/tools/cloudvr-rag) pour générer la réponse. L’intégration n’introduit aucun package ni fichier de modèle. La [configuration HTTP de Unity](https://docs.unity3d.com/6000.0/Documentation/ScriptReference/PlayerSettings-insecureHttpOption.html) est réglée pour le build de développement, puis restituée dans le projet. [Lancement et hypothèses](PARCOURS_IA_V2.md)
+
 ## T35 — Vérification de la relecture
 
 Réutilisation de l’image originale, de l’aperçu CPU, du client Unity et de l’animation de suivi du câble. Le jeu compare les deux dimensions déjà produites dans la visite.

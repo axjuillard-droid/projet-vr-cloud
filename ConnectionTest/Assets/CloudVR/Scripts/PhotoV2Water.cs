@@ -31,6 +31,17 @@ public sealed class PhotoV2Water : MonoBehaviour
     float _stableTime;
     int _completedWeather;
     int _weatherIndex;
+    bool _aiBalanced;
+    internal int AiRequiredLitres { get; private set; }
+    bool AiEnabled => AiRequiredLitres > 0;
+
+    internal void ConfigureAi(int requiredLitres)
+    {
+        AiRequiredLitres = requiredLitres;
+        weather.enabled = false;
+        weatherLabel.text = "OBJECTIF D’APPOINT";
+        loadLabel.text = "RETOUR AU PC";
+    }
 
     // Capacités pédagogiques en rangées. Le rejet sec perd de la marge quand l’air se réchauffe.
     static readonly int[] DryCoolingRows = { 4, 3, 1 };
@@ -42,15 +53,15 @@ public sealed class PhotoV2Water : MonoBehaviour
     public int CoolingRows => DryCoolingRows[_weatherIndex] + (PumpLevel == 2 ? 3 : PumpLevel);
     public int ServedRows => Mathf.Min(energy.ActiveRows, CoolingRows);
     public int TargetRows => Heatwave ? 2 : 4;
-    public bool RiverAtRisk => Heatwave && Withdrawn * 3 > RiverFlow;
+    public bool RiverAtRisk => AiEnabled ? Withdrawn > AiRequiredLitres : Heatwave && Withdrawn * 3 > RiverFlow;
     public bool WeatherCompleted => (_completedWeather & (1 << _weatherIndex)) != 0;
-    public bool MissionCompleted => _completedWeather == 0b111;
+    public bool MissionCompleted => AiEnabled ? _aiBalanced : _completedWeather == 0b111;
     public bool ServiceBalanced => energy.ActiveRows == TargetRows && ServedRows == TargetRows;
     public int PumpLevel { get; private set; }
     public int DeadFish { get; private set; }
     public bool Stressed => _exposure >= StressThreshold;
-    public int RiverFlow => RiverFlows[_weatherIndex];
-    public int Withdrawn => energy.ActiveRows * (PumpLevel == 2 ? 3 : PumpLevel);
+    public int RiverFlow => AiEnabled ? 250 : RiverFlows[_weatherIndex];
+    public int Withdrawn => AiEnabled ? PumpLevel * 25 : energy.ActiveRows * (PumpLevel == 2 ? 3 : PumpLevel);
     public int Evaporated => Withdrawn * 2 / 3;
     public int Returned => Withdrawn - Evaporated;
     public int Share => Mathf.RoundToInt(100f * Withdrawn / RiverFlow);
@@ -62,6 +73,13 @@ public sealed class PhotoV2Water : MonoBehaviour
         get
         {
             if (!Active) return "Ouvrir l’accès au point d’observation de la rivière";
+            if (AiEnabled)
+            {
+                if (_aiBalanced) return "Appoint équilibré · sélectionner RETOUR AU PC";
+                if (Withdrawn < AiRequiredLitres) return "Appoint insuffisant · augmenter le pompage";
+                if (Withdrawn > AiRequiredLitres) return "Appoint excessif · réduire le pompage";
+                return "Attendre la stabilisation de l’appoint";
+            }
             if (energy.Changing) return "Attendre la stabilisation de la charge";
             if (RiverAtRisk) return "Prélèvement excessif · réduisez la pompe ou la charge";
             if (Stressed) return "Attendez que l’état de la rivière s’améliore";
@@ -81,6 +99,8 @@ public sealed class PhotoV2Water : MonoBehaviour
         get
         {
             if (!Active) return entry;
+            if (AiEnabled) return _aiBalanced ? load : Withdrawn < AiRequiredLitres ? increase :
+                Withdrawn > AiRequiredLitres ? decrease : null;
             if (energy.Changing) return null;
             if (RiverAtRisk) return decrease;
             if (Stressed) return null;
@@ -103,17 +123,18 @@ public sealed class PhotoV2Water : MonoBehaviour
             return true;
         }
         if (energy.Changing) return false;
-        if (target == load) return energy.TryRequestComparisonLoad(energy.ActiveRows < 4);
+        if (target == load) return !AiEnabled && energy.TryRequestComparisonLoad(energy.ActiveRows < 4);
         if (target == increase || target == decrease)
         {
             int level = PumpLevel + (target == increase ? 1 : -1);
-            if (level < 0 || level > 2) return false;
+            if (level < 0 || level > (AiEnabled ? 8 : 2)) return false;
             PumpLevel = level;
+            _aiBalanced = false;
             if (level == 0) evaporation.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
             workingFlows.SetActive(level > 0);
             if (level > 0 && !evaporation.isPlaying) evaporation.Play();
         }
-        else if (target == weather)
+        else if (target == weather && !AiEnabled)
         {
             _weatherIndex = (_weatherIndex + 1) % WeatherNames.Length;
         }
@@ -130,7 +151,7 @@ public sealed class PhotoV2Water : MonoBehaviour
         int casualties = Mathf.Clamp(Mathf.FloorToInt(_exposure) - 5,0,3);
         while (DeadFish < casualties)
             fishBodies[DeadFish++].sharedMaterial = deadFishMaterial;
-        float level = Mathf.Clamp01((RiverFlow - Withdrawn) / 100f);
+        float level = Mathf.Clamp01((RiverFlow - Withdrawn) / (AiEnabled ? 250f : 100f));
         var scale = surface.localScale;
         scale.x = Mathf.MoveTowards(scale.x,Mathf.Lerp(.25f,1f,Mathf.Sqrt(level)),Time.deltaTime*.35f);
         surface.localScale = scale;
@@ -156,15 +177,24 @@ public sealed class PhotoV2Water : MonoBehaviour
         if (!Active) return;
 
         UpdateMission();
-        weatherLabel.text = WeatherNames[(_weatherIndex + 1) % WeatherNames.Length].ToUpperInvariant();
-        loadLabel.text = energy.ActiveRows < 4 ? "AUGMENTER LA CHARGE" : "RÉDUIRE LA CHARGE";
-        pumpStatus.text = PumpMode.ToUpperInvariant();
+        if (AiEnabled)
+        {
+            weatherLabel.text = $"{AiRequiredLitres} L";
+            pumpStatus.text = $"{Withdrawn} L";
+        }
+        else
+        {
+            weatherLabel.text = WeatherNames[(_weatherIndex + 1) % WeatherNames.Length].ToUpperInvariant();
+            loadLabel.text = energy.ActiveRows < 4 ? "AUGMENTER LA CHARGE" : "RÉDUIRE LA CHARGE";
+            pumpStatus.text = PumpMode.ToUpperInvariant();
+        }
         pumpHandle.localRotation = Quaternion.RotateTowards(pumpHandle.localRotation,
-            Quaternion.Euler(0,0,35f - 35f * PumpLevel),160f * Time.deltaTime);
-        intake.widthMultiplier = Withdrawn * .016f;
-        discharge.widthMultiplier = Returned * .018f;
+            Quaternion.Euler(0,0,35f - 35f * (AiEnabled ? PumpLevel / 4f : PumpLevel)),160f * Time.deltaTime);
+        float visualScale = AiEnabled ? .16f : 1f;
+        intake.widthMultiplier = Withdrawn * .016f * visualScale;
+        discharge.widthMultiplier = Returned * .018f * visualScale;
         var emission = evaporation.emission;
-        emission.rateOverTime = Evaporated;
+        emission.rateOverTime = Evaporated * visualScale;
         if (PumpLevel == 0) return;
 
         for (int i=0;i<intakeMarkers.Length;i++)
@@ -177,6 +207,12 @@ public sealed class PhotoV2Water : MonoBehaviour
     }
     void UpdateMission()
     {
+        if (AiEnabled)
+        {
+            if (Withdrawn == AiRequiredLitres) _stableTime += Time.deltaTime;
+            _aiBalanced = _stableTime >= 2;
+            return;
+        }
         if (WeatherCompleted) return;
         _stableTime = ServiceBalanced && !energy.Changing && !RiverAtRisk && !Stressed
             ? _stableTime + Time.deltaTime : 0;
