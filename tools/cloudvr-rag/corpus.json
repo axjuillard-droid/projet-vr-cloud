@@ -1,0 +1,51 @@
+[
+  {
+    "id": "routage",
+    "titre": "D’un réseau à l’autre",
+    "url": "https://www.rfc-editor.org/rfc/rfc4271.html",
+    "mots": "wifi wi-fi box fibre câble internet réseau route routage latence fournisseur opérateur FAI paquets",
+    "texte": "Dans le parcours CloudVR, le PC rejoint la box par Wi-Fi. La box est reliée au réseau d’accès du fournisseur par fibre. Des routeurs transmettent ensuite les paquets entre réseaux jusqu’au service distant. BGP sert à échanger des informations de joignabilité entre réseaux autonomes. Le trajet montré dans la visite est illustratif."
+  },
+  {
+    "id": "inference",
+    "titre": "Génération de texte et mémoire",
+    "url": "https://huggingface.co/docs/transformers/main/kv_cache",
+    "mots": "ia intelligence artificielle modèle question réponse tokens tokenisation GPU RAM mémoire calcul prédiction inférence entraînement",
+    "texte": "Un modèle de langage déjà entraîné traite la question découpée en tokens, puis produit des tokens de réponse successifs. Les poids et les données intermédiaires mobilisent de la mémoire. Un serveur équipé de GPU peut accélérer le calcul. Traiter une question s’appelle l’inférence."
+  },
+  {
+    "id": "electricite",
+    "titre": "Prix de gros et facture",
+    "url": "https://www.rte-france.com/bases-electricite/consommation-electricite/decryptage-prix-electricite-marche-facturation",
+    "mots": "france europe facture tarif prix coût c euros coût vente gros marché marginal centrale transport taxes contrat électricité",
+    "texte": "Le coût de production, le prix de gros et le prix payé par un client sont des grandeurs distinctes. Sur le marché de gros, le prix du kWh supplémentaire dépend des moyens disponibles pour répondre à la demande. Le contrat de fourniture, l’acheminement et les prélèvements fiscaux interviennent dans la facture. Le prix de gros varie notamment avec la production disponible, la demande et les échanges."
+  },
+  {
+    "id": "carbone",
+    "titre": "Intensité carbone de l’électricité",
+    "url": "https://ember-energy.org/data/yearly-electricity-data/",
+    "mots": "france chine états-unis usa pays carbone CO2 CO2e émissions climat décarboné mix nucléaire charbon kwh intensité pollution empreinte",
+    "texte": "L’intensité carbone moyenne d’une production électrique s’exprime en grammes de CO₂ équivalent par kWh. Pour estimer des émissions associées à un usage électrique, on multiplie l’énergie en kWh par un facteur d’émission cohérent. Un facteur national annuel constitue un repère, tandis que l’électricité disponible à une heure et sur un réseau déterminés varie. Le nucléaire émet nettement moins de gaz à effet de serre que le charbon par kWh sur le cycle de vie dans les comparaisons techniques usuelles."
+  },
+  {
+    "id": "refroidissement",
+    "titre": "Chaleur des serveurs et refroidissement",
+    "url": "https://www.energy.gov/cmei/femp/articles/best-practices-guide-energy-efficient-data-center-design",
+    "mots": "serveurs température chaud chaleur refroidissement froid ventilateur pompe échangeur auxiliaires air pue énergie",
+    "texte": "Le calcul génère de la chaleur qui doit être évacuée. Les ventilateurs, pompes et groupes froids, selon l’architecture, peuvent consommer de l’électricité en plus des équipements informatiques. La température et l’humidité extérieures peuvent modifier la capacité et l’efficacité du refroidissement."
+  },
+  {
+    "id": "eau",
+    "titre": "Eau d’appoint dans une tour",
+    "url": "https://www.energy.gov/cmei/femp/cooling-water-efficiency-opportunities-federal-data-centers",
+    "mots": "eau rivière tour évaporation prélèvement pompe appoint purge poissons débit refroidissement",
+    "texte": "Dans une tour évaporative, une partie de l’eau s’évapore pour évacuer de la chaleur. La purge retire une partie de l’eau qui se charge en minéraux. L’appoint remplace ces pertes. Les besoins d’appoint dépendent du refroidissement utilisé et de son fonctionnement. Certains systèmes rejettent la chaleur à sec et ne demandent pas d’eau pour ce rejet."
+  },
+  {
+    "id": "capacite",
+    "titre": "Capacité de calcul partagée",
+    "url": "https://docs.nvidia.com/infra-controller/documentation/configuration-day-1/tenant-management",
+    "mots": "clients entreprises location colocation capacité gpu réserver réservation baie rangée quota demande calcul",
+    "texte": "Un fournisseur de calcul peut allouer ou réserver une capacité par client et type d’instance. Plusieurs clients peuvent ainsi utiliser les capacités d’un fournisseur. Une réservation, son utilisation effective et une demande supplémentaire sont des états distincts. Les unités de capacité dans CloudVR représentent des groupes identiques de serveurs fictifs."
+  }
+]

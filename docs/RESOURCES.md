@@ -1,5 +1,9 @@
 # Ressources évaluées
 
+## RAG local et comparaison des sites
+
+Réutiliser Ollama (MIT) et le modèle Qwen3 1,7B déjà présent. Un corpus original et une recherche lexicale évitent une dépendance d’indexation pour ce premier lot. Le modèle est fourni par son distributeur et le dépôt contient les sources et la procédure. Les repères de comparaison viennent de RTE, de l’AIE et d’Ember. [Licence Ollama](https://github.com/ollama/ollama/blob/main/LICENSE) · [Licence Qwen3](https://huggingface.co/Qwen/Qwen3-1.7B) · [Parcours et sources](PARCOURS_IA_RAG.md)
+
 ## Recherche UX — 16 novembre 2026
 
 Réutiliser les dix études publiées et les deux références techniques via leurs DOI et leurs liens de lecture. L’annexe A de Barnett-Itzhaki et Tsoury et le questionnaire de Gujral et al. orientent des questions originales adaptées à CloudVR. L’adaptation est courte et indépendante de la plateforme. Les fiches et l’export BibTeX créditent les auteurs et renvoient aux publications dont les conditions de redistribution varient. [Dossier UX](ux-research/README.md).

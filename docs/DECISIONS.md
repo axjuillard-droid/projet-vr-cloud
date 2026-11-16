@@ -3,6 +3,7 @@
 État initial issu de la discussion du 25 septembre 2026.
 
 ## Validé par l’utilisateur
+- D12 (16/11) · Retenir la requête IA pour la prochaine visite, avec saisie libre et réponse réelle révélée au PC à la fin. Conserver l’activité d’acheminement. Faire régler l’appoint en eau sans enchaînement de météos. [Parcours IA](PARCOURS_IA_RAG.md).
 - D01 (précisé le 28/09) : progression accompagnée avec exploration locale et approfondissements facultatifs ; pas de quiz ou défi final obligatoire. Les interactions servent la compréhension.
 - D02 : cloud comme fil conducteur, avec ouverture vers l’IA.
 - D03 : choix proposé au visiteur entre envoyer une photo et poser une question à une IA.

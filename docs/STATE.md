@@ -2,6 +2,10 @@
 
 Mis à jour le 16 novembre 2026.
 
+## Parcours IA
+
+- L’activité d’acheminement est validée et la requête IA remplace la photo dans le nouveau parcours prévu. Le service local dans `tools/cloudvr-rag` passe les cinq contrôles HTTP avec Ollama, dont deux générations réelles. Les quatre étapes du bilan fictif, les trois sites, les sommes et le réglage d’appoint ont été vérifiés en HTTP. La saisie, les animations de route, les indicateurs et le retour de la réponse au PC restent à intégrer à la V2 Unity. [Conception et lancement](PARCOURS_IA_RAG.md).
+
 ## Recherche UX
 
 - Bibliothèque « 5 + 5 » constituée après la réunion du 16 novembre, avec deux références techniques, DOI et liens de lecture, fiches critiques et export BibTeX. La synthèse rattache les résultats à la V2 du 14 novembre (`51ee40c`). Le protocole propose de mesurer la compréhension avant et après la visite, puis sur une situation nouvelle. La prochaine étape est un essai du build PC avec des novices. [Dossier UX](ux-research/README.md).
