@@ -8,6 +8,7 @@ Réunion de cadrage du 16 novembre 2026. Corpus de travail pour le dossier unive
 | [02 · Visites éducatives et VR](02-visites-vr.md) | Cinq articles sur la compréhension, la rétention, la présence et les effets de l’interaction. |
 | [03 · Synthèse pour CloudVR](03-synthese-cloudvr.md) | Résultats croisés, liens avec les scènes de la V2 et deux références techniques sur l’eau et l’énergie. |
 | [04 · Protocole pilote](04-protocole-pilote.md) | Consignes, questions avant/après, situation de transfert, grille de cotation et relevé des observations. |
+| [05 · Essai du belvédère IA](05-essai-belvedere-ia.md) | Consignes à lire, observations au pupitre et aux leviers, questions avant/après et transfert. |
 | [Bibliographie BibTeX](references.bib) | Les douze références, avec DOI, à importer dans Zotero ou LaTeX. |
 
 ## Question de travail

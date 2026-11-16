@@ -12,6 +12,8 @@ Mis à jour le 16 novembre 2026.
 
 ## Recherche UX
 
+- Une fiche d’essai PC cible le belvédère IA du build `69df7ab`. Elle permet de relever séparément les gestes, la compréhension de la mise en service et le transfert vers une autre situation. Fiche prête, essais auprès de novices à lancer. [Fiche](ux-research/05-essai-belvedere-ia.md).
+
 - Bibliothèque « 5 + 5 » constituée après la réunion du 16 novembre, avec deux références techniques, DOI et liens de lecture, fiches critiques et export BibTeX. La synthèse rattache les résultats à la V2 du 14 novembre (`51ee40c`). Le protocole propose de mesurer la compréhension avant et après la visite, puis sur une situation nouvelle. La prochaine étape est un essai du build PC avec des novices. [Dossier UX](ux-research/README.md).
 
 ## Proposition de refonte de la visite

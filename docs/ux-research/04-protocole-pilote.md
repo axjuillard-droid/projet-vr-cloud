@@ -1,5 +1,7 @@
 # 04 · Pilote UX de CloudVR
 
+Les questions ci-dessous ciblent le parcours Photo. Pour tester la répartition du calcul dans le parcours IA, utiliser la [fiche du belvédère](05-essai-belvedere-ia.md).
+
 Proposition à utiliser avec **3 à 5 adultes novices** du projet. Tester une même version PC pendant cette première série, puis reprendre la grille lors d’essais Quest en indiquant le matériel. Le pilote sert à repérer les incompréhensions et à décider quoi réviser. L’absence de groupe de comparaison et le petit effectif limitent l’interprétation des évolutions avant/après.
 
 ## Mise en place
