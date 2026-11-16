@@ -4,6 +4,8 @@ Statuts : à faire, en cours, bloqué, terminé. Une tâche n’est prête que s
 
 | ID | Tâche | Statut | Critère de fin |
 |---|---|---|---|
+| T36 | Constituer la bibliographie scientifique UX | terminé | Cinq articles sur la sensibilisation, cinq sur les visites et la VR, deux références techniques. DOI, fiches, synthèse reliée à la V2 et BibTeX. [Dossier UX](ux-research/README.md). |
+| T37 | Vérifier la compréhension des deux parcours auprès de novices | à faire | Version PC identifiée, réponses avant/après et situation nouvelle relevées, hésitations reliées à une décision de conception. [Protocole pilote](ux-research/04-protocole-pilote.md). |
 | T29 | Préparer l’espace V2 et archiver le build Windows livré | terminé | 296 fichiers vérifiés par SHA-256. 196/196 depuis le dossier d’archive le 10 novembre à 10 h 58 Paris. Copie V2 isolée sur `codex/cloudvr-v2`, avec destination Windows-V2. [Preuve](validation/archive-v1-2026-11-10.json). |
 | T28 | Prototyper la salle de supervision en surplomb | à faire | Montrer la montée en charge des rangées, rendre la contrainte électrique ou thermique explicite, puis comparer le rejet sec et évaporatif à charge égale. [Refonte](PROPOSITION_REFONTE_VISITE.md). |
 | T27 | Prototyper le parcours Photo en sept séquences | en cours | Premier trajet en volumes simples publié sur codex/cloudvr-v2, 10 actions validées en PC D3D11. Deux séquences de référence finies et validation libre du guidage à réaliser. [Plan V2](PLAN_REFONTE_CLOUDVR.md). |

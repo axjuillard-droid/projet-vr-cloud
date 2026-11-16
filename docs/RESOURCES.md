@@ -1,5 +1,9 @@
 # Ressources évaluées
 
+## Recherche UX — 16 novembre 2026
+
+Réutiliser les dix études publiées et les deux références techniques via leurs DOI et leurs liens de lecture. L’annexe A de Barnett-Itzhaki et Tsoury et le questionnaire de Gujral et al. orientent des questions originales adaptées à CloudVR. L’adaptation est courte et indépendante de la plateforme. Les fiches et l’export BibTeX créditent les auteurs et renvoient aux publications dont les conditions de redistribution varient. [Dossier UX](ux-research/README.md).
+
 ## Refonte de la visite — mécaniques de jeu
 
 - [Data Center, Waseku](https://store.steampowered.com/app/4170200?l=english). Le jeu rend visibles le câblage, le trafic et les conséquences d’une panne. Adapter l’interaction port à port à une seule demande et à une carte courte. Référence commerciale, aucun contenu importé.

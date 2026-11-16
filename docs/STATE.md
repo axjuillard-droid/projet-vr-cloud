@@ -1,6 +1,10 @@
 # État de reprise
 
-Mis à jour le 10 novembre 2026.
+Mis à jour le 16 novembre 2026.
+
+## Recherche UX
+
+- Bibliothèque « 5 + 5 » constituée après la réunion du 16 novembre, avec deux références techniques, DOI et liens de lecture, fiches critiques et export BibTeX. La synthèse rattache les résultats à la V2 du 14 novembre (`51ee40c`). Le protocole propose de mesurer la compréhension avant et après la visite, puis sur une situation nouvelle. La prochaine étape est un essai du build PC avec des novices. [Dossier UX](ux-research/README.md).
 
 ## Proposition de refonte de la visite
 
