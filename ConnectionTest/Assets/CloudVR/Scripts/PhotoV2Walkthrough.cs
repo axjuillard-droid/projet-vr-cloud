@@ -166,7 +166,15 @@ public sealed partial class PhotoV2Walkthrough : MonoBehaviour
                 return true;
             }
             if (!energy) return false;
-            if ((!grid || grid.Stop == 0) && energy.TrySelect(hit.collider)) return true;
+            if (!grid || grid.Stop == 0)
+            {
+                if (_aiMode && !_aiAllocationConfirmed && hit.collider == energy.control)
+                {
+                    OpenAiAllocation();
+                    return true;
+                }
+                if (energy.TrySelect(hit.collider)) return true;
+            }
             bool selected = grid && grid.TrySelect(hit.collider,energy);
             if (!selected && AtCooling) selected = cooling.TrySelect(hit.collider);
             if (!selected && AtWater) selected = water.TrySelect(hit.collider);
@@ -548,7 +556,8 @@ public sealed partial class PhotoV2Walkthrough : MonoBehaviour
         }
         if (AiModalOpen)
         {
-            DrawAiTerminal();
+            if (_aiAllocationOpen) DrawAiAllocation();
+            else DrawAiTerminal();
             return;
         }
         if (player.SiteMapOpen)
@@ -598,6 +607,7 @@ public sealed partial class PhotoV2Walkthrough : MonoBehaviour
             AtCooling && cooling.Stabilized && !cooling.Observed ? "Viser ÉCHANGEUR · REJET À L’AIR" :
             AtCooling ? cooling.Instruction :
             grid && grid.Stop > 0 ? grid.Instruction :
+            _aiMode && !_aiAllocationConfirmed ? "Viser DEMANDE DE CALCUL pour répartir les blocs" :
             energy.Instruction;
         GUI.Label(new Rect(30,52,480,48),action,_instruction);
         if (AtCooling)
@@ -607,10 +617,13 @@ public sealed partial class PhotoV2Walkthrough : MonoBehaviour
         }
         else if (grid && grid.Stop > 0)
             GUI.Label(new Rect(30,106,482,33),grid.Detail,_small);
-        else if (grid && energy.ReadyForGrid)
+        else if (!_aiMode && grid && energy.ReadyForGrid)
             GUI.Label(new Rect(30,134,482,24),"Ou augmentez la demande au pupitre",_small);
         if (!grid || grid.Stop == 0)
+        {
             GUI.Label(new Rect(30,100,482,24),energy.Reading + " · valeurs simulées",_small);
+            if (_aiMode && _aiAllocationConfirmed) DrawAiAllocationStatus();
+        }
         GUI.Label(new Rect(Screen.width*.5f - 5,Screen.height*.5f - 10,14,24),"+",_small);
     }
 

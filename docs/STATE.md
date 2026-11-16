@@ -2,6 +2,10 @@
 
 Mis à jour le 16 novembre 2026.
 
+## V2 — Répartition du calcul au belvédère, 16 novembre
+
+- Deux blocs sont à répartir entre trois clients fictifs. Les réservations désignent les rangées 05 et 06, puis chaque levier actualise le nombre de blocs en service du client associé. Le PC de départ rappelle la répartition à côté de la réponse. Build Windows et 40 contrôles IA avec Ollama, Photo 10/10 en D3D11. L’essai humain du panneau et l’essai Quest restent à faire. [Résultats](validation/ia-belvedere-2026-11-16.json)
+
 ## V2 — Démonstration de l’inférence à la baie, 16 novembre
 
 - Après l’extraction, préparer la question puis lancer le GPU. Une coupe pédagogique montre le GPU et sa VRAM, puis des tokens illustrent la génération progressive. Le RAG garde la réponse pour le retour au PC. La visée ignore la capsule du joueur en conservant le premier obstacle du décor. Build Windows sans erreur ni avertissement BuildPipeline. 36 contrôles IA avec réponse réelle et Photo 10/10 en D3D11. Capture de la coupe inspectée. Lisibilité du HUD en visite et Quest à éprouver. [Preuves](validation/ia-inference-2026-11-16/result.json).

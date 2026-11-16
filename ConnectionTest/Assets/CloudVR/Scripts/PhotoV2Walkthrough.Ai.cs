@@ -55,7 +55,7 @@ public sealed partial class PhotoV2Walkthrough
     Text _aiMonitor;
     UnityWebRequest _aiRequest;
     AiSite SelectedAiSite => AiSites[_aiSiteIndex];
-    bool AiModalOpen => _aiEntryOpen || _aiAnswerOpen || _aiReturning;
+    bool AiModalOpen => _aiEntryOpen || _aiAnswerOpen || _aiReturning || _aiAllocationOpen;
     internal bool AiAnswerVisible => _aiAnswerOpen && _aiReturned && _aiReply != null;
     internal bool AiHasReply => _aiReply != null;
     internal string AiReplyStatus => _aiReply?.status;
@@ -74,7 +74,7 @@ public sealed partial class PhotoV2Walkthrough
         if (_aiMonitor) _aiMonitor.text = "POSER UNE QUESTION";
         water.ConfigureAi(SelectedAiSite.WaterLitres);
         cooling.AiAuxiliaryKw = SelectedAiSite.CoolingKw;
-        energy.AiDemandLimit = 4;
+        energy.AiDemandLimit = PhotoV2Energy.BaseRows + _aiAssignedClients.Length;
         foreach (var label in FindObjectsByType<Text>(FindObjectsSortMode.None))
         {
             if (label.text == "MÉTÉO SUIVANTE") label.text = "APPOINT EN EAU";
@@ -87,20 +87,23 @@ public sealed partial class PhotoV2Walkthrough
 
     void OpenAiTerminal()
     {
-        player.enabled = false;
-        Cursor.lockState = CursorLockMode.None;
-        Cursor.visible = true;
         _aiEntryOpen = !_aiReturned;
         _aiAnswerOpen = _aiReturned;
+        SetAiModalInput(true);
     }
 
     void CloseAiTerminal()
     {
         _aiEntryOpen = false;
         _aiAnswerOpen = false;
-        player.enabled = true;
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+        SetAiModalInput(false);
+    }
+
+    void SetAiModalInput(bool open)
+    {
+        player.enabled = !open;
+        Cursor.lockState = open ? CursorLockMode.None : CursorLockMode.Locked;
+        Cursor.visible = open;
     }
 
     internal bool SubmitAiQuestion(string question, int site)
@@ -229,6 +232,13 @@ public sealed partial class PhotoV2Walkthrough
                 }
             }
             else GUILayout.Label(_aiPending ? "Génération locale en cours…" : _aiError, _instruction);
+            if (_aiAllocationConfirmed)
+            {
+                GUILayout.Space(10);
+                GUILayout.Label("Répartition au belvédère", _heading);
+                for (int client = 0; client < AiClients.Length; client++)
+                    GUILayout.Label(AiClientResult(client), _small);
+            }
             GUILayout.Space(10);
             GUILayout.Label("Comparer les sites · même charge informatique · valeurs fictives", _heading);
             foreach (var site in AiSites)

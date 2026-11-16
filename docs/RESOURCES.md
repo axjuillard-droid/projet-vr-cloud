@@ -1,5 +1,9 @@
 # Ressources évaluées
 
+## Répartition des blocs de calcul V2
+
+Réutiliser le pupitre, le tableau électrique, les voyants de rangée et l’interface Unity des terminaux, avec une répartition originale entre trois clients fictifs. Le choix reprend l’état des rangées physiques dans le composant électrique. Les documentations aident à définir les rôles et la capacité par client. Aucun contenu ni package tiers intégré. [Colocation](https://docs.equinix.com/colocation/) · [Allocation de ressources](https://docs.nvidia.com/infra-controller/documentation/configuration-day-1/tenant-management).
+
 ## Démonstration de l’inférence V2
 
 Réutiliser le tiroir et les matériaux de la scène V2, les primitives Unity, le filtre de visée P1 et la capture caméra du test Photo. La coupe et l’animation sont originales, avec un découpage et cinq sorties schématiques. Les temps présentés servent à la mise en scène. Aucun modèle supplémentaire, téléchargement ou package n’est requis. [Découpage en tokens](https://huggingface.co/docs/transformers/en/main_classes/tokenizer) · [Calcul du contexte et cache](https://huggingface.co/docs/transformers/main/kv_cache) · [Inférence GPU](https://docs.nvidia.com/megatron-core/developer-guide/latest/mcore-inference-user-guide.html)

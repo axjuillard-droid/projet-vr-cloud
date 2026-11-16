@@ -109,13 +109,38 @@ public sealed class PhotoV2AiSmoke : MonoBehaviour
                 "Progression de la baie, réponse masquée")) yield break;
         }
         yield return Walk(57.4f);
-        if (!Check(Aim(targets[9]) && Aim(route.energy.control.gameObject), "Belvédère et demande")) yield break;
-        yield return WaitFor(() => !route.energy.Changing, 5);
-        foreach (var breaker in new[] { route.energy.breakers[0], route.energy.breakers[1] })
+        if (!Check(Aim(targets[9]) && !Aim(route.energy.breakers[0].gameObject) && Aim(route.energy.control.gameObject)
+            && !route.player.enabled && route.energy.RequestedRows == 2 && !route.ConfirmAiAllocation()
+            && !route.ReleaseAiBlock(0), "Le pupitre précède la mise sous tension")) yield break;
+        if (!Check(route.ReserveAiBlock(1) && !route.ReserveAiBlock(1) && !route.ConfirmAiAllocation()
+            && route.ReserveAiBlock(2) && !route.ReserveAiBlock(0)
+            && route.AiReservedBlocks(1) == 2 && route.AiServedBlocks(1) == 1,
+            "Réservations limitées par la demande du client et la capacité totale")) yield break;
+        route.CloseAiAllocation();
+        if (!Check(route.player.enabled && !route.ConfirmAiAllocation() && Aim(route.energy.control.gameObject)
+            && route.AiReservedBlocks(2) == 1 && route.ReleaseAiBlock(1) && !route.ReleaseAiBlock(1)
+            && route.ReserveAiBlock(0) && route.AiReservedBlocks(0) == 2 && route.AiReservedBlocks(1) == 1,
+            "Répartition modifiable avant validation, brouillon conservé")) yield break;
+        string allocationCapture = Environment.GetEnvironmentVariable("CLOUDVR_ALLOCATION_CAPTURE");
+        if (!string.IsNullOrEmpty(allocationCapture))
         {
-            if (!Check(Aim(breaker.gameObject), "Départ électrique")) yield break;
-            yield return WaitFor(() => !route.energy.Changing, 5);
+            yield return new WaitForEndOfFrame();
+            ScreenCapture.CaptureScreenshot(allocationCapture);
+            yield return null;
         }
+        if (!Check(route.ConfirmAiAllocation() && !route.ReserveAiBlock(0) && route.player.enabled
+            && route.energy.RequestedRows == 4 && route.energy.ActiveRows == 2
+            && route.energy.breakers[0].name.EndsWith("05") && route.energy.breakers[1].name.EndsWith("06"),
+            "Répartition validée sur les rangées 05 et 06")) yield break;
+        route.player.enabled = false;
+        yield return WaitFor(() => !route.energy.Changing, 5);
+        if (!Check(Aim(route.energy.breakers[1].gameObject), "Rangée 06 activée en premier")) yield break;
+        yield return WaitFor(() => !route.energy.Changing, 5);
+        if (!Check(route.AiServedBlocks(0) == 2 && route.AiServedBlocks(2) == 0
+            && Aim(route.energy.breakers[0].gameObject), "Seule la rangée alimentée sert son client")) yield break;
+        yield return WaitFor(() => !route.energy.Changing, 5);
+        if (!Check(route.AiServedBlocks(0) == 2 && route.AiServedBlocks(1) == 1 && route.AiServedBlocks(2) == 1
+            && route.energy.PowerKw == 78, "Quatre blocs servis après les deux départs électriques")) yield break;
         if (!Check(route.energy.ActiveRows == 4 && !Aim(route.energy.control.gameObject), "Limite de la mission")) yield break;
         yield return Walk(58.8f);
         if (!Check(Aim(route.grid.departure.gameObject), "Sortie")) yield break;
@@ -141,7 +166,7 @@ public sealed class PhotoV2AiSmoke : MonoBehaviour
             && (!requireReply || route.AiReplyStatus == "ok") && Aim(route.water.load.gameObject),
             "Appoint équilibré, réponse toujours masquée")) yield break;
         yield return WaitFor(() => route.AiReturned, 6);
-        if (!Check(route.AiReturned && route.AiAnswerVisible == requireReply
+        if (!Check(route.AiReturned && route.AiAnswerVisible == requireReply && route.AiServedBlocks(2) == 1
             && Vector3.Distance(home, controller.transform.position) < .1f, "Réponse décodée au PC de départ")) yield break;
         Debug.Log($"CLOUDVR_AI_SMOKE_PASS réponse réelle : {requireReply}");
         Application.Quit(0);
