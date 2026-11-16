@@ -1,5 +1,9 @@
 # Ressources évaluées
 
+## Démonstration de l’inférence V2
+
+Réutiliser le tiroir et les matériaux de la scène V2, les primitives Unity, le filtre de visée P1 et la capture caméra du test Photo. La coupe et l’animation sont originales, avec un découpage et cinq sorties schématiques. Les temps présentés servent à la mise en scène. Aucun modèle supplémentaire, téléchargement ou package n’est requis. [Découpage en tokens](https://huggingface.co/docs/transformers/en/main_classes/tokenizer) · [Calcul du contexte et cache](https://huggingface.co/docs/transformers/main/kv_cache) · [Inférence GPU](https://docs.nvidia.com/megatron-core/developer-guide/latest/mcore-inference-user-guide.html)
+
 ## Fond de carte du routage IA V2
 
 Réutiliser Natural Earth Land 1:110m (version 4.0.0, domaine public), sans frontières administratives. Générer `AiRouteLand.png` avec `tools/art/Build-AiRouteMap.py` à partir du ZIP officiel. Pillow et pyshp servent à la génération et restent hors du player. Le fond, le code Unity du tracé et les coordonnées des scénarios sont distribués dans le projet. Les tracés sont illustratifs. [Couche terrestre](https://www.naturalearthdata.com/downloads/110m-physical-vectors/110m-land/) · [Licence et attribution](https://www.naturalearthdata.com/about/terms-of-use/)

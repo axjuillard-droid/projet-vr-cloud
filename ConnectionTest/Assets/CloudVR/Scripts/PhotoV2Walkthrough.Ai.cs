@@ -79,8 +79,9 @@ public sealed partial class PhotoV2Walkthrough
         {
             if (label.text == "MÉTÉO SUIVANTE") label.text = "APPOINT EN EAU";
         }
-        if (ramLabel) ramLabel.text = "MÉMOIRE DU SERVEUR";
-        if (previewLabel) previewLabel.text = "LANCER L’INFÉRENCE";
+        ramLabel.text = "PRÉPARER LA QUESTION";
+        previewLabel.text = "GPU · EN ATTENTE";
+        InstallAiCutaway();
         Debug.Log("CLOUDVR_AI_READY");
     }
 
@@ -150,22 +151,6 @@ public sealed partial class PhotoV2Walkthrough
         if (_aiReply == null && _aiError == null)
             _aiError = "Service local indisponible. Démarrez le RAG et Ollama, puis réessayez.";
         Debug.Log(_aiReply != null ? "CLOUDVR_AI_REPLY_BUFFERED" : "CLOUDVR_AI_REPLY_UNAVAILABLE");
-    }
-
-    IEnumerator DemonstrateAiInference()
-    {
-        _computeBusy = true;
-        previewLabel.text = "INFÉRENCE · GÉNÉRATION DU TEXTE";
-        yield return new WaitForSeconds(.8f);
-        previewLabel.text = "TEXTE PRODUIT · RETOUR EN FIN DE VISITE";
-        if (ramLabel) ramLabel.text = "MÉMOIRE · MODÈLE ET CONTEXTE";
-        _sound.PlayOneShot(_confirmation, .18f);
-        CompleteStep();
-        // La réponse attend au poste de départ et ne traverse pas le module de stockage Photo.
-        CompleteStep();
-        CompleteStep();
-        _computeBusy = false;
-        Debug.Log("CLOUDVR_AI_INFERENCE_VISITED");
     }
 
     IEnumerator ReturnAiToRoom()
@@ -272,8 +257,7 @@ public sealed partial class PhotoV2Walkthrough
     {
         if (_aiReturned) return "Viser le PC pour lire la réponse";
         if (_step == 0) return "Viser le PC pour poser une question";
-        if (_step == PreviewStep)
-            return _computeBusy ? "Le modèle produit le texte progressivement" : "Lancer la démonstration d’inférence";
+        if (_step == PreviewStep) return AiInferenceInstruction();
         return Instruction;
     }
 

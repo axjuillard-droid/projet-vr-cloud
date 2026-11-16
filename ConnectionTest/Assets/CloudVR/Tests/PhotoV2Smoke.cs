@@ -632,7 +632,7 @@ public sealed class PhotoV2Smoke : MonoBehaviour
         Destroy(image);
     }
 
-    static IEnumerator Capture(Camera camera, int step, string view)
+    internal static IEnumerator Capture(Camera camera, int step, string view, string outputFolder = null)
     {
         yield return new WaitForEndOfFrame();
         var previous = camera.targetTexture;
@@ -646,7 +646,7 @@ public sealed class PhotoV2Smoke : MonoBehaviour
             RenderTexture.active = target;
             texture.ReadPixels(new Rect(0, 0, 1280, 720), 0, 0);
             texture.Apply();
-            var folder = Path.Combine(Directory.GetCurrentDirectory(), "V2Review");
+            var folder = outputFolder ?? Path.Combine(Directory.GetCurrentDirectory(), "V2Review");
             Directory.CreateDirectory(folder);
             File.WriteAllBytes(Path.Combine(folder, $"{step:00}-{view}.png"), texture.EncodeToPNG());
         }

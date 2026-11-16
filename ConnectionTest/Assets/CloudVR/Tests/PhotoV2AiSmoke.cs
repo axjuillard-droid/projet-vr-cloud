@@ -19,6 +19,10 @@ public sealed class PhotoV2AiSmoke : MonoBehaviour
         var controller = route.player.GetComponent<CharacterController>();
         Vector3 home = controller.transform.position;
         var targets = route.targets;
+        var selfRay = new Ray(home + new Vector3(-.6f, .8f, 0), Vector3.right);
+        if (!Check(Physics.Raycast(selfRay, out var selfHit, 1.2f) && selfHit.collider == controller
+            && !route.TryPickInteraction(selfRay, out _, 1.2f),
+            "Capsule du joueur ignorée par la visée")) yield break;
 
         bool Aim(GameObject target)
         {
@@ -69,14 +73,38 @@ public sealed class PhotoV2AiSmoke : MonoBehaviour
         yield return Walk(25.35f);
         for (int step = 4; step <= 6; step++)
         {
+            if (step == 6 && !Check(route.AiCutawayVisible && route.GuideTarget == route.ramControl
+                && !Aim(targets[step]) && Aim(route.ramControl.gameObject)
+                && !Aim(route.ramControl.gameObject)
+                && route.InferencePhase == PhotoV2Walkthrough.AiInferencePhase.Prepared,
+                "Question préparée, lancement prématuré et double préparation refusés")) yield break;
             var target = targets[step];
             Vector3 origin = route.view.transform.position;
             var ray = new Ray(origin, target.transform.position - origin);
-            string hit = Physics.Raycast(ray, out var obstacle, 3.1f) ? obstacle.collider.name : "aucune cible";
+            string hit = route.TryPickInteraction(ray, out var obstacle) ? obstacle.collider.name : "aucune cible";
             if (!Check(Aim(target), $"Baie, étape {step} · Z={controller.transform.position.z:0.00} · visée {hit}"))
                 yield break;
             int previous = step;
-            yield return WaitFor(() => route.Step > previous, 5);
+            if (step == 6)
+            {
+                if (!Check(route.InferencePhase == PhotoV2Walkthrough.AiInferencePhase.Context
+                    && !Aim(target) && !route.AiAnswerVisible, "Contexte actif, double lancement refusé")) yield break;
+                yield return WaitFor(() => route.InferenceTokensShown > 0, 7);
+                if (!Check(route.InferencePhase == PhotoV2Walkthrough.AiInferencePhase.Generation
+                    && !route.AiAnswerVisible, "Génération progressive, réponse masquée")) yield break;
+                var gpuCapture = Environment.GetEnvironmentVariable("CLOUDVR_GPU_CAPTURE");
+                if (!string.IsNullOrEmpty(gpuCapture))
+                {
+                    var previousRotation = route.view.transform.rotation;
+                    route.view.transform.rotation = Quaternion.LookRotation(
+                        route.AiCutawayPosition - route.view.transform.position);
+                    yield return PhotoV2Smoke.Capture(route.view, 6, "gpu", gpuCapture);
+                    route.view.transform.rotation = previousRotation;
+                }
+            }
+            yield return WaitFor(() => route.Step > previous, 10);
+            if (step == 6 && !Check(route.InferencePhase == PhotoV2Walkthrough.AiInferencePhase.Complete
+                && route.InferenceTokensShown == 5, "Les cinq tokens de démonstration ont été produits")) yield break;
             if (!Check(route.Step == (step == 6 ? 9 : step + 1) && !route.AiAnswerVisible,
                 "Progression de la baie, réponse masquée")) yield break;
         }

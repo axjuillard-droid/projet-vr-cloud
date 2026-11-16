@@ -141,9 +141,16 @@ public sealed partial class PhotoV2Walkthrough : MonoBehaviour
             TryAdvance(view.ViewportPointToRay(new Vector3(.5f, .5f)));
     }
 
+    internal bool TryPickInteraction(Ray ray, out RaycastHit hit, float distance = InteractionRange)
+    {
+        if (!Physics.Raycast(ray, out hit, distance)) return false;
+        return !hit.collider.transform.IsChildOf(player.transform)
+            || P1LearningModule.TryPick(ray, player.transform, out hit, distance);
+    }
+
     public bool TryAdvance(Ray ray)
     {
-        if (IsTravelling || AiModalOpen || player.InputPaused || player.SiteMapOpen || SignalInTransit || _computeBusy || _saving || _reading || !Physics.Raycast(ray, out var hit, InteractionRange))
+        if (IsTravelling || AiModalOpen || player.InputPaused || player.SiteMapOpen || SignalInTransit || _computeBusy || _saving || _reading || !TryPickInteraction(ray, out var hit))
             return false;
         if (_aiReturned)
         {
@@ -184,6 +191,12 @@ public sealed partial class PhotoV2Walkthrough : MonoBehaviour
             }
             if (hit.collider.gameObject != targets[_step]) return false;
             StartCoroutine(RecordPhoto());
+            return true;
+        }
+        if (_aiMode && _step == PreviewStep && InferencePhase == AiInferencePhase.AwaitingQuestion)
+        {
+            if (hit.collider != ramControl) return false;
+            PrepareAiInference();
             return true;
         }
         if (!_aiMode && _step == PreviewStep && ramControl && !_pixelsInMemory)
@@ -440,7 +453,9 @@ public sealed partial class PhotoV2Walkthrough : MonoBehaviour
             if (_step < targets.Length)
             {
                 if (_step == NetworkStep && patchCord) return patchCord.Held ? patchCord.portA : patchCord.plug;
-                if (!_aiMode && _step == PreviewStep && ramControl && !_pixelsInMemory) return ramControl;
+                if (_step == PreviewStep && ramControl
+                    && (_aiMode ? InferencePhase == AiInferencePhase.AwaitingQuestion : !_pixelsInMemory))
+                    return ramControl;
                 if (_step == StorageStep && storage && !storage.ReadyToRoute) return null;
                 if (_step == ReadStep && storage && storage.Readable) return null;
                 return targets[_step].GetComponent<Collider>();
@@ -504,9 +519,9 @@ public sealed partial class PhotoV2Walkthrough : MonoBehaviour
         }
 
         // Respecter les obstacles et supprimer le repère si la cible est masquée.
-        if (!Physics.Raycast(view.transform.position,offset.normalized,out var hit,offset.magnitude+.05f)
+        if (!TryPickInteraction(new Ray(view.transform.position, offset), out var hit, offset.magnitude + .05f)
             || hit.collider != target) return;
-        bool aimed = Physics.Raycast(view.ViewportPointToRay(new Vector3(.5f,.5f)),out var centerHit,InteractionRange)
+        bool aimed = TryPickInteraction(view.ViewportPointToRay(new Vector3(.5f, .5f)), out var centerHit)
             && centerHit.collider == target;
         if (aimed)
         {
@@ -542,7 +557,9 @@ public sealed partial class PhotoV2Walkthrough : MonoBehaviour
             return;
         }
         DrawMovementKeys();
-        if (_aiMode) DrawAiLedger();
+        bool aiInference = _aiMode && _step == PreviewStep;
+        if (_aiMode && (!aiInference || Screen.width >= 1060)) DrawAiLedger();
+        if (aiInference && !player.InputPaused) DrawAiInference();
         if (_step == targets.Length && energy && !_aiReturned)
         {
             DrawEnergy();

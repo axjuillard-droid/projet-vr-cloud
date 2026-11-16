@@ -2,6 +2,10 @@
 
 Mis à jour le 16 novembre 2026.
 
+## V2 — Démonstration de l’inférence à la baie, 16 novembre
+
+- Après l’extraction, préparer la question puis lancer le GPU. Une coupe pédagogique montre le GPU et sa VRAM, puis des tokens illustrent la génération progressive. Le RAG garde la réponse pour le retour au PC. La visée ignore la capsule du joueur en conservant le premier obstacle du décor. Build Windows sans erreur ni avertissement BuildPipeline. 36 contrôles IA avec réponse réelle et Photo 10/10 en D3D11. Capture de la coupe inspectée. Lisibilité du HUD en visite et Quest à éprouver. [Preuves](validation/ia-inference-2026-11-16/result.json).
+
 ## V2 — Carte du routage IA, 16 novembre
 
 - Le player relie le PC, le Wi-Fi et la box, la fibre d’accès, le FAI, le transport et la façade. Trois tracés géographiques illustratifs sont associés au choix du site. Le trajet est rejoué en sens inverse au retour. Build Windows 0 erreur et 0 avertissement BuildPipeline. 31 contrôles IA sur le trajet États-Unis avec réponse Ollama réelle et régression Photo 10/10 en D3D11. Capture en fenêtre masquée noire. Lisibilité et Quest à éprouver. [Preuves](validation/ia-routage-2026-11-16.json).

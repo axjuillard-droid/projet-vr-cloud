@@ -1,0 +1,65 @@
+{
+  "date": "2026-11-16",
+  "unity": "6000.0.58f2",
+  "build": {
+    "target": "Windows Development",
+    "errors": 0,
+    "warnings": 0
+  },
+  "ia": {
+    "direct3d": 11,
+    "checks": [
+      "Scène",
+      "Capsule du joueur ignorée par la visée",
+      "Saisie et soumission unique",
+      "Six étapes et fond géographique",
+      "Site sélectionné et météo désactivée",
+      "Seuil",
+      "Badge",
+      "Brassage",
+      "Signal reçu à la baie",
+      "Baie, étape 4 · Z=25,35 · visée Porte de la baie école",
+      "Progression de la baie, réponse masquée",
+      "Baie, étape 5 · Z=25,35 · visée Tiroir école",
+      "Progression de la baie, réponse masquée",
+      "Question préparée, lancement prématuré et double préparation refusés",
+      "Baie, étape 6 · Z=25,35 · visée Commande d’aperçu",
+      "Contexte actif, double lancement refusé",
+      "Génération progressive, réponse masquée",
+      "Les cinq tokens de démonstration ont été produits",
+      "Progression de la baie, réponse masquée",
+      "Belvédère et demande",
+      "Départ électrique",
+      "Départ électrique",
+      "Limite de la mission",
+      "Sortie",
+      "Poste",
+      "Centrale et vanne",
+      "Refroidissement du site et rivière",
+      "Retour refusé sans appoint",
+      "Augmentation de l’appoint",
+      "Augmentation de l’appoint",
+      "Augmentation de l’appoint",
+      "Augmentation de l’appoint",
+      "Augmentation de l’appoint",
+      "Excès refusé, correction possible",
+      "Appoint équilibré, réponse toujours masquée",
+      "Réponse décodée au PC de départ"
+    ],
+    "realResponseAtPc": true,
+    "exitCode": 0
+  },
+  "photo": {
+    "direct3d": 11,
+    "actions": "10/10",
+    "exitCode": 0
+  },
+  "capture": {
+    "method": "Camera.Render dans le player",
+    "file": "gpu-en-generation.png",
+    "sha256": "a850319f75e54d81676e502419454910c6d9fc8e37263bf4330e0d127c7cd852"
+  },
+  "premierEssai": "Le rayon a touché Joueur PC. Le filtrage de P1 a été réutilisé et contrôlé.",
+  "photoPreliminaire": "Un lancement s’est arrêté pendant la transition sans marqueur de fin. Seul le contrôle complet final constitue la validation Photo.",
+  "limites": "La capture montre les objets et textes du monde. Le HUD et la compréhension restent à revoir en essai humain. Quest non testé."
+}
