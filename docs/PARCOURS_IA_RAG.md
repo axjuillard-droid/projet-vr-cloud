@@ -2,6 +2,8 @@
 
 La requête à l’IA devient le fil conducteur proposé pour la V2. L’activité « Acheminer la demande » est validée. Le joueur saisit une question dans le PC de la chambre et retrouve la réponse au même poste à la toute fin. Le scénario d’exploitation se termine par un réglage de la demande en eau. Le plan IA ci-dessous remplace la succession des météos par des conditions fixes propres aux trois sites.
 
+Le 16 novembre, le premier parcours intégré a été publié sur la branche V2. La visite utilise son propre calcul C# et appelle ce service pour la question uniquement. Les commandes de lancement et les preuves Windows sont dans le [guide du player IA](https://github.com/axjuillard-droid/projet-vr-cloud/blob/29a602246afd30f143dde995c7cd6a0d1b245386/docs/PARCOURS_IA_V2.md).
+
 ## Premier lot disponible · RAG local
 
 Le service récupère jusqu’à trois passages du corpus CloudVR par recherche lexicale et les transmet à Qwen via l’API locale d’Ollama. Le corpus couvre notamment le routage, les GPU, la facture électrique, le carbone et l’eau. Le modèle peut signaler qu’une question dépasse le corpus. Les sources renvoyées sont les passages proposés au modèle. L’interface doit les présenter comme « Sources consultées ».

@@ -4,7 +4,7 @@ Mis à jour le 16 novembre 2026.
 
 ## Parcours IA
 
-- L’activité d’acheminement est validée et la requête IA remplace la photo dans le nouveau parcours prévu. Le service local dans `tools/cloudvr-rag` passe les cinq contrôles HTTP avec Ollama, dont deux générations réelles. Les quatre étapes du bilan fictif, les trois sites, les sommes et le réglage d’appoint ont été vérifiés en HTTP. La saisie, les animations de route, les indicateurs et le retour de la réponse au PC restent à intégrer à la V2 Unity. [Conception et lancement](PARCOURS_IA_RAG.md).
+- Le parcours IA est intégré à la branche V2 et publié au commit `29a6022`. Le RAG local répond à la question saisie. Les indicateurs du jeu sont calculés en C#. Build Windows, 30 contrôles IA avec réponse réelle, parcours IA sans service et régression Photo 10/10 validés en Direct3D 11. La lisibilité du terminal, la carte détaillée et le casque restent à éprouver. [Lancement et preuves V2](https://github.com/axjuillard-droid/projet-vr-cloud/blob/29a602246afd30f143dde995c7cd6a0d1b245386/docs/PARCOURS_IA_V2.md).
 
 ## Recherche UX
 
