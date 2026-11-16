@@ -4,6 +4,8 @@ Mis à jour le 16 novembre 2026.
 
 ## Parcours IA
 
+- Au belvédère, le joueur réserve deux blocs de calcul à trois clients fictifs et alimente les rangées 05 et 06. Les blocs passent en service par client au fur et à mesure. Le bilan final rappelle la répartition. Build Windows, 40 contrôles IA avec une réponse réelle d’Ollama et Photo 10/10 en Direct3D 11. Clics libres, lisibilité et Quest à éprouver. [Guide et résultats](https://github.com/axjuillard-droid/projet-vr-cloud/blob/69df7abbdc23fefe1f4eaf85a9fff898eae52958/docs/PARCOURS_IA_V2.md).
+
 - La baie IA propose deux gestes, la préparation de la question et le lancement du GPU. La coupe montre le GPU et la VRAM, puis la démonstration enchaîne le contexte et cinq tokens illustratifs. Le build Windows passe 36 contrôles IA avec Ollama et Photo 10/10 en Direct3D 11. La réponse réelle reste au retour sur le PC de départ. [Preuves et capture](https://github.com/axjuillard-droid/projet-vr-cloud/tree/11eefd4a3039169df21b6656046fdc74ceca41f2/docs/validation/ia-inference-2026-11-16).
 
 - La carte du routage IA est publiée sur la branche V2 au commit `ec43fb5`. Six étapes et trois chemins illustratifs à l’aller et au retour. Le build Windows passe 31 contrôles IA avec une réponse Ollama sur le trajet États-Unis, et Photo 10/10 en Direct3D 11. Lisibilité en essai humain et Quest à éprouver. Le RAG génère la réponse et Unity calcule les indicateurs en C#. [Lancement et preuves V2](https://github.com/axjuillard-droid/projet-vr-cloud/blob/ec43fb5055f4d9ae774e26641e02e6404fa6714a/docs/PARCOURS_IA_V2.md).

@@ -37,7 +37,7 @@ Le même service expose `GET /bilan/envoi`, `/bilan/calcul`, `/bilan/refroidisse
 
 ## Répartir les usages entre entreprises
 
-Représenter un opérateur de site qui loue espace et puissance à un fournisseur cloud. Ce dernier exploite les serveurs et alloue du calcul à trois clients fictifs. Par exemple, « Assistant IA » passe de 3 blocs de calcul actifs à 5 demandés, « Studio vidéo » en utilise 7 et « Recherche produit » en utilise 1. Le pupitre distingue **réservé**, **en service** et **en attente**. Préférer « bloc de calcul » à « B » pour éviter de confondre les unités avec des baies physiques ou des octets. Les contrats et les chiffres du jeu sont fictifs. [Colocation, Equinix](https://docs.equinix.com/colocation/) · [Allocation par client, NVIDIA](https://docs.nvidia.com/infra-controller/documentation/configuration-day-1/tenant-management)
+L’opérateur du site fournit l’espace et la puissance au fournisseur cloud. Celui-ci exploite les serveurs et alloue du calcul à trois clients fictifs. Assistant IA passe de 1 bloc en service à 3 demandés, Studio vidéo de 1 à 2, et Recherche produit de 0 à 2. Le joueur réserve deux blocs supplémentaires au pupitre, puis les met en service depuis le tableau électrique. Le bloc de calcul est une unité du jeu et chaque nouveau bloc correspond à une rangée pour rendre la mise sous tension observable. Trois blocs demandés restent en attente. La répartition change quels clients reçoivent les blocs et la charge finale de quatre rangées est commune aux choix et aux sites. [Colocation, Equinix](https://docs.equinix.com/colocation/) · [Allocation par client, NVIDIA](https://docs.nvidia.com/infra-controller/documentation/configuration-day-1/tenant-management)
 
 ## Comparaison au poste et indicateurs
 

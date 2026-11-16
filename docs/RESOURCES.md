@@ -1,5 +1,9 @@
 # Ressources évaluées
 
+## Répartition des blocs de calcul V2
+
+Réutiliser le pupitre, le tableau électrique et les voyants de rangée V2. Le tableau de choix reprend l’interface Unity des terminaux et affiche des états déjà calculés par le composant électrique. Les noms, demandes et contraintes des trois clients sont originaux. Les documentations consultées précisent les rôles du site et du fournisseur cloud. Aucun téléchargement, modèle, extrait ou package tiers intégré. [Colocation](https://docs.equinix.com/colocation/) · [Allocation de ressources](https://docs.nvidia.com/infra-controller/documentation/configuration-day-1/tenant-management).
+
 ## RAG local et comparaison des sites
 
 Réutiliser Ollama (MIT) et le modèle Qwen3 1,7B déjà présent. Un corpus original et une recherche lexicale évitent une dépendance d’indexation pour ce premier lot. Le modèle est fourni par son distributeur et le dépôt contient les sources et la procédure. Les repères de comparaison viennent de RTE, de l’AIE et d’Ember. [Licence Ollama](https://github.com/ollama/ollama/blob/main/LICENSE) · [Licence Qwen3](https://huggingface.co/Qwen/Qwen3-1.7B) · [Parcours et sources](PARCOURS_IA_RAG.md)
