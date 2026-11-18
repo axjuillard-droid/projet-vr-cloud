@@ -1,8 +1,10 @@
 # État de reprise
 
-Mis à jour le 16 novembre 2026.
+Mis à jour le 18 novembre 2026.
 
 ## Parcours IA
+
+- Le poste propose deux scénarios pour couvrir les 30 kW supplémentaires. Le bilan signale l’effet des leviers, du refroidissement et de l’appoint sur une heure simulée. Build Windows, 45 contrôles IA avec une réponse Ollama et Photo 10/10 en Direct3D 11. La lisibilité en jeu et l’essai Quest restent à vérifier. [Guide et preuves](https://github.com/axjuillard-droid/projet-vr-cloud/blob/d13aadd146e1fda64011170ceda12aac52a5b898/docs/PARCOURS_IA_V2.md).
 
 - Au belvédère, le joueur réserve deux blocs de calcul à trois clients fictifs et alimente les rangées 05 et 06. Les blocs passent en service par client au fur et à mesure. Le bilan final rappelle la répartition. Build Windows, 40 contrôles IA avec une réponse réelle d’Ollama et Photo 10/10 en Direct3D 11. Clics libres, lisibilité et Quest à éprouver. [Guide et résultats](https://github.com/axjuillard-droid/projet-vr-cloud/blob/69df7abbdc23fefe1f4eaf85a9fff898eae52958/docs/PARCOURS_IA_V2.md).
 

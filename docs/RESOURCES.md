@@ -1,5 +1,9 @@
 # Ressources évaluées
 
+## Poste électrique IA
+
+Réutiliser le poste électrique, les panneaux interactifs et le calcul du bilan C# de la V2. Le scénario et les tarifs sont fictifs. Les facteurs d’émissions arrondis sont issus des ordres de grandeur de l’étude UNECE. Les documents sont cités, avec une interface et des textes originaux et sans package tiers. [Étude de cycle de vie](https://unece.org/sites/default/files/2021-11/LCA_final.pdf) · [Marché et facture](https://www.rte-france.com/bases-electricite/consommation-electricite/decryptage-prix-electricite-marche-facturation).
+
 ## Répartition des blocs de calcul V2
 
 Réutiliser le pupitre, le tableau électrique et les voyants de rangée V2. Le tableau de choix reprend l’interface Unity des terminaux et affiche des états déjà calculés par le composant électrique. Les noms, demandes et contraintes des trois clients sont originaux. Les documentations consultées précisent les rôles du site et du fournisseur cloud. Aucun téléchargement, modèle, extrait ou package tiers intégré. [Colocation](https://docs.equinix.com/colocation/) · [Allocation de ressources](https://docs.nvidia.com/infra-controller/documentation/configuration-day-1/tenant-management).

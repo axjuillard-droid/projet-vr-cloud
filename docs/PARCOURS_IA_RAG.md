@@ -41,6 +41,8 @@ L’opérateur du site fournit l’espace et la puissance au fournisseur cloud. 
 
 ## Comparaison au poste et indicateurs
 
+Dans la V2, le joueur valide au poste un scénario nucléaire ou charbon pour couvrir les 30 kW supplémentaires des deux rangées. Les cartes comparent les émissions de cycle de vie à service égal et montrent des exemples fictifs de coût de production et de prix de gros. La facture reste celle du profil de site simulé. Le compteur signale chaque nouveau bloc en service, l’arrivée du refroidissement et les changements d’appoint en affichant leur effet sur le total simulé sur une heure. [Marché et facture](https://www.rte-france.com/bases-electricite/consommation-electricite/decryptage-prix-electricite-marche-facturation) · [Analyse du cycle de vie](https://unece.org/sites/default/files/2021-11/LCA_final.pdf)
+
 Garder la même question, le même modèle et le même lot de demandes pour comparer les sites. Chaque profil comporte un climat fixe de référence, une route avec un délai aller-retour simulé, une intensité carbone datée et un tarif indicatif. Séparer **transport, file d’attente et inférence** dans le délai. Comparer d’abord la localisation à configuration égale, puis les choix d’exploitation qui changent la consommation.
 
 | Moment | Poste du joueur et accès | Site sélectionné |
