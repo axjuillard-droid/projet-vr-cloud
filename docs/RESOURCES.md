@@ -1,5 +1,9 @@
 # Ressources évaluées
 
+## Comparatif des sites sur le PC de retour
+
+Réutiliser le terminal IMGUI, les profils de site et le calcul d’énergie de la V2. Le tableau et les libellés sont propres au projet. Les onglets et le défilement sont fournis par Unity, sans package ni contenu tiers ajouté. [Documentation Unity IMGUI](https://docs.unity3d.com/6000.0/Documentation/ScriptReference/GUILayout.Toolbar.html)
+
 ## Poste électrique IA
 
 Réutiliser le poste électrique, les panneaux interactifs et le calcul du bilan C# de la V2. Le scénario et les tarifs sont fictifs. Les facteurs d’émissions arrondis sont issus des ordres de grandeur de l’étude UNECE. Les documents sont cités, avec une interface et des textes originaux et sans package tiers. [Étude de cycle de vie](https://unece.org/sites/default/files/2021-11/LCA_final.pdf) · [Marché et facture](https://www.rte-france.com/bases-electricite/consommation-electricite/decryptage-prix-electricite-marche-facturation).

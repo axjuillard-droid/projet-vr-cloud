@@ -2,7 +2,7 @@
 
 **Du clic sur « envoyer une photo » aux équipements physiques du cloud.** Projet universitaire ESILV année 5, Unity 6000.0.58f2 / URP / C# / OpenXR.
 
-**Parcours IA disponible dans la V2 Windows.** Le joueur suit sa question jusqu’à la baie GPU, répartit deux blocs de calcul et compare deux scénarios de production au poste électrique. Le compteur réagit aux leviers, au refroidissement et à l’eau d’appoint. Au retour, le PC affiche la réponse d’Ollama et le bilan de trois sites. Le build passe 45 contrôles IA et Photo 10/10 en Direct3D 11. La lisibilité en jeu et l’essai Quest restent à vérifier. [Service local](docs/PARCOURS_IA_RAG.md) · [Lancement et essais du player IA](https://github.com/axjuillard-droid/projet-vr-cloud/blob/d13aadd146e1fda64011170ceda12aac52a5b898/docs/PARCOURS_IA_V2.md)
+**Parcours IA disponible dans la V2 Windows.** Le joueur suit sa question jusqu’à la baie GPU, répartit deux blocs et compare deux scénarios électriques. Le compteur réagit aux leviers, au refroidissement et à l’appoint. Au retour, le PC affiche la réponse d’Ollama, suivie d’un onglet qui compare les trois sites côte à côte avec le détail des hypothèses. Le build passe 49 contrôles IA et Photo 10/10 en Direct3D 11. La lisibilité en jeu et l’essai Quest restent à vérifier. [Service local](docs/PARCOURS_IA_RAG.md) · [Lancement et essais du player IA](https://github.com/axjuillard-droid/projet-vr-cloud/blob/8a52a82df03a2a9722ffdcd3348ef0046c321284/docs/PARCOURS_IA_V2.md)
 
 **Recherche UX, 16 novembre 2026.** Le dossier réunit la bibliographie scientifique « 5 + 5 », deux références sur les compromis eau-énergie, les applications au parcours V2 et un protocole de test de la compréhension. [Bibliothèque scientifique et recherche UX](docs/ux-research/README.md)
 
