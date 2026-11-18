@@ -2,6 +2,10 @@
 
 ## Lancer
 
+Depuis le dossier du dépôt principal, double-cliquer sur `Lancer-CloudVR-IA.cmd`. Le lanceur détecte le build de cette copie de travail, vérifie le modèle local et démarre les services nécessaires. [Lanceur](https://github.com/axjuillard-droid/projet-vr-cloud/blob/246154a9100b0b8e9d583c0f55a77f18b27278ca/Lancer-CloudVR-IA.cmd) · [Prérequis et options](https://github.com/axjuillard-droid/projet-vr-cloud/blob/246154a9100b0b8e9d583c0f55a77f18b27278ca/docs/PARCOURS_IA_RAG.md#lancer-sur-windows)
+
+### Lancement manuel
+
 Démarrer Ollama et, depuis le dossier principal du projet, lancer le service local publié sur `main`. Le modèle par défaut est `qwen3:1.7b`.
 
 ```powershell

@@ -2,6 +2,10 @@
 
 Mis à jour le 18 novembre 2026.
 
+## Lancement Windows IA
+
+- Le lanceur du dépôt principal découvre cette copie de travail. Démarrage à froid, réutilisation des processus et parcours complet avec Ollama vérifiés. [Lanceur](https://github.com/axjuillard-droid/projet-vr-cloud/blob/246154a9100b0b8e9d583c0f55a77f18b27278ca/Lancer-CloudVR-IA.cmd) · [Preuves](https://github.com/axjuillard-droid/projet-vr-cloud/blob/246154a9100b0b8e9d583c0f55a77f18b27278ca/docs/validation/ia-lanceur-2026-11-18.json)
+
 ## V2 — Thermomètre de la boucle IA, 18 novembre
 
 - Alerte au belvédère et près de la vanne, attente du premier retour refroidi, puis baisse et stabilisation. Captures PC du thermomètre à 28,9 et 24,0 °C inspectées. Build Windows, 54 contrôles IA avec Ollama et Photo 10/10 en Direct3D 11. Essais joueurs et Quest en attente. [Résultats](validation/ia-refroidissement-2026-11-18/result.json)

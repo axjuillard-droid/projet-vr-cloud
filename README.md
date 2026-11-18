@@ -4,6 +4,8 @@
 
 **Parcours IA, 16 novembre 2026.** Le player Windows avec `--cloudvr-ai` envoie une question au RAG local, garde la réponse pendant la visite et la révèle au PC après le réglage de l’appoint. Les trois sites sont comparés dans Unity. [Lancement, validation et limites](docs/PARCOURS_IA_V2.md).
 
+Le lanceur du dépôt principal démarre les services selon le besoin et ouvre ce build en mode IA. [Lancer CloudVR IA](https://github.com/axjuillard-droid/projet-vr-cloud/blob/246154a9100b0b8e9d583c0f55a77f18b27278ca/Lancer-CloudVR-IA.cmd)
+
 **Routage IA.** Le trajet s’affiche en six étapes, puis une carte animée montre le transport choisi vers la France, les États-Unis ou la Chine. Le signal parcourt le tracé à rebours au retour. [Guide et preuves](docs/PARCOURS_IA_V2.md).
 
 **Baie IA.** Le tiroir montre une coupe du GPU et de sa mémoire. Préparer la question, puis lancer la démonstration permet d’observer le traitement du contexte et la génération de tokens. [Capture en jeu](docs/validation/ia-inference-2026-11-16/gpu-en-generation.png) · [Validation Windows](docs/validation/ia-inference-2026-11-16/result.json)
