@@ -161,13 +161,38 @@ public sealed class PhotoV2AiSmoke : MonoBehaviour
             "Choix révisable, validation unique et reprise de la visite")) yield break;
         route.player.enabled = false;
         yield return Walk(83.5f);
-        if (!Check(Aim(route.grid.viewpoint.gameObject) && Aim(route.cooling.valve.gameObject), "Centrale et vanne")) yield break;
+        if (!Check(Aim(route.grid.viewpoint.gameObject), "Point de vue sur la centrale")) yield break;
+        yield return WaitFor(() => route.cooling.Temperature >= 28.9f, 6);
+        if (!Check(route.cooling.AiThermometerVisible && !route.cooling.Open
+            && route.cooling.Temperature >= 28.9f && route.cooling.AiThermalPhase.Contains("Alerte")
+            && route.cooling.status.text.Contains("°C"), "La nouvelle charge déclenche l’alerte thermique dans le décor")) yield break;
+        string thermalCapture = Environment.GetEnvironmentVariable("CLOUDVR_THERMAL_CAPTURE");
+        if (!string.IsNullOrEmpty(thermalCapture))
+        {
+            route.view.transform.rotation = Quaternion.LookRotation(route.cooling.status.transform.parent.position - route.view.transform.position);
+            yield return PhotoV2Smoke.Capture(route.view, 1, "alerte", thermalCapture);
+        }
+        if (!Check(Aim(route.cooling.valve.gameObject), "Intervention sur la vanne")) yield break;
         yield return WaitFor(() => route.cooling.Open, 5);
         yield return null;
+        if (!Check(route.cooling.Open && !route.cooling.ReturnComplete && route.cooling.Temperature >= 28.9f
+            && route.cooling.AiThermalPhase.Contains("attente"), "Le thermomètre attend le retour refroidi après l’ouverture")) yield break;
         if (!Check(route.AiLedgerFeedback?.Contains("Refroidissement") == true && route.AiLedgerKwhChange == 15,
             "Le compteur ajoute le refroidissement du site")) yield break;
+        yield return WaitFor(() => route.cooling.Temperature < 28.5f, 10);
+        if (!Check(route.cooling.ReturnComplete && route.cooling.Temperature < 28.5f
+            && route.cooling.AiThermalPhase.Contains("baisse"), "La température baisse au retour du liquide refroidi")) yield break;
+        if (!string.IsNullOrEmpty(thermalCapture))
+        {
+            yield return WaitFor(() => route.cooling.Stabilized, 7);
+            route.view.transform.rotation = Quaternion.LookRotation(route.cooling.status.transform.parent.position - route.view.transform.position);
+            yield return PhotoV2Smoke.Capture(route.view, 2, "stabilisee", thermalCapture);
+        }
         yield return Walk(96.1f);
         yield return WaitFor(() => route.cooling.Stabilized, 16);
+        if (!Check(route.cooling.Stabilized && route.cooling.Temperature <= 24f
+            && route.cooling.AiThermalPeak >= 28.9f && route.cooling.AiThermalPhase.Contains("stabilisée"),
+            "Température stabilisée avec le pic conservé")) yield break;
         if (!Check(route.cooling.AuxiliaryKw == 15 && Aim(route.cooling.observation.gameObject)
             && Aim(route.water.entry.gameObject), "Refroidissement du site et rivière")) yield break;
         yield return Walk(108.5f);

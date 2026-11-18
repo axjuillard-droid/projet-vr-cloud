@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
-public sealed class PhotoV2Cooling : MonoBehaviour
+public sealed partial class PhotoV2Cooling : MonoBehaviour
 {
     public Collider valve;
     public Collider observation;
@@ -89,7 +89,8 @@ public sealed class PhotoV2Cooling : MonoBehaviour
         float target = 23f + Mathf.Max(0,heat - (ReturnComplete ? 12f : 0f));
         Temperature = Mathf.MoveTowards(Temperature,target,Time.deltaTime * 2.6f);
         int displayed = Mathf.RoundToInt(Temperature * 10f);
-        if (displayed != _lastDisplayed)
+        if (_aiTemperatureBar) UpdateAiThermometer();
+        else if (displayed != _lastDisplayed)
         {
             _lastDisplayed = displayed;
             status.text = Reading;

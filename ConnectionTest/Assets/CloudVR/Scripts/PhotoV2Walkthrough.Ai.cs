@@ -74,6 +74,7 @@ public sealed partial class PhotoV2Walkthrough
         if (_aiMonitor) _aiMonitor.text = "POSER UNE QUESTION";
         water.ConfigureAi(SelectedAiSite.WaterLitres);
         cooling.AiAuxiliaryKw = SelectedAiSite.CoolingKw;
+        cooling.InstallAiThermometer();
         energy.AiDemandLimit = PhotoV2Energy.BaseRows + _aiAssignedClients.Length;
         foreach (var label in FindObjectsByType<Text>(FindObjectsSortMode.None))
         {

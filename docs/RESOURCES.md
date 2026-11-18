@@ -1,5 +1,9 @@
 # Ressources évaluées
 
+## Thermomètre vivant de la boucle IA
+
+Réutiliser le panneau existant près de la vanne, le Canvas monde, les textes Unity, la boucle simulée et la capture caméra du contrôle photo. La jauge et ses états sont propres à CloudVR. Le guide du DOE documente le refroidissement par boucle liquide. Les températures, le seuil et la vitesse du scénario sont illustratifs. Aucun téléchargement ni package tiers. [Guide des data centers, DOE](https://www.energy.gov/cmei/femp/articles/best-practices-guide-energy-efficient-data-center-design)
+
 ## Comparatif des sites sur le PC de retour
 
 Réutiliser l’interface IMGUI du terminal et les trois profils C# de la V2. Des onglets et un tableau dans la zone de défilement regroupent les résultats et les hypothèses. La matrice reprend le même calcul d’énergie que le compteur. Aucun package, asset ni code tiers intégré. [Onglets Unity IMGUI](https://docs.unity3d.com/6000.0/Documentation/ScriptReference/GUILayout.Toolbar.html) · [Défilement Unity IMGUI](https://docs.unity3d.com/6000.0/Documentation/ScriptReference/GUILayout.BeginScrollView.html)

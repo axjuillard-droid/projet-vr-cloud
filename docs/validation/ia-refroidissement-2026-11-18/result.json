@@ -1,0 +1,90 @@
+{
+  "date": "2026-11-18",
+  "unity": "6000.0.58f2",
+  "build": {
+    "target": "Windows Development",
+    "errors": 0,
+    "warnings": 0
+  },
+  "ia": {
+    "direct3d": 11,
+    "checks": [
+      "Scène",
+      "Capsule du joueur ignorée par la visée",
+      "Saisie et soumission unique",
+      "Six étapes et fond géographique",
+      "Site sélectionné et météo désactivée",
+      "Seuil",
+      "Badge",
+      "Brassage",
+      "Signal reçu à la baie",
+      "Baie, étape 4 · Z=25,35 · visée Porte de la baie école",
+      "Progression de la baie, réponse masquée",
+      "Baie, étape 5 · Z=25,35 · visée Tiroir école",
+      "Progression de la baie, réponse masquée",
+      "Question préparée, lancement prématuré et double préparation refusés",
+      "Baie, étape 6 · Z=25,35 · visée Commande d’aperçu",
+      "Contexte actif, double lancement refusé",
+      "Génération progressive, réponse masquée",
+      "Les cinq tokens de démonstration ont été produits",
+      "Progression de la baie, réponse masquée",
+      "Le pupitre précède la mise sous tension",
+      "Réservations limitées par la demande du client et la capacité totale",
+      "Répartition modifiable avant validation, brouillon conservé",
+      "Répartition validée sur les rangées 05 et 06",
+      "Rangée 06 activée en premier",
+      "Le compteur crédite le client alimenté et ajoute 15 kWh",
+      "Seule la rangée alimentée sert son client",
+      "Quatre blocs servis après les deux départs électriques",
+      "Limite de la mission",
+      "Sortie",
+      "Poste électrique accessible, validation refusée sans choix",
+      "Deux scénarios à 30 kWh, 0,18 et 27 kg CO₂e",
+      "Choix révisable, validation unique et reprise de la visite",
+      "Point de vue sur la centrale",
+      "La nouvelle charge déclenche l’alerte thermique dans le décor",
+      "Intervention sur la vanne",
+      "Le thermomètre attend le retour refroidi après l’ouverture",
+      "Le compteur ajoute le refroidissement du site",
+      "La température baisse au retour du liquide refroidi",
+      "Température stabilisée avec le pic conservé",
+      "Refroidissement du site et rivière",
+      "Retour refusé sans appoint",
+      "Augmentation de l’appoint et du compteur",
+      "Augmentation de l’appoint et du compteur",
+      "Augmentation de l’appoint et du compteur",
+      "Augmentation de l’appoint et du compteur",
+      "Augmentation de l’appoint et du compteur",
+      "Excès refusé, correction possible",
+      "Le compteur déduit un palier d’appoint à la baisse",
+      "Appoint équilibré, réponse toujours masquée",
+      "Réponse décodée au PC de départ",
+      "Délai total des trois sites, calcul et file identiques",
+      "Même charge informatique, refroidissement et appoint propres au site",
+      "Coût et CO₂e calculés avec les trois profils, scénario du poste indépendant",
+      "Réponse encore disponible après affichage du comparatif"
+    ],
+    "realResponseAtPc": true,
+    "exitCode": 0
+  },
+  "photo": {
+    "direct3d": 11,
+    "actions": "10/10",
+    "exitCode": 0
+  },
+  "captures": {
+    "method": "Caméra du joueur dans le build Windows à 1280×720",
+    "images": [
+      {
+        "file": "alerte-thermique.png",
+        "sha256": "5fa53ba1b1d581cc72b436b4ce2021fade5d68e0eaea50b2b13e861f7b49e977"
+      },
+      {
+        "file": "temperature-stabilisee.png",
+        "sha256": "c066dc98e5974a3e718780e4d8c76c754cebb6c46e6bfdace7d1e0fe8868621a"
+      }
+    ]
+  },
+  "localSettingsSha256Unchanged": true,
+  "limites": "Captures du thermomètre dans le décor. Lisibilité en déplacement, compréhension et Quest restent à éprouver."
+}

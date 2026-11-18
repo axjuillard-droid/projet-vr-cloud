@@ -2,6 +2,10 @@
 
 Mis à jour le 18 novembre 2026.
 
+## V2 — Thermomètre de la boucle IA, 18 novembre
+
+- Alerte au belvédère et près de la vanne, attente du premier retour refroidi, puis baisse et stabilisation. Captures PC du thermomètre à 28,9 et 24,0 °C inspectées. Build Windows, 54 contrôles IA avec Ollama et Photo 10/10 en Direct3D 11. Essais joueurs et Quest en attente. [Résultats](validation/ia-refroidissement-2026-11-18/result.json)
+
 ## V2 — Comparatif des sites au PC, 18 novembre
 
 - Deux onglets. La réponse générée et ses sources s’affichent en premier. La France, les États-Unis et la Chine sont côte à côte dans le bilan pour comparer les délais simulés et les consommations sur une heure à charge égale. Un bouton donne le détail des hypothèses. Build Windows, 49 contrôles IA avec Ollama et Photo 10/10 en D3D11. Lisibilité en jeu et Quest à éprouver. [Résultats](validation/ia-comparatif-2026-11-18.json)

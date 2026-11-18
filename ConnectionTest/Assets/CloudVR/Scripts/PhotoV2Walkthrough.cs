@@ -622,7 +622,7 @@ public sealed partial class PhotoV2Walkthrough : MonoBehaviour
         if (AtCooling)
         {
             GUI.Label(new Rect(30,108,482,24),cooling.Reading + " · simulation",_small);
-            GUI.Label(new Rect(30,134,482,26),cooling.Detail,_small);
+            GUI.Label(new Rect(30,134,482,26),_aiMode && !cooling.Observed ? cooling.AiThermalPhase : cooling.Detail,_small);
         }
         else if (grid && grid.Stop > 0)
             GUI.Label(new Rect(30,106,482,33),grid.Detail,_small);
@@ -633,6 +633,8 @@ public sealed partial class PhotoV2Walkthrough : MonoBehaviour
             GUI.Label(new Rect(30,100,482,24),energy.Reading + " · valeurs simulées",_small);
             if (_aiMode && _aiAllocationConfirmed) DrawAiAllocationStatus();
         }
+        if (_aiMode && _aiAllocationConfirmed && !AtCooling)
+            GUI.Label(new Rect(30,134,482,24), cooling.AiThermalSummary, _small);
         GUI.Label(new Rect(Screen.width*.5f - 5,Screen.height*.5f - 10,14,24),"+",_small);
     }
 
