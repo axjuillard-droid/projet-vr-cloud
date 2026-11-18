@@ -4,6 +4,8 @@ Mis à jour le 18 novembre 2026.
 
 ## Parcours IA
 
+- Le dépôt principal contient le lanceur Windows IA. Il retrouve la copie de travail V2, prépare les services locaux et démarre le player. Démarrage à froid, réutilisation et exécution complète contrôlés sur PC. [Lanceur](../Lancer-CloudVR-IA.cmd) · [Preuves](validation/ia-lanceur-2026-11-18.json).
+
 - La jauge suit la montée en température dès le belvédère et montre au joueur l’alerte près de la vanne, le premier retour refroidi et la stabilisation. Captures Windows à 28,9 et 24,0 °C inspectées. 54 contrôles IA avec Ollama et Photo 10/10 en Direct3D 11. Essais joueurs et Quest en attente. [Guide et captures](https://github.com/axjuillard-droid/projet-vr-cloud/blob/eed313da31fbcdd72b388b7fc217580028750ae6/docs/PARCOURS_IA_V2.md).
 
 - Le PC de retour s’ouvre sur la réponse et ses sources. Un onglet compare côte à côte les trois sites à charge égale et montre les hypothèses à la demande. Build Windows, 49 contrôles IA avec Ollama et Photo 10/10 en Direct3D 11. Capture de la fenêtre masquée noire, lisibilité en jeu et Quest à vérifier. [Guide et preuves](https://github.com/axjuillard-droid/projet-vr-cloud/blob/8a52a82df03a2a9722ffdcd3348ef0046c321284/docs/PARCOURS_IA_V2.md).

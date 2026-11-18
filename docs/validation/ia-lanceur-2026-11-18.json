@@ -1,0 +1,17 @@
+{
+  "date": "2026-11-18",
+  "plateforme": "Windows",
+  "modele": "qwen3:1.7b",
+  "verifications": [
+    "Démarrage du service Ollama et du service CloudVR depuis le lanceur CMD.",
+    "Identité CloudVR et modèle actif vérifiés sur GET /health.",
+    "Second lancement avec les mêmes processus à l’écoute sur la boucle locale.",
+    "Instance CloudVR ancienne retrouvée par la route historique.",
+    "Build trouvé dans la copie de travail V2 depuis un répertoire courant différent.",
+    "Diagnostics build absent, modèle absent et port occupé par un service distinct.",
+    "Unity lancé par la logique normale du lanceur avec --cloudvr-ai. Paramètres du contrôle ajoutés par le banc de test.",
+    "Parcours IA complet en Direct3D 11, 54 contrôles et réponse Ollama réelle au retour au PC."
+  ],
+  "miseAuPoint": "Un port libre sur Windows peut expirer lors de la connexion. Le lanceur traite ce cas comme une absence de service et distingue une réponse inattendue après connexion.",
+  "limites": "Validation automatisée sur la machine de développement. Installation sur une deuxième machine et essai joueur à faire."
+}

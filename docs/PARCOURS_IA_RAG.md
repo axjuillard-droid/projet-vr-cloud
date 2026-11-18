@@ -4,6 +4,19 @@ La requête à l’IA devient le fil conducteur proposé pour la V2. L’activit
 
 Le 16 novembre, le premier parcours intégré a été publié sur la branche V2. La visite utilise son propre calcul C# et appelle ce service pour la question uniquement. Les commandes de lancement et les preuves Windows sont dans le [guide du player IA](https://github.com/axjuillard-droid/projet-vr-cloud/blob/29a602246afd30f143dde995c7cd6a0d1b245386/docs/PARCOURS_IA_V2.md).
 
+## Lancer sur Windows
+
+Double-cliquer sur [Lancer-CloudVR-IA.cmd](../Lancer-CloudVR-IA.cmd) dans le dépôt principal. Le lanceur cherche le build Windows IA dans le dépôt ou une copie de travail Git de `codex/cloudvr-v2`. Il démarre Ollama et le service CloudVR selon le besoin, vérifie le modèle installé et ouvre le player en mode IA. Les services restent disponibles en arrière-plan après la partie, ce qui permet de relancer le player rapidement.
+
+Prérequis sur la machine de démonstration · Python 3.9 ou plus récent, Ollama pour Windows, le modèle `qwen3:1.7b` et un build Windows IA complet. Pour installer le modèle sur une nouvelle machine, exécuter `ollama pull qwen3:1.7b` une fois.
+
+```powershell
+.\Lancer-CloudVR-IA.cmd --check
+.\Lancer-CloudVR-IA.cmd --player "D:\Demo CloudVR\CloudVR-IA.exe"
+```
+
+`--check` prépare les deux services et vérifie le build, puis affiche le statut. `--player` désigne un build placé hors du dépôt. En cas d’erreur, la fenêtre affiche le diagnostic et attend une touche. Les journaux des services démarrés par le lanceur sont dans `tmp/cloudvr-ia`. Le service CloudVR annonce son identité et le modèle actif sur `http://127.0.0.1:8765/health`. Pour une ancienne instance CloudVR qui répond uniquement sur les routes historiques, le lanceur vérifie le modèle par défaut.
+
 ## Premier lot disponible · RAG local
 
 Le service récupère jusqu’à trois passages du corpus CloudVR par recherche lexicale et les transmet à Qwen via l’API locale d’Ollama. Le corpus couvre notamment le routage, les GPU, la facture électrique, le carbone et l’eau. Le modèle peut signaler qu’une question dépasse le corpus. Les sources renvoyées sont les passages proposés au modèle. L’interface doit les présenter comme « Sources consultées ».

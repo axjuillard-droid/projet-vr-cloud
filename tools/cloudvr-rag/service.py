@@ -101,6 +101,9 @@ class RagHandler(BaseHTTPRequestHandler):
 
     def do_GET(self):
         url = urlsplit(self.path)
+        if url.path == "/health":
+            self.reply(200, {"service": "cloudvr-rag", "model": self.server.model})
+            return
         prefix = "/bilan/"
         stage = url.path.removeprefix(prefix)
         if not url.path.startswith(prefix) or stage not in STAGES:

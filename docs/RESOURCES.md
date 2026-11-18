@@ -1,5 +1,9 @@
 # Ressources évaluées
 
+## Lanceur Windows IA
+
+Réutiliser le service Python, Ollama, le player V2 et les copies de travail Git. Le fichier CMD et la logique Python sont propres au projet. Python utilise sa bibliothèque standard et le lanceur interroge les modèles déjà installés via l’API locale d’Ollama. Aucun installateur, package ni poids de modèle intégré au dépôt. [Ollama sous Windows](https://docs.ollama.com/windows) · [API des modèles locaux](https://docs.ollama.com/api/tags) · [Copies de travail Git](https://git-scm.com/docs/git-worktree)
+
 ## Thermomètre de la boucle IA
 
 Réutiliser le panneau près de la vanne et la boucle de la V2. La jauge en Canvas monde et les textes sont propres au projet. Les températures et le seuil illustrent une montée en charge à temps accéléré. [Refroidissement des data centers, DOE](https://www.energy.gov/cmei/femp/articles/best-practices-guide-energy-efficient-data-center-design)

@@ -4,6 +4,8 @@
 
 **Parcours IA disponible dans la V2 Windows.** Le joueur suit sa question jusqu’à la baie GPU, répartit deux blocs et compare deux scénarios électriques. Il intervient à la vanne quand la température monte, puis règle l’appoint en eau. Au retour, le PC affiche la réponse d’Ollama et compare trois sites côte à côte. Le build passe 54 contrôles IA et Photo 10/10 en Direct3D 11. Les essais joueurs et Quest restent à faire. [Service local](docs/PARCOURS_IA_RAG.md) · [Lancement du player](https://github.com/axjuillard-droid/projet-vr-cloud/blob/eed313da31fbcdd72b388b7fc217580028750ae6/docs/PARCOURS_IA_V2.md) · [Capture de l’alerte](https://github.com/axjuillard-droid/projet-vr-cloud/blob/eed313da31fbcdd72b388b7fc217580028750ae6/docs/validation/ia-refroidissement-2026-11-18/alerte-thermique.png)
 
+**Lancement en un clic.** Double-cliquer sur le lanceur du dépôt principal. Il vérifie le modèle local, démarre les services au besoin et ouvre le player de la V2. [Lancer CloudVR IA](Lancer-CloudVR-IA.cmd) · [Prérequis et options](docs/PARCOURS_IA_RAG.md#lancer-sur-windows)
+
 **Recherche UX, 16 novembre 2026.** Le dossier réunit la bibliographie scientifique « 5 + 5 », deux références sur les compromis eau-énergie, les applications au parcours V2 et un protocole de test de la compréhension. [Bibliothèque scientifique et recherche UX](docs/ux-research/README.md)
 
 La fiche du belvédère IA permet de tester le pupitre et les leviers avec 3 à 5 novices sur PC. [Consignes et grille de relevé](docs/ux-research/05-essai-belvedere-ia.md)
