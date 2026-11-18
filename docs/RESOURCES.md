@@ -1,5 +1,9 @@
 # Ressources évaluées
 
+## Thermomètre de la boucle IA
+
+Réutiliser le panneau près de la vanne et la boucle de la V2. La jauge en Canvas monde et les textes sont propres au projet. Les températures et le seuil illustrent une montée en charge à temps accéléré. [Refroidissement des data centers, DOE](https://www.energy.gov/cmei/femp/articles/best-practices-guide-energy-efficient-data-center-design)
+
 ## Comparatif des sites sur le PC de retour
 
 Réutiliser le terminal IMGUI, les profils de site et le calcul d’énergie de la V2. Le tableau et les libellés sont propres au projet. Les onglets et le défilement sont fournis par Unity, sans package ni contenu tiers ajouté. [Documentation Unity IMGUI](https://docs.unity3d.com/6000.0/Documentation/ScriptReference/GUILayout.Toolbar.html)
