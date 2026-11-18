@@ -127,6 +127,7 @@ public sealed partial class PhotoV2Walkthrough : MonoBehaviour
 
     void Update()
     {
+        if (_aiMode && _aiAllocationConfirmed && !_aiReturned) UpdateAiLedgerFeedback();
         if (IsTravelling || AiModalOpen) return;
         var keyboard = Keyboard.current;
         if (keyboard?.escapeKey.wasPressedThisFrame == true) player.TogglePause();
@@ -174,6 +175,12 @@ public sealed partial class PhotoV2Walkthrough : MonoBehaviour
                     return true;
                 }
                 if (energy.TrySelect(hit.collider)) return true;
+            }
+            if (_aiMode && grid && grid.Stop == 1 && hit.collider == grid.substation)
+            {
+                _aiPowerOpen = true;
+                SetAiModalInput(true);
+                return true;
             }
             bool selected = grid && grid.TrySelect(hit.collider,energy);
             if (!selected && AtCooling) selected = cooling.TrySelect(hit.collider);
@@ -557,6 +564,7 @@ public sealed partial class PhotoV2Walkthrough : MonoBehaviour
         if (AiModalOpen)
         {
             if (_aiAllocationOpen) DrawAiAllocation();
+            else if (_aiPowerOpen) DrawAiPower();
             else DrawAiTerminal();
             return;
         }
@@ -606,6 +614,7 @@ public sealed partial class PhotoV2Walkthrough : MonoBehaviour
         string action = player.InputPaused ? "Pause · Échap pour reprendre" :
             AtCooling && cooling.Stabilized && !cooling.Observed ? "Viser ÉCHANGEUR · REJET À L’AIR" :
             AtCooling ? cooling.Instruction :
+            _aiMode && grid && grid.Stop == 1 ? "Viser le poste pour couvrir la demande supplémentaire" :
             grid && grid.Stop > 0 ? grid.Instruction :
             _aiMode && !_aiAllocationConfirmed ? "Viser DEMANDE DE CALCUL pour répartir les blocs" :
             energy.Instruction;

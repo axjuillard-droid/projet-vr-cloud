@@ -21,11 +21,15 @@ Le build de développement se produit avec la méthode Unity `PhotoV2BlockoutBui
 1. Viser le PC dans la chambre, saisir une question et choisir France, États-Unis ou Chine.
 2. Suivre les six repères du PC au site. Le Wi-Fi mène du PC à la box, puis la fibre d’accès mène au FAI. Au moment du transport, une carte montre les relais vers le site choisi. Après l’arrivée en façade, rejoindre le sas, passer le badge et brancher le cordon au port A.
 3. Ouvrir la baie, extraire le tiroir, viser « Préparer la question », puis « GPU · Lancer ». La coupe met en évidence la VRAM et le GPU. Le contexte est traité dans la démonstration, puis cinq blocs apparaissent successivement pour illustrer la génération. La vraie réponse reste en mémoire de session jusqu’au retour au PC.
-4. Monter au belvédère et viser « Demande de calcul ». Répartir deux nouveaux blocs entre Assistant IA, Studio vidéo et Recherche produit, puis valider et alimenter les rangées 05 et 06 au tableau. Chaque levier met en service le bloc du client attribué à la rangée. Traverser le poste électrique et le point de vue sur la centrale, puis ouvrir la vanne et observer le retour refroidi.
+4. Monter au belvédère et viser « Demande de calcul ». Répartir deux nouveaux blocs entre Assistant IA, Studio vidéo et Recherche produit, puis alimenter les rangées 05 et 06. Chaque levier met en service le bloc du client attribué et ajoute sa consommation au compteur. Au poste, comparer les scénarios nucléaire et charbon pour couvrir la hausse de charge et valider un scénario. Rejoindre le point de vue, puis ouvrir la vanne et observer le retour refroidi.
 5. Régler l’appoint de la tour par paliers de 25 L en s’aidant de la consigne. Une fois l’appoint équilibré, sélectionner « Retour au PC ». Le contexte fixe de chaque site remplace la mission météo.
-6. Lire sur le terminal du PC la réponse générée, les sources consultées, la répartition des blocs et la comparaison des sites. Si le service est indisponible, la visite et le bilan restent utilisables et le terminal permet de retenter la question.
+6. Lire sur le terminal du PC la réponse générée, les sources, la répartition des blocs, le scénario choisi au poste et la comparaison des sites. Si le service est indisponible, le terminal permet de retenter la question après la visite.
 
 ## Calcul et limites
+
+Le poste compare deux scénarios de production pour **30 kW supplémentaires**, soit **30 kWh en une heure**. Le jeu utilise des prix fictifs pour distinguer coût de production, prix de gros et facture du site, qui suit son contrat simulé. Les facteurs de cycle de vie arrondis sont de 6 g CO₂e/kWh pour le scénario nucléaire et de 900 g pour le charbon, soit 0,18 et 27 kg CO₂e pour ce même supplément. Le réseau réel mobilise plusieurs sources selon ses besoins et leur disponibilité. Le scénario choisi est rappelé au PC et le bilan par site suit les hypothèses de mix et de tarif propres à chaque site. [Marché et facture](https://www.rte-france.com/bases-electricite/consommation-electricite/decryptage-prix-electricite-marche-facturation) · [Analyse du cycle de vie, UNECE](https://unece.org/sites/default/files/2021-11/LCA_final.pdf)
+
+Le compteur signale pendant cinq secondes le nouveau bloc alimenté, l’ouverture du refroidissement et chaque variation de l’appoint. Pour le site sélectionné, le rappel affiche la variation simulée en kWh, en euros et en g CO₂e sur la même heure. Le pompage d’appoint ajoute 0,10 kWh par palier de 25 L, et réduit le total d’autant à chaque palier retiré.
 
 Le modèle répond à la question à partir du corpus CloudVR. Les calculs du jeu sont en C# et n’appellent pas le RAG ni la route Python de bilan. Le jeu affiche des sous-totaux fictifs sur une heure pour le PC et la box d’un côté et le bâtiment, les serveurs, le refroidissement et l’appoint de l’autre. Les facteurs tarifaires et carbone du site sont des hypothèses fixes. Le comparatif final reprend les trois sites à charge informatique égale et avec l’appoint équilibré dans chaque site.
 
@@ -35,6 +39,10 @@ Le trajet reprend la cinématique et le brassage existants. Le fond géographiqu
 
 [Conception, corpus et sources](https://github.com/axjuillard-droid/projet-vr-cloud/blob/bc271c775f597d28e96e0588e8a97d9c8e174251/docs/PARCOURS_IA_RAG.md)
 
+
+## Validation du poste électrique et du compteur
+
+Le build Windows passe 45 contrôles IA avec une réponse réelle d’Ollama et 10/10 actions Photo en Direct3D 11. Le contrôle vérifie les deux calculs d’émissions, la reprise après fermeture et validation du panneau, le crédit du bon client, le refroidissement et les écarts de pompage sur chaque palier. Les actions du panneau sont déclenchées par le test automatisé. L’essai libre et Quest restent à faire. [Résultats](validation/ia-poste-electrique-2026-11-18.json)
 
 ## Validation du belvédère
 

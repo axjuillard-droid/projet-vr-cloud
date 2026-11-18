@@ -136,6 +136,8 @@ public sealed class PhotoV2AiSmoke : MonoBehaviour
         yield return WaitFor(() => !route.energy.Changing, 5);
         if (!Check(Aim(route.energy.breakers[1].gameObject), "Rangée 06 activée en premier")) yield break;
         yield return WaitFor(() => !route.energy.Changing, 5);
+        if (!Check(route.AiLedgerFeedback?.Contains("Assistant IA") == true && route.AiLedgerKwhChange == 15,
+            "Le compteur crédite le client alimenté et ajoute 15 kWh")) yield break;
         if (!Check(route.AiServedBlocks(0) == 2 && route.AiServedBlocks(2) == 0
             && Aim(route.energy.breakers[0].gameObject), "Seule la rangée alimentée sert son client")) yield break;
         yield return WaitFor(() => !route.energy.Changing, 5);
@@ -145,10 +147,25 @@ public sealed class PhotoV2AiSmoke : MonoBehaviour
         yield return Walk(58.8f);
         if (!Check(Aim(route.grid.departure.gameObject), "Sortie")) yield break;
         yield return Walk(68.6f);
-        if (!Check(Aim(route.grid.substation.gameObject), "Poste")) yield break;
+        if (!Check(!route.ConfirmAiPower() && Aim(route.grid.substation.gameObject) && route.grid.Stop == 1
+            && !route.player.enabled && !route.ConfirmAiPower() && !route.PreviewAiPower(-1),
+            "Poste électrique accessible, validation refusée sans choix")) yield break;
+        if (!Check(route.AiAdditionalKw == 30 && Mathf.Approximately(route.AiPowerCarbonKg(0), .18f)
+            && Mathf.Approximately(route.AiPowerCarbonKg(1), 27f)
+            && route.PreviewAiPower(1) && route.AiConfirmedPowerChoice == -1,
+            "Deux scénarios à 30 kWh, 0,18 et 27 kg CO₂e")) yield break;
+        route.CloseAiPower();
+        if (!Check(route.player.enabled && route.grid.Stop == 1 && Aim(route.grid.substation.gameObject)
+            && route.PreviewAiPower(0) && route.ConfirmAiPower() && route.grid.Stop == 2
+            && route.AiConfirmedPowerChoice == 0 && !route.ConfirmAiPower(),
+            "Choix révisable, validation unique et reprise de la visite")) yield break;
+        route.player.enabled = false;
         yield return Walk(83.5f);
         if (!Check(Aim(route.grid.viewpoint.gameObject) && Aim(route.cooling.valve.gameObject), "Centrale et vanne")) yield break;
         yield return WaitFor(() => route.cooling.Open, 5);
+        yield return null;
+        if (!Check(route.AiLedgerFeedback?.Contains("Refroidissement") == true && route.AiLedgerKwhChange == 15,
+            "Le compteur ajoute le refroidissement du site")) yield break;
         yield return Walk(96.1f);
         yield return WaitFor(() => route.cooling.Stabilized, 16);
         if (!Check(route.cooling.AuxiliaryKw == 15 && Aim(route.cooling.observation.gameObject)
@@ -156,9 +173,17 @@ public sealed class PhotoV2AiSmoke : MonoBehaviour
         yield return Walk(108.5f);
         if (!Check(!Aim(route.water.load.gameObject), "Retour refusé sans appoint")) yield break;
         for (int step = 0; step < 5; step++)
-            if (!Check(Aim(route.water.increase.gameObject), "Augmentation de l’appoint")) yield break;
+        {
+            bool raised = Aim(route.water.increase.gameObject);
+            yield return null;
+            if (!Check(raised && route.AiLedgerFeedback?.Contains("+25") == true
+                && Mathf.Approximately(route.AiLedgerKwhChange, .1f), "Augmentation de l’appoint et du compteur")) yield break;
+        }
         if (!Check(route.water.Withdrawn == 125 && !Aim(route.water.load.gameObject)
             && Aim(route.water.decrease.gameObject), "Excès refusé, correction possible")) yield break;
+        yield return WaitFor(() => Mathf.Approximately(route.AiLedgerKwhChange, -.1f), 2);
+        if (!Check(route.AiLedgerFeedback?.Contains("-25") == true && Mathf.Approximately(route.AiLedgerKwhChange, -.1f),
+            "Le compteur déduit un palier d’appoint à la baisse")) yield break;
         yield return WaitFor(() => route.water.MissionCompleted, 6);
         bool requireReply = Array.IndexOf(Environment.GetCommandLineArgs(), "--cloudvr-ai-offline") < 0;
         yield return WaitFor(() => !route.AiRequestPending, 90);

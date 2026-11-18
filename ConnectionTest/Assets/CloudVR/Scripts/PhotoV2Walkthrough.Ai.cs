@@ -55,7 +55,7 @@ public sealed partial class PhotoV2Walkthrough
     Text _aiMonitor;
     UnityWebRequest _aiRequest;
     AiSite SelectedAiSite => AiSites[_aiSiteIndex];
-    bool AiModalOpen => _aiEntryOpen || _aiAnswerOpen || _aiReturning || _aiAllocationOpen;
+    bool AiModalOpen => _aiEntryOpen || _aiAnswerOpen || _aiReturning || _aiAllocationOpen || _aiPowerOpen;
     internal bool AiAnswerVisible => _aiAnswerOpen && _aiReturned && _aiReply != null;
     internal bool AiHasReply => _aiReply != null;
     internal string AiReplyStatus => _aiReply?.status;
@@ -239,8 +239,15 @@ public sealed partial class PhotoV2Walkthrough
                 for (int client = 0; client < AiClients.Length; client++)
                     GUILayout.Label(AiClientResult(client), _small);
             }
+            if (_aiPowerConfirmed)
+            {
+                GUILayout.Space(10);
+                GUILayout.Label("Scénario exploré au poste électrique", _heading);
+                GUILayout.Label($"{AiPowerCases[_aiPowerChoice].Name} · +{AiAdditionalKw} kW · "
+                    + $"{AiPowerCarbonKg(_aiPowerChoice):0.00} kg CO₂e sur 1 h", _small);
+            }
             GUILayout.Space(10);
-            GUILayout.Label("Comparer les sites · même charge informatique · valeurs fictives", _heading);
+            GUILayout.Label("Comparer les sites · mix et tarifs simulés · même charge", _heading);
             foreach (var site in AiSites)
             {
                 float total = SiteEnergy(energy.ActiveRows, site.CoolingKw, site.WaterLitres);
@@ -288,13 +295,16 @@ public sealed partial class PhotoV2Walkthrough
         GUI.Label(new Rect(left + 10, top + 56, width - 20, 22),
             $"Site · {total:0.00} kWh · {total * site.Rate:0.00} € · {total * site.Carbon:0} g CO₂e", _small);
         GUI.Label(new Rect(left + 10, top + 78, width - 20, 22),
-            $"Bâtiment {BaseSiteEnergy(rows):0} · serveurs {rows * PhotoV2Energy.RowPowerKw} · froid {auxiliary:0} · pompe {litres * .004f:0.00} kWh", _small);
+            $"Bâtiment {BaseSiteEnergy(rows):0} · serveurs {rows * PhotoV2Energy.RowPowerKw} · froid {auxiliary:0} · pompe {litres * AiPumpKwhPerLitre:0.00} kWh", _small);
         GUI.Label(new Rect(left + 10, top + 100, width - 20, 22),
             $"Aller-retour réseau {site.NetworkMs} ms · file 120 ms · calcul 700 ms", _small);
+        DrawAiLedgerFeedback(top);
     }
 
+    const float AiPumpKwhPerLitre = .004f;
+
     static float SiteEnergy(int rows, float auxiliaryKw, int litres) =>
-        BaseSiteEnergy(rows) + PhotoV2Energy.RowPowerKw * rows + auxiliaryKw + litres * .004f;
+        BaseSiteEnergy(rows) + PhotoV2Energy.RowPowerKw * rows + auxiliaryKw + litres * AiPumpKwhPerLitre;
 
     static float BaseSiteEnergy(int rows) => rows > 0 ? PhotoV2Energy.SiteOverheadKw : 0;
 }

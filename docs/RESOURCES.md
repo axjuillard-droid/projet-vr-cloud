@@ -1,5 +1,9 @@
 # Ressources évaluées
 
+## Poste électrique IA
+
+Réutiliser le poste, le tracé électrique, le système de panneaux et le bilan C# de la V2. Les tarifs illustratifs et les textes du panneau sont propres au projet. L’étude UNECE donne les ordres de grandeur de cycle de vie utilisés pour les scénarios, et RTE documente la formation des prix. Aucune ressource ou dépendance tierce importée. [Analyse du cycle de vie](https://unece.org/sites/default/files/2021-11/LCA_final.pdf) · [Formation des prix](https://www.rte-france.com/bases-electricite/consommation-electricite/decryptage-prix-electricite-marche-facturation).
+
 ## Répartition des blocs de calcul V2
 
 Réutiliser le pupitre, le tableau électrique, les voyants de rangée et l’interface Unity des terminaux, avec une répartition originale entre trois clients fictifs. Le choix reprend l’état des rangées physiques dans le composant électrique. Les documentations aident à définir les rôles et la capacité par client. Aucun contenu ni package tiers intégré. [Colocation](https://docs.equinix.com/colocation/) · [Allocation de ressources](https://docs.nvidia.com/infra-controller/documentation/configuration-day-1/tenant-management).

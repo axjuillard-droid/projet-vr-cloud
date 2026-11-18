@@ -10,6 +10,8 @@
 
 **Belvédère IA.** Le joueur réserve deux blocs entre trois clients fictifs, puis alimente les rangées 05 et 06 pour les mettre en service. Le bilan final indique quels clients attendent encore du calcul. Build Windows testé en Direct3D 11 avec 40 contrôles IA et Photo 10/10. Lisibilité en essai humain et Quest à éprouver. [Guide](docs/PARCOURS_IA_V2.md) · [Validation Windows](docs/validation/ia-belvedere-2026-11-16.json)
 
+**Poste électrique IA.** Le joueur compare deux scénarios de production à charge égale avant de poursuivre vers la centrale. Le compteur montre l’effet de chaque rangée activée, du refroidissement et de l’appoint sur la consommation, le coût et les émissions simulées du site. Build Windows testé avec 45 contrôles IA et Photo 10/10. [Guide du parcours](docs/PARCOURS_IA_V2.md) · [Validation Windows](docs/validation/ia-poste-electrique-2026-11-18.json)
+
 **État du profil PC au 9 novembre 2026.** Le profil PC garde le MSAA 4x et les quatre cascades d’ombres, avec le SSAO désactivé. Sur Iris Xe, une comparaison dans le même player de développement à 1280×720 donne **−1,75 ms GPU (−21,6 %)** et **−1,11 ms entre images (−12,3 %)** en médiane. Les ombres de contact sont plus discrètes. Les deux références du 9 novembre étaient déjà plus rapides que celles du 4 novembre, qui restent documentées séparément. [Mesures T25 et captures avant/après](docs/OPTIMISATION_GPU_2026-11-09.md), [référence T24](docs/MESURES_PC_2026-11-04.md).
 
 La mesure du SSAO repose sur une série visible ABBA et deux fenêtres de 8 s par mode. Elle s’applique au PC et à la configuration mesurés. Le test masqué de T24 ne fournissait aucun temps GPU ni temps de rendu exploitable. [Diagnostic visuel T23](docs/DIAGNOSTIC_RENDU_2026-11-04.md).
