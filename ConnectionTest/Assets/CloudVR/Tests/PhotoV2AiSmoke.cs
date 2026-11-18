@@ -191,8 +191,33 @@ public sealed class PhotoV2AiSmoke : MonoBehaviour
             && (!requireReply || route.AiReplyStatus == "ok") && Aim(route.water.load.gameObject),
             "Appoint équilibré, réponse toujours masquée")) yield break;
         yield return WaitFor(() => route.AiReturned, 6);
-        if (!Check(route.AiReturned && route.AiAnswerVisible == requireReply && route.AiServedBlocks(2) == 1
+        if (!Check(route.AiReturned && route.AiAnswerVisible == requireReply && route.AiTerminalTab == 0
+            && route.AiServedBlocks(2) == 1
             && Vector3.Distance(home, controller.transform.position) < .1f, "Réponse décodée au PC de départ")) yield break;
+        var france = route.AiCompareSite(0);
+        var usa = route.AiCompareSite(1);
+        var china = route.AiCompareSite(2);
+        if (!Check(france.DelayMs == 845 && usa.DelayMs == 925 && china.DelayMs == 1010,
+            "Délai total des trois sites, calcul et file identiques")) yield break;
+        if (!Check(france.WaterLitres == 75 && usa.WaterLitres == 100 && china.WaterLitres == 125
+            && Mathf.Approximately(france.Kwh, 87.3f) && Mathf.Approximately(usa.Kwh, 93.4f)
+            && Mathf.Approximately(china.Kwh, 96.5f), "Même charge informatique, refroidissement et appoint propres au site")) yield break;
+        if (!Check(Mathf.Approximately(france.Cost, 8.73f) && Mathf.Approximately(usa.Cost, 7.472f)
+            && Mathf.Approximately(china.Cost, 8.685f) && Mathf.Approximately(france.CarbonKg, 4.365f)
+            && Mathf.Approximately(usa.CarbonKg, 35.492f) && Mathf.Approximately(china.CarbonKg, 51.145f),
+            "Coût et CO₂e calculés avec les trois profils, scénario du poste indépendant")) yield break;
+        route.AiTerminalTab = 1;
+        yield return new WaitForEndOfFrame();
+        var comparisonCapture = Environment.GetEnvironmentVariable("CLOUDVR_COMPARISON_CAPTURE");
+        if (!string.IsNullOrEmpty(comparisonCapture))
+        {
+            ScreenCapture.CaptureScreenshot(comparisonCapture);
+            yield return null;
+        }
+        route.AiTerminalTab = 0;
+        yield return new WaitForEndOfFrame();
+        if (!Check(route.AiAnswerVisible == requireReply && route.AiTerminalTab == 0,
+            "Réponse encore disponible après affichage du comparatif")) yield break;
         Debug.Log($"CLOUDVR_AI_SMOKE_PASS réponse réelle : {requireReply}");
         Application.Quit(0);
     }

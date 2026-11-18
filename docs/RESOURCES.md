@@ -1,5 +1,9 @@
 # Ressources évaluées
 
+## Comparatif des sites sur le PC de retour
+
+Réutiliser l’interface IMGUI du terminal et les trois profils C# de la V2. Des onglets et un tableau dans la zone de défilement regroupent les résultats et les hypothèses. La matrice reprend le même calcul d’énergie que le compteur. Aucun package, asset ni code tiers intégré. [Onglets Unity IMGUI](https://docs.unity3d.com/6000.0/Documentation/ScriptReference/GUILayout.Toolbar.html) · [Défilement Unity IMGUI](https://docs.unity3d.com/6000.0/Documentation/ScriptReference/GUILayout.BeginScrollView.html)
+
 ## Poste électrique IA
 
 Réutiliser le poste, le tracé électrique, le système de panneaux et le bilan C# de la V2. Les tarifs illustratifs et les textes du panneau sont propres au projet. L’étude UNECE donne les ordres de grandeur de cycle de vie utilisés pour les scénarios, et RTE documente la formation des prix. Aucune ressource ou dépendance tierce importée. [Analyse du cycle de vie](https://unece.org/sites/default/files/2021-11/LCA_final.pdf) · [Formation des prix](https://www.rte-france.com/bases-electricite/consommation-electricite/decryptage-prix-electricite-marche-facturation).

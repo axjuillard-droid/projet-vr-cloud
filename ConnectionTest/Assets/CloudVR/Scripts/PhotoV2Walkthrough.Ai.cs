@@ -89,6 +89,12 @@ public sealed partial class PhotoV2Walkthrough
     {
         _aiEntryOpen = !_aiReturned;
         _aiAnswerOpen = _aiReturned;
+        if (_aiAnswerOpen)
+        {
+            AiTerminalTab = 0;
+            _aiScroll = Vector2.zero;
+            _aiComparisonScroll = Vector2.zero;
+        }
         SetAiModalInput(true);
     }
 
@@ -187,10 +193,11 @@ public sealed partial class PhotoV2Walkthrough
             DrawAiRouteMap(_aiReturnProgress, true);
             return;
         }
-        float width = Mathf.Min(690, Screen.width - 32);
-        float height = Mathf.Min(_aiReturned ? 510 : 370, Screen.height - 24);
+        float width = Mathf.Min(_aiReturned ? 920 : 690, Screen.width - 32);
+        float height = Mathf.Min(_aiReturned ? 620 : 370, Screen.height - 24);
         var panel = new Rect((Screen.width - width) / 2, (Screen.height - height) / 2, width, height);
-        GUI.Box(panel, GUIContent.none);
+        if (_aiReturned) MapFill(panel, MapBackground);
+        else GUI.Box(panel, GUIContent.none);
         GUILayout.BeginArea(new Rect(panel.x + 22, panel.y + 16, width - 44, height - 32));
         if (_aiEntryOpen)
         {
@@ -212,54 +219,40 @@ public sealed partial class PhotoV2Walkthrough
         }
         else
         {
-            GUILayout.Label("Réponse à ta question", _heading);
-            _aiScroll = GUILayout.BeginScrollView(_aiScroll, GUILayout.ExpandHeight(true));
-            DrawAiLiteral(_aiQuestion, _instruction);
-            GUILayout.Space(8);
-            if (AiAnswerVisible)
-            {
-                DrawAiLiteral(_aiReply.answer, _instruction);
-                if (_aiReply.sources?.Length > 0)
-                {
-                    GUILayout.Space(8);
-                    GUILayout.Label("Sources consultées", _heading);
-                    foreach (var source in _aiReply.sources)
-                    {
-                        if (source == null) continue;
-                        DrawAiLiteral(source.title, _instruction);
-                        DrawAiLiteral(source.url, _instruction);
-                    }
-                }
-            }
-            else GUILayout.Label(_aiPending ? "Génération locale en cours…" : _aiError, _instruction);
-            if (_aiAllocationConfirmed)
-            {
-                GUILayout.Space(10);
-                GUILayout.Label("Répartition au belvédère", _heading);
-                for (int client = 0; client < AiClients.Length; client++)
-                    GUILayout.Label(AiClientResult(client), _small);
-            }
-            if (_aiPowerConfirmed)
-            {
-                GUILayout.Space(10);
-                GUILayout.Label("Scénario exploré au poste électrique", _heading);
-                GUILayout.Label($"{AiPowerCases[_aiPowerChoice].Name} · +{AiAdditionalKw} kW · "
-                    + $"{AiPowerCarbonKg(_aiPowerChoice):0.00} kg CO₂e sur 1 h", _small);
-            }
-            GUILayout.Space(10);
-            GUILayout.Label("Comparer les sites · mix et tarifs simulés · même charge", _heading);
-            foreach (var site in AiSites)
-            {
-                float total = SiteEnergy(energy.ActiveRows, site.CoolingKw, site.WaterLitres);
-                GUILayout.Label($"{site.Name} · {site.Climate} · {site.NetworkMs + 820} ms", _small);
-                GUILayout.Label($"{total:0.00} kWh · {total * site.Rate:0.00} € · {total * site.Carbon:0} g CO₂e · {site.WaterLitres} L", _small);
-            }
-            GUILayout.EndScrollView();
-            if (!_aiPending && _aiReply == null && GUILayout.Button("Réessayer la même question"))
-                StartCoroutine(AskAi());
+            AiTerminalTab = GUILayout.Toolbar(AiTerminalTab, AiTerminalTabs, GUILayout.Height(34));
+            GUILayout.Space(12);
+            if (AiTerminalTab == 0) DrawAiAnswerPane();
+            else DrawAiSiteComparison();
             if (GUILayout.Button("Fermer")) CloseAiTerminal();
         }
         GUILayout.EndArea();
+    }
+
+    void DrawAiAnswerPane()
+    {
+        GUILayout.Label("Réponse à ta question", _heading);
+        _aiScroll = GUILayout.BeginScrollView(_aiScroll, GUILayout.ExpandHeight(true));
+        DrawAiLiteral(_aiQuestion, _instruction);
+        GUILayout.Space(8);
+        if (AiAnswerVisible)
+        {
+            DrawAiLiteral(_aiReply.answer, _instruction);
+            if (_aiReply.sources?.Length > 0)
+            {
+                GUILayout.Space(8);
+                GUILayout.Label("Sources consultées", _heading);
+                foreach (var source in _aiReply.sources)
+                {
+                    if (source == null) continue;
+                    DrawAiLiteral(source.title, _instruction);
+                    DrawAiLiteral(source.url, _instruction);
+                }
+            }
+        }
+        else GUILayout.Label(_aiPending ? "Génération locale en cours…" : _aiError, _instruction);
+        GUILayout.EndScrollView();
+        if (!_aiPending && _aiReply == null && GUILayout.Button("Réessayer la même question"))
+            StartCoroutine(AskAi());
     }
 
     static void DrawAiLiteral(string value, GUIStyle style)
@@ -297,7 +290,7 @@ public sealed partial class PhotoV2Walkthrough
         GUI.Label(new Rect(left + 10, top + 78, width - 20, 22),
             $"Bâtiment {BaseSiteEnergy(rows):0} · serveurs {rows * PhotoV2Energy.RowPowerKw} · froid {auxiliary:0} · pompe {litres * AiPumpKwhPerLitre:0.00} kWh", _small);
         GUI.Label(new Rect(left + 10, top + 100, width - 20, 22),
-            $"Aller-retour réseau {site.NetworkMs} ms · file 120 ms · calcul 700 ms", _small);
+            $"Aller-retour réseau {site.NetworkMs} ms · file {AiQueueMs} ms · calcul {AiComputeMs} ms", _small);
         DrawAiLedgerFeedback(top);
     }
 

@@ -2,6 +2,10 @@
 
 Mis à jour le 18 novembre 2026.
 
+## V2 — Comparatif des sites au PC, 18 novembre
+
+- Deux onglets. La réponse générée et ses sources s’affichent en premier. La France, les États-Unis et la Chine sont côte à côte dans le bilan pour comparer les délais simulés et les consommations sur une heure à charge égale. Un bouton donne le détail des hypothèses. Build Windows, 49 contrôles IA avec Ollama et Photo 10/10 en D3D11. Lisibilité en jeu et Quest à éprouver. [Résultats](validation/ia-comparatif-2026-11-18.json)
+
 ## V2 — Poste électrique et compteur, 18 novembre
 
 - Au poste, le joueur compare deux scénarios de production pour couvrir les 30 kW supplémentaires et valide celui qu’il veut retenir. Le compteur réagit par client, puis au refroidissement et à l’appoint, avec les écarts simulés de consommation, de coût et de CO₂e. Build Windows, 45 contrôles IA avec réponse Ollama et Photo 10/10 en Direct3D 11. Lisibilité du panneau et Quest à éprouver. [Résultats](validation/ia-poste-electrique-2026-11-18.json)

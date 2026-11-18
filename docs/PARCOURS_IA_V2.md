@@ -23,7 +23,7 @@ Le build de développement se produit avec la méthode Unity `PhotoV2BlockoutBui
 3. Ouvrir la baie, extraire le tiroir, viser « Préparer la question », puis « GPU · Lancer ». La coupe met en évidence la VRAM et le GPU. Le contexte est traité dans la démonstration, puis cinq blocs apparaissent successivement pour illustrer la génération. La vraie réponse reste en mémoire de session jusqu’au retour au PC.
 4. Monter au belvédère et viser « Demande de calcul ». Répartir deux nouveaux blocs entre Assistant IA, Studio vidéo et Recherche produit, puis alimenter les rangées 05 et 06. Chaque levier met en service le bloc du client attribué et ajoute sa consommation au compteur. Au poste, comparer les scénarios nucléaire et charbon pour couvrir la hausse de charge et valider un scénario. Rejoindre le point de vue, puis ouvrir la vanne et observer le retour refroidi.
 5. Régler l’appoint de la tour par paliers de 25 L en s’aidant de la consigne. Une fois l’appoint équilibré, sélectionner « Retour au PC ». Le contexte fixe de chaque site remplace la mission météo.
-6. Lire sur le terminal du PC la réponse générée, les sources, la répartition des blocs, le scénario choisi au poste et la comparaison des sites. Si le service est indisponible, le terminal permet de retenter la question après la visite.
+6. Lire la réponse et les sources dans l’onglet « Réponse IA » du PC de départ. Ouvrir « Comparer les sites » pour retrouver côte à côte la France, les États-Unis et la Chine, avec le site visité mis en évidence. Le même onglet rappelle la répartition des blocs et le scénario validé au poste électrique. Si le service est indisponible, le terminal permet de retenter la question après la visite.
 
 ## Calcul et limites
 
@@ -31,7 +31,7 @@ Le poste compare deux scénarios de production pour **30 kW supplémentaires**, 
 
 Le compteur signale pendant cinq secondes le nouveau bloc alimenté, l’ouverture du refroidissement et chaque variation de l’appoint. Pour le site sélectionné, le rappel affiche la variation simulée en kWh, en euros et en g CO₂e sur la même heure. Le pompage d’appoint ajoute 0,10 kWh par palier de 25 L, et réduit le total d’autant à chaque palier retiré.
 
-Le modèle répond à la question à partir du corpus CloudVR. Les calculs du jeu sont en C# et n’appellent pas le RAG ni la route Python de bilan. Le jeu affiche des sous-totaux fictifs sur une heure pour le PC et la box d’un côté et le bâtiment, les serveurs, le refroidissement et l’appoint de l’autre. Les facteurs tarifaires et carbone du site sont des hypothèses fixes. Le comparatif final reprend les trois sites à charge informatique égale et avec l’appoint équilibré dans chaque site.
+Le modèle répond à la question à partir du corpus CloudVR. Les calculs du jeu sont en C# et n’appellent pas le RAG ni la route Python de bilan. Le jeu affiche des sous-totaux fictifs sur une heure pour le PC et la box d’un côté et le bâtiment, les serveurs, le refroidissement et l’appoint de l’autre. Le comparatif final affiche le délai par requête et, pour une heure simulée à charge informatique égale, les kWh, le coût électrique, les kg CO₂e et les litres d’appoint requis dans chaque site. « Voir le détail du calcul » présente les hypothèses de climat, réseau, refroidissement, tarif et intensité carbone ainsi que le calcul des totaux.
 
 Le belvédère illustre un fournisseur cloud qui exploite des serveurs hébergés dans un data center et alloue leur capacité à des clients. Assistant IA démarre avec 1 bloc en service et en demande 3. Studio vidéo en a 1 et en demande 2. Recherche produit en demande 2. Sur les 7 blocs demandés, 4 peuvent être servis et 3 restent en attente de capacité. L’ordre de réservation affecte les rangées 05 et 06. Le joueur répartit les blocs selon les délais indiqués et garde le même total de quatre rangées pour le comparatif électrique. L’association d’un bloc à une rangée est propre au jeu. [Hébergement en colocation](https://docs.equinix.com/colocation/) · [Allocation de calcul à des clients](https://docs.nvidia.com/infra-controller/documentation/configuration-day-1/tenant-management).
 
@@ -39,6 +39,10 @@ Le trajet reprend la cinématique et le brassage existants. Le fond géographiqu
 
 [Conception, corpus et sources](https://github.com/axjuillard-droid/projet-vr-cloud/blob/bc271c775f597d28e96e0588e8a97d9c8e174251/docs/PARCOURS_IA_RAG.md)
 
+
+## Validation du comparatif final
+
+Le build Windows passe 49 contrôles IA avec une réponse réelle d’Ollama et 10/10 actions Photo en Direct3D 11. Les contrôles vérifient les trois délais, les kWh, les coûts, les kg CO₂e et les volumes d’appoint attendus, puis affichent le tableau et reviennent à la réponse. Les onglets sont activés par le test automatisé. Les clics libres, la lisibilité en jeu et Quest restent à éprouver. [Résultats](validation/ia-comparatif-2026-11-18.json)
 
 ## Validation du poste électrique et du compteur
 
