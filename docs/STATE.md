@@ -2,6 +2,10 @@
 
 Mis à jour le 19 novembre 2026.
 
+## Scénario du parcours IA à valider
+
+- Une proposition Word en sept scènes reprend le retour de l’encadrement sur l’enchaînement de la baie GPU et du belvédère. La même demande reste visible de la cuisine au retour. La cible de 8 min 30 s et l’effort de production sont des estimations. Question prédéfinie, guidage et rôle du joueur restent à valider. [Scénario](Scenario-CloudVR.docx)
+
 ## Présentation du projet
 
 - Le diaporama HTML présente le sujet ESILV, les parcours Photo et IA, les enjeux d’exploitation ainsi que les prochaines validations. Treize diapositives en français, sept captures intégrées du player Windows, notes orales et références. Navigation hors ligne, plein écran, affichage à 1280 × 720 et 320 × 800 et impression 16:9 vérifiés dans Chrome. [Présentation](presentation-cloudvr.html)

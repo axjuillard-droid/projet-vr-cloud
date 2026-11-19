@@ -1,5 +1,9 @@
 # Ressources évaluées
 
+## Proposition de scénario IA
+
+Réutiliser les étapes et équipements déjà décrits dans le guide V2 et les critères du pilote UX. Le scénario Word adapte le fil de la requête et propose une réponse préparée. Le texte est propre au projet et reprend les sources par liens. [Guide V2](https://github.com/axjuillard-droid/projet-vr-cloud/blob/f0505b5362ef58687e3ddfb9d67c3dedc32b8114/docs/PARCOURS_IA_V2.md) · [Pilote UX](ux-research/04-protocole-pilote.md)
+
 ## Présentation HTML CloudVR
 
 Réutiliser sept captures Windows publiées sur `main` et `codex/cloudvr-v2`, intégrées en WebP pour la lecture hors connexion. Reveal.js, sous licence MIT, couvre la navigation et la projection mais sa distribution de base comprend plusieurs fichiers. Le diaporama utilise directement HTML, CSS et JavaScript pour un fichier autonome sans bibliothèque ni police externe. [Installation Reveal.js](https://revealjs.com/installation/) · [Licence](https://github.com/hakimel/reveal.js/blob/master/LICENSE)

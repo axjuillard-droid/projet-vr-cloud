@@ -4,6 +4,7 @@ Statuts : à faire, en cours, bloqué, terminé. Une tâche n’est prête que s
 
 | ID | Tâche | Statut | Critère de fin |
 |---|---|---|---|
+| T49 | Rédiger puis valider le scénario IA avec l’encadrement | en cours | [Proposition Word](Scenario-CloudVR.docx) avec sept scènes, durées, transitions et planning indicatif. Recueillir les arbitrages sur la question, le rôle au belvédère et le guidage avant l’adaptation Unity. |
 | T48 | Présenter le projet et son objectif de sensibilisation en HTML | terminé | Treize diapositives, sources et captures des parcours. Lecture hors ligne, notes, sommaire, plein écran et impression 16:9 vérifiés dans Chrome. [Présentation](presentation-cloudvr.html). |
 | T38 | Tester un RAG et un bilan de sites en local | terminé | Deux générations réelles Ollama, cinq contrôles RAG, trois sites et quatre étapes de bilan vérifiés en HTTP. Précision pédagogique à éprouver sur d’autres questions. [Service et procédure](PARCOURS_IA_RAG.md). |
 | T39 | Intégrer la requête IA et la comparaison de sites au parcours Unity | terminé | Build PC V2 publié. 30 contrôles avec Ollama, trajet de secours sans service et Photo 10/10 en Direct3D 11. [Lancement et preuves V2](https://github.com/axjuillard-droid/projet-vr-cloud/blob/29a602246afd30f143dde995c7cd6a0d1b245386/docs/PARCOURS_IA_V2.md). |
