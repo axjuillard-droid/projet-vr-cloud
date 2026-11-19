@@ -1,5 +1,9 @@
 # Ressources évaluées
 
+## Présentation HTML CloudVR
+
+Réutiliser sept captures Windows publiées sur `main` et `codex/cloudvr-v2`, intégrées en WebP pour la lecture hors connexion. Reveal.js, sous licence MIT, couvre la navigation et la projection mais sa distribution de base comprend plusieurs fichiers. Le diaporama utilise directement HTML, CSS et JavaScript pour un fichier autonome sans bibliothèque ni police externe. [Installation Reveal.js](https://revealjs.com/installation/) · [Licence](https://github.com/hakimel/reveal.js/blob/master/LICENSE)
+
 ## Lanceur Windows IA
 
 Réutiliser le service Python, Ollama, le player V2 et les copies de travail Git. Le fichier CMD et la logique Python sont propres au projet. Python utilise sa bibliothèque standard et le lanceur interroge les modèles déjà installés via l’API locale d’Ollama. Aucun installateur, package ni poids de modèle intégré au dépôt. [Ollama sous Windows](https://docs.ollama.com/windows) · [API des modèles locaux](https://docs.ollama.com/api/tags) · [Copies de travail Git](https://git-scm.com/docs/git-worktree)

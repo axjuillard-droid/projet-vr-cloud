@@ -4,6 +4,7 @@ Statuts : à faire, en cours, bloqué, terminé. Une tâche n’est prête que s
 
 | ID | Tâche | Statut | Critère de fin |
 |---|---|---|---|
+| T48 | Présenter le projet et son objectif de sensibilisation en HTML | terminé | Treize diapositives, sources et captures des parcours. Lecture hors ligne, notes, sommaire, plein écran et impression 16:9 vérifiés dans Chrome. [Présentation](presentation-cloudvr.html). |
 | T38 | Tester un RAG et un bilan de sites en local | terminé | Deux générations réelles Ollama, cinq contrôles RAG, trois sites et quatre étapes de bilan vérifiés en HTTP. Précision pédagogique à éprouver sur d’autres questions. [Service et procédure](PARCOURS_IA_RAG.md). |
 | T39 | Intégrer la requête IA et la comparaison de sites au parcours Unity | terminé | Build PC V2 publié. 30 contrôles avec Ollama, trajet de secours sans service et Photo 10/10 en Direct3D 11. [Lancement et preuves V2](https://github.com/axjuillard-droid/projet-vr-cloud/blob/29a602246afd30f143dde995c7cd6a0d1b245386/docs/PARCOURS_IA_V2.md). |
 | T40 | Éprouver la compréhension du parcours IA | en cours | [Fiche du belvédère prête](ux-research/05-essai-belvedere-ia.md). Conduire les essais PC et relever la compréhension de la réservation et de l’activation. Carte, GPU, choix énergétiques et bilan restent à observer. |

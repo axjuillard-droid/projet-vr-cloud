@@ -2,6 +2,8 @@
 
 **Du clic sur « envoyer une photo » aux équipements physiques du cloud.** Projet universitaire ESILV année 5, Unity 6000.0.58f2 / URP / C# / OpenXR.
 
+**Présentation du projet, 19 novembre 2026.** Treize diapositives sur le fonctionnement d’un data center, les parcours Photo et IA, l’état des essais et la préparation de la démonstration finale. Télécharger le fichier HTML, puis l’ouvrir dans un navigateur pour utiliser les notes orales, le sommaire et le plein écran. [Présentation CloudVR](docs/presentation-cloudvr.html)
+
 **Parcours IA disponible dans la V2 Windows.** Le joueur suit sa question jusqu’à la baie GPU, répartit deux blocs et compare deux scénarios électriques. Il intervient à la vanne quand la température monte, puis règle l’appoint en eau. Au retour, le PC affiche la réponse d’Ollama et compare trois sites côte à côte. Le build passe 54 contrôles IA et Photo 10/10 en Direct3D 11. Les essais joueurs et Quest restent à faire. [Service local](docs/PARCOURS_IA_RAG.md) · [Lancement du player](https://github.com/axjuillard-droid/projet-vr-cloud/blob/eed313da31fbcdd72b388b7fc217580028750ae6/docs/PARCOURS_IA_V2.md) · [Capture de l’alerte](https://github.com/axjuillard-droid/projet-vr-cloud/blob/eed313da31fbcdd72b388b7fc217580028750ae6/docs/validation/ia-refroidissement-2026-11-18/alerte-thermique.png)
 
 **Lancement en un clic.** Double-cliquer sur le lanceur du dépôt principal. Il vérifie le modèle local, démarre les services au besoin et ouvre le player de la V2. [Lancer CloudVR IA](Lancer-CloudVR-IA.cmd) · [Prérequis et options](docs/PARCOURS_IA_RAG.md#lancer-sur-windows)

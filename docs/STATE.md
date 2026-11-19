@@ -1,6 +1,10 @@
 # État de reprise
 
-Mis à jour le 18 novembre 2026.
+Mis à jour le 19 novembre 2026.
+
+## Présentation du projet
+
+- Le diaporama HTML présente le sujet ESILV, les parcours Photo et IA, les enjeux d’exploitation ainsi que les prochaines validations. Treize diapositives en français, sept captures intégrées du player Windows, notes orales et références. Navigation hors ligne, plein écran, affichage à 1280 × 720 et 320 × 800 et impression 16:9 vérifiés dans Chrome. [Présentation](presentation-cloudvr.html)
 
 ## Parcours IA
 
